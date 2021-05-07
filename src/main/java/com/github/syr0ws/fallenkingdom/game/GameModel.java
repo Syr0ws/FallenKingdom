@@ -1,0 +1,26 @@
+package com.github.syr0ws.fallenkingdom.game;
+
+import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
+import com.github.syr0ws.fallenkingdom.teams.Team;
+import com.github.syr0ws.fallenkingdom.tools.Location;
+
+import java.util.List;
+
+public interface GameModel {
+
+    void setPvPEnabled(boolean enabled);
+
+    void setAssaultsEnabled(boolean enabled);
+
+    GameCycle getCycle();
+
+    GameState getState();
+
+    Location getSpawn();
+
+    boolean isPvPEnabled();
+
+    boolean areAssaultsEnabled();
+
+    List<Team> getTeams();
+}

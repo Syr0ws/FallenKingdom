@@ -1,0 +1,113 @@
+teams:
+  blue:
+    display-name: "Bleu"
+    color: "BLUE"
+    base:
+      loc1:
+        x: 0
+        y: 0
+        z: 0
+      loc2:
+        x: 0
+        y: 0
+        z: 0
+      world: "world"
+    vault:
+      loc1:
+        x: 0
+        y: 0
+        z: 0
+      loc2:
+        x: 0
+        y: 0
+        z: 0
+      world: "world"
+    spawn:
+      x: 0
+      y: 0
+      z: 0
+      world: "world"
+  red:
+    display-name: "Rouge"
+    color: "RED"
+    base:
+      loc1:
+        x: 0
+        y: 0
+        z: 0
+      loc2:
+        x: 0
+        y: 0
+        z: 0
+      world: "world"
+    vault:
+      loc1:
+        x: 0
+        y: 0
+        z: 0
+      loc2:
+        x: 0
+        y: 0
+        z: 0
+      world: "world"
+    spawn:
+      x: 0
+      y: 0
+      z: 0
+      world: "world"
+  green:
+    display-name: "Vert"
+    color: "GREEN"
+    base:
+      loc1:
+        x: 0
+        y: 0
+        z: 0
+      loc2:
+        x: 0
+        y: 0
+        z: 0
+      world: "world"
+    vault:
+      loc1:
+        x: 0
+        y: 0
+        z: 0
+      loc2:
+        x: 0
+        y: 0
+        z: 0
+      world: "world"
+    spawn:
+      x: 0
+      y: 0
+      z: 0
+      world: "world"
+  yellow:
+    display-name: "Jaune"
+    color: "YELLOW"
+    base:
+      loc1:
+        x: 0
+        y: 0
+        z: 0
+      loc2:
+        x: 0
+        y: 0
+        z: 0
+      world: "world"
+    vault:
+      loc1:
+        x: 0
+        y: 0
+        z: 0
+      loc2:
+        x: 0
+        y: 0
+        z: 0
+      world: "world"
+    spawn:
+      x: 0
+      y: 0
+      z: 0
+      world: "world"

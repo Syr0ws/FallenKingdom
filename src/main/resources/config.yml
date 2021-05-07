@@ -1,0 +1,39 @@
+# FallenKingdom v0.0.1
+
+# This section is about the pvp.
+pvp:
+  # Message sent to all the online players when pvp is enabled.
+  enabled: "&6>> &eLe pvp est désormais &aactivé&e."
+  # Message sent to all the online players when pvp is disabled.
+  disabled: "&6>> &eLe pvp est désormais &cdésactivé&e."
+
+# This section is about the assaults.
+assaults:
+  # Message sent to all the online players when assaults are enabled.
+  enabled: "&6>> &eLes assaults sont désormais &aautorisés&e."
+  # Message sent to all the online players when assaults are disabled.
+  disabled: "&6>> &eLes assaults sont désormais &cinterdits&e."
+
+# This section contains all the configuration of the starting cycle.
+game-starting:
+  # This section is about the timer started before starting the game.
+  timer:
+    # The duration of the timer in seconds.
+    duration: 10
+
+messages:
+  1:
+    type: "TITLE"
+    title: "My title"
+    subtitle: "My subtitle"
+  2:
+    type: "TEXT"
+    text: "My text"
+  3:
+    type: "TEXT"
+    text:
+      - "line1"
+      - "line2"
+  4:
+    type: "ACTIONBAR"
+    text: "My text"
