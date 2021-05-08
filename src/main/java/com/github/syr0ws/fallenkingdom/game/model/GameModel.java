@@ -12,6 +12,8 @@ public interface GameModel {
 
     void setAssaultsEnabled(boolean enabled);
 
+    void setState(GameState state);
+
     GameCycle getCycle();
 
     GameState getState();
