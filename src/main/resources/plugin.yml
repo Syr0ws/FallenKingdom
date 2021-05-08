@@ -2,3 +2,8 @@ name: FallenKingdom
 author: Syrows
 version: 0.0.1
 main: com.github.syr0ws.fk.FallenKingdom
+commands:
+  pvp:
+    description: "A command to enable or disable pvp in a game."
+  assaults:
+    description: "A command to enable or disable assaults in a game."
