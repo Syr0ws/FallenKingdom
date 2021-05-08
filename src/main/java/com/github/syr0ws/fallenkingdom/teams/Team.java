@@ -1,37 +1,39 @@
 package com.github.syr0ws.fallenkingdom.teams;
 
-import com.github.syr0ws.fallenkingdom.tools.Cuboid;
-import com.github.syr0ws.fallenkingdom.tools.Location;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class Team {
 
     private final String name, displayName;
-    private final Location spawn;
-    private final Cuboid base, vault;
-    private final List<TeamParticipant> players;
+    private final TeamBase base;
+    private final List<TeamPlayer> players;
 
-    public Team(String name, String displayName, Location spawn, Cuboid base, Cuboid vault) {
+    public Team(String name, String displayName, TeamBase base) {
         this.name = name;
         this.displayName = displayName;
-        this.spawn = spawn;
         this.base = base;
-        this.vault = vault;
         this.players = new ArrayList<>();
     }
 
     public void addPlayer(Player player) {
-        if(!this.participate(player)) this.players.add(new TeamParticipant(player));
+
+        if(this.contains(player)) return;
+
+        TeamPlayer teamPlayer = new TeamPlayer(player);
+        this.players.add(teamPlayer);
     }
 
     public void removePlayer(Player player) {
-        this.players.removeIf(participant -> participant.getPlayer().equals(player));
+        this.players.removeIf(teamPlayer -> teamPlayer.is(player));
     }
 
-    public boolean participate(Player player) {
-        return this.players.stream().anyMatch(participant -> participant.getPlayer().equals(player));
+    public boolean contains(Player player) {
+        return this.players.stream().anyMatch(teamPlayer -> teamPlayer.is(player));
     }
 
     public String getName() {
@@ -42,25 +44,17 @@ public class Team {
         return this.displayName;
     }
 
-    public Location getSpawn() {
-        return this.spawn;
-    }
-
-    public Cuboid getBase() {
+    public TeamBase getBase() {
         return this.base;
     }
 
-    public Cuboid getVault() {
-        return this.vault;
-    }
-
-    public Optional<TeamParticipant> getParticipant(Player player) {
+    public Optional<TeamPlayer> getPlayer(Player player) {
         return this.players.stream()
-                .filter(participant -> participant.getPlayer().equals(player))
+                .filter(teamPlayer -> teamPlayer.is(player))
                 .findFirst();
     }
 
-    public List<TeamParticipant> getParticipants() {
-        return this.players;
+    public List<TeamPlayer> getPlayers() {
+        return Collections.unmodifiableList(this.players);
     }
 }

@@ -5,17 +5,18 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class TeamParticipant {
+public class TeamPlayer {
 
     private final String name;
     private final UUID uuid;
+    private int kills, deaths;
 
-    public TeamParticipant(String name, UUID uuid) {
+    public TeamPlayer(String name, UUID uuid) {
         this.name = name;
         this.uuid = uuid;
     }
 
-    public TeamParticipant(Player player) {
+    public TeamPlayer(Player player) {
         this.name = player.getName();
         this.uuid = player.getUniqueId();
     }
@@ -26,6 +27,26 @@ public class TeamParticipant {
 
     public UUID getUUID() {
         return uuid;
+    }
+
+    public void addKill() {
+        this.kills++;
+    }
+
+    public void addDeath() {
+        this.deaths++;
+    }
+
+    public int getKills() {
+        return this.kills;
+    }
+
+    public int getDeaths() {
+        return this.deaths;
+    }
+
+    public boolean is(Player player) {
+        return player.getUniqueId().equals(this.uuid);
     }
 
     public boolean isOnline() {
