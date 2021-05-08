@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.game;
+package com.github.syr0ws.fallenkingdom.game.model;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObservable;

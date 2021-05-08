@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.game;
+package com.github.syr0ws.fallenkingdom.game.model;
 
 import java.util.Arrays;
 import java.util.Optional;

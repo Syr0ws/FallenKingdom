@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game.cycle;
 
-import com.github.syr0ws.fallenkingdom.game.GameModel;
-import com.github.syr0ws.fallenkingdom.game.GameState;
+import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import org.bukkit.plugin.Plugin;
 
 public class GameCycleFactory {

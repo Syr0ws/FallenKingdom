@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.cycle.impl;
 
-import com.github.syr0ws.fallenkingdom.game.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.tools.Task;
 import org.bukkit.Bukkit;

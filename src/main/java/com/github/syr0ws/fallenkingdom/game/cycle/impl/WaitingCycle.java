@@ -1,10 +1,9 @@
 package com.github.syr0ws.fallenkingdom.game.cycle.impl;
 
-import com.github.syr0ws.fallenkingdom.game.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
