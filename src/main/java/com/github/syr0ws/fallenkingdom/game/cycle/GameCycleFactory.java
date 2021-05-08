@@ -1,5 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game.cycle;
 
+import com.github.syr0ws.fallenkingdom.game.cycle.impl.FinishedCycle;
+import com.github.syr0ws.fallenkingdom.game.cycle.impl.RunningCycle;
 import com.github.syr0ws.fallenkingdom.game.cycle.impl.StartingCycle;
 import com.github.syr0ws.fallenkingdom.game.cycle.impl.WaitingCycle;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
@@ -24,9 +26,9 @@ public class GameCycleFactory {
             case STARTING:
                 return new StartingCycle(this.model, this.plugin);
             case RUNNING:
-                return null;
+                return new RunningCycle();
             case FINISHED:
-                return null;
+                return new FinishedCycle();
             default:
                 throw new IllegalArgumentException(String.format("No instance found for '%s'.", state.name()));
         }
