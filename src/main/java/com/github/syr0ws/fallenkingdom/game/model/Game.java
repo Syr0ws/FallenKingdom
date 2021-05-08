@@ -29,7 +29,7 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
         this.setState(GameState.WAITING);
     }
 
-    private void setState(GameState state) {
+    public void setState(GameState state) {
         this.cycle.stop();
         this.state = state;
         this.cycle = GameCycleFactory.getCycle(state);
