@@ -1,5 +1,7 @@
 package com.github.syr0ws.fallenkingdom.commands;
 
+import com.github.syr0ws.fallenkingdom.game.GameModel;
+import com.github.syr0ws.fallenkingdom.game.GameState;
 import com.github.syr0ws.fallenkingdom.messages.types.SimpleMessage;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
 import org.bukkit.command.Command;
@@ -12,9 +14,11 @@ import org.bukkit.plugin.Plugin;
 public class CommandAssaults implements CommandExecutor {
 
     private final Plugin plugin;
+    private final GameModel model;
 
-    public CommandAssaults(Plugin plugin) {
+    public CommandAssaults(Plugin plugin, GameModel model) {
         this.plugin = plugin;
+        this.model = model;
     }
 
     @Override
@@ -29,6 +33,44 @@ public class CommandAssaults implements CommandExecutor {
             return true;
         }
 
+        // Only enable / disable assaults when the game is running.
+        if(this.model.getState() != GameState.RUNNING) {
+            new SimpleMessage(section.getString("game-not-running")).send(sender);
+            return true;
+        }
+
+        if(args[0].equalsIgnoreCase("on")) {
+
+            // Command : /assaults on
+            this.enableAssaults(sender, section);
+
+        } else if(args[0].equalsIgnoreCase("off")) {
+
+            // Command : /assaults off
+            this.disableAssaults(sender, section);
+
+        } else ; // TODO Send usages here.
+
         return true;
+    }
+
+    private void enableAssaults(CommandSender sender, ConfigurationSection section) {
+
+        if(this.model.areAssaultsEnabled()) {
+
+            String message = section.getString("already-enabled");
+            new SimpleMessage(message).send(sender);
+
+        } else this.model.setAssaultsEnabled(true);
+    }
+
+    private void disableAssaults(CommandSender sender, ConfigurationSection section) {
+
+        if(!this.model.areAssaultsEnabled()) {
+
+            String message = section.getString("already-disabled");
+            new SimpleMessage(message).send(sender);
+
+        } else this.model.setAssaultsEnabled(false);
     }
 }
