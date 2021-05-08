@@ -40,6 +40,7 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
 
         this.state = state;
         this.cycle = this.factory.getCycle(state);
+        this.cycle.addObserver(this);
         this.cycle.start(); // Starting the new cycle.
     }
 
@@ -76,11 +77,13 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
     @Override
     public void setPvPEnabled(boolean enabled) {
         this.pvp = enabled;
+        this.notifyChange(GameAttribute.PVP_STATE);
     }
 
     @Override
     public void setAssaultsEnabled(boolean enabled) {
         this.assaults = enabled;
+        this.notifyChange(GameAttribute.ASSAULTS_STATE);
     }
 
     @Override
@@ -97,6 +100,9 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
 
     @Override
     public void notifyChange(Attribute attribute) {
+        System.out.println("test");
+        System.out.println(this.observers.size());
+        this.observers.forEach(observer -> System.out.println(observer.observed().contains(GameAttribute.PVP_STATE)));
         this.observers.stream()
                 .filter(observer -> observer.observed().contains(attribute))
                 .forEach(observer -> observer.onUpdate(attribute));
