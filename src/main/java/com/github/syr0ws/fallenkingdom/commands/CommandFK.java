@@ -73,6 +73,8 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
+        // TODO Check that no game is running.
+
         this.controller.startGame();
     }
 
@@ -85,6 +87,8 @@ public class CommandFK implements CommandExecutor {
             new SimpleMessage(stopSection.getString("no-permission")).send(sender);
             return;
         }
+
+        // TODO Check that a game is running.
 
         this.controller.stopGame();
     }
