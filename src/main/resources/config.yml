@@ -1,5 +1,33 @@
 # FallenKingdom v0.0.1
 
+#############################################
+###                MESSAGES               ###
+#############################################
+
+# This section is about the '/pvp' command.
+command-pvp:
+  # Message sent to the sender when he doesn't have the permission to execute the command.
+  no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+  # Message sent to the sender when he's trying to enable / disable pvp when no game is running.
+  game-not-running: "&c>> La partie n'a pas encore commencé."
+  # Message sent to the sender when he's trying to enable pvp when it already is.
+  already-enabled: "&c>> Le pvp est déjà activé."
+  # Message sent to the sender when he's trying to disable pvp when it already is.
+  already-disabled: "&c>> Le pvp est déjà désactivé."
+
+
+# This section is about the '/assaults' command.
+command-assaults:
+  # Message sent when the sender doesn't have the permission to execute the command.
+  no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+  # Message sent to the sender when he's trying to enable / disable assaults when no game is running.
+  game-not-running: "&c>> La partie n'a pas encore commencé."
+  # Message sent to the sender when he's trying to enable assaults when they already are.
+  already-enabled: "&c>> Les assaults sont déjà activés."
+  # Message sent to the sender when he's trying to disable assaults when they already are.
+  already-disabled: "&c>> Les assaults sont déjà désactivés."
+
+
 # This section is about the pvp.
 pvp:
   # Message sent to all the online players when pvp is enabled.
@@ -7,12 +35,14 @@ pvp:
   # Message sent to all the online players when pvp is disabled.
   disabled: "&6>> &eLe pvp est désormais &cdésactivé&e."
 
+
 # This section is about the assaults.
 assaults:
   # Message sent to all the online players when assaults are enabled.
   enabled: "&6>> &eLes assaults sont désormais &aautorisés&e."
   # Message sent to all the online players when assaults are disabled.
   disabled: "&6>> &eLes assaults sont désormais &cinterdits&e."
+
 
 # This section contains all the configuration of the starting cycle.
 game-starting:
