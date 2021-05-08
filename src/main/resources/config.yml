@@ -51,6 +51,15 @@ game-starting:
     # The duration of the timer in seconds.
     duration: 10
 
+
+spawn:
+  x: 0
+  y: 0
+  z: 0
+  yaw: 180
+  pitch: 0
+
+
 messages:
   1:
     type: "TITLE"
