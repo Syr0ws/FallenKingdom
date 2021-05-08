@@ -109,7 +109,7 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        if(args[0].equalsIgnoreCase("on")) {
+        if(args[1].equalsIgnoreCase("on")) {
 
             // Command : /pvp on
             if(this.model.isPvPEnabled()) {
@@ -119,7 +119,7 @@ public class CommandFK implements CommandExecutor {
 
             } else this.model.setPvPEnabled(true);
 
-        } else if(args[0].equalsIgnoreCase("off")) {
+        } else if(args[1].equalsIgnoreCase("off")) {
 
             // Command : /pvp off
             if(!this.model.isPvPEnabled()) {
@@ -148,7 +148,7 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        if(args[0].equalsIgnoreCase("on")) {
+        if(args[1].equalsIgnoreCase("on")) {
 
             // Command : /assaults on
             if(this.model.areAssaultsEnabled()) {
@@ -158,7 +158,7 @@ public class CommandFK implements CommandExecutor {
 
             } else this.model.setAssaultsEnabled(true);
 
-        } else if(args[0].equalsIgnoreCase("off")) {
+        } else if(args[1].equalsIgnoreCase("off")) {
 
             if(!this.model.areAssaultsEnabled()) {
 
