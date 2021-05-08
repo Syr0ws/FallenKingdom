@@ -114,6 +114,19 @@ game-starting:
           pitch: 2
 
 
+#############################################
+###           GENERAL SETTINGS            ###
+#############################################
+
+
+# The spawn of the game. Must have the following format:
+# spawn:
+#  x: 0
+#  y: 0
+#  z: 0
+#  yaw: 180 (optional, default value is 180)
+#  pitch: 0 (optional, default value is 0)
+#  world: "world"
 spawn:
   x: 96.5
   y: 116
@@ -123,46 +136,12 @@ spawn:
   world: "world"
 
 
-
-displays:
-  10:
-    message:
-      type: "TEXT"
-      text: "&eLa partie commence dans &610 secondes&e."
-    sound:
-      type: "SOUND"
-      sound: "NOTE_BASS"
-      pitch: 1
-  3:
-    message:
-      type: "TEXT"
-      text: "&eLa partie commence dans &63 secondes&e."
-    sound:
-      type: "SOUND"
-      sound: "PIANO"
-      pitch: 1
-  2:
-    message:
-      type: "TEXT"
-      text: "&eLa partie commence dans &62 secondes&e."
-    sound:
-      type: "SOUND"
-      sound: "PIANO"
-      pitch: 1.4
-  1:
-    message:
-      type: "TEXT"
-      text: "&eLa partie commence dans &61 seconde&e."
-    sound:
-      type: "SOUND"
-      sound: "PIANO"
-      pitch: 1.8
-  0:
-    message:
-      type: "TEXT"
-      text: "&eLa partie commence !"
-    sound:
-      type: "SOUND"
-      sound: "PIANO"
-      pitch: 2
+# The list of blocs that players can place outside their base.
+# All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+placeable-blocks:
+  - TNT
+  - LEVER
+  - REDSTONE_TORCH_ON
+  - RED_ROSE
+  - YELLOW_FLOWER
 
