@@ -2,16 +2,20 @@ package com.github.syr0ws.fallenkingdom;
 
 import com.github.syr0ws.fallenkingdom.commands.CommandAssaults;
 import com.github.syr0ws.fallenkingdom.commands.CommandPvP;
+import com.github.syr0ws.fallenkingdom.game.controller.GameController;
+import com.github.syr0ws.fallenkingdom.game.controller.SimpleGameController;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FallenKingdomPlugin extends JavaPlugin {
+
+    private GameController controller;
 
     @Override
     public void onEnable() {
 
         this.loadConfiguration();
         this.registerCommands();
-
+        this.initGame();
     }
 
     private void loadConfiguration() {
@@ -21,5 +25,13 @@ public class FallenKingdomPlugin extends JavaPlugin {
     private void registerCommands() {
         super.getCommand("pvp").setExecutor(new CommandPvP(this, null)); // TODO to change
         super.getCommand("assaults").setExecutor(new CommandAssaults(this, null)); // TODO to change
+    }
+
+    private void initGame() {
+
+        SimpleGameController controller = new SimpleGameController(this);
+        controller.init();
+
+        this.controller = controller;
     }
 }
