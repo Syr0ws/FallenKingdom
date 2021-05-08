@@ -1,9 +1,9 @@
 package com.github.syr0ws.fallenkingdom.game.cycle.impl;
 
+import com.github.syr0ws.fallenkingdom.display.placeholders.GlobalPlaceholder;
+import com.github.syr0ws.fallenkingdom.display.types.Message;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.messages.placeholders.GlobalPlaceholder;
-import com.github.syr0ws.fallenkingdom.messages.types.SimpleMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.ConfigurationSection;
@@ -70,7 +70,7 @@ public class WaitingCycle extends GameCycle {
 
             ConfigurationSection section = getWaitingSection();
 
-            SimpleMessage message = new SimpleMessage(section.getString("messages.join"));
+            Message message = new Message(section.getString("messages.join"));
             message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, player.getName());
 
             event.setJoinMessage(message.getText());
@@ -83,7 +83,7 @@ public class WaitingCycle extends GameCycle {
 
             ConfigurationSection section = getWaitingSection();
 
-            SimpleMessage message = new SimpleMessage(section.getString("messages.quit"));
+            Message message = new Message(section.getString("messages.quit"));
             message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, player.getName());
 
             event.setQuitMessage(message.getText());

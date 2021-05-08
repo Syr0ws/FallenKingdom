@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.cycle.impl;
 
+import com.github.syr0ws.fallenkingdom.display.TimerDisplayManager;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.tools.Task;
@@ -55,7 +56,11 @@ public class StartingCycle extends GameCycle {
         ConfigurationSection section = this.getCycleSection();
         int duration = section.getInt("timer.duration");
 
-        this.task = new CycleTask(duration);
+        // TODO Improve this code.
+        TimerDisplayManager manager = new TimerDisplayManager();
+        manager.load(section.getConfigurationSection("timer.displays"));
+
+        this.task = new CycleTask(duration, manager);
         this.task.start();
     }
 
@@ -107,19 +112,22 @@ public class StartingCycle extends GameCycle {
         }
     }
 
+    // TODO Make an abstraction of this class for potential reuse ?
     private class CycleTask extends Task {
 
+        private final TimerDisplayManager manager;
         private int duration;
 
-        public CycleTask(int duration) {
+        public CycleTask(int duration, TimerDisplayManager manager) {
             this.duration = duration;
+            this.manager = manager;
         }
 
         @Override
         public void run() {
 
             if(this.duration >= 0) {
-                System.out.println(this.duration);
+                this.manager.display(this.duration);
                 this.duration--;
 
             } else {

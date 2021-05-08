@@ -1,36 +1,36 @@
-package com.github.syr0ws.fallenkingdom.messages.types;
+package com.github.syr0ws.fallenkingdom.display.types;
 
-import com.github.syr0ws.fallenkingdom.messages.TextMessage;
+import com.github.syr0ws.fallenkingdom.display.TextDisplay;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class SimpleMessage extends TextMessage {
+public class Message extends TextDisplay {
 
     private final String text;
 
-    public SimpleMessage(String text) {
+    public Message(String text) {
         this.text = text;
     }
 
-    public SimpleMessage(ConfigurationSection section) {
+    public Message(ConfigurationSection section) {
         this.text = section.getString("text");
     }
 
-    public void send(CommandSender sender) {
+    public void displayTo(CommandSender sender) {
         String message = super.format(this.text);
         sender.sendMessage(message);
     }
 
     @Override
-    public void send(Player player) {
+    public void displayTo(Player player) {
         String message = super.format(this.text);
         player.sendMessage(message);
     }
 
     @Override
-    public void broadcast() {
+    public void displayAll() {
         String message = super.format(this.text);
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(message));
     }

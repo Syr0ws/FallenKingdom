@@ -1,13 +1,13 @@
-package com.github.syr0ws.fallenkingdom.messages;
+package com.github.syr0ws.fallenkingdom.display;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum MessageType {
+public enum DisplayType {
 
-    TEXT;
+    MESSAGE, SOUND;
 
-    public static Optional<MessageType> getByName(String name) {
+    public static Optional<DisplayType> getByName(String name) {
         return Arrays.stream(values())
                 .filter(type -> type.name().equals(name))
                 .findFirst();

@@ -1,9 +1,9 @@
 package com.github.syr0ws.fallenkingdom.commands;
 
+import com.github.syr0ws.fallenkingdom.display.types.Message;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
-import com.github.syr0ws.fallenkingdom.messages.types.SimpleMessage;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,7 +32,7 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK.get())) {
-            new SimpleMessage(section.getString("no-permission")).send(sender);
+            new Message(section.getString("no-permission")).displayTo(sender);
             return true;
         }
 
@@ -69,7 +69,7 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_START.get())) {
-            new SimpleMessage(startSection.getString("no-permission")).send(sender);
+            new Message(startSection.getString("no-permission")).displayTo(sender);
             return;
         }
 
@@ -84,7 +84,7 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_STOP.get())) {
-            new SimpleMessage(stopSection.getString("no-permission")).send(sender);
+            new Message(stopSection.getString("no-permission")).displayTo(sender);
             return;
         }
 
@@ -99,13 +99,13 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_PVP.get())) {
-            new SimpleMessage(pvpSection.getString("no-permission")).send(sender);
+            new Message(pvpSection.getString("no-permission")).displayTo(sender);
             return;
         }
 
         // Only enable / disable pvp when the game is running.
         if(this.model.getState() != GameState.RUNNING) {
-            new SimpleMessage(pvpSection.getString("game-not-running")).send(sender);
+            new Message(pvpSection.getString("game-not-running")).displayTo(sender);
             return;
         }
 
@@ -115,7 +115,7 @@ public class CommandFK implements CommandExecutor {
             if(this.model.isPvPEnabled()) {
 
                 String message = pvpSection.getString("already-enabled");
-                new SimpleMessage(message).send(sender);
+                new Message(message).displayTo(sender);
 
             } else this.model.setPvPEnabled(true);
 
@@ -125,7 +125,7 @@ public class CommandFK implements CommandExecutor {
             if(!this.model.isPvPEnabled()) {
 
                 String message = pvpSection.getString("already-disabled");
-                new SimpleMessage(message).send(sender);
+                new Message(message).displayTo(sender);
 
             } else this.model.setPvPEnabled(false);
 
@@ -138,13 +138,13 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_ASSAULTS.get())) {
-            new SimpleMessage(assaultsSection.getString("no-permission")).send(sender);
+            new Message(assaultsSection.getString("no-permission")).displayTo(sender);
             return;
         }
 
         // Only enable / disable assaults when the game is running.
         if(this.model.getState() != GameState.RUNNING) {
-            new SimpleMessage(assaultsSection.getString("game-not-running")).send(sender);
+            new Message(assaultsSection.getString("game-not-running")).displayTo(sender);
             return;
         }
 
@@ -154,7 +154,7 @@ public class CommandFK implements CommandExecutor {
             if(this.model.areAssaultsEnabled()) {
 
                 String message = assaultsSection.getString("already-enabled");
-                new SimpleMessage(message).send(sender);
+                new Message(message).displayTo(sender);
 
             } else this.model.setAssaultsEnabled(true);
 
@@ -163,7 +163,7 @@ public class CommandFK implements CommandExecutor {
             if(!this.model.areAssaultsEnabled()) {
 
                 String message = assaultsSection.getString("already-disabled");
-                new SimpleMessage(message).send(sender);
+                new Message(message).displayTo(sender);
 
             } else this.model.setAssaultsEnabled(false);
 

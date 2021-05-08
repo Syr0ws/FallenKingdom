@@ -70,6 +70,48 @@ game-starting:
   timer:
     # The duration of the timer in seconds.
     duration: 10
+    # All the displays of the timer.
+    displays:
+      10:
+        message:
+          type: "MESSAGE"
+          text: "&eLa partie commence dans &610 secondes&e."
+        sound:
+          type: "SOUND"
+          sound: "NOTE_BASS"
+          pitch: 1
+      3:
+        message:
+          type: "MESSAGE"
+          text: "&eLa partie commence dans &63 secondes&e."
+        sound:
+          type: "SOUND"
+          sound: "NOTE_PIANO"
+          pitch: 1
+      2:
+        message:
+          type: "MESSAGE"
+          text: "&eLa partie commence dans &62 secondes&e."
+        sound:
+          type: "SOUND"
+          sound: "NOTE_PIANO"
+          pitch: 1.5
+      1:
+        message:
+          type: "MESSAGE"
+          text: "&eLa partie commence dans &61 seconde&e."
+        sound:
+          type: "SOUND"
+          sound: "NOTE_PIANO"
+          pitch: 2
+      0:
+        message:
+          type: "MESSAGE"
+          text: "&eLa partie commence !"
+        sound:
+          type: "SOUND"
+          sound: "LEVEL_UP"
+          pitch: 2
 
 
 spawn:
@@ -81,19 +123,46 @@ spawn:
   world: "world"
 
 
-messages:
-  1:
-    type: "TITLE"
-    title: "My title"
-    subtitle: "My subtitle"
-  2:
-    type: "TEXT"
-    text: "My text"
+
+displays:
+  10:
+    message:
+      type: "TEXT"
+      text: "&eLa partie commence dans &610 secondes&e."
+    sound:
+      type: "SOUND"
+      sound: "NOTE_BASS"
+      pitch: 1
   3:
-    type: "TEXT"
-    text:
-      - "line1"
-      - "line2"
-  4:
-    type: "ACTIONBAR"
-    text: "My text"
+    message:
+      type: "TEXT"
+      text: "&eLa partie commence dans &63 secondes&e."
+    sound:
+      type: "SOUND"
+      sound: "PIANO"
+      pitch: 1
+  2:
+    message:
+      type: "TEXT"
+      text: "&eLa partie commence dans &62 secondes&e."
+    sound:
+      type: "SOUND"
+      sound: "PIANO"
+      pitch: 1.4
+  1:
+    message:
+      type: "TEXT"
+      text: "&eLa partie commence dans &61 seconde&e."
+    sound:
+      type: "SOUND"
+      sound: "PIANO"
+      pitch: 1.8
+  0:
+    message:
+      type: "TEXT"
+      text: "&eLa partie commence !"
+    sound:
+      type: "SOUND"
+      sound: "PIANO"
+      pitch: 2
+

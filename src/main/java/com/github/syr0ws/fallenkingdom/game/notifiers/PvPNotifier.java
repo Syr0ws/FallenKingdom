@@ -2,9 +2,9 @@ package com.github.syr0ws.fallenkingdom.game.notifiers;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
+import com.github.syr0ws.fallenkingdom.display.types.Message;
 import com.github.syr0ws.fallenkingdom.game.model.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.messages.types.SimpleMessage;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -31,7 +31,7 @@ public class PvPNotifier implements AttributeObserver {
         String path = this.model.isPvPEnabled() ? "enabled" : "disabled";
         String message = section.getString(path);
 
-        new SimpleMessage(message).broadcast();
+        new Message(message).displayAll();
     }
 
     @Override

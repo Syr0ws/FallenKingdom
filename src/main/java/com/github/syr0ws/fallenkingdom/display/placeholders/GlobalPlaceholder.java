@@ -1,6 +1,4 @@
-package com.github.syr0ws.fallenkingdom.messages.placeholders;
-
-import com.github.syr0ws.fallenkingdom.messages.Placeholder;
+package com.github.syr0ws.fallenkingdom.display.placeholders;
 
 public enum GlobalPlaceholder implements Placeholder {
 

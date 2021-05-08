@@ -1,12 +1,13 @@
-package com.github.syr0ws.fallenkingdom.messages;
+package com.github.syr0ws.fallenkingdom.display;
 
+import com.github.syr0ws.fallenkingdom.display.placeholders.Placeholder;
 import com.github.syr0ws.fallenkingdom.utils.TextUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class TextMessage implements Message {
+public abstract class TextDisplay implements Display {
 
     private final Map<Placeholder, String> placeholders = new HashMap<>();
 
