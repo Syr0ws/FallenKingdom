@@ -53,10 +53,10 @@ game-starting:
 
 
 spawn:
-  x: 0
-  y: 0
-  z: 0
-  yaw: 180
+  x: 96.5
+  y: 116
+  z: 56.5
+  yaw: 90
   pitch: 0
   world: "world"
 
