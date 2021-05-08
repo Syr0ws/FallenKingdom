@@ -54,6 +54,16 @@ assaults:
   disabled: "&6>> &eLes assaults sont désormais &cinterdits&e."
 
 
+# This section is about the waiting cycle.
+game-waiting:
+  # This section contains all the messages sent during the waiting cycle.
+  messages:
+    # Message sent when a player joins the game.
+    join: "&6%player% &ea rejoint la partie."
+    # Message sent when a player leaves the game.
+    quit: "&6%player% &ea quitté la partie."
+
+
 # This section contains all the configuration of the starting cycle.
 game-starting:
   # This section is about the timer started before starting the game.

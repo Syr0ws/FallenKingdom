@@ -1,9 +1,13 @@
 package com.github.syr0ws.fallenkingdom.game.cycle.impl;
 
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.messages.placeholders.GlobalPlaceholder;
+import com.github.syr0ws.fallenkingdom.messages.types.SimpleMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -16,6 +20,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -44,6 +49,11 @@ public class WaitingCycle extends GameCycle {
         HandlerList.unregisterAll(this.listener);
     }
 
+    private ConfigurationSection getWaitingSection() {
+        FileConfiguration config = this.plugin.getConfig();
+        return config.getConfigurationSection("waiting-cycle");
+    }
+
     private class CycleListener implements Listener {
 
         @EventHandler
@@ -57,6 +67,26 @@ public class WaitingCycle extends GameCycle {
             player.setGameMode(GameMode.ADVENTURE);
             player.getInventory().clear();
             player.teleport(model.getSpawn().toBukkitLocation());
+
+            ConfigurationSection section = getWaitingSection();
+
+            SimpleMessage message = new SimpleMessage(section.getString("messages.join"));
+            message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, player.getName());
+
+            event.setJoinMessage(message.getText());
+        }
+
+        @EventHandler
+        public void onPlayerQuit(PlayerQuitEvent event) {
+
+            Player player = event.getPlayer();
+
+            ConfigurationSection section = getWaitingSection();
+
+            SimpleMessage message = new SimpleMessage(section.getString("messages.quit"));
+            message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, player.getName());
+
+            event.setQuitMessage(message.getText());
         }
 
         @EventHandler
