@@ -28,7 +28,7 @@ public class AssaultsNotifier implements AttributeObserver {
         FileConfiguration config = this.plugin.getConfig();
         ConfigurationSection section = config.getConfigurationSection("assaults");
 
-        String path = this.model.isPvPEnabled() ? "enabled" : "disabled";
+        String path = this.model.areAssaultsEnabled() ? "enabled" : "disabled";
         String message = section.getString(path);
 
         new SimpleMessage(message).broadcast();
