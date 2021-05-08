@@ -1,113 +1,49 @@
-teams:
-  blue:
-    display-name: "Bleu"
-    color: "BLUE"
-    base:
-      loc1:
-        x: 0
-        y: 0
-        z: 0
-      loc2:
-        x: 0
-        y: 0
-        z: 0
-      world: "world"
-    vault:
-      loc1:
-        x: 0
-        y: 0
-        z: 0
-      loc2:
-        x: 0
-        y: 0
-        z: 0
-      world: "world"
-    spawn:
-      x: 0
-      y: 0
-      z: 0
-      world: "world"
-  red:
-    display-name: "Rouge"
-    color: "RED"
-    base:
-      loc1:
-        x: 0
-        y: 0
-        z: 0
-      loc2:
-        x: 0
-        y: 0
-        z: 0
-      world: "world"
-    vault:
-      loc1:
-        x: 0
-        y: 0
-        z: 0
-      loc2:
-        x: 0
-        y: 0
-        z: 0
-      world: "world"
-    spawn:
-      x: 0
-      y: 0
-      z: 0
-      world: "world"
-  green:
-    display-name: "Vert"
-    color: "GREEN"
-    base:
-      loc1:
-        x: 0
-        y: 0
-        z: 0
-      loc2:
-        x: 0
-        y: 0
-        z: 0
-      world: "world"
-    vault:
-      loc1:
-        x: 0
-        y: 0
-        z: 0
-      loc2:
-        x: 0
-        y: 0
-        z: 0
-      world: "world"
-    spawn:
-      x: 0
-      y: 0
-      z: 0
-      world: "world"
-  yellow:
-    display-name: "Jaune"
-    color: "YELLOW"
-    base:
-      loc1:
-        x: 0
-        y: 0
-        z: 0
-      loc2:
-        x: 0
-        y: 0
-        z: 0
-      world: "world"
-    vault:
-      loc1:
-        x: 0
-        y: 0
-        z: 0
-      loc2:
-        x: 0
-        y: 0
-        z: 0
-      world: "world"
-    spawn:
-      x: 0
-      y: 0
-      z: 0
-      world: "world"
+# This file allows you to configure all the teams of the game.
+# All the teams must be created in the 'teams' section and by following the format below:
+#
+# teams:
+#  # The name of the team. Will be used to identify it.
+#  blue:
+#    # The display name of the team.
+#    # It is the value that will replace the placeholder %team_name%.
+#    display-name: "Bleu"
+#    # The color of the team.
+#    color: "BLUE"
+#    # A cuboid which represents the base of the team.
+#    # 'y' coordinate will be ignored in this section.
+#    base:
+#      # The first coordinate of the cuboid.
+#      loc1:
+#        x: 0
+#        z: 0
+#      # The second coordinate of the cuboid.
+#      loc2:
+#        x: 0
+#        z: 0
+#      # The world's name in which is the cuboid.
+#      world: "world"
+#    # A cuboid which represents the vault of the team.
+#    vault:
+#      # The first coordinate of the cuboid.
+#      loc1:
+#        x: 0
+#        y: 0
+#        z: 0
+#      # The second coordinate of the cuboid.
+#      loc2:
+#        x: 0
+#        y: 0
+#        z: 0
+#      # The world's name in which is the cuboid.
+#      world: "world"
+#    # The default spawn of the team.
+#    spawn:
+#      x: 0
+#      y: 0
+#      z: 0
+#      yaw: 180
+#      pitch: 0
+#      # The world in which is the spawn of the team.
+#      world: "world"
+
+teams: {}
