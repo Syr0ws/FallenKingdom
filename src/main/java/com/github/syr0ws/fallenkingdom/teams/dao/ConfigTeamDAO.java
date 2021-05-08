@@ -2,6 +2,7 @@ package com.github.syr0ws.fallenkingdom.teams.dao;
 
 import com.github.syr0ws.fallenkingdom.teams.Team;
 import com.github.syr0ws.fallenkingdom.teams.TeamBase;
+import com.github.syr0ws.fallenkingdom.teams.TeamColor;
 import com.github.syr0ws.fallenkingdom.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.tools.Cuboid;
 import com.github.syr0ws.fallenkingdom.tools.Location;
@@ -15,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class ConfigTeamDAO implements TeamDAO {
 
@@ -74,9 +76,10 @@ public class ConfigTeamDAO implements TeamDAO {
         String name = section.getName();
         String displayName = section.getString("display-name");
 
+        TeamColor color = this.loadTeamColor(section);
         TeamBase base = this.loadTeamBase(section);
 
-        return new Team(name, displayName, base);
+        return new Team(name, displayName, color, base);
     }
 
     private TeamBase loadTeamBase(ConfigurationSection section) throws TeamException {
@@ -100,6 +103,18 @@ public class ConfigTeamDAO implements TeamDAO {
         Location spawn = new Location(section.getConfigurationSection("spawn"));
 
         return new TeamBase(base, vault, spawn);
+    }
+
+    private TeamColor loadTeamColor(ConfigurationSection section) throws TeamException {
+
+        String name = section.getString("color");
+
+        Optional<TeamColor> optional = TeamColor.getByName(name);
+
+        if(!optional.isPresent())
+            throw new TeamException(String.format("No team color found in '%s'.", section.getName()));
+
+        return optional.get();
     }
 
     private void createTeamFile() throws TeamException {

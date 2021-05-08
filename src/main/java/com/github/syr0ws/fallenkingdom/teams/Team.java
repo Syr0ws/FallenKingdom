@@ -10,12 +10,14 @@ import java.util.Optional;
 public class Team {
 
     private final String name, displayName;
+    private final TeamColor color;
     private final TeamBase base;
     private final List<TeamPlayer> players;
 
-    public Team(String name, String displayName, TeamBase base) {
+    public Team(String name, String displayName, TeamColor color, TeamBase base) {
         this.name = name;
         this.displayName = displayName;
+        this.color = color;
         this.base = base;
         this.players = new ArrayList<>();
     }
@@ -42,6 +44,10 @@ public class Team {
 
     public String getDisplayName() {
         return this.displayName;
+    }
+
+    public TeamColor getColor() {
+        return this.color;
     }
 
     public TeamBase getBase() {
