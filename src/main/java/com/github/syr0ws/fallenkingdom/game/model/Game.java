@@ -8,6 +8,7 @@ import com.github.syr0ws.fallenkingdom.game.cycle.GameCycleAttribute;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycleFactory;
 import com.github.syr0ws.fallenkingdom.teams.Team;
 import com.github.syr0ws.fallenkingdom.tools.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
@@ -70,6 +71,18 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
     }
 
     @Override
+    public boolean isInsideEnemyBase(Player player) {
+        return false; // TODO to change.
+    }
+
+    @Override
+    public Optional<Team> getTeam(Player player) {
+        return this.teams.stream()
+                .filter(team -> team.contains(player))
+                .findFirst();
+    }
+
+    @Override
     public List<Team> getTeams() {
         return Collections.unmodifiableList(this.teams);
     }
@@ -100,9 +113,6 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
 
     @Override
     public void notifyChange(Attribute attribute) {
-        System.out.println("test");
-        System.out.println(this.observers.size());
-        this.observers.forEach(observer -> System.out.println(observer.observed().contains(GameAttribute.PVP_STATE)));
         this.observers.stream()
                 .filter(observer -> observer.observed().contains(attribute))
                 .forEach(observer -> observer.onUpdate(attribute));
