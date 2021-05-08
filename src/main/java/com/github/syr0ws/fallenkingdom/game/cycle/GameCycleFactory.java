@@ -26,7 +26,7 @@ public class GameCycleFactory {
             case STARTING:
                 return new StartingCycle(this.model, this.plugin);
             case RUNNING:
-                return new RunningCycle();
+                return new RunningCycle(this.model, this.plugin);
             case FINISHED:
                 return new FinishedCycle();
             default:
