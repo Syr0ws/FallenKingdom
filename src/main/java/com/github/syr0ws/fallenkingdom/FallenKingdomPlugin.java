@@ -14,8 +14,8 @@ public class FallenKingdomPlugin extends JavaPlugin {
     public void onEnable() {
 
         this.loadConfiguration();
-        this.registerCommands();
         this.initGame();
+        this.registerCommands();
     }
 
     private void loadConfiguration() {
