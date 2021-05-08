@@ -34,4 +34,8 @@ public class SimpleMessage extends TextMessage {
         String message = super.format(this.text);
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(message));
     }
+
+    public String getText() {
+        return super.format(this.text);
+    }
 }
