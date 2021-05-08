@@ -16,6 +16,13 @@ public class Location {
         this.world = world;
     }
 
+    public Location(org.bukkit.Location location) {
+        this.x = location.getX();
+        this.y = location.getY();
+        this.z = location.getZ();
+        this.world = location.getWorld().getName();
+    }
+
     public Location(ConfigurationSection section) {
         this.x = section.getDouble("x");
         this.y = section.getDouble("y");
