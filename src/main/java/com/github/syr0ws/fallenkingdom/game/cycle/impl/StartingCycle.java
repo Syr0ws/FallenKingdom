@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game.cycle.impl;
 
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.tools.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -53,7 +53,7 @@ public class StartingCycle extends GameCycle {
     private void startCycleTask() {
 
         ConfigurationSection section = this.getCycleSection();
-        int duration = section.getInt("timer-duration");
+        int duration = section.getInt("timer.duration");
 
         this.task = new CycleTask(duration);
         this.task.start();
@@ -109,32 +109,29 @@ public class StartingCycle extends GameCycle {
 
     private class CycleTask extends Task {
 
-        private final int duration;
-        private int time;
+        private int duration;
 
         public CycleTask(int duration) {
             this.duration = duration;
-            this.time = duration;
         }
 
         @Override
         public void run() {
 
-            if(this.time >= 0) {
-                // Do stuff here.
-                this.time--;
+            if(this.duration >= 0) {
+                System.out.println(this.duration);
+                this.duration--;
 
             } else {
 
-                this.stop();
-                setFinished(true);
+                setFinished(true); // Setting the cycle as finished.
             }
         }
 
         @Override
         public void start() {
             super.start();
-            this.runTaskTimer(plugin, 0L, this.duration * 20L);
+            this.runTaskTimer(plugin, 0L, 20L);
         }
     }
 }
