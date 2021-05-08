@@ -23,8 +23,8 @@ public class FallenKingdomPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        super.getCommand("pvp").setExecutor(new CommandPvP(this, null)); // TODO to change
-        super.getCommand("assaults").setExecutor(new CommandAssaults(this, null)); // TODO to change
+        super.getCommand("pvp").setExecutor(new CommandPvP(this, this.controller.getModel()));
+        super.getCommand("assaults").setExecutor(new CommandAssaults(this, this.controller.getModel()));
     }
 
     private void initGame() {
