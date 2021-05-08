@@ -55,7 +55,7 @@ assaults:
 
 
 # This section is about the waiting cycle.
-game-waiting:
+waiting-cycle:
   # This section contains all the messages sent during the waiting cycle.
   messages:
     # Message sent when a player joins the game.
