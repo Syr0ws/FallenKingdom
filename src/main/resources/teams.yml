@@ -10,15 +10,16 @@
 #    # The color of the team.
 #    color: "BLUE"
 #    # A cuboid which represents the base of the team.
-#    # 'y' coordinate will be ignored in this section.
 #    base:
 #      # The first coordinate of the cuboid.
 #      loc1:
 #        x: 0
+#        y: 0
 #        z: 0
 #      # The second coordinate of the cuboid.
 #      loc2:
 #        x: 0
+#        y: 0
 #        z: 0
 #      # The world's name in which is the cuboid.
 #      world: "world"
