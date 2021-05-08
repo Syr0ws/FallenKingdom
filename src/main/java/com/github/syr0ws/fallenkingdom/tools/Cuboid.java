@@ -41,7 +41,12 @@ public class Cuboid {
 
         return this.loc1.getX() >= x && this.loc2.getX() <= x
                 && this.loc1.getY() >= y && this.loc2.getY() <= y
-                && this.loc1.getZ() >= z && this.loc2.getZ() <= z;
+                && this.loc1.getZ() >= z && this.loc2.getZ() <= z
+                && location.getWorld().equals(this.getWorld());
+    }
+
+    public boolean isIn(org.bukkit.Location location) {
+        return this.isIn(new Location(location));
     }
 
     public Location getLoc1() {
