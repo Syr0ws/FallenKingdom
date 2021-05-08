@@ -1,7 +1,6 @@
 package com.github.syr0ws.fallenkingdom;
 
-import com.github.syr0ws.fallenkingdom.commands.CommandAssaults;
-import com.github.syr0ws.fallenkingdom.commands.CommandPvP;
+import com.github.syr0ws.fallenkingdom.commands.CommandFK;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.controller.SimpleGameController;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,8 +22,7 @@ public class FallenKingdomPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        super.getCommand("pvp").setExecutor(new CommandPvP(this, this.controller.getModel()));
-        super.getCommand("assaults").setExecutor(new CommandAssaults(this, this.controller.getModel()));
+        super.getCommand("fallenkingdom").setExecutor(new CommandFK(this, this.controller.getModel(), this.controller));
     }
 
     private void initGame() {
