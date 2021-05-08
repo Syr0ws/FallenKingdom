@@ -32,7 +32,7 @@ public class SimpleGameController implements GameController {
         Location spawn = this.loadSpawn();
         List<Team> teams = this.loadTeams();
 
-        this.game = new Game(spawn, teams);
+        this.game = new Game(this.plugin, spawn, teams);
     }
 
     private List<Team> loadTeams() {

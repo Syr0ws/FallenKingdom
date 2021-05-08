@@ -1,5 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game.cycle;
 
+import com.github.syr0ws.fallenkingdom.game.cycle.impl.StartingCycle;
+import com.github.syr0ws.fallenkingdom.game.cycle.impl.WaitingCycle;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import org.bukkit.plugin.Plugin;
@@ -14,16 +16,16 @@ public class GameCycleFactory {
         this.model = model;
     }
 
-    public static GameCycle getCycle(GameState state) {
+    public GameCycle getCycle(GameState state) {
 
         switch (state) {
             case WAITING:
-                return null;
+                return new WaitingCycle(this.model, this.plugin);
             case STARTING:
+                return new StartingCycle(this.model, this.plugin);
+            case RUNNING:
                 return null;
             case FINISHED:
-                return null;
-            case RUNNING:
                 return null;
             default:
                 throw new IllegalArgumentException(String.format("No instance found for '%s'.", state.name()));

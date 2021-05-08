@@ -8,6 +8,7 @@ import com.github.syr0ws.fallenkingdom.game.cycle.GameCycleAttribute;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycleFactory;
 import com.github.syr0ws.fallenkingdom.teams.Team;
 import com.github.syr0ws.fallenkingdom.tools.Location;
+import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
@@ -18,21 +19,27 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
     private GameState state;
     private GameCycle cycle;
 
+    private final GameCycleFactory factory;
     private final Location spawn;
     private final List<Team> teams;
     private final List<AttributeObserver> observers;
 
-    public Game(Location spawn, List<Team> teams) {
+    // TODO Should plugin be here ?
+    public Game(Plugin plugin, Location spawn, List<Team> teams) {
         this.spawn = spawn;
         this.teams = teams;
         this.observers = new ArrayList<>();
-        this.setState(GameState.WAITING);
+        this.factory = new GameCycleFactory(plugin, this);
+        this.setState(GameState.WAITING); // Should be executed in last.
     }
 
     public void setState(GameState state) {
-        this.cycle.stop();
+
+        // Prevent error when the game is initialized.
+        if(this.cycle != null) this.cycle.stop();
+
         this.state = state;
-        this.cycle = GameCycleFactory.getCycle(state);
+        this.cycle = this.factory.getCycle(state);
         this.cycle.start(); // Starting the new cycle.
     }
 
