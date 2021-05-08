@@ -27,6 +27,7 @@ public class SimpleGameController implements GameController {
         this.teamDAO = new ConfigTeamDAO(plugin);
     }
 
+    // TODO Should controller init the model ?
     public void init() {
 
         Location spawn = this.loadSpawn();
