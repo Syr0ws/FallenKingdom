@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.teams;
+package com.github.syr0ws.fallenkingdom.game.model.teams;
 
 import com.github.syr0ws.fallenkingdom.tools.Cuboid;
 import com.github.syr0ws.fallenkingdom.tools.Location;

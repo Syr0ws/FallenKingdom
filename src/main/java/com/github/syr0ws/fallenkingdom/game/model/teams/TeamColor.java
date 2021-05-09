@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.teams;
+package com.github.syr0ws.fallenkingdom.game.model.teams;
 
 import org.bukkit.ChatColor;
 

@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.teams;
+package com.github.syr0ws.fallenkingdom.game.model.teams;
 
 import org.bukkit.entity.Player;
 
@@ -26,7 +26,7 @@ public class Team {
 
         if(this.contains(player)) return;
 
-        TeamPlayer teamPlayer = new TeamPlayer(player);
+        TeamPlayer teamPlayer = new TeamPlayer(this, player);
         this.players.add(teamPlayer);
     }
 
@@ -44,6 +44,10 @@ public class Team {
 
     public String getDisplayName() {
         return this.color.getChatColor() + this.displayName;
+    }
+
+    public int size() {
+        return this.players.size();
     }
 
     public TeamColor getColor() {

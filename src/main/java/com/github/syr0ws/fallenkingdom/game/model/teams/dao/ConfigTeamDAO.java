@@ -1,9 +1,9 @@
-package com.github.syr0ws.fallenkingdom.teams.dao;
+package com.github.syr0ws.fallenkingdom.game.model.teams.dao;
 
-import com.github.syr0ws.fallenkingdom.teams.Team;
-import com.github.syr0ws.fallenkingdom.teams.TeamBase;
-import com.github.syr0ws.fallenkingdom.teams.TeamColor;
-import com.github.syr0ws.fallenkingdom.teams.TeamException;
+import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamBase;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamColor;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.tools.Cuboid;
 import com.github.syr0ws.fallenkingdom.tools.Location;
 import org.bukkit.configuration.ConfigurationSection;

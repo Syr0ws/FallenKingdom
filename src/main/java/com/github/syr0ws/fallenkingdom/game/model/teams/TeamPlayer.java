@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.teams;
+package com.github.syr0ws.fallenkingdom.game.model.teams;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -7,16 +7,19 @@ import java.util.UUID;
 
 public class TeamPlayer {
 
+    private final Team team;
     private final String name;
     private final UUID uuid;
     private int kills, deaths;
 
-    public TeamPlayer(String name, UUID uuid) {
+    public TeamPlayer(Team team, String name, UUID uuid) {
+        this.team = team;
         this.name = name;
         this.uuid = uuid;
     }
 
-    public TeamPlayer(Player player) {
+    public TeamPlayer(Team team, Player player) {
+        this.team = team;
         this.name = player.getName();
         this.uuid = player.getUniqueId();
     }
@@ -55,5 +58,9 @@ public class TeamPlayer {
 
     public Player getPlayer() {
         return Bukkit.getPlayer(this.uuid);
+    }
+
+    public Team getTeam() {
+        return this.team;
     }
 }
