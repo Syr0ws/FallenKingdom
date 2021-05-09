@@ -53,4 +53,9 @@ public class Location {
     public org.bukkit.Location toBukkitLocation() {
         return new org.bukkit.Location(this.getWorld(), this.x, this.y, this.z);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Location { x=%f, y=%f, z=%f, world=%s }", this.x, this.y, this.z, this.world);
+    }
 }
