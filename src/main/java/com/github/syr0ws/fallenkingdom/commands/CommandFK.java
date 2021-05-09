@@ -5,7 +5,6 @@ import com.github.syr0ws.fallenkingdom.display.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.display.types.Message;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.teams.Team;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
 import org.bukkit.Bukkit;
@@ -131,7 +130,7 @@ public class CommandFK implements CommandExecutor {
         }
 
         // Only enable / disable pvp when the game is running.
-        if(this.model.getState() != GameState.RUNNING) {
+        if(!this.model.isStarted()) {
             new Message(pvpSection.getString("game-not-running")).displayTo(sender);
             return;
         }
@@ -190,7 +189,7 @@ public class CommandFK implements CommandExecutor {
         }
 
         // Only enable / disable assaults when the game is running.
-        if(this.model.getState() != GameState.RUNNING) {
+        if(!this.model.isStarted()) {
             new Message(assaultsSection.getString("game-not-running")).displayTo(sender);
             return;
         }
