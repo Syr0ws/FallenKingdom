@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
+import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.teams.Team;
 import com.github.syr0ws.fallenkingdom.tools.Location;
@@ -8,7 +9,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Optional;
 
-public interface GameModel {
+public interface GameModel extends AttributeObserver {
 
     void setTeam(Player player, Team team);
 

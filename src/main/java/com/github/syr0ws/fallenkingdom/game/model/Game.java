@@ -13,7 +13,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
-public class Game implements GameModel, AttributeObserver, AttributeObservable {
+public class Game implements GameModel, AttributeObservable {
 
     private boolean pvp, assaults;
 
