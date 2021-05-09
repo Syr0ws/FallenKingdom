@@ -1,16 +1,23 @@
 package com.github.syr0ws.fallenkingdom.commands;
 
+import com.github.syr0ws.fallenkingdom.display.placeholders.GlobalPlaceholder;
+import com.github.syr0ws.fallenkingdom.display.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.display.types.Message;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
+import com.github.syr0ws.fallenkingdom.teams.Team;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
+import java.util.Optional;
 
 public class CommandFK implements CommandExecutor {
 
@@ -36,37 +43,41 @@ public class CommandFK implements CommandExecutor {
             return true;
         }
 
-        if(args.length == 1) {
+        // TODO Handle args in methods.
 
-            if(args[0].equalsIgnoreCase("start")) {
+        if(args.length == 0) {
+            // TODO send help here.
+            return true;
+        }
 
-                this.onStartCommand(sender, section);
-
-            } else if(args[0].equalsIgnoreCase("stop")) {
-
-                this.onStopCommand(sender, section);
-            }
-
-        } else if(args.length == 2) {
-
-            if(args[0].equalsIgnoreCase("pvp")) {
-
+        switch (args[0].toLowerCase()) {
+            case "start":
+                this.onStartCommand(sender, section, args);
+                break;
+            case "stop":
+                this.onStopCommand(sender, section, args);
+                break;
+            case "pvp":
                 this.onPvPCommand(sender, section, args);
-
-            } else if(args[0].equalsIgnoreCase("assaults")) {
-
+                break;
+            case "assaults":
                 this.onAssaultsCommand(sender, section, args);
-            }
-
-        } else ; // TODO send usages here.
+                break;
+            case "team":
+                this.onTeamCommand(sender, section, args);
+                break;
+            default:
+                // TODO send help here.
+                break;
+        }
 
         return true;
     }
 
     /*
         Command : /fk start
-     */
-    private void onStartCommand(CommandSender sender, ConfigurationSection section) {
+    */
+    private void onStartCommand(CommandSender sender, ConfigurationSection section, String[] args) {
 
         ConfigurationSection startSection = section.getConfigurationSection("start");
 
@@ -83,8 +94,8 @@ public class CommandFK implements CommandExecutor {
 
     /*
         Command : /fk stop
-     */
-    private void onStopCommand(CommandSender sender, ConfigurationSection section) {
+    */
+    private void onStopCommand(CommandSender sender, ConfigurationSection section, String[] args) {
 
         ConfigurationSection stopSection = section.getConfigurationSection("stop");
 
@@ -101,12 +112,17 @@ public class CommandFK implements CommandExecutor {
 
     /*
         Command : /fk pvp on|off
-     */
+    */
 
     // Command : /fk pvp
     private void onPvPCommand(CommandSender sender, ConfigurationSection section, String[] args) {
 
         ConfigurationSection pvpSection = section.getConfigurationSection("pvp");
+
+        if(args.length < 2) {
+            // TODO send help here.
+            return;
+        }
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_PVP.get())) {
@@ -155,12 +171,17 @@ public class CommandFK implements CommandExecutor {
 
     /*
         Command : /fk assaults on|off
-     */
+    */
 
     // Command : /fk assaults
     private void onAssaultsCommand(CommandSender sender, ConfigurationSection section, String[] args) {
 
         ConfigurationSection assaultsSection = section.getConfigurationSection("assaults");
+
+        if(args.length != 2) {
+            // TODO send help here.
+            return;
+        }
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_ASSAULTS.get())) {
@@ -205,5 +226,116 @@ public class CommandFK implements CommandExecutor {
             new Message(message).displayTo(sender);
 
         } else this.model.setAssaultsEnabled(false);
+    }
+
+    /*
+        Command : /fk team
+    */
+
+    // Command : /fk team
+    private void onTeamCommand(CommandSender sender, ConfigurationSection section, String[] args) {
+
+        ConfigurationSection teamSection = section.getConfigurationSection("team");
+
+        if(args.length < 2) {
+            // TODO send help here.
+            return;
+        }
+
+        // Checking if the sender has the permission to use the command.
+        if(!sender.hasPermission(Permission.COMMAND_FK_TEAM.get())) {
+            new Message(teamSection.getString("no-permission")).displayTo(sender);
+            return;
+        }
+
+        if(args[1].equalsIgnoreCase("add")) {
+
+            this.onTeamAddCommand(sender, teamSection, args);
+
+        } else if(args[1].equalsIgnoreCase("remove")) {
+
+            this.onTeamRemoveCommand(sender, teamSection, args);
+
+        } else ; // TODO Send usages here.
+    }
+
+    // Command : /fk team add <player> <team>
+    private void onTeamAddCommand(CommandSender sender, ConfigurationSection section, String[] args) {
+
+        ConfigurationSection addSection = section.getConfigurationSection("add");
+
+        if(args.length != 4) {
+            // TODO send help here.
+            return;
+        }
+
+        Player target = Bukkit.getPlayerExact(args[2]);
+
+        // Checking if the targeted player is valid.
+        if(target == null) {
+            new Message(section.getString("player-not-found")).displayTo(sender);
+            return;
+        }
+
+        Optional<Team> optional = this.model.getTeamByName(args[3]);
+
+        // Checking if the targeted team is valid.
+        if(!optional.isPresent()) {
+            new Message(section.getString("team-not-found")).displayTo(sender);
+            return;
+        }
+
+        Team team = optional.get();
+
+        if(team.contains(target)) {
+            new Message(addSection.getString("already-in-team")).displayTo(sender);
+            return;
+        }
+
+        // If player is already in another team, removing him from it.
+
+        this.model.setTeam(target, team);
+
+        Message message = new Message(addSection.getString("player-added"));
+        message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, target.getName());
+        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, team.getDisplayName());
+
+        message.displayTo(sender);
+    }
+
+    // Command : /fk team remove <player>
+    private void onTeamRemoveCommand(CommandSender sender, ConfigurationSection section, String[] args) {
+
+        ConfigurationSection removeSection = section.getConfigurationSection("remove");
+
+        if(args.length != 3) {
+            // TODO send help here.
+            return;
+        }
+
+        Player target = Bukkit.getPlayerExact(args[2]);
+
+        // Checking if the targeted player is valid.
+        if(target == null) {
+            new Message(section.getString("player-not-found")).displayTo(sender);
+            return;
+        }
+
+        Optional<Team> optional = this.model.getTeam(target);
+
+        if(!optional.isPresent()) {
+            new Message(removeSection.getString("not-in-team")).displayTo(sender);
+            return;
+        }
+
+        Team team = optional.get();
+
+        this.model.removeTeam(target);
+
+        Message message = new Message(removeSection.getString("player-removed"));
+        message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, target.getName());
+        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, team.getDisplayName());
+
+        message.displayTo(sender);
     }
 }

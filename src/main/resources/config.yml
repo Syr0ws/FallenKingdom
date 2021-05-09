@@ -69,6 +69,28 @@ command-fk:
     already-enabled: "&c>> Les assaults sont déjà activés."
     # Message sent to the sender when he's trying to disable assaults when they already are.
     already-disabled: "&c>> Les assaults sont déjà désactivés."
+  # This section is about the '/fk team' command.
+  team:
+    # Message sent to the sender when the targeted player doesn't exist.
+    player-not-found: "&c>> Ce joueur n'est pas connecté."
+    # Message sent to the sender when the targeted team doesn't exist.
+    team-not-found: "&c>> Cette team n'existe pas."
+    # This section is about the '/fk team add' command.
+    add:
+      # Message sent when the targeted player is already in the specified team.
+      already-in-team: "&c>> Ce joueur est déjà dans cette équipe."
+      # Message sent to the sender when he added a player to a team. You can use the following placeholders:
+      # - %player% -> The name of the targeted player.
+      # - %team_name% -> The name of the team to which he was added.
+      player-added: "&6%player% &ea été &aajouté &eà l'équipe %team_name%&e."
+    # This section is about the '/fk team remove' command.
+    remove:
+      # Message sent when the targeted player is not in the specified team.
+      not-in-team: "&c>> Ce joueur n'est pas dans cette équipe."
+      # Message sent to the sender when he removed a player from a team. You can use the following placeholders:
+      # - %player% -> The name of the targeted player.
+      # - %team_name% -> The name of the team from which he was removed.
+      player-removed: "&6%player% &ea été &cretiré &ede l'équipe %team_name%&e."
 
 
 # This section is about the pvp.
