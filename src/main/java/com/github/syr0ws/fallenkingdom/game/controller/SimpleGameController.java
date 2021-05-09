@@ -18,6 +18,8 @@ public class SimpleGameController implements GameController {
     @Override
     public void startGame() {
 
+        // TODO Add all players without team in a team.
+
         if(this.model.getState() != GameState.WAITING)
             throw new GameException("Game already started.");
 
