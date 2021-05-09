@@ -32,6 +32,12 @@ public interface GameModel {
 
     boolean isInsideEnemyBase(Player player);
 
+    boolean isInsideBase(Location location);
+
+    boolean hasTeam(Player player);
+
+    Optional<Team> getTeamFromLocation(Location location);
+
     Optional<Team> getTeam(Player player);
 
     Optional<Team> getTeamByName(String name);

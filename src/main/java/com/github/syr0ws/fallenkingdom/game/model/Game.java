@@ -76,6 +76,25 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
     }
 
     @Override
+    public boolean isInsideBase(Location location) {
+        return this.teams.stream()
+                .map(team -> team.getBase().getCuboid())
+                .anyMatch(cuboid -> cuboid.isIn(location));
+    }
+
+    @Override
+    public boolean hasTeam(Player player) {
+        return this.teams.stream().anyMatch(team -> team.contains(player));
+    }
+
+    @Override
+    public Optional<Team> getTeamFromLocation(Location location) {
+        return this.teams.stream()
+                .filter(team -> team.getBase().getCuboid().isIn(location))
+                .findFirst();
+    }
+
+    @Override
     public Optional<Team> getTeam(Player player) {
         return this.teams.stream()
                 .filter(team -> team.contains(player))
