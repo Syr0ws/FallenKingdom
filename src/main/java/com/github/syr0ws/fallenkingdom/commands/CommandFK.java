@@ -292,8 +292,6 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        // If player is already in another team, removing him from it.
-
         this.model.setTeam(target, team);
 
         Message message = new Message(addSection.getString("player-added"));
