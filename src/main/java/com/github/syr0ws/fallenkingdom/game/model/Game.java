@@ -61,6 +61,11 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
     }
 
     @Override
+    public boolean isStarted() {
+        return this.state.ordinal() > GameState.RUNNING.ordinal();
+    }
+
+    @Override
     public boolean isPvPEnabled() {
         return this.pvp;
     }

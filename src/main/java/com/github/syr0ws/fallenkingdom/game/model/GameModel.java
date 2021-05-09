@@ -26,6 +26,8 @@ public interface GameModel {
 
     Location getSpawn();
 
+    boolean isStarted();
+
     boolean isPvPEnabled();
 
     boolean areAssaultsEnabled();
