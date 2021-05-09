@@ -1,11 +1,11 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
+import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
+import com.github.syr0ws.fallenkingdom.game.model.teams.dao.ConfigTeamDAO;
+import com.github.syr0ws.fallenkingdom.game.model.teams.dao.TeamDAO;
 import com.github.syr0ws.fallenkingdom.game.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.game.notifiers.PvPNotifier;
-import com.github.syr0ws.fallenkingdom.teams.Team;
-import com.github.syr0ws.fallenkingdom.teams.TeamException;
-import com.github.syr0ws.fallenkingdom.teams.dao.ConfigTeamDAO;
-import com.github.syr0ws.fallenkingdom.teams.dao.TeamDAO;
 import com.github.syr0ws.fallenkingdom.tools.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

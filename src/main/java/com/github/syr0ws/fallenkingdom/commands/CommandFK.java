@@ -3,9 +3,10 @@ package com.github.syr0ws.fallenkingdom.commands;
 import com.github.syr0ws.fallenkingdom.display.placeholders.GlobalPlaceholder;
 import com.github.syr0ws.fallenkingdom.display.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.display.types.Message;
+import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -86,9 +87,22 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        // TODO Check that no game is running.
+        // Checking if there is a started game.
+        if(this.model.isStarted()) {
+            new Message(startSection.getString("already-started")).displayTo(sender);
+            return;
+        }
 
-        this.controller.startGame();
+        try {
+
+            this.controller.startGame();
+
+        } catch (GameException e) {
+
+            e.printStackTrace();
+
+            new Message(startSection.getString("error")).displayTo(sender);
+        }
     }
 
     /*
@@ -104,9 +118,22 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        // TODO Check that a game is running.
+        // Checking if there is a started game.
+        if(!this.model.isStarted()) {
+            new Message(stopSection.getString("not-started")).displayTo(sender);
+            return;
+        }
 
-        this.controller.stopGame();
+        try {
+
+            this.controller.stopGame();
+
+        } catch (GameException e) {
+
+            e.printStackTrace();
+
+            new Message(stopSection.getString("error")).displayTo(sender);
+        }
     }
 
     /*

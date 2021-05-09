@@ -45,10 +45,18 @@ command-fk:
   start:
     # Message sent to the sender when he doesn't have the permission to execute the command.
     no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+    # Message sent to the sender when he's trying to start a game when another one is already started.
+    already-started: "&c>> Une partie est déjà en cours."
+    # Message sent to the sender when an error occurred while starting a game.
+    error: "&c>> Une erreur est survenue lors du lancement de la partie."
   # This section is about the '/fk stop' command.
   stop:
     # Message sent to the sender when he doesn't have the permission to execute the command.
     no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+    # Message sent to the sender when he's trying to stop a game when there is no game running.
+    not-started: "&c>> Il n'y a aucune partie en cours."
+    # Message sent to the sender when an error occurred while stopping a game.
+    error: "&c>> Une erreur est survenue lors du lancement de la partie."
   # This section is about the '/fk pvp' command.
   pvp:
     # Message sent to the sender when he doesn't have the permission to execute the command.
@@ -168,3 +176,10 @@ game-starting:
           sound: "LEVEL_UP"
           pitch: 2
 
+
+game-messages:
+  blocks:
+    place-not-allowed: "&c>> Vous ne pouvez pas placer des blocs en dehors de votre base."
+    break-in-enemy-base: "&c>> Vous ne pouvez pas casser des blocs dans une base ennemie."
+  other:
+    pvp-not-allowed: "&c>> Le pvp est actuellement désactivé."

@@ -6,12 +6,14 @@ import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycleAttribute;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycleFactory;
-import com.github.syr0ws.fallenkingdom.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.tools.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game implements GameModel, AttributeObservable {
 
@@ -62,7 +64,7 @@ public class Game implements GameModel, AttributeObservable {
 
     @Override
     public boolean isStarted() {
-        return this.state.ordinal() > GameState.RUNNING.ordinal();
+        return this.state.ordinal() >= GameState.RUNNING.ordinal();
     }
 
     @Override
@@ -77,7 +79,10 @@ public class Game implements GameModel, AttributeObservable {
 
     @Override
     public boolean isInsideEnemyBase(Player player) {
-        return false; // TODO to change.
+        return this.teams.stream()
+                .filter(team -> !team.contains(player))
+                .map(team -> team.getBase().getCuboid())
+                .anyMatch(cuboid -> cuboid.isIn(player.getLocation()));
     }
 
     @Override
@@ -93,10 +98,13 @@ public class Game implements GameModel, AttributeObservable {
     }
 
     @Override
-    public Optional<Team> getTeamFromLocation(Location location) {
-        return this.teams.stream()
-                .filter(team -> team.getBase().getCuboid().isIn(location))
-                .findFirst();
+    public int countTeams() {
+        return this.teams.size();
+    }
+
+    @Override
+    public int countPlayers() {
+        return this.teams.stream().mapToInt(Team::size).sum();
     }
 
     @Override
@@ -114,7 +122,14 @@ public class Game implements GameModel, AttributeObservable {
     }
 
     @Override
-    public List<Team> getTeams() {
+    public Collection<TeamPlayer> getPlayers() {
+        return this.teams.stream()
+                .flatMap(team -> team.getPlayers().stream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Team> getTeams() {
         return Collections.unmodifiableList(this.teams);
     }
 

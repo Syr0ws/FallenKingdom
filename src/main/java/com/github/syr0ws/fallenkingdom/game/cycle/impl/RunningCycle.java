@@ -3,10 +3,13 @@ package com.github.syr0ws.fallenkingdom.game.cycle.impl;
 import com.github.syr0ws.fallenkingdom.display.types.Message;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.teams.Team;
-import com.github.syr0ws.fallenkingdom.teams.TeamBase;
+import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamBase;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -38,6 +41,7 @@ public class RunningCycle extends GameCycle {
         super.addListener(new PlayerListener());
         super.addListener(new BlockListener());
         super.registerListeners(this.plugin);
+        this.setupPlayers();
     }
 
     @Override
@@ -45,6 +49,26 @@ public class RunningCycle extends GameCycle {
 
         super.unregisterListeners();
         super.clearListeners();
+    }
+
+    private void setupPlayers() {
+
+        for(TeamPlayer teamPlayer : this.model.getPlayers()) {
+
+            Player player = teamPlayer.getPlayer();
+            player.setHealth(20);
+            player.setFoodLevel(20);
+            player.setLevel(0);
+            player.setExp(0);
+            player.setGameMode(GameMode.SURVIVAL);
+            player.getInventory().clear();
+
+            Team team = teamPlayer.getTeam();
+            TeamBase base = team.getBase();
+
+            player.teleport(base.getSpawn().toBukkitLocation());
+            player.setPlayerListName(team.getDisplayName() + " " + player.getName());
+        }
     }
 
     private class PlayerListener implements Listener {
@@ -61,7 +85,10 @@ public class RunningCycle extends GameCycle {
 
                 event.setCancelled(true);
 
-                new Message("").displayTo(damager); // TODO Send a message here.
+                FileConfiguration config = plugin.getConfig();
+                ConfigurationSection section = config.getConfigurationSection("game-messages.other");
+
+                new Message(section.getString("pvp")).displayTo(damager);
             }
         }
     }
@@ -69,24 +96,7 @@ public class RunningCycle extends GameCycle {
     private class BlockListener implements Listener {
 
         @EventHandler(priority = EventPriority.LOWEST)
-        public void onNotAllowedBlockPlace(BlockPlaceEvent event) {
-
-            Player player = event.getPlayer();
-            Block block = event.getBlockPlaced();
-
-            boolean allowed = this.canBePlaced(block);
-
-            // If the block isn't allowed, cancelling the event.
-            if(!allowed) {
-
-                event.setCancelled(true);
-
-                new Message("").displayTo(player); // TODO Send a message here.
-            }
-        }
-
-        @EventHandler(priority = EventPriority.LOW)
-        public void onBlockPlaceInsideBase(BlockPlaceEvent event) {
+        public void onBlockPlace(BlockPlaceEvent event) {
 
             Player player = event.getPlayer();
             Block block = event.getBlockPlaced();
@@ -110,7 +120,25 @@ public class RunningCycle extends GameCycle {
 
                 event.setCancelled(true);
 
-                new Message("").displayTo(player); // TODO Send a message here.
+                FileConfiguration config = plugin.getConfig();
+                ConfigurationSection section = config.getConfigurationSection("game-messages.blocks");
+
+                new Message(section.getString("place-not-allowed")).displayTo(player);
+
+            } else {
+
+                boolean allowed = this.canBePlaced(block);
+
+                // If the block isn't allowed, cancelling the event.
+                if(!allowed) {
+
+                    event.setCancelled(true);
+
+                    FileConfiguration config = plugin.getConfig();
+                    ConfigurationSection section = config.getConfigurationSection("game-messages.blocks");
+
+                    new Message(section.getString("place-not-allowed")).displayTo(player);
+                }
             }
         }
 
@@ -124,12 +152,17 @@ public class RunningCycle extends GameCycle {
 
                 event.setCancelled(true);
 
-                new Message("").displayTo(player); // TODO Send a message here.
+                FileConfiguration config = plugin.getConfig();
+                ConfigurationSection section = config.getConfigurationSection("game-messages.blocks");
+
+                new Message(section.getString("break-in-enemy-base")).displayTo(player);
             }
         }
 
         @EventHandler(priority = EventPriority.LOWEST)
         public void onBlockExplode(BlockExplodeEvent event) {
+
+            // TODO To fix.
 
             event.blockList().clear();
 
