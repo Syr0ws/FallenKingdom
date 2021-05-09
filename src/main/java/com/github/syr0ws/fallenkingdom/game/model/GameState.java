@@ -5,21 +5,11 @@ import java.util.Optional;
 
 public enum GameState {
 
-    WAITING(0), STARTING(1), RUNNING(2), FINISHED(3);
-
-    private final int position;
-
-    GameState(int position) {
-        this.position = position;
-    }
+    WAITING, STARTING, RUNNING, FINISHED;
 
     public Optional<GameState> getNext() {
         return Arrays.stream(GameState.values())
-                .filter(state -> state.position > this.position)
+                .filter(state -> state.ordinal() > this.ordinal())
                 .findFirst();
-    }
-
-    public int getPosition() {
-        return this.position;
     }
 }
