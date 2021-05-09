@@ -83,8 +83,29 @@ public class Game implements GameModel, AttributeObserver, AttributeObservable {
     }
 
     @Override
+    public Optional<Team> getTeamByName(String name) {
+        return this.teams.stream()
+                .filter(team -> team.getName().equals(name))
+                .findFirst();
+    }
+
+    @Override
     public List<Team> getTeams() {
         return Collections.unmodifiableList(this.teams);
+    }
+
+    @Override
+    public void setTeam(Player player, Team team) {
+
+        // Removing player from his current team if it has one.
+        this.removeTeam(player);
+
+        team.addPlayer(player);
+    }
+
+    @Override
+    public void removeTeam(Player player) {
+        this.getTeam(player).ifPresent(current -> current.removePlayer(player));
     }
 
     @Override

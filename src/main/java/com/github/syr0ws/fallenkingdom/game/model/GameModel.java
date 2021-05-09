@@ -10,6 +10,10 @@ import java.util.Optional;
 
 public interface GameModel {
 
+    void setTeam(Player player, Team team);
+
+    void removeTeam(Player player);
+
     void setPvPEnabled(boolean enabled);
 
     void setAssaultsEnabled(boolean enabled);
@@ -29,6 +33,8 @@ public interface GameModel {
     boolean isInsideEnemyBase(Player player);
 
     Optional<Team> getTeam(Player player);
+
+    Optional<Team> getTeamByName(String name);
 
     List<Team> getTeams();
 }
