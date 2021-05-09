@@ -63,6 +63,9 @@ public class CommandFK implements CommandExecutor {
         return true;
     }
 
+    /*
+        Command : /fk start
+     */
     private void onStartCommand(CommandSender sender, ConfigurationSection section) {
 
         ConfigurationSection startSection = section.getConfigurationSection("start");
@@ -78,6 +81,9 @@ public class CommandFK implements CommandExecutor {
         this.controller.startGame();
     }
 
+    /*
+        Command : /fk stop
+     */
     private void onStopCommand(CommandSender sender, ConfigurationSection section) {
 
         ConfigurationSection stopSection = section.getConfigurationSection("stop");
@@ -93,6 +99,11 @@ public class CommandFK implements CommandExecutor {
         this.controller.stopGame();
     }
 
+    /*
+        Command : /fk pvp on|off
+     */
+
+    // Command : /fk pvp
     private void onPvPCommand(CommandSender sender, ConfigurationSection section, String[] args) {
 
         ConfigurationSection pvpSection = section.getConfigurationSection("pvp");
@@ -111,27 +122,42 @@ public class CommandFK implements CommandExecutor {
 
         if(args[1].equalsIgnoreCase("on")) {
 
-            // Command : /pvp on
-            if(this.model.isPvPEnabled()) {
-
-                String message = pvpSection.getString("already-enabled");
-                new Message(message).displayTo(sender);
-
-            } else this.model.setPvPEnabled(true);
+            this.onPvPOnCommand(sender, pvpSection);
 
         } else if(args[1].equalsIgnoreCase("off")) {
 
-            // Command : /pvp off
-            if(!this.model.isPvPEnabled()) {
-
-                String message = pvpSection.getString("already-disabled");
-                new Message(message).displayTo(sender);
-
-            } else this.model.setPvPEnabled(false);
+            this.onPvPOffCommand(sender, pvpSection);
 
         } else ; // TODO Send usages here.
     }
 
+    // Command : /fk pvp on
+    private void onPvPOnCommand(CommandSender sender, ConfigurationSection section) {
+
+        if(this.model.isPvPEnabled()) {
+
+            String message = section.getString("already-enabled");
+            new Message(message).displayTo(sender);
+
+        } else this.model.setPvPEnabled(true);
+    }
+
+    // Command : /fk pvp off
+    private void onPvPOffCommand(CommandSender sender, ConfigurationSection section) {
+
+        if(!this.model.isPvPEnabled()) {
+
+            String message = section.getString("already-disabled");
+            new Message(message).displayTo(sender);
+
+        } else this.model.setPvPEnabled(false);
+    }
+
+    /*
+        Command : /fk assaults on|off
+     */
+
+    // Command : /fk assaults
     private void onAssaultsCommand(CommandSender sender, ConfigurationSection section, String[] args) {
 
         ConfigurationSection assaultsSection = section.getConfigurationSection("assaults");
@@ -150,23 +176,34 @@ public class CommandFK implements CommandExecutor {
 
         if(args[1].equalsIgnoreCase("on")) {
 
-            // Command : /assaults on
-            if(this.model.areAssaultsEnabled()) {
-
-                String message = assaultsSection.getString("already-enabled");
-                new Message(message).displayTo(sender);
-
-            } else this.model.setAssaultsEnabled(true);
+            this.onAssaultsOnCommand(sender, assaultsSection);
 
         } else if(args[1].equalsIgnoreCase("off")) {
 
-            if(!this.model.areAssaultsEnabled()) {
-
-                String message = assaultsSection.getString("already-disabled");
-                new Message(message).displayTo(sender);
-
-            } else this.model.setAssaultsEnabled(false);
+            this.onAssaultsOffCommand(sender, assaultsSection);
 
         } else ; // TODO Send usages here.
+    }
+
+    // Command : /fk assaults on
+    private void onAssaultsOnCommand(CommandSender sender, ConfigurationSection section) {
+
+        if(this.model.areAssaultsEnabled()) {
+
+            String message = section.getString("already-enabled");
+            new Message(message).displayTo(sender);
+
+        } else this.model.setAssaultsEnabled(true);
+    }
+
+    // Command : /fk assaults off
+    private void onAssaultsOffCommand(CommandSender sender, ConfigurationSection section) {
+
+        if(!this.model.areAssaultsEnabled()) {
+
+            String message = section.getString("already-disabled");
+            new Message(message).displayTo(sender);
+
+        } else this.model.setAssaultsEnabled(false);
     }
 }
