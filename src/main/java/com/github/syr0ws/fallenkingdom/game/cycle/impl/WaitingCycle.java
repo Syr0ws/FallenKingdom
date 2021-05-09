@@ -4,13 +4,11 @@ import com.github.syr0ws.fallenkingdom.display.placeholders.GlobalPlaceholder;
 import com.github.syr0ws.fallenkingdom.display.types.Message;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -22,31 +20,29 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 public class WaitingCycle extends GameCycle {
 
     private final Plugin plugin;
     private final GameModel model;
-    private final Listener listener;
 
     public WaitingCycle(GameModel model, Plugin plugin) {
         this.plugin = plugin;
         this.model = model;
-        this.listener = new CycleListener();
     }
 
     @Override
     public void start() {
 
-        PluginManager manager = Bukkit.getPluginManager();
-        manager.registerEvents(this.listener, this.plugin);
+        super.addListener(new CycleListener());
+        super.registerListeners(this.plugin);
     }
 
     @Override
     public void stop() {
 
-        HandlerList.unregisterAll(this.listener);
+        super.unregisterListeners();
+        super.clearListeners();
     }
 
     private ConfigurationSection getWaitingSection() {
