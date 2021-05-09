@@ -43,7 +43,7 @@ public class Team {
     }
 
     public String getDisplayName() {
-        return this.displayName;
+        return this.color.getChatColor() + this.displayName;
     }
 
     public TeamColor getColor() {
