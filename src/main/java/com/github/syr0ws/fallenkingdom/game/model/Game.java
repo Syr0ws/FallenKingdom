@@ -1,7 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
-import com.github.syr0ws.fallenkingdom.attributes.AttributeObservable;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.cycle.GameCycleAttribute;
@@ -15,7 +14,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Game implements GameModel, AttributeObservable {
+public class Game implements GameModel, AttributeObserver {
 
     private boolean pvp, assaults;
 

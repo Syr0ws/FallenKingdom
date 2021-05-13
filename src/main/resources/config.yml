@@ -183,3 +183,25 @@ game-messages:
     break-in-enemy-base: "&c>> Vous ne pouvez pas casser des blocs dans une base ennemie."
   other:
     pvp-not-allowed: "&c>> Le pvp est actuellement désactivé."
+
+
+running-cycle:
+  scoreboard:
+    title: "&6&lFallenKingdom"
+    lines:
+      - "&6&m--------------------"
+      - " "
+      - "&6• &eEquipe&6: %team_name%"
+      - " "
+      - "&6• &ePvP&6: %pvp_state%"
+      - "&6• &eAssaults&6: %assaults_state%"
+      - " "
+      - "&6• &eTemps de jeu&6: %time%"
+      - " "
+      - "&6&m--------------------"
+    pvp-state:
+      enabled: "&a✔"
+      disabled: "&c✘"
+    assaults-state:
+      enabled: "&a✔"
+      disabled: "&c✘"

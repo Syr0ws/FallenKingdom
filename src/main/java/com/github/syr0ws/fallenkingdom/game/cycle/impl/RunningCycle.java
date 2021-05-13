@@ -6,6 +6,10 @@ import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamBase;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.fallenkingdom.views.BoardManager;
+import com.github.syr0ws.fallenkingdom.views.GameBoard;
+import com.github.syr0ws.fallenkingdom.views.Scoreboard;
+import com.github.syr0ws.fallenkingdom.views.ScoreboardManager;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -20,6 +24,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
@@ -29,10 +35,12 @@ public class RunningCycle extends GameCycle {
 
     private final Plugin plugin;
     private final GameModel model;
+    private final ScoreboardManager manager;
 
     public RunningCycle(GameModel model, Plugin plugin) {
         this.plugin = plugin;
         this.model = model;
+        this.manager = new BoardManager();
     }
 
     @Override
@@ -68,10 +76,58 @@ public class RunningCycle extends GameCycle {
 
             player.teleport(base.getSpawn().toBukkitLocation());
             player.setPlayerListName(team.getDisplayName() + " " + player.getName());
+
+            GameBoard scoreboard = new GameBoard(player, this.plugin, this.model);
+            scoreboard.update();
+
+            this.model.addObserver(scoreboard);
+            this.manager.addScoreboard(player, scoreboard);
         }
     }
 
+    private void setViews(Player player) {
+
+        Optional<Team> optional = this.model.getTeam(player);
+        optional.ifPresent(team -> player.setPlayerListName(team.getDisplayName() + " " + player.getName()));
+
+        this.setScoreboard(player);
+    }
+
+    private void setScoreboard(Player player) {
+
+        GameBoard scoreboard = new GameBoard(player, this.plugin, this.model);
+        scoreboard.update();
+
+        this.model.addObserver(scoreboard);
+        this.manager.addScoreboard(player, scoreboard);
+    }
+
+    private void removeScoreboard(Player player) {
+
+        Optional<Scoreboard> optional = this.manager.getScoreboard(player);
+        optional.map(scoreboard -> (GameBoard) scoreboard).ifPresent(scoreboard -> {
+            this.model.removeObserver(scoreboard);
+            manager.removeScoreboard(player);
+        });
+    }
+
     private class PlayerListener implements Listener {
+
+        @EventHandler
+        public void onPlayerJoin(PlayerJoinEvent event) {
+
+            Player player = event.getPlayer();
+
+            setViews(player);
+        }
+
+        @EventHandler
+        public void onPlayerQuit(PlayerQuitEvent event) {
+
+            Player player = event.getPlayer();
+
+            removeScoreboard(player);
+        }
 
         @EventHandler
         public void onPlayerDamageByPlayer(EntityDamageByEntityEvent event) {
