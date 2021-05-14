@@ -2,6 +2,7 @@ package com.github.syr0ws.fallenkingdom.game.model.cycle;
 
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
+import com.github.syr0ws.fallenkingdom.game.model.cycle.types.RunningCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycle.types.StartingCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycle.types.WaitingCycle;
 import org.bukkit.plugin.Plugin;
@@ -25,7 +26,7 @@ public class FKCycleFactory implements GameCycleFactory {
             case STARTING:
                 return new StartingCycle(this.plugin, this.game);
             case RUNNING:
-                return null;
+                return new RunningCycle(this.plugin, this.game);
             case FINISHED:
                 return null;
             default:
