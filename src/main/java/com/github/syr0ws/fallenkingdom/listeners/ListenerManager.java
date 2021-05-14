@@ -35,12 +35,12 @@ public class ListenerManager {
     }
 
     public void removeListener(Listener listener) {
-        this.listeners.remove(listener);
-        this.unregisterListener(listener);
+        boolean removed = this.listeners.remove(listener);
+        if(removed) this.unregisterListener(listener);
     }
 
     public void removeListeners() {
-        this.listeners.forEach(HandlerList::unregisterAll);
+        this.listeners.forEach(this::unregisterListener);
         this.listeners.clear();
     }
 
