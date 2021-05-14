@@ -31,7 +31,7 @@ public class FKGame implements GameModel {
 
     @Override
     public void notifyChange(Attribute attribute) {
-        this.observers.stream()
+        new ArrayList<>(this.observers).stream()
                 .filter(observer -> observer.observed().contains(attribute))
                 .forEach(observer -> observer.onUpdate(attribute));
     }
@@ -81,7 +81,12 @@ public class FKGame implements GameModel {
 
     @Override
     public void setCycle(GameCycle cycle) {
+
+        if(this.cycle != null) this.cycle.stop();
+
         this.cycle = cycle;
+        this.cycle.start();
+
         this.notifyChange(GameAttribute.CYCLE_CHANGE);
     }
 

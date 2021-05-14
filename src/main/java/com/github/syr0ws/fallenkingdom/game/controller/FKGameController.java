@@ -62,8 +62,7 @@ public class FKGameController implements GameController, AttributeObserver {
         this.manager.addListener(new TeamListener(this.plugin));
 
         // Setting waiting cycle.
-        GameCycle cycle = this.factory.getCycle(GameState.WAITING);
-        this.game.setCycle(cycle);
+        this.setGameState(GameState.WAITING);
     }
 
     @Override
@@ -160,7 +159,16 @@ public class FKGameController implements GameController, AttributeObserver {
 
     private void setGameState(GameState state) {
 
+        GameCycle current = this.game.getCycle();
+
         GameCycle cycle = this.factory.getCycle(state);
+        cycle.addObserver(this);
+
+        System.out.println("Current cycle : " + current);
+
+        // Current state can be null if it is the first (Example : WAITING).
+        if(current != null) current.removeObserver(this);
+
         this.game.setCycle(cycle);
     }
 
