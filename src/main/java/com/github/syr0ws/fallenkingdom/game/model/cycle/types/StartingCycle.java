@@ -75,6 +75,7 @@ public class StartingCycle extends GameCycle {
             if(this.duration >= 0) {
 
                 this.duration--;
+                System.out.println(this.duration); // TODO To remove.
 
             } else StartingCycle.this.finish(); // Setting the cycle as finished.
         }
