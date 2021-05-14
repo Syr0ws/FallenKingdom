@@ -164,8 +164,6 @@ public class FKGameController implements GameController, AttributeObserver {
         GameCycle cycle = this.factory.getCycle(state);
         cycle.addObserver(this);
 
-        System.out.println("Current cycle : " + current);
-
         // Current state can be null if it is the first (Example : WAITING).
         if(current != null) current.removeObserver(this);
 

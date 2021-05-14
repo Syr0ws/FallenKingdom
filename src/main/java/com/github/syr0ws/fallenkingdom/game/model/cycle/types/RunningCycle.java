@@ -113,8 +113,6 @@ public class RunningCycle extends GameCycle {
 
             Optional<Team> optional = RunningCycle.this.game.getTeam(player);
 
-            System.out.println("Team: " + optional.isPresent());
-
             // If the player has no team, cancelling the event.
             if(!optional.isPresent()) {
                 event.setCancelled(true);
@@ -124,8 +122,6 @@ public class RunningCycle extends GameCycle {
             Team team = optional.get();
             TeamBase base = team.getBase();
 
-            System.out.println("In player base: " + base.getCuboid().isIn(block.getLocation()));
-
             // If the block is placed inside the player's base, allow him to place it.
             if(base.getCuboid().isIn(block.getLocation()))
                 return;
@@ -133,8 +129,6 @@ public class RunningCycle extends GameCycle {
             // The block is now placed outside the player base.
             // If the block isn't allowed, cancelling the event.
             if(!this.isAllowed(block)) event.setCancelled(true);
-
-            System.out.println("Allowed: " + this.isAllowed(block));
         }
 
         @EventHandler(priority = EventPriority.LOWEST)
