@@ -5,7 +5,8 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.TeamBase;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamColor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.tools.Cuboid;
-import com.github.syr0ws.fallenkingdom.tools.Location;
+import com.github.syr0ws.fallenkingdom.utils.LocationUtils;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -69,8 +70,6 @@ public class ConfigTeamDAO implements TeamDAO {
         return teams;
     }
 
-    // TODO add exceptions for invalid values.
-    // TODO add team color.
     private Team loadTeam(ConfigurationSection section) throws TeamException {
 
         String name = section.getName();
@@ -79,7 +78,7 @@ public class ConfigTeamDAO implements TeamDAO {
         TeamColor color = this.loadTeamColor(section);
         TeamBase base = this.loadTeamBase(section);
 
-        return new Team(name, displayName, color, base);
+        return new Team(name, displayName, base, color);
     }
 
     private TeamBase loadTeamBase(ConfigurationSection section) throws TeamException {
@@ -100,7 +99,7 @@ public class ConfigTeamDAO implements TeamDAO {
         Cuboid base = new Cuboid(section.getConfigurationSection("base"));
         Cuboid vault = new Cuboid(section.getConfigurationSection("vault"));
 
-        Location spawn = new Location(section.getConfigurationSection("spawn"));
+        Location spawn = LocationUtils.getLocation(section.getConfigurationSection("spawn"));
 
         return new TeamBase(base, vault, spawn);
     }

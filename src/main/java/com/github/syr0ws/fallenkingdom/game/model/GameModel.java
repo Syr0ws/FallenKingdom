@@ -1,10 +1,10 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObservable;
-import com.github.syr0ws.fallenkingdom.game.cycle.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
-import com.github.syr0ws.fallenkingdom.tools.Location;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -12,15 +12,19 @@ import java.util.Optional;
 
 public interface GameModel extends AttributeObservable {
 
-    void setTeam(Player player, Team team);
+    void join(GamePlayer player);
 
-    void removeTeam(Player player);
+    void leave(GamePlayer player);
+
+    TeamPlayer setTeam(GamePlayer player, Team team);
+
+    Team removeTeam(TeamPlayer player);
+
+    void setCycle(GameCycle cycle);
 
     void setPvPEnabled(boolean enabled);
 
     void setAssaultsEnabled(boolean enabled);
-
-    void setState(GameState state);
 
     GameCycle getCycle();
 
@@ -30,25 +34,29 @@ public interface GameModel extends AttributeObservable {
 
     boolean isStarted();
 
+    boolean isFinished();
+
     boolean isPvPEnabled();
 
     boolean areAssaultsEnabled();
 
-    boolean isInsideEnemyBase(Player player);
-
-    boolean isInsideBase(Location location);
+    int countTeams();
 
     boolean hasTeam(Player player);
 
-    int countTeams();
+    GamePlayer getGamePlayer(Player player);
 
-    int countPlayers();
+    Optional<TeamPlayer> getTeamPlayer(Player player);
+
+    Optional<TeamPlayer> getTeamPlayer(GamePlayer player);
 
     Optional<Team> getTeam(Player player);
 
-    Optional<Team> getTeamByName(String name);
+    Optional<Team> getTeam(String name);
 
-    Collection<TeamPlayer> getPlayers();
+    Collection<GamePlayer> getGamePlayers();
+
+    Collection<TeamPlayer> getTeamPlayers();
 
     Collection<Team> getTeams();
 }

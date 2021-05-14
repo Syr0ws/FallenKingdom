@@ -117,6 +117,13 @@ assaults:
   disabled: "&6>> &eLes assaults sont désormais &cinterdits&e."
 
 
+# This section is about team messages.
+team-messages:
+  # Message sent to a player when he joins a team.
+  join: "&6>> &eVous avez &arejoint &el'équipe %team_name%&e."
+  # Message sent to a player when he leaves a team.
+  leave: "&6>> &eVous avez &cquitté &el'équipe %team_name%&e."
+
 # This section is about the waiting cycle.
 waiting-cycle:
   # This section contains all the messages sent during the waiting cycle.

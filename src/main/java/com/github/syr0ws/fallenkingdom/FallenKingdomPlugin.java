@@ -1,25 +1,29 @@
 package com.github.syr0ws.fallenkingdom;
 
 import com.github.syr0ws.fallenkingdom.commands.CommandFK;
-import com.github.syr0ws.fallenkingdom.game.controller.GameController;
-import com.github.syr0ws.fallenkingdom.game.controller.SimpleGameController;
+import com.github.syr0ws.fallenkingdom.game.GameException;
+import com.github.syr0ws.fallenkingdom.game.controller.FKGameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.GameModelCreator;
+import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
+import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FallenKingdomPlugin extends JavaPlugin {
 
-    private GameModel model;
-    private GameController controller;
+    private FKGameController controller;
 
     @Override
     public void onEnable() {
 
         this.loadConfiguration();
 
-        this.model = this.createModel();
-        this.controller = this.createController(this.model);
+        this.controller = this.createController();
 
+        // TODO To change by disabling plugin when an error occurred.
+        try { this.controller.initGame();
+        } catch (GameException e) { e.printStackTrace(); }
+
+        this.setupNotifiers();
         this.registerCommands();
     }
 
@@ -28,15 +32,20 @@ public class FallenKingdomPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        super.getCommand("fallenkingdom").setExecutor(new CommandFK(this, this.model, this.controller));
+        super.getCommand("fallenkingdom").setExecutor(new CommandFK(this, controller.getGame(), this.controller));
     }
 
-    private GameModel createModel() {
-        GameModelCreator creator = new GameModelCreator(this);
-        return creator.getModel();
+    private void setupNotifiers() {
+        GameModel game = this.controller.getGame();
+        game.addObserver(new PvPNotifier(game, this));
+        game.addObserver(new AssaultsNotifier(game, this));
     }
 
-    private GameController createController(GameModel model) {
-        return new SimpleGameController(this, model);
+    private FKGameController createController() {
+        return new FKGameController(this);
+    }
+
+    public FKGameController getGameController() {
+        return this.controller;
     }
 }

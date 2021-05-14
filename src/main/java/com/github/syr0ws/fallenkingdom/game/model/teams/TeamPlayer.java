@@ -1,43 +1,21 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import java.util.UUID;
+import com.github.syr0ws.fallenkingdom.game.model.GamePlayer;
 
 public class TeamPlayer {
 
+    private final GamePlayer player;
     private final Team team;
-    private final String name;
-    private final UUID uuid;
     private int kills, deaths;
+    private boolean alive;
 
-    public TeamPlayer(Team team, String name, UUID uuid) {
+    public TeamPlayer(GamePlayer player, Team team) {
+        this.player = player;
         this.team = team;
-        this.name = name;
-        this.uuid = uuid;
     }
 
-    public TeamPlayer(Team team, Player player) {
-        this.team = team;
-        this.name = player.getName();
-        this.uuid = player.getUniqueId();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public UUID getUUID() {
-        return uuid;
-    }
-
-    public void addKill() {
-        this.kills++;
-    }
-
-    public void addDeath() {
-        this.deaths++;
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     public int getKills() {
@@ -48,16 +26,24 @@ public class TeamPlayer {
         return this.deaths;
     }
 
-    public boolean is(Player player) {
-        return player.getUniqueId().equals(this.uuid);
+    public void addKills() {
+        this.kills++;
     }
 
-    public boolean isOnline() {
-        return this.getPlayer() != null;
+    public void addDeaths() {
+        this.deaths++;
     }
 
-    public Player getPlayer() {
-        return Bukkit.getPlayer(this.uuid);
+    public double getKDR() {
+        return this.deaths == 0 ? this.kills : (double) this.kills / this.deaths;
+    }
+
+    public boolean isEliminated() {
+        return this.alive;
+    }
+
+    public GamePlayer getGamePlayer() {
+        return this.player;
     }
 
     public Team getTeam() {

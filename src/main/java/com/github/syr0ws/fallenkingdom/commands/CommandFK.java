@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.commands;
 
-import com.github.syr0ws.fallenkingdom.display.placeholders.GlobalPlaceholder;
-import com.github.syr0ws.fallenkingdom.display.placeholders.TeamPlaceholder;
-import com.github.syr0ws.fallenkingdom.display.types.Message;
+import com.github.syr0ws.fallenkingdom.displays.placeholders.GlobalPlaceholder;
+import com.github.syr0ws.fallenkingdom.displays.placeholders.TeamPlaceholder;
+import com.github.syr0ws.fallenkingdom.displays.types.Message;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
@@ -303,7 +303,7 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        Optional<Team> optional = this.model.getTeamByName(args[3]);
+        Optional<Team> optional = this.model.getTeam(args[3]);
 
         // Checking if the targeted team is valid.
         if(!optional.isPresent()) {
@@ -318,7 +318,7 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        this.model.setTeam(target, team);
+        this.controller.setTeam(target, team);
 
         Message message = new Message(addSection.getString("player-added"));
         message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, target.getName());
@@ -354,7 +354,7 @@ public class CommandFK implements CommandExecutor {
 
         Team team = optional.get();
 
-        this.model.removeTeam(target);
+        this.controller.removeTeam(target);
 
         Message message = new Message(removeSection.getString("player-removed"));
         message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, target.getName());
