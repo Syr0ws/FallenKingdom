@@ -4,6 +4,7 @@ import com.github.syr0ws.fallenkingdom.attributes.AttributeObservable;
 import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -26,6 +27,8 @@ public interface GameModel extends AttributeObservable {
 
     void setAssaultsEnabled(boolean enabled);
 
+    void addTime();
+
     GameCycle getCycle();
 
     GameState getState();
@@ -40,9 +43,13 @@ public interface GameModel extends AttributeObservable {
 
     boolean areAssaultsEnabled();
 
+    int getTime();
+
     int countTeams();
 
     boolean hasTeam(Player player);
+
+    SettingManager getSettingManager();
 
     GamePlayer getGamePlayer(Player player);
 

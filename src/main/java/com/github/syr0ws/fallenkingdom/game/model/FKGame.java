@@ -2,10 +2,13 @@ package com.github.syr0ws.fallenkingdom.game.model;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
+import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.fallenkingdom.settings.impl.LocationSetting;
+import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -14,19 +17,20 @@ import java.util.stream.Collectors;
 
 public class FKGame implements GameModel {
 
-    private final Location spawn;
     private final List<Team> teams;
     private final List<GamePlayer> players;
     private final List<AttributeObserver> observers;
+    private final SettingManager settingManager;
 
     private GameCycle cycle;
     private boolean pvp, assaults;
+    private int time;
 
-    public FKGame(Location spawn, List<Team> teams) {
-        this.spawn = spawn;
+    public FKGame(SettingManager settingManager, List<Team> teams) {
         this.teams = teams;
         this.players = new ArrayList<>();
         this.observers = new ArrayList<>();
+        this.settingManager = settingManager;
     }
 
     @Override
@@ -103,6 +107,11 @@ public class FKGame implements GameModel {
     }
 
     @Override
+    public void addTime() {
+        this.time++;
+    }
+
+    @Override
     public GameCycle getCycle() {
         return this.cycle;
     }
@@ -114,7 +123,8 @@ public class FKGame implements GameModel {
 
     @Override
     public Location getSpawn() {
-        return this.spawn;
+        LocationSetting setting = this.settingManager.getSetting(GameSettings.SPAWN_LOCATION, LocationSetting.class);
+        return setting.getValue();
     }
 
     @Override
@@ -138,6 +148,11 @@ public class FKGame implements GameModel {
     }
 
     @Override
+    public int getTime() {
+        return this.time;
+    }
+
+    @Override
     public int countTeams() {
         return this.teams.size();
     }
@@ -145,6 +160,11 @@ public class FKGame implements GameModel {
     @Override
     public boolean hasTeam(Player player) {
         return this.teams.stream().anyMatch(team -> team.contains(player));
+    }
+
+    @Override
+    public SettingManager getSettingManager() {
+        return this.settingManager;
     }
 
     @Override
