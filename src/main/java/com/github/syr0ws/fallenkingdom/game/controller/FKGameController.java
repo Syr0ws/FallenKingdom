@@ -4,7 +4,7 @@ import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.GameException;
-import com.github.syr0ws.fallenkingdom.game.model.FKGame;
+import com.github.syr0ws.fallenkingdom.game.GameInitializer;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
@@ -13,23 +13,18 @@ import com.github.syr0ws.fallenkingdom.game.model.cycle.FKCycleFactory;
 import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycleFactory;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
-import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
-import com.github.syr0ws.fallenkingdom.game.model.teams.dao.ConfigTeamDAO;
-import com.github.syr0ws.fallenkingdom.game.model.teams.dao.TeamDAO;
 import com.github.syr0ws.fallenkingdom.listeners.GlobalListener;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
-import com.github.syr0ws.fallenkingdom.utils.LocationUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 
 public class FKGameController implements GameController, AttributeObserver {
 
@@ -45,14 +40,10 @@ public class FKGameController implements GameController, AttributeObserver {
 
     public void initGame() throws GameException {
 
-        Location spawn = this.loadSpawn();
-        List<Team> teams = this.loadTeams();
-
-        if(teams.size() <= 2)
-            throw new GameException("Number of teams cannot be lower than 2.");
+        GameInitializer initializer = new GameInitializer(this.plugin);
 
         // Initializing game.
-        this.game = new FKGame(spawn, teams);
+        this.game = initializer.getGame();
 
         // Initializing factory.
         this.factory = new FKCycleFactory(this.game, plugin);
@@ -168,30 +159,6 @@ public class FKGameController implements GameController, AttributeObserver {
         if(current != null) current.removeObserver(this);
 
         this.game.setCycle(cycle);
-    }
-
-    private List<Team> loadTeams() {
-
-        TeamDAO dao = new ConfigTeamDAO(this.plugin);
-
-        List<Team> teams = new ArrayList<>();
-
-        try {
-
-            Collection<Team> collection = dao.loadTeams();
-            teams.addAll(collection);
-
-        } catch (TeamException e) { e.printStackTrace(); }
-
-        return teams;
-    }
-
-    private Location loadSpawn() {
-
-        FileConfiguration config = this.plugin.getConfig();
-        ConfigurationSection section = config.getConfigurationSection("spawn");
-
-        return LocationUtils.getLocation(section);
     }
 
     private void callEvent(GameEvent event) {
