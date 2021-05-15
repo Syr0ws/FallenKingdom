@@ -1,38 +1,6 @@
 # FallenKingdom v0.0.1
 
 #############################################
-###           GENERAL SETTINGS            ###
-#############################################
-
-
-# The spawn of the game. Must have the following format:
-# spawn:
-#  x: 0
-#  y: 0
-#  z: 0
-#  yaw: 180 (optional, default value is 180)
-#  pitch: 0 (optional, default value is 0)
-#  world: "world"
-spawn:
-  x: 96.5
-  y: 116
-  z: 56.5
-  yaw: 90
-  pitch: 0
-  world: "world"
-
-
-# The list of blocs that players can place outside their base.
-# All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-placeable-blocks:
-  - TNT
-  - LEVER
-  - REDSTONE_TORCH_ON
-  - RED_ROSE
-  - YELLOW_FLOWER
-
-
-#############################################
 ###                MESSAGES               ###
 #############################################
 
@@ -123,6 +91,11 @@ team-messages:
   join: "&6>> &eVous avez &arejoint &el'équipe %team_name%&e."
   # Message sent to a player when he leaves a team.
   leave: "&6>> &eVous avez &cquitté &el'équipe %team_name%&e."
+
+
+
+
+
 
 # This section is about the waiting cycle.
 waiting-cycle:
