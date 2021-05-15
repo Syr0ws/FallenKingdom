@@ -27,7 +27,7 @@ public class LocationSetting extends MutableSetting<Location> implements Readabl
 
     @Override
     public void read(ConfigurationSection section, String key) {
-        Location location = LocationUtils.getLocation(section);
+        Location location = LocationUtils.getLocation(section.getConfigurationSection(key));
         super.setValue(location);
     }
 }
