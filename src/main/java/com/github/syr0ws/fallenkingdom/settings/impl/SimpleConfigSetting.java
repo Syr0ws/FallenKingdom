@@ -24,6 +24,7 @@ public class SimpleConfigSetting<T> extends MutableSetting<T> implements Readabl
     }
 
     public void read(ConfigurationSection section, String key) {
-        super.setValue(section.getObject(key, this.clazz));
+        Object object = section.get(key);
+        super.setValue(this.clazz.cast(object));
     }
 }
