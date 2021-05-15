@@ -1,0 +1,46 @@
+# All the general settings.
+general-settings:
+  # Set 'true' if you allow weather to change or else set 'false'.
+  weather-change: false
+  # Set the default weather of the game. Available values are: SUNNY, STORM
+  default-weather: "SUNNY"
+
+
+# All the settings of the game.
+game-settings:
+  # Time in seconds before pvp activation.
+  pvp-activation-time: 15
+  # Time in seconds before assaults activation.
+  assaults-activation-time: 30
+  # The maximum duration in seconds of a game. After this time, the current game
+  # will be stopped and the remaining teams will be declared equal.
+  max-game-duration: 10800
+  # The spawn of the game. Must have the following format:
+  # spawn:
+  #  x: 0
+  #  y: 0
+  #  z: 0
+  #  yaw: 180 (optional, default value is 180)
+  #  pitch: 0 (optional, default value is 0)
+  #  world: "world"
+  game-spawn:
+    x: 96.5
+    y: 116
+    z: 56.5
+    yaw: 90
+    pitch: 0
+    world: "world"
+  # The list of blocks that players can place outside their base.
+  # All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  allowed-blocks:
+    - TNT
+    - LEVER
+    - REDSTONE_TORCH_ON
+    - RED_ROSE
+    - YELLOW_FLOWER
+  # A list of blocks which are only placeable in the chest room.
+  # All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  vault-blocks:
+    - CHEST
+    - ENDER_CHEST
+    - SHULKER_BOX
