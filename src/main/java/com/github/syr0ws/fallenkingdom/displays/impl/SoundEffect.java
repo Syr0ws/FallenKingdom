@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.displays.types;
+package com.github.syr0ws.fallenkingdom.displays.impl;
 
 import com.github.syr0ws.fallenkingdom.displays.Display;
 import org.bukkit.Bukkit;

@@ -2,7 +2,7 @@ package com.github.syr0ws.fallenkingdom.notifiers;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
-import com.github.syr0ws.fallenkingdom.displays.types.Message;
+import com.github.syr0ws.fallenkingdom.displays.impl.Message;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import org.bukkit.configuration.ConfigurationSection;

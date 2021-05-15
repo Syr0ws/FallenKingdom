@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.listeners;
 
+import com.github.syr0ws.fallenkingdom.displays.impl.Message;
 import com.github.syr0ws.fallenkingdom.displays.placeholders.TeamPlaceholder;
-import com.github.syr0ws.fallenkingdom.displays.types.Message;
 import com.github.syr0ws.fallenkingdom.events.TeamPlayerAddEvent;
 import com.github.syr0ws.fallenkingdom.events.TeamPlayerRemoveEvent;
 import com.github.syr0ws.fallenkingdom.game.model.GamePlayer;

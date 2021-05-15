@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.displays;
 
-import com.github.syr0ws.fallenkingdom.displays.types.Message;
-import com.github.syr0ws.fallenkingdom.displays.types.SoundEffect;
+import com.github.syr0ws.fallenkingdom.displays.impl.Message;
+import com.github.syr0ws.fallenkingdom.displays.impl.SoundEffect;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Optional;
