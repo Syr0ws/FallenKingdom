@@ -1,9 +1,7 @@
 package com.github.syr0ws.fallenkingdom.settings.manager;
 
-import com.github.syr0ws.fallenkingdom.settings.Readable;
 import com.github.syr0ws.fallenkingdom.settings.Setting;
 import com.github.syr0ws.fallenkingdom.settings.SettingKey;
-import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,13 +10,6 @@ import java.util.Map;
 public class ConfigSettingManager implements SettingManager {
 
     private final Map<String, Setting<?>> settings = new HashMap<>();
-
-    public void readSettings(ConfigurationSection section) {
-        this.settings.values().stream()
-                .filter(setting -> setting instanceof Readable)
-                .filter(setting -> section.isSet(setting.getName()))
-                .forEach(setting -> ((Readable) setting).read(section, setting.getName()));
-    }
 
     @Override
     public void addSetting(String key, Setting<?> setting) {
@@ -74,7 +65,7 @@ public class ConfigSettingManager implements SettingManager {
         if(key == null)
             throw new NullPointerException("SettingKey cannot be null.");
 
-        return this.hasSetting(key);
+        return this.hasSetting(key.getKey());
     }
 
     @Override
@@ -97,7 +88,7 @@ public class ConfigSettingManager implements SettingManager {
         if(key == null)
             throw new NullPointerException("SettingKey cannot be null.");
 
-        return this.getSetting(key, clazz);
+        return this.getSetting(key.getKey(), clazz);
     }
 
     @Override
@@ -121,7 +112,7 @@ public class ConfigSettingManager implements SettingManager {
         if(key == null)
             throw new NullPointerException("SettingKey cannot be null.");
 
-        return this.getGenericSetting(key, clazz);
+        return this.getGenericSetting(key.getKey(), clazz);
     }
 
     @Override
