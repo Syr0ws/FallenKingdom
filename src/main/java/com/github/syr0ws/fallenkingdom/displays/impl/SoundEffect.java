@@ -3,7 +3,6 @@ package com.github.syr0ws.fallenkingdom.displays.impl;
 import com.github.syr0ws.fallenkingdom.displays.Display;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 public class SoundEffect implements Display {
@@ -16,12 +15,6 @@ public class SoundEffect implements Display {
         this.sound = sound;
         this.volume = volume;
         this.pitch = pitch;
-    }
-
-    public SoundEffect(ConfigurationSection section) {
-        this.sound = Sound.valueOf(section.getString("sound"));
-        this.volume = section.getInt("volume", 1);
-        this.pitch = (float) section.getDouble("pitch", 1);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.github.syr0ws.fallenkingdom.displays.impl;
 import com.github.syr0ws.fallenkingdom.displays.TextDisplay;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 public class Message extends TextDisplay {
@@ -12,10 +11,6 @@ public class Message extends TextDisplay {
 
     public Message(String text) {
         this.text = text;
-    }
-
-    public Message(ConfigurationSection section) {
-        this.text = section.getString("text");
     }
 
     public void displayTo(CommandSender sender) {

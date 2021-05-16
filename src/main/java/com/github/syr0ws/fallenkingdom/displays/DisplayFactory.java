@@ -1,31 +1,34 @@
 package com.github.syr0ws.fallenkingdom.displays;
 
-import com.github.syr0ws.fallenkingdom.displays.impl.Message;
-import com.github.syr0ws.fallenkingdom.displays.impl.SoundEffect;
+import com.github.syr0ws.fallenkingdom.displays.loaders.MessageLoader;
+import com.github.syr0ws.fallenkingdom.displays.loaders.SoundLoader;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DisplayFactory {
 
+    private static final Map<String, DisplayLoader> DISPLAY_LOADERS = new HashMap<>();
+
+    static {
+        DISPLAY_LOADERS.put("MESSAGE", new MessageLoader());
+        DISPLAY_LOADERS.put("SOUND", new SoundLoader());
+    }
+
     public static Display getDisplay(ConfigurationSection section) {
 
-        String type = section.getString("type", "unspecified");
+        String type = section.getString("type").toUpperCase();
 
-        Optional<DisplayType> optional = DisplayType.getByName(type);
+        if(!DISPLAY_LOADERS.containsKey(type))
+            throw new IllegalArgumentException(String.format("No loader found for type '%s'.", type));
 
-        if(!optional.isPresent())
-            throw new NullPointerException(String.format("Message type invalid or not found in '%s'.", section.getName()));
+        DisplayLoader loader = DISPLAY_LOADERS.get(type);
 
-        DisplayType displayType = optional.get();
+        return loader.load(section);
+    }
 
-        switch (displayType) {
-            case MESSAGE:
-                return new Message(section);
-            case SOUND:
-                return new SoundEffect(section);
-            default:
-                throw new NullPointerException(String.format("No display class found for '%s'.", displayType.name())); // TODO Change the type of the exception.
-        }
+    public static void registerLoader(String type, DisplayLoader loader) {
+        DISPLAY_LOADERS.put(type.toUpperCase(), loader);
     }
 }
