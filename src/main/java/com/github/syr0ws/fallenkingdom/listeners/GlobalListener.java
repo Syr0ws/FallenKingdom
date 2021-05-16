@@ -3,6 +3,7 @@ package com.github.syr0ws.fallenkingdom.listeners;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -19,7 +20,7 @@ public class GlobalListener implements Listener {
         this.controller = controller;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
@@ -27,7 +28,7 @@ public class GlobalListener implements Listener {
         this.controller.onJoin(player);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
 
         Player player = event.getPlayer();
