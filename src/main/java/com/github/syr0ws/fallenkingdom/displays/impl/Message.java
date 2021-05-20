@@ -10,6 +10,10 @@ public class Message extends TextDisplay {
     private final String text;
 
     public Message(String text) {
+
+        if(text == null)
+            throw new IllegalArgumentException("Text cannot be null.");
+
         this.text = text;
     }
 

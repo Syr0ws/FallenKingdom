@@ -10,7 +10,7 @@ public class MessageLoader implements DisplayLoader {
     @Override
     public Display load(ConfigurationSection section) {
 
-        String text = section.getString("text");
+        String text = section.getString("text", "");
 
         return new Message(text);
     }

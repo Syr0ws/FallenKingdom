@@ -12,6 +12,16 @@ public class SoundEffect implements Display {
     private final float pitch;
 
     public SoundEffect(Sound sound, int volume, float pitch) {
+
+        if(sound == null)
+            throw new IllegalArgumentException("Sound cannot be null.");
+
+        if(volume < 0)
+            throw new IllegalArgumentException("Volume must be positive.");
+
+        if(pitch < 0)
+            throw new IllegalArgumentException("Pitch must be positive.");
+
         this.sound = sound;
         this.volume = volume;
         this.pitch = pitch;
