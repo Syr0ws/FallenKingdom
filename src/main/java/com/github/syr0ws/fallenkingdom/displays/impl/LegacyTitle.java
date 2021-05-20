@@ -47,13 +47,13 @@ public class LegacyTitle extends Title {
             Object formattedSubtitle = method.invoke(null, "{\"text\": \"" + subtitle + "\"}");
 
             Class<?> packetTitleClass = Reflection.getNMSClass("PacketPlayOutTitle");
-            Class<?> declaredTitleClass = packetTitleClass.getDeclaredClasses()[0];
+            Class<?> enumTitleActionClass = packetTitleClass.getDeclaredClasses()[0];
 
-            // PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction action, IChatBaseComponent component, int fadeIn, int stay, int fadeOut)
-            Constructor<?> constructor = packetTitleClass.getConstructor(declaredTitleClass, chatBaseComponentClass, int.class, int.class, int.class);
+            // Constructor : PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction action, IChatBaseComponent component, int fadeIn, int stay, int fadeOut)
+            Constructor<?> constructor = packetTitleClass.getConstructor(enumTitleActionClass, chatBaseComponentClass, int.class, int.class, int.class);
 
-            Object packetTitle = constructor.newInstance(declaredTitleClass.getField("TITLE").get(null), formattedTitle, fadeIn, stay, fadeOut);
-            Object packetSubtitle = constructor.newInstance(declaredTitleClass.getField("SUBTITLE").get(null), formattedSubtitle, fadeIn, stay, fadeOut);
+            Object packetTitle = constructor.newInstance(enumTitleActionClass.getField("TITLE").get(null), formattedTitle, fadeIn, stay, fadeOut);
+            Object packetSubtitle = constructor.newInstance(enumTitleActionClass.getField("SUBTITLE").get(null), formattedSubtitle, fadeIn, stay, fadeOut);
 
             Reflection.sendPacket(player, packetTitle);
             Reflection.sendPacket(player, packetSubtitle);
