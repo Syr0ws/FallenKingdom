@@ -2,6 +2,7 @@ package com.github.syr0ws.fallenkingdom.displays;
 
 import com.github.syr0ws.fallenkingdom.displays.loaders.MessageLoader;
 import com.github.syr0ws.fallenkingdom.displays.loaders.SoundLoader;
+import com.github.syr0ws.fallenkingdom.displays.loaders.TitleLoader;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public class DisplayFactory {
     static {
         DISPLAY_LOADERS.put("MESSAGE", new MessageLoader());
         DISPLAY_LOADERS.put("SOUND", new SoundLoader());
+        DISPLAY_LOADERS.put("TITLE", new TitleLoader());
     }
 
     public static Display getDisplay(ConfigurationSection section) {
