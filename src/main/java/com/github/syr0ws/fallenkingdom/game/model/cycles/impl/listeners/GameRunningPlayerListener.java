@@ -30,7 +30,7 @@ public class GameRunningPlayerListener implements Listener {
 
         GamePlayer gamePlayer = event.getPlayer();
 
-        Optional<? extends TeamPlayer> optional = this.game.getTeamPlayer(event.getPlayer().getUUID());
+        Optional<? extends TeamPlayer> optional = this.game.getTeamPlayer(gamePlayer);
 
         // Equivalent to GamePlayer#isPlaying().
         if(!optional.isPresent()) {
