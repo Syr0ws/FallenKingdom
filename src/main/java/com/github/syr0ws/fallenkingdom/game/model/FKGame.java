@@ -174,7 +174,7 @@ public class FKGame implements GameModel {
 
     @Override
     public boolean isStarted() {
-        return this.getState() != GameState.WAITING;
+        return this.getState() == GameState.RUNNING;
     }
 
     @Override
