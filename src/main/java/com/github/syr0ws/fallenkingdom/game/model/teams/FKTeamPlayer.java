@@ -23,6 +23,7 @@ public class FKTeamPlayer implements TeamPlayer {
 
         this.team = team;
         this.player = player;
+        this.alive = true;
     }
 
     public void setAlive(boolean alive) {
