@@ -20,6 +20,8 @@ public interface Team {
 
     boolean contains(TeamPlayer player);
 
+    int size();
+
     TeamColor getColor();
 
     TeamBase getBase();

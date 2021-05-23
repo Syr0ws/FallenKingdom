@@ -89,6 +89,11 @@ public class FKTeam implements Team {
     }
 
     @Override
+    public int size() {
+        return this.players.size();
+    }
+
+    @Override
     public TeamColor getColor() {
         return this.color;
     }
