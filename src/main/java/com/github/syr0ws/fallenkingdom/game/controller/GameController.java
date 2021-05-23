@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 
 public interface GameController {
 
+    void preStart() throws GameException;
+
     void startGame() throws GameException;
 
     void stopGame() throws GameException;

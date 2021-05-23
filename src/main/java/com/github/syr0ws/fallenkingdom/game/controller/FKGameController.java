@@ -15,6 +15,7 @@ import com.github.syr0ws.fallenkingdom.game.model.attributes.GameCycleAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycleFactory;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
+import com.github.syr0ws.fallenkingdom.game.model.modes.impl.PlayingMode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.SpectatorMode;
 import com.github.syr0ws.fallenkingdom.game.model.players.CraftGamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
@@ -31,10 +32,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class FKGameController implements GameController, AttributeObserver {
 
@@ -86,13 +84,64 @@ public class FKGameController implements GameController, AttributeObserver {
         cycle.start();
     }
 
+    private void onGameState(GameState state) throws GameException {
+
+        switch (state) {
+            case STARTING:
+                this.preStart();
+                break;
+            case RUNNING:
+                this.startGame();
+                break;
+            case FINISHED:
+                this.stopGame();
+                break;
+        }
+    }
+
+    private void addTeams() {
+
+        for(GamePlayer player : this.game.getPlayers()) {
+
+            if(this.game.hasTeam(player.getUUID())) continue;
+
+            Team team = this.game.getTeams().stream()
+                    .min(Comparator.comparingInt(Team::size))
+                    .orElse(null); // Should not happen.
+
+            try { this.setTeam(player, team.getName());
+            } catch (GameException e) { e.printStackTrace(); }
+        }
+    }
+
+    private void setPlayingMode() {
+
+        for(TeamPlayer player : this.game.getTeamPlayers()) {
+
+            PlayingMode mode = new PlayingMode(player, this.game);
+
+            this.game.setGamePlayerMode(player.getUUID(), mode);
+        }
+    }
+
+    @Override
+    public void preStart() throws GameException {
+
+        if(this.game.isStarted())
+            throw new GameException("A game is starting or already started.");
+
+        this.setGameState(GameState.STARTING);
+    }
+
     @Override
     public void startGame() throws GameException {
 
         if(this.game.isStarted())
             throw new GameException("A game is starting or already started.");
 
-        this.setGameState(GameState.STARTING);
+        this.addTeams();
+        this.setPlayingMode();
+        this.setGameState(GameState.RUNNING);
     }
 
     @Override
@@ -211,7 +260,12 @@ public class FKGameController implements GameController, AttributeObserver {
         GameState current = this.game.getState();
 
         Optional<GameState> optional = current.getNext();
-        optional.ifPresent(this::setGameState);
+
+        optional.ifPresent(state -> {
+
+            try { this.onGameState(state);
+            } catch (GameException e) { e.printStackTrace(); }
+        });
     }
 
     @Override
