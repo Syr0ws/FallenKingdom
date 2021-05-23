@@ -1,8 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game;
 
 import com.github.syr0ws.fallenkingdom.game.model.FKGame;
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.game.model.teams.dao.ConfigTeamDAO;
 import com.github.syr0ws.fallenkingdom.game.model.teams.dao.TeamDAO;
@@ -25,9 +24,9 @@ public class GameInitializer {
         this.plugin = plugin;
     }
 
-    public GameModel getGame() throws GameException {
+    public FKGame getGame() throws GameException {
 
-        List<Team> teams = this.loadTeams();
+        List<FKTeam> teams = this.loadTeams();
 
         if(teams.size() <= 2)
             throw new GameException("Number of teams cannot be lower than 2.");
@@ -37,15 +36,15 @@ public class GameInitializer {
         return new FKGame(settingManager, teams);
     }
 
-    private List<Team> loadTeams() {
+    private List<FKTeam> loadTeams() {
 
-        TeamDAO dao = new ConfigTeamDAO(this.plugin);
+        TeamDAO<FKTeam> dao = new ConfigTeamDAO(this.plugin);
 
-        List<Team> teams = new ArrayList<>();
+        List<FKTeam> teams = new ArrayList<>();
 
         try {
 
-            Collection<Team> collection = dao.loadTeams();
+            Collection<FKTeam> collection = dao.loadTeams();
             teams.addAll(collection);
 
         } catch (TeamException e) { e.printStackTrace(); }

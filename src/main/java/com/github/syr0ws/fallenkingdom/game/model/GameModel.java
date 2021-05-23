@@ -1,7 +1,10 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObservable;
-import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.capture.Capture;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
+import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
@@ -10,30 +13,29 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface GameModel extends AttributeObservable {
 
-    void join(GamePlayer player);
+    TeamPlayer setTeam(GamePlayer player, String teamName);
 
-    void leave(GamePlayer player);
-
-    TeamPlayer setTeam(GamePlayer player, Team team);
-
-    Team removeTeam(TeamPlayer player);
-
-    void setCycle(GameCycle cycle);
+    TeamPlayer removeTeam(GamePlayer player);
 
     void setPvPEnabled(boolean enabled);
 
     void setAssaultsEnabled(boolean enabled);
 
+    void addCapture(Capture capture);
+
+    void removeCapture(Capture capture);
+
+    void setGamePlayerMode(UUID uuid, Mode mode);
+
+    void addGamePlayer(Player player, Mode mode);
+
+    void removeGamePlayer(Player player);
+
     void addTime();
-
-    GameCycle getCycle();
-
-    GameState getState();
-
-    Location getSpawn();
 
     boolean isStarted();
 
@@ -43,27 +45,45 @@ public interface GameModel extends AttributeObservable {
 
     boolean areAssaultsEnabled();
 
+    boolean hasTeam(UUID uuid);
+
+    boolean hasTeam(GamePlayer player);
+
+    boolean isTeamPlayer(UUID uuid);
+
+    boolean isTeamPlayer(GamePlayer player);
+
     int getTime();
 
-    int countTeams();
+    GameCycle getCycle();
 
-    boolean hasTeam(Player player);
+    GameState getState();
 
-    SettingManager getSettingManager();
+    Location getSpawn();
 
-    GamePlayer getGamePlayer(Player player);
+    SettingManager getSettings();
 
-    Optional<TeamPlayer> getTeamPlayer(Player player);
+    GamePlayer getGamePlayer(UUID uuid);
 
-    Optional<TeamPlayer> getTeamPlayer(GamePlayer player);
+    Optional<GamePlayer> getGamePlayer(String name);
 
-    Optional<Team> getTeam(Player player);
+    Optional<? extends TeamPlayer> getTeamPlayer(UUID uuid);
 
-    Optional<Team> getTeam(String name);
+    Optional<? extends TeamPlayer> getTeamPlayer(GamePlayer player);
 
-    Collection<GamePlayer> getGamePlayers();
+    Optional<Team> getTeam(UUID uuid);
 
-    Collection<TeamPlayer> getTeamPlayers();
+    Optional<Team> getTeam(GamePlayer player);
 
-    Collection<Team> getTeams();
+    Optional<Team> getTeamByName(String name);
+
+    Collection<Capture> getCaptures();
+
+    Collection<? extends Team> getTeams();
+
+    Collection<? extends TeamPlayer> getTeamPlayers();
+
+    Collection<? extends GamePlayer> getPlayers();
+
+    Collection<? extends GamePlayer> getOnlinePlayers();
 }

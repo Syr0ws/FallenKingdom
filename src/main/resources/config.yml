@@ -93,76 +93,130 @@ team-messages:
   leave: "&6>> &eVous avez &cquitté &el'équipe %team_name%&e."
 
 
+#############################################
+###                CYCLES                 ###
+#############################################
+
+starting-cycle:
+  # All the settings of the cycle.
+  settings:
+    # The duration is seconds of the lauch period.
+    timer-duration: 10
+  # All the displays sent during launch period.
+  displays:
+    10:
+      message:
+        type: "MESSAGE"
+        text: "&eLa partie commence dans &610 secondes&e."
+      sound:
+        type: "SOUND"
+        sound: "NOTE_BASS"
+        pitch: 1
+    3:
+      message:
+        type: "MESSAGE"
+        text: "&eLa partie commence dans &63 secondes&e."
+      sound:
+        type: "SOUND"
+        sound: "NOTE_PIANO"
+        pitch: 1
+      title:
+        type: "TITLE"
+        subtitle: "&eLa partie commence dans &63"
+    2:
+      message:
+        type: "MESSAGE"
+        text: "&eLa partie commence dans &62 secondes&e."
+      sound:
+        type: "SOUND"
+        sound: "NOTE_PIANO"
+        pitch: 1.5
+      title:
+        type: "TITLE"
+        subtitle: "&eLa partie commence dans &62"
+    1:
+      message:
+        type: "MESSAGE"
+        text: "&eLa partie commence dans &61 seconde&e."
+      sound:
+        type: "SOUND"
+        sound: "NOTE_PIANO"
+        pitch: 2
+      title:
+        type: "TITLE"
+        subtitle: "&eLa partie commence dans &61"
+    0:
+      message:
+        type: "MESSAGE"
+        text: "&eLa partie commence !"
+      sound:
+        type: "SOUND"
+        sound: "LEVEL_UP"
+        pitch: 2
+      title:
+        type: "TITLE"
+        subtitle: "&6La partie commence !"
+        stay: 20
+        fade-out: 20
 
 
+#############################################
+###               SETTINGS                ###
+#############################################
+
+# This part of the configuration allows you to configure different options.
+# You can find all the general settings here. For settings that are cycle
+# specific, refer to the "cycles" section.
 
 
-# This section is about the waiting cycle.
-waiting-cycle:
-  # This section contains all the messages sent during the waiting cycle.
-  messages:
-    # Message sent when a player joins the game.
-    join: "&6%player% &ea rejoint la partie."
-    # Message sent when a player leaves the game.
-    quit: "&6%player% &ea quitté la partie."
+# The general settings.
+general-settings:
+  # Set 'true' if you allow weather to change or else set 'false'.
+  weather-change: false
+  # Set the default weather of the game. Available values are: SUNNY, STORM
+  default-weather: "SUNNY"
 
 
-# This section contains all the configuration of the starting cycle.
-game-starting:
-  # This section is about the timer started before starting the game.
-  timer:
-    # The duration of the timer in seconds.
-    duration: 10
-    # All the displays of the timer.
-    displays:
-      10:
-        message:
-          type: "MESSAGE"
-          text: "&eLa partie commence dans &610 secondes&e."
-        sound:
-          type: "SOUND"
-          sound: "NOTE_BASS"
-          pitch: 1
-      3:
-        message:
-          type: "MESSAGE"
-          text: "&eLa partie commence dans &63 secondes&e."
-        sound:
-          type: "SOUND"
-          sound: "NOTE_PIANO"
-          pitch: 1
-      2:
-        message:
-          type: "MESSAGE"
-          text: "&eLa partie commence dans &62 secondes&e."
-        sound:
-          type: "SOUND"
-          sound: "NOTE_PIANO"
-          pitch: 1.5
-      1:
-        message:
-          type: "MESSAGE"
-          text: "&eLa partie commence dans &61 seconde&e."
-        sound:
-          type: "SOUND"
-          sound: "NOTE_PIANO"
-          pitch: 2
-      0:
-        message:
-          type: "MESSAGE"
-          text: "&eLa partie commence !"
-        sound:
-          type: "SOUND"
-          sound: "LEVEL_UP"
-          pitch: 2
+# The game settings.
+game-settings:
+  # Time in seconds before pvp activation.
+  pvp-activation-time: 15
+  # Time in seconds before assaults activation.
+  assaults-activation-time: 30
+  # The maximum duration in seconds of a game. After this time, the current game
+  # will be stopped and the remaining teams will be declared equal.
+  max-game-duration: 10800
+  # The spawn of the game. Must have the following format:
+  # spawn:
+  #  x: 0
+  #  y: 0
+  #  z: 0
+  #  yaw: 180 (optional, default value is 180)
+  #  pitch: 0 (optional, default value is 0)
+  #  world: "world"
+  game-spawn:
+    x: 96.5
+    y: 116
+    z: 56.5
+    yaw: 90
+    pitch: 0
+    world: "world"
+  # The list of blocks that players can place outside their base.
+  # All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  allowed-blocks:
+    - TNT
+    - LEVER
+    - REDSTONE_TORCH_ON
+    - RED_ROSE
+    - YELLOW_FLOWER
+  # A list of blocks which are only placeable in the chest room.
+  # All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  vault-blocks:
+    - CHEST
+    - ENDER_CHEST
+    - SHULKER_BOX
 
 
-game-messages:
-  blocks:
-    place-not-allowed: "&c>> Vous ne pouvez pas placer des blocs en dehors de votre base."
-    break-in-enemy-base: "&c>> Vous ne pouvez pas casser des blocs dans une base ennemie."
-  other:
-    pvp-not-allowed: "&c>> Le pvp est actuellement désactivé."
 
 
 running-cycle:

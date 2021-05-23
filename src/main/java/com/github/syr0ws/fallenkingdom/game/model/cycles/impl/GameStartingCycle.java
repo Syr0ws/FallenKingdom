@@ -1,12 +1,12 @@
-package com.github.syr0ws.fallenkingdom.game.model.cycle.types;
+package com.github.syr0ws.fallenkingdom.game.model.cycles.impl;
 
 import com.github.syr0ws.fallenkingdom.displays.Display;
 import com.github.syr0ws.fallenkingdom.displays.DisplayFactory;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
-import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.listeners.GamePreRunningListener;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
-import com.github.syr0ws.fallenkingdom.listeners.PreRunningListener;
 import com.github.syr0ws.fallenkingdom.settings.Setting;
 import com.github.syr0ws.fallenkingdom.settings.SettingKey;
 import com.github.syr0ws.fallenkingdom.settings.dao.FKSettingDAO;
@@ -25,7 +25,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.Arrays;
 import java.util.List;
 
-public class StartingCycle extends GameCycle {
+public class GameStartingCycle extends GameCycle {
 
     private final Plugin plugin;
     private final GameModel game;
@@ -34,7 +34,7 @@ public class StartingCycle extends GameCycle {
 
     private CycleTask task;
 
-    public StartingCycle(Plugin plugin, GameModel game) {
+    public GameStartingCycle(Plugin plugin, GameModel game) {
         this.plugin = plugin;
         this.game = game;
         this.listenerManager = new ListenerManager(plugin);
@@ -43,7 +43,7 @@ public class StartingCycle extends GameCycle {
 
     @Override
     public void start() {
-        this.listenerManager.addListener(new PreRunningListener(this.plugin, this.game));
+        this.listenerManager.addListener(new GamePreRunningListener());
         this.startTask();
     }
 
@@ -133,13 +133,13 @@ public class StartingCycle extends GameCycle {
                 this.manager.executeActions(this.duration);
                 this.duration--;
 
-            } else StartingCycle.this.finish(); // Setting the cycle as finished.
+            } else GameStartingCycle.this.finish(); // Setting the cycle as finished.
         }
 
         @Override
         public void start() {
             super.start();
-            this.runTaskTimer(StartingCycle.this.plugin, 0L, 20L);
+            this.runTaskTimer(GameStartingCycle.this.plugin, 0L, 20L);
         }
     }
 

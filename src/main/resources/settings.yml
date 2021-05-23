@@ -44,3 +44,10 @@ game-settings:
     - CHEST
     - ENDER_CHEST
     - SHULKER_BOX
+
+
+starting-cycle:
+  # All the settings of the cycle.
+  settings:
+    # The duration is seconds of the lauch period.
+    timer-duration: 10

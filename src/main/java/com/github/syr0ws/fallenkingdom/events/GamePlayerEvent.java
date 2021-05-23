@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.events;
 
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 
 public abstract class GamePlayerEvent extends GameEvent {
 

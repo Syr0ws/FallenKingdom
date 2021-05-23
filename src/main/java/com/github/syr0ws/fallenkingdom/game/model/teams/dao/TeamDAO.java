@@ -5,7 +5,7 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 
 import java.util.Collection;
 
-public interface TeamDAO {
+public interface TeamDAO<T extends Team> {
 
-    Collection<Team> loadTeams() throws TeamException;
+    Collection<T> loadTeams() throws TeamException;
 }

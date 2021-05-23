@@ -1,79 +1,34 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
-import com.github.syr0ws.fallenkingdom.game.model.GamePlayer;
-import org.bukkit.entity.Player;
+import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-public class Team {
+public interface Team {
 
-    private final String name, displayName;
-    private final TeamBase base;
-    private final TeamColor color;
-    private final List<TeamPlayer> players;
+    String getName();
 
-    public Team(String name, String displayName, TeamBase base, TeamColor color) {
-        this.name = name;
-        this.displayName = displayName;
-        this.base = base;
-        this.color = color;
-        this.players = new ArrayList<>();
-    }
+    String getDisplayName();
 
-    public TeamPlayer addPlayer(GamePlayer player) {
+    boolean isEliminated();
 
-        if(this.contains(player)) return null;
+    boolean contains(UUID uuid);
 
-        TeamPlayer teamPlayer = new TeamPlayer(player, this);
-        this.players.add(teamPlayer);
+    boolean contains(GamePlayer player);
 
-        return teamPlayer;
-    }
+    boolean contains(TeamPlayer player);
 
-    public void removePlayer(GamePlayer player) {
-        this.players.removeIf(teamPlayer -> teamPlayer.getGamePlayer().equals(player));
-    }
+    TeamColor getColor();
 
-    public String getName() {
-        return this.name;
-    }
+    TeamBase getBase();
 
-    public String getDisplayName() {
-        return this.color.getChatColor() + this.displayName;
-    }
+    TeamState getState();
 
-    public int size() {
-        return this.players.size();
-    }
+    Optional<TeamPlayer> getTeamPlayer(UUID uuid);
 
-    public TeamBase getBase() {
-        return this.base;
-    }
+    Optional<TeamPlayer> getTeamPlayer(GamePlayer player);
 
-    public TeamColor getColor() {
-        return this.color;
-    }
-
-    public boolean contains(Player player) {
-        return this.players.stream().anyMatch(teamPlayer -> teamPlayer.getGamePlayer().isPlayer(player));
-    }
-
-    public boolean contains(GamePlayer player) {
-        return this.players.stream().anyMatch(teamPlayer -> teamPlayer.getGamePlayer().equals(player));
-    }
-
-    public boolean contains(TeamPlayer player) {
-        return this.players.contains(player);
-    }
-
-    public boolean isEliminated() {
-        return this.players.stream().allMatch(TeamPlayer::isEliminated);
-    }
-
-    public Collection<TeamPlayer> getPlayers() {
-        return Collections.unmodifiableList(this.players);
-    }
+    List<? extends TeamPlayer> getPlayers();
 }

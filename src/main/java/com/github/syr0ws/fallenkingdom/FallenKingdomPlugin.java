@@ -6,6 +6,7 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKGameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FallenKingdomPlugin extends JavaPlugin {
@@ -17,11 +18,12 @@ public class FallenKingdomPlugin extends JavaPlugin {
 
         this.loadConfiguration();
 
-        this.controller = this.createController();
+        boolean gameInitialized = this.initGame();
 
-        // TODO To change by disabling plugin when an error occurred.
-        try { this.controller.initGame();
-        } catch (GameException e) { e.printStackTrace(); }
+        if(!gameInitialized) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         this.setupNotifiers();
         this.registerCommands();
@@ -43,6 +45,22 @@ public class FallenKingdomPlugin extends JavaPlugin {
 
     private FKGameController createController() {
         return new FKGameController(this);
+    }
+
+    private boolean initGame() {
+
+        this.controller = this.createController();
+
+        boolean init = false;
+
+        try {
+
+            this.controller.init();
+            init = true;
+
+        } catch (GameException e) { e.printStackTrace(); }
+
+        return init;
     }
 
     public FKGameController getGameController() {

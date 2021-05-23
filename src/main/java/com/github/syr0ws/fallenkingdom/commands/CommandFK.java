@@ -6,7 +6,8 @@ import com.github.syr0ws.fallenkingdom.displays.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -16,8 +17,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import java.util.Optional;
 
 public class CommandFK implements CommandExecutor {
 
@@ -42,8 +41,6 @@ public class CommandFK implements CommandExecutor {
             new Message(section.getString("no-permission")).displayTo(sender);
             return true;
         }
-
-        // TODO Handle args in methods.
 
         if(args.length == 0) {
             // TODO send help here.
@@ -303,28 +300,33 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        Optional<Team> optional = this.model.getTeam(args[3]);
-
-        // Checking if the targeted team is valid.
-        if(!optional.isPresent()) {
-            new Message(section.getString("team-not-found")).displayTo(sender);
-            return;
-        }
-
-        Team team = optional.get();
-
-        if(team.contains(target)) {
+        if(this.model.hasTeam(target.getUniqueId())) {
             new Message(addSection.getString("already-in-team")).displayTo(sender);
             return;
         }
 
-        this.controller.setTeam(target, team);
+        // Checking if the targeted team is valid.
+        if(!this.model.getTeamByName(args[3]).isPresent()) {
+            new Message(section.getString("team-not-found")).displayTo(sender);
+            return;
+        }
 
-        Message message = new Message(addSection.getString("player-added"));
-        message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, target.getName());
-        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, team.getDisplayName());
+        GamePlayer gamePlayer = this.model.getGamePlayer(target.getUniqueId());
 
-        message.displayTo(sender);
+        try {
+
+            TeamPlayer teamPlayer = this.controller.setTeam(gamePlayer, args[3]);
+
+            Message message = new Message(addSection.getString("player-added"));
+            message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, target.getName());
+            message.addPlaceholder(TeamPlaceholder.TEAM_NAME, teamPlayer.getTeam().getDisplayName());
+
+            message.displayTo(sender);
+
+        } catch (GameException e) {
+
+            e.printStackTrace();
+        }
     }
 
     // Command : /fk team remove <player>
@@ -345,21 +347,26 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        Optional<Team> optional = this.model.getTeam(target);
-
-        if(!optional.isPresent()) {
+        if(!this.model.hasTeam(target.getUniqueId())) {
             new Message(removeSection.getString("not-in-team")).displayTo(sender);
             return;
         }
 
-        Team team = optional.get();
+        GamePlayer gamePlayer = this.model.getGamePlayer(target.getUniqueId());
 
-        this.controller.removeTeam(target);
+        try {
 
-        Message message = new Message(removeSection.getString("player-removed"));
-        message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, target.getName());
-        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, team.getDisplayName());
+            TeamPlayer teamPlayer = this.controller.removeTeam(gamePlayer);
 
-        message.displayTo(sender);
+            Message message = new Message(removeSection.getString("player-removed"));
+            message.addPlaceholder(GlobalPlaceholder.PLAYER_NAME, target.getName());
+            message.addPlaceholder(TeamPlaceholder.TEAM_NAME, teamPlayer.getTeam().getDisplayName());
+
+            message.displayTo(sender);
+
+        } catch (GameException e) {
+
+            e.printStackTrace();
+        }
     }
 }

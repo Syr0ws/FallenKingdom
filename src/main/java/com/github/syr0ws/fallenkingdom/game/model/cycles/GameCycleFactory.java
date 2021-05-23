@@ -1,32 +1,31 @@
-package com.github.syr0ws.fallenkingdom.game.model.cycle;
+package com.github.syr0ws.fallenkingdom.game.model.cycles;
 
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
-import com.github.syr0ws.fallenkingdom.game.model.cycle.types.RunningCycle;
-import com.github.syr0ws.fallenkingdom.game.model.cycle.types.StartingCycle;
-import com.github.syr0ws.fallenkingdom.game.model.cycle.types.WaitingCycle;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameRunningCycle;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameStartingCycle;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameWaitingCycle;
 import org.bukkit.plugin.Plugin;
 
-public class FKCycleFactory implements GameCycleFactory {
+public class GameCycleFactory {
 
     private final GameModel game;
     private final Plugin plugin;
 
-    public FKCycleFactory(GameModel game, Plugin plugin) {
+    public GameCycleFactory(GameModel game, Plugin plugin) {
         this.game = game;
         this.plugin = plugin;
     }
 
-    @Override
     public GameCycle getCycle(GameState state) {
 
         switch (state) {
             case WAITING:
-                return new WaitingCycle(this.plugin, this.game);
+                return new GameWaitingCycle(this.plugin, this.game);
             case STARTING:
-                return new StartingCycle(this.plugin, this.game);
+                return new GameStartingCycle(this.plugin, this.game);
             case RUNNING:
-                return new RunningCycle(this.plugin, this.game);
+                return new GameRunningCycle(this.plugin, this.game);
             case FINISHED:
                 return null;
             default:

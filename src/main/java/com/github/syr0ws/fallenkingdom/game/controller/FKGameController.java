@@ -2,35 +2,46 @@ package com.github.syr0ws.fallenkingdom.game.controller;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
-import com.github.syr0ws.fallenkingdom.events.*;
+import com.github.syr0ws.fallenkingdom.events.GamePlayerJoinEvent;
+import com.github.syr0ws.fallenkingdom.events.GamePlayerLeaveEvent;
+import com.github.syr0ws.fallenkingdom.events.TeamPlayerAddEvent;
+import com.github.syr0ws.fallenkingdom.events.TeamPlayerRemoveEvent;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.GameInitializer;
+import com.github.syr0ws.fallenkingdom.game.model.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameCycleAttribute;
-import com.github.syr0ws.fallenkingdom.game.model.cycle.FKCycleFactory;
-import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycle;
-import com.github.syr0ws.fallenkingdom.game.model.cycle.GameCycleFactory;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycleFactory;
+import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
+import com.github.syr0ws.fallenkingdom.game.model.modes.impl.SpectatorMode;
+import com.github.syr0ws.fallenkingdom.game.model.players.CraftGamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
-import com.github.syr0ws.fallenkingdom.listeners.GlobalListener;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.UUID;
 
 public class FKGameController implements GameController, AttributeObserver {
 
     private final Plugin plugin;
     private final ListenerManager manager;
-    private GameModel game;
+
+    private FKGame game;
     private GameCycleFactory factory;
 
     public FKGameController(Plugin plugin) {
@@ -38,7 +49,7 @@ public class FKGameController implements GameController, AttributeObserver {
         this.manager = new ListenerManager(plugin);
     }
 
-    public void initGame() throws GameException {
+    public void init() throws GameException {
 
         GameInitializer initializer = new GameInitializer(this.plugin);
 
@@ -46,21 +57,40 @@ public class FKGameController implements GameController, AttributeObserver {
         this.game = initializer.getGame();
 
         // Initializing factory.
-        this.factory = new FKCycleFactory(this.game, plugin);
+        this.factory = new GameCycleFactory(this.game, plugin);
 
         // Adding listeners.
-        this.manager.addListener(new GlobalListener(this.plugin, this));
+        this.manager.addListener(new GameListener());
         this.manager.addListener(new TeamListener(this.plugin));
 
         // Setting waiting cycle.
         this.setGameState(GameState.WAITING);
     }
 
+    private void setGameState(GameState state) {
+
+        GameCycle current = this.game.getCycle();
+
+        // Current state can be null if it is the first (Example : WAITING).
+        if(current != null) {
+
+            current.stop();
+            current.removeObserver(this);
+        }
+
+        GameCycle cycle = this.factory.getCycle(state);
+        cycle.addObserver(this);
+
+        this.game.setCycle(cycle);
+
+        cycle.start();
+    }
+
     @Override
     public void startGame() throws GameException {
 
         if(this.game.isStarted())
-            throw new GameException("A game is already started.");
+            throw new GameException("A game is starting or already started.");
 
         this.setGameState(GameState.STARTING);
     }
@@ -70,63 +100,104 @@ public class FKGameController implements GameController, AttributeObserver {
 
         GameState current = this.game.getState();
 
+        if(!this.game.isStarted())
+            throw new GameException("No game started.");
+
+        if(this.game.isFinished())
+            throw new GameException("Game already finished.");
+
         if(current == GameState.STARTING) this.setGameState(GameState.WAITING);
         else this.setGameState(GameState.FINISHED);
     }
 
     @Override
-    public void onJoin(Player player) {
+    public void onJoin(Player player) throws GameException {
 
-        GamePlayer gamePlayer = new GamePlayer(player);
-        this.game.join(gamePlayer);
+        UUID uuid = player.getUniqueId();
+
+        GamePlayer gamePlayer = this.game.isGamePlayer(uuid) ? this.game.getGamePlayer(uuid) : new CraftGamePlayer(player);
+
+        GamePlayerJoinEvent event = new GamePlayerJoinEvent(this.game, gamePlayer);
+
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.callEvent(event);
+
+        Mode mode = event.getMode();
+
+        if(mode == null)
+            throw new GameException("Mode cannot be null.");
+
+        if(!this.game.isGamePlayer(uuid)) this.game.addGamePlayer(player, mode);
+        else this.game.setGamePlayerMode(uuid, mode);
     }
 
     @Override
     public void onQuit(Player player) {
 
-        if(this.game.isStarted()) return;
+        UUID uuid = player.getUniqueId();
+        GamePlayer gamePlayer = this.game.getGamePlayer(uuid);
 
-        GamePlayer gamePlayer = this.game.getGamePlayer(player);
-        this.game.leave(gamePlayer);
+        GamePlayerLeaveEvent event = new GamePlayerLeaveEvent(this.game, gamePlayer);
+
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.callEvent(event);
+
+        if(!gamePlayer.isPlaying()) this.game.removeGamePlayer(player);
     }
 
     @Override
-    public void setTeam(Player player, Team team) {
+    public TeamPlayer setTeam(GamePlayer player, String teamName) throws GameException {
 
-        GamePlayer gamePlayer = this.game.getGamePlayer(player);
-        TeamPlayer teamPlayer = this.game.setTeam(gamePlayer, team);
+        if(this.game.isStarted())
+            throw new GameException("A game is starting or already started.");
 
-        this.callEvent(new TeamPlayerAddEvent(this.game, team, teamPlayer));
+        TeamPlayer teamPlayer = this.game.setTeam(player, teamName);
+
+        TeamPlayerAddEvent event = new TeamPlayerAddEvent(this.game, teamPlayer.getTeam(), teamPlayer);
+
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.callEvent(event);
+
+        return teamPlayer;
     }
 
     @Override
-    public void removeTeam(Player player) {
+    public TeamPlayer removeTeam(GamePlayer player) throws GameException {
 
-        Optional<TeamPlayer> optional = this.game.getTeamPlayer(player);
+        if(this.game.isStarted())
+            throw new GameException("A game is starting or already started.");
 
-        optional.ifPresent(teamPlayer -> {
+        TeamPlayer teamPlayer = this.game.removeTeam(player);
 
-            Team team = this.game.removeTeam(teamPlayer);
-            this.callEvent(new TeamPlayerRemoveEvent(this.game, team, teamPlayer));
-        });
+        TeamPlayerRemoveEvent event = new TeamPlayerRemoveEvent(this.game, teamPlayer.getTeam(), teamPlayer);
+
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.callEvent(event);
+
+        return teamPlayer;
     }
 
     @Override
     public void win(Team team) {
 
-        this.callEvent(new TeamWinEvent(this.game, team));
     }
 
     @Override
     public void eliminate(Team team) {
 
-        this.callEvent(new TeamEliminateEvent(this.game, team));
     }
 
     @Override
     public void eliminate(TeamPlayer player) {
 
-        this.callEvent(new TeamPlayerEliminateEvent(this.game, player.getTeam(), player));
+        if(!player.isAlive())
+            throw new UnsupportedOperationException("TeamPlayer already eliminated.");
+
+        GamePlayer gamePlayer = this.game.getGamePlayer(player.getUUID());
+
+        Mode mode = new SpectatorMode(gamePlayer, this.game);
+
+        this.game.setGamePlayerMode(player.getUUID(), mode);
     }
 
     @Override
@@ -148,21 +219,30 @@ public class FKGameController implements GameController, AttributeObserver {
         return Collections.singleton(GameCycleAttribute.FINISH_STATE);
     }
 
-    private void setGameState(GameState state) {
+    private class GameListener implements Listener {
 
-        GameCycle current = this.game.getCycle();
+        @EventHandler
+        public void onPlayerJoin(PlayerJoinEvent event) {
 
-        GameCycle cycle = this.factory.getCycle(state);
-        cycle.addObserver(this);
+            Player player = event.getPlayer();
 
-        // Current state can be null if it is the first (Example : WAITING).
-        if(current != null) current.removeObserver(this);
+            try {
 
-        this.game.setCycle(cycle);
-    }
+                onJoin(player);
 
-    private void callEvent(GameEvent event) {
-        PluginManager manager = Bukkit.getPluginManager();
-        manager.callEvent(event);
+            } catch (GameException e) {
+
+                e.printStackTrace();
+                player.kickPlayer("Internal error");
+            }
+        }
+
+        @EventHandler
+        public void onPlayerQuit(PlayerQuitEvent event) {
+
+            Player player = event.getPlayer();
+
+            onQuit(player);
+        }
     }
 }

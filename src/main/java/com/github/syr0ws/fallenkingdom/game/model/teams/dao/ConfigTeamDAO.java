@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams.dao;
 
-import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamBase;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamColor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class ConfigTeamDAO implements TeamDAO {
+public class ConfigTeamDAO implements TeamDAO<FKTeam> {
 
     private static final String TEAM_FILE_NAME = "teams.yml";
 
@@ -30,7 +30,7 @@ public class ConfigTeamDAO implements TeamDAO {
     }
 
     @Override
-    public Collection<Team> loadTeams() throws TeamException {
+    public Collection<FKTeam> loadTeams() throws TeamException {
 
         this.createTeamFile();
 
@@ -44,7 +44,7 @@ public class ConfigTeamDAO implements TeamDAO {
 
         ConfigurationSection section = config.getConfigurationSection("teams");
 
-        List<Team> teams = new ArrayList<>();
+        List<FKTeam> teams = new ArrayList<>();
 
         // Loading teams.
         for(String key : section.getKeys(false)) {
@@ -62,7 +62,7 @@ public class ConfigTeamDAO implements TeamDAO {
             try {
 
                 // Loading the current team and adding it to the list.
-                Team team = this.loadTeam(teamSection);
+                FKTeam team = this.loadTeam(teamSection);
                 teams.add(team);
 
             } catch (TeamException e) { e.printStackTrace(); }
@@ -70,7 +70,7 @@ public class ConfigTeamDAO implements TeamDAO {
         return teams;
     }
 
-    private Team loadTeam(ConfigurationSection section) throws TeamException {
+    private FKTeam loadTeam(ConfigurationSection section) throws TeamException {
 
         String name = section.getName();
         String displayName = section.getString("display-name");
@@ -78,7 +78,7 @@ public class ConfigTeamDAO implements TeamDAO {
         TeamColor color = this.loadTeamColor(section);
         TeamBase base = this.loadTeamBase(section);
 
-        return new Team(name, displayName, base, color);
+        return new FKTeam(name, displayName, base, color);
     }
 
     private TeamBase loadTeamBase(ConfigurationSection section) throws TeamException {

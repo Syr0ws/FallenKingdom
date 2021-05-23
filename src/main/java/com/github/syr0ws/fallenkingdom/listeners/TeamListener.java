@@ -4,7 +4,6 @@ import com.github.syr0ws.fallenkingdom.displays.impl.Message;
 import com.github.syr0ws.fallenkingdom.displays.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.events.TeamPlayerAddEvent;
 import com.github.syr0ws.fallenkingdom.events.TeamPlayerRemoveEvent;
-import com.github.syr0ws.fallenkingdom.game.model.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -28,7 +27,7 @@ public class TeamListener implements Listener {
         Team team = event.getTeam();
         TeamPlayer teamPlayer = event.getPlayer();
 
-        Player player = this.getPlayer(teamPlayer);
+        Player player = event.getPlayer().getPlayer();
 
         FileConfiguration config = this.plugin.getConfig();
         ConfigurationSection section = config.getConfigurationSection("team-messages");
@@ -44,7 +43,7 @@ public class TeamListener implements Listener {
         Team team = event.getTeam();
         TeamPlayer teamPlayer = event.getPlayer();
 
-        Player player = this.getPlayer(teamPlayer);
+        Player player = event.getPlayer().getPlayer();
 
         FileConfiguration config = this.plugin.getConfig();
         ConfigurationSection section = config.getConfigurationSection("team-messages");
@@ -54,8 +53,4 @@ public class TeamListener implements Listener {
         message.displayTo(player);
     }
 
-    private Player getPlayer(TeamPlayer player) {
-        GamePlayer gamePlayer = player.getGamePlayer();
-        return gamePlayer.getPlayer();
-    }
 }
