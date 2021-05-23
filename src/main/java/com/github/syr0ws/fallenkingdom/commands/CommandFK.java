@@ -92,7 +92,7 @@ public class CommandFK implements CommandExecutor {
 
         try {
 
-            this.controller.startGame();
+            this.controller.preStart();
 
         } catch (GameException e) {
 
