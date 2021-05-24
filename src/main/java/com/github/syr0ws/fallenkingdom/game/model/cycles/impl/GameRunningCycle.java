@@ -7,7 +7,10 @@ import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningBlockListener;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningPlayerListener;
+import com.github.syr0ws.fallenkingdom.game.model.modes.impl.PlayingMode;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
+import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
 import com.github.syr0ws.fallenkingdom.settings.Setting;
 import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
@@ -20,12 +23,14 @@ import org.bukkit.plugin.Plugin;
 public class GameRunningCycle extends GameCycle {
 
     private final GameModel game;
+    private final ScoreboardManager sbManager;
 
     private CycleTask task;
 
     public GameRunningCycle(Plugin plugin, GameModel game) {
         super(plugin);
         this.game = game;
+        this.sbManager = new ScoreboardManager();
     }
 
     @Override
@@ -49,6 +54,7 @@ public class GameRunningCycle extends GameCycle {
 
     @Override
     public void start() {
+        this.setPlayingMode();
         this.startTask();
     }
 
@@ -110,6 +116,16 @@ public class GameRunningCycle extends GameCycle {
                 Display display = DisplayFactory.getDisplay(keySection.getConfigurationSection(displayKey));
                 super.getActionManager().addAction(time, new DisplayAction(display));
             }
+        }
+    }
+
+    private void setPlayingMode() {
+
+        for(TeamPlayer player : this.game.getTeamPlayers()) {
+
+            PlayingMode mode = new PlayingMode(player, this.game, this.sbManager, super.getPlugin().getConfig());
+
+            this.game.setGamePlayerMode(player.getUUID(), mode);
         }
     }
 
