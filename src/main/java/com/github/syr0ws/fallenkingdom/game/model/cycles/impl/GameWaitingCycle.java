@@ -49,7 +49,7 @@ public class GameWaitingCycle extends GameCycle implements AttributeObserver {
         this.loadDisplays();
 
         ListenerManager listenerManager = super.getListenerManager();
-        listenerManager.addListener(new GameWaitingListener(this));
+        listenerManager.addListener(new GameWaitingListener(this, this.sbManager));
 
         this.game.addObserver(this);
     }
@@ -80,8 +80,6 @@ public class GameWaitingCycle extends GameCycle implements AttributeObserver {
 
         if(state == GameState.WAITING) this.stopTask();
         else if(state == GameState.STARTING) this.startTask();
-
-        System.out.println("change !");
     }
 
     @Override

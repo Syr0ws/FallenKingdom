@@ -1,9 +1,11 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
 import com.github.syr0ws.fallenkingdom.events.GamePlayerJoinEvent;
+import com.github.syr0ws.fallenkingdom.events.GamePlayerLeaveEvent;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameWaitingCycle;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.WaitingMode;
+import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,16 +22,26 @@ import org.bukkit.plugin.Plugin;
 public class GameWaitingListener implements Listener {
 
     private final Plugin plugin;
+    private final ScoreboardManager sbManager;
 
-    public GameWaitingListener(GameWaitingCycle cycle) {
+    public GameWaitingListener(GameWaitingCycle cycle, ScoreboardManager sbManager) {
         this.plugin = cycle.getPlugin();
+        this.sbManager = sbManager;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onGamePlayerJoin(GamePlayerJoinEvent event) {
 
-        Mode mode = new WaitingMode(event.getPlayer(), event.getGame(), this.plugin.getConfig());
+        Mode mode = new WaitingMode(event.getPlayer(), event.getGame(), this.plugin.getConfig(), sbManager);
         event.setMode(mode);
+
+        this.sbManager.updateScoreboards();
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onGamePlayerLeave(GamePlayerLeaveEvent event) {
+
+        this.sbManager.updateScoreboards();
     }
 
     @EventHandler
