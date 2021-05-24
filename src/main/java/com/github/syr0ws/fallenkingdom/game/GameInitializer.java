@@ -62,6 +62,7 @@ public class GameInitializer {
 
         dao.readSettings("general-settings", manager.getSettings());
         dao.readSettings("game-settings", manager.getSettings());
+        dao.readSettings("game-rules", manager.getSettings());
 
         return manager;
     }
