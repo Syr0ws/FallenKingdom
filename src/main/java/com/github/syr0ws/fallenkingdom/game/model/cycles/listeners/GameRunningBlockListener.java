@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.game.model.cycles.impl.listeners;
+package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
 import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;

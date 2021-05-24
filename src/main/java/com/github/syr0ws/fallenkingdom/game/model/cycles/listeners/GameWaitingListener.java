@@ -1,6 +1,7 @@
-package com.github.syr0ws.fallenkingdom.game.model.cycles.impl.listeners;
+package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
 import com.github.syr0ws.fallenkingdom.events.GamePlayerJoinEvent;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameWaitingCycle;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.WaitingMode;
 import org.bukkit.entity.Player;
@@ -14,13 +15,20 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.plugin.Plugin;
 
-public class GamePreRunningListener implements Listener {
+public class GameWaitingListener implements Listener {
+
+    private final Plugin plugin;
+
+    public GameWaitingListener(GameWaitingCycle cycle) {
+        this.plugin = cycle.getPlugin();
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onGamePlayerJoin(GamePlayerJoinEvent event) {
 
-        Mode mode = new WaitingMode(event.getPlayer(), event.getGame());
+        Mode mode = new WaitingMode(event.getPlayer(), event.getGame(), this.plugin.getConfig());
         event.setMode(mode);
     }
 

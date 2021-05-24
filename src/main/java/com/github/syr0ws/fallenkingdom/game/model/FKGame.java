@@ -32,6 +32,8 @@ public class FKGame implements GameModel {
     private final List<AttributeObserver> observers = new ArrayList<>();
 
     private GameCycle cycle;
+    private GameState state;
+
     private boolean pvp, assaults;
     private int time;
 
@@ -58,6 +60,15 @@ public class FKGame implements GameModel {
 
         this.cycle = cycle;
         this.notifyChange(GameAttribute.CYCLE_CHANGE);
+    }
+
+    public void setState(GameState state) {
+
+        if(state == null)
+            throw new IllegalArgumentException("GameState cannot be null.");
+
+        this.state = state;
+        this.notifyChange(GameAttribute.STATE_CHANGE);
     }
 
     @Override
@@ -224,7 +235,7 @@ public class FKGame implements GameModel {
 
     @Override
     public GameState getState() {
-        return this.cycle.getState();
+        return this.state;
     }
 
     @Override

@@ -8,6 +8,7 @@ general-settings:
 
 # All the settings of the game.
 game-settings:
+  max-players: 8
   # Time in seconds before pvp activation.
   pvp-activation-time: 15
   # Time in seconds before assaults activation.
@@ -46,7 +47,7 @@ game-settings:
     - SHULKER_BOX
 
 
-starting-cycle:
+waiting-cycle:
   # All the settings of the cycle.
   settings:
     # The duration is seconds of the lauch period.

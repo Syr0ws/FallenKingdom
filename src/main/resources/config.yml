@@ -97,7 +97,20 @@ team-messages:
 ###                CYCLES                 ###
 #############################################
 
-starting-cycle:
+waiting-scoreboard:
+  title: "&6&lFallenKingdom"
+  lines:
+    - "&6&m--------------------"
+    - " "
+    - "&6• &eStatus&6: %state%"
+    - "&6• &eJoueurs&6: &e%online_players%&6/&e%max_players%"
+    - " "
+    - "&6&m--------------------"
+  state:
+    waiting: "&cEn attente"
+    starting: "&aDémarrage"
+
+waiting-cycle:
   # All the settings of the cycle.
   settings:
     # The duration is seconds of the lauch period.

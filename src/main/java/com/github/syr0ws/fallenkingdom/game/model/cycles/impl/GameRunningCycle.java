@@ -1,68 +1,78 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.impl;
 
+import com.github.syr0ws.fallenkingdom.displays.Display;
+import com.github.syr0ws.fallenkingdom.displays.DisplayFactory;
 import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.listeners.GameRunningBlockListener;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.listeners.GameRunningPlayerListener;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningBlockListener;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningPlayerListener;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.settings.Setting;
 import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
+import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
 import com.github.syr0ws.fallenkingdom.tools.Task;
+import com.github.syr0ws.fallenkingdom.tools.Validate;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
 public class GameRunningCycle extends GameCycle {
 
-    private final Plugin plugin;
     private final GameModel game;
-    private final ListenerManager manager;
 
     private CycleTask task;
-    private TimerActionManager actionManager;
 
     public GameRunningCycle(Plugin plugin, GameModel game) {
-        this.plugin = plugin;
+        super(plugin);
         this.game = game;
-        this.manager = new ListenerManager(plugin);
-        this.actionManager = this.getActionManager();
+    }
+
+    @Override
+    public void load() {
+
+        this.loadActions();
+        this.loadDisplays();
+
+        // Loading listeners.
+        ListenerManager listenerManager = super.getListenerManager();
+
+        listenerManager.addListener(new GameRunningPlayerListener(this.game));
+        listenerManager.addListener(new GameRunningBlockListener(this.game));
+    }
+
+    @Override
+    public void unload() {
+
+        super.getListenerManager().removeListeners();
     }
 
     @Override
     public void start() {
-
-        this.manager.addListener(new GameRunningPlayerListener(this.game));
-        this.manager.addListener(new GameRunningBlockListener(this.game));
-
         this.startTask();
     }
 
     @Override
     public void stop() {
-
-        this.manager.removeListeners();
         this.stopTask();
     }
 
-    @Override
-    public GameState getState() {
-        return GameState.RUNNING;
-    }
-
     private void startTask() {
-        this.task = new CycleTask(this.actionManager);
+        this.task = new GameRunningCycle.CycleTask();
         this.task.start();
     }
 
     private void stopTask() {
+
+        if(this.task == null || !this.task.isRunning()) return;
+
         this.task.stop();
         this.task = null;
     }
 
-    private TimerActionManager getActionManager() {
+    private void loadActions() {
 
-        TimerActionManager actionManager = new TimerActionManager();
+        TimerActionManager actionManager = super.getActionManager();
 
         // Retrieving settings.
         SettingManager settingManager = this.game.getSettings();
@@ -75,17 +85,39 @@ public class GameRunningCycle extends GameCycle {
         actionManager.addAction(pvpSetting.getValue(), () -> this.game.setPvPEnabled(true));
         actionManager.addAction(assaultsSetting.getValue(), () -> this.game.setAssaultsEnabled(true));
         actionManager.addAction(maxDurationSetting.getValue(), this::finish);
+    }
 
-        return actionManager;
+    private void loadDisplays() {
+
+        ConfigurationSection section = this.getCycleSection();
+        ConfigurationSection displaySection = section.getConfigurationSection("displays");
+
+        // May happens when no display are needed.
+        if(displaySection == null) return;
+
+        for(String key : displaySection.getKeys(false)) {
+
+            if(!Validate.isInt(key)) continue;
+
+            if(!displaySection.isConfigurationSection(key)) continue;
+
+            int time = Integer.parseInt(key);
+
+            ConfigurationSection keySection = displaySection.getConfigurationSection(key);
+
+            for(String displayKey : keySection.getKeys(false)) {
+
+                Display display = DisplayFactory.getDisplay(keySection.getConfigurationSection(displayKey));
+                super.getActionManager().addAction(time, new DisplayAction(display));
+            }
+        }
+    }
+
+    private ConfigurationSection getCycleSection() {
+        return super.getPlugin().getConfig().getConfigurationSection("running-cycle");
     }
 
     private class CycleTask extends Task {
-
-        private final TimerActionManager manager;
-
-        public CycleTask(TimerActionManager manager) {
-            this.manager = manager;
-        }
 
         @Override
         public void run() {
@@ -94,7 +126,7 @@ public class GameRunningCycle extends GameCycle {
 
             int time = game.getTime();
 
-            this.manager.executeActions(time);
+            GameRunningCycle.this.getActionManager().executeActions(time);
 
             game.addTime();
         }
@@ -102,7 +134,7 @@ public class GameRunningCycle extends GameCycle {
         @Override
         public void start() {
             super.start();
-            this.runTaskTimer(GameRunningCycle.this.plugin, 0L, 20L);
+            this.runTaskTimer(GameRunningCycle.this.getPlugin(), 0L, 20L);
         }
     }
 }

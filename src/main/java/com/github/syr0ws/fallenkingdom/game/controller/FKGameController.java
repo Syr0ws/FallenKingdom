@@ -67,21 +67,26 @@ public class FKGameController implements GameController, AttributeObserver {
 
     private void setGameState(GameState state) {
 
-        GameCycle current = this.game.getCycle();
+        this.game.setState(state);
 
-        // Current state can be null if it is the first (Example : WAITING).
-        if(current != null) {
+        GameCycle current = this.game.getCycle();
+        GameCycle cycle = this.factory.getCycle(state);
+
+        if(cycle != null && current != null) {
 
             current.stop();
+            current.unload();
             current.removeObserver(this);
         }
 
-        GameCycle cycle = this.factory.getCycle(state);
-        cycle.addObserver(this);
+        if(cycle != null) {
 
-        this.game.setCycle(cycle);
+            this.game.setCycle(cycle);
 
-        cycle.start();
+            cycle.addObserver(this);
+            cycle.load();
+            cycle.start();
+        }
     }
 
     private void onGameState(GameState state) throws GameException {
@@ -127,8 +132,8 @@ public class FKGameController implements GameController, AttributeObserver {
     @Override
     public void preStart() throws GameException {
 
-        if(this.game.isStarted())
-            throw new GameException("A game is starting or already started.");
+        if(this.game.getState() != GameState.WAITING)
+            throw new GameException("Game is not waiting.");
 
         this.setGameState(GameState.STARTING);
     }
