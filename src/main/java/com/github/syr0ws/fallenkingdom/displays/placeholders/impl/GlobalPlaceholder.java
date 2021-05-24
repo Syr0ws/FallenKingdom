@@ -1,4 +1,6 @@
-package com.github.syr0ws.fallenkingdom.displays.placeholders;
+package com.github.syr0ws.fallenkingdom.displays.placeholders.impl;
+
+import com.github.syr0ws.fallenkingdom.displays.placeholders.Placeholder;
 
 public enum GlobalPlaceholder implements Placeholder {
 
