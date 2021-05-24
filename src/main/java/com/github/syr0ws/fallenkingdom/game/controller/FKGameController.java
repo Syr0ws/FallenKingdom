@@ -15,7 +15,6 @@ import com.github.syr0ws.fallenkingdom.game.model.attributes.GameCycleAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycleFactory;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
-import com.github.syr0ws.fallenkingdom.game.model.modes.impl.PlayingMode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.SpectatorMode;
 import com.github.syr0ws.fallenkingdom.game.model.players.CraftGamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
@@ -119,16 +118,6 @@ public class FKGameController implements GameController, AttributeObserver {
         }
     }
 
-    private void setPlayingMode() {
-
-        for(TeamPlayer player : this.game.getTeamPlayers()) {
-
-            PlayingMode mode = new PlayingMode(player, this.game);
-
-            this.game.setGamePlayerMode(player.getUUID(), mode);
-        }
-    }
-
     @Override
     public void preStart() throws GameException {
 
@@ -145,7 +134,6 @@ public class FKGameController implements GameController, AttributeObserver {
             throw new GameException("A game is starting or already started.");
 
         this.addTeams();
-        this.setPlayingMode();
         this.setGameState(GameState.RUNNING);
     }
 
