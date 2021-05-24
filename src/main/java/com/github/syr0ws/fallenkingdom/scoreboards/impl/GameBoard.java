@@ -10,6 +10,7 @@ import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.scoreboards.AbstractFastBoard;
+import com.github.syr0ws.fallenkingdom.tools.PeriodFormatter;
 import com.github.syr0ws.fallenkingdom.utils.TextUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,6 +25,7 @@ public class GameBoard extends AbstractFastBoard implements AttributeObserver {
     private final GameModel game;
     private final TeamPlayer player;
     private final FileConfiguration config;
+    private final PeriodFormatter formatter;
 
     public GameBoard(GameModel game, TeamPlayer player, FileConfiguration config) {
         super(player.getPlayer());
@@ -39,6 +41,7 @@ public class GameBoard extends AbstractFastBoard implements AttributeObserver {
         this.config = config;
 
         this.game.addObserver(this);
+        this.formatter = new PeriodFormatter(this.getBoardSection().getConfigurationSection("time"));
     }
 
     @Override
@@ -50,13 +53,16 @@ public class GameBoard extends AbstractFastBoard implements AttributeObserver {
     @Override
     protected List<String> parseLines(Collection<String> lines) {
 
+        String timeFormat = this.getBoardSection().getString("time.format", "");
+        String time = this.formatter.format(timeFormat, this.game.getTime());
+
         return lines.stream().map(line -> {
 
             Message message = new Message(line);
             message.addPlaceholder(TeamPlaceholder.TEAM_NAME, this.getPlayerTeam());
             message.addPlaceholder(GamePlaceholder.PVP_STATE, this.getPvPState());
             message.addPlaceholder(GamePlaceholder.ASSAULTS_STATE, this.getAssaultsState());
-            message.addPlaceholder(GamePlaceholder.TIME, "1h30m40s");
+            message.addPlaceholder(GamePlaceholder.TIME, time);
 
             return message.getText();
 
