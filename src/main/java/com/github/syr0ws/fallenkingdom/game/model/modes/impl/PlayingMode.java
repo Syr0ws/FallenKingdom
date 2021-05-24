@@ -6,15 +6,21 @@ import com.github.syr0ws.fallenkingdom.game.model.modes.ModeType;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.fallenkingdom.scoreboards.Scoreboard;
+import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
+import com.github.syr0ws.fallenkingdom.scoreboards.impl.GameBoard;
 import org.bukkit.GameMode;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class PlayingMode implements Mode {
 
     private final TeamPlayer teamPlayer;
     private final GameModel game;
+    private final ScoreboardManager sbManager;
+    private final FileConfiguration config;
 
-    public PlayingMode(TeamPlayer teamPlayer, GameModel game) {
+    public PlayingMode(TeamPlayer teamPlayer, GameModel game, ScoreboardManager sbManager, FileConfiguration config) {
 
         if(teamPlayer == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
@@ -24,6 +30,8 @@ public class PlayingMode implements Mode {
 
         this.teamPlayer = teamPlayer;
         this.game = game;
+        this.sbManager = sbManager;
+        this.config = config;
     }
 
     @Override
@@ -48,11 +56,15 @@ public class PlayingMode implements Mode {
         }
 
         player.setPlayerListName(team.getDisplayName() + " " + player.getName());
+
+        Scoreboard scoreboard = new GameBoard(this.game, this.teamPlayer, this.config);
+        this.sbManager.addScoreboard(player, scoreboard);
     }
 
     @Override
     public void remove() {
 
+        this.sbManager.removeScoreboard(this.teamPlayer.getPlayer());
     }
 
     @Override

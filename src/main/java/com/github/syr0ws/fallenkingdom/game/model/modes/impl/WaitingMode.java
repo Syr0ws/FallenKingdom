@@ -4,7 +4,11 @@ import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.ModeType;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import com.github.syr0ws.fallenkingdom.scoreboards.Scoreboard;
+import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
+import com.github.syr0ws.fallenkingdom.scoreboards.impl.WaitingBoard;
 import org.bukkit.GameMode;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class WaitingMode implements Mode {
@@ -12,7 +16,10 @@ public class WaitingMode implements Mode {
     private final GamePlayer gamePlayer;
     private final GameModel game;
 
-    public WaitingMode(GamePlayer gamePlayer, GameModel game) {
+    private final FileConfiguration config;
+    private final ScoreboardManager sbManager;
+
+    public WaitingMode(GamePlayer gamePlayer, GameModel game, FileConfiguration config, ScoreboardManager sbManager) {
 
         if(gamePlayer == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
@@ -22,6 +29,9 @@ public class WaitingMode implements Mode {
 
         this.gamePlayer = gamePlayer;
         this.game = game;
+
+        this.config = config;
+        this.sbManager = sbManager;
     }
 
     @Override
@@ -36,11 +46,17 @@ public class WaitingMode implements Mode {
         player.setGameMode(GameMode.ADVENTURE);
         player.getInventory().clear();
         player.teleport(this.game.getSpawn());
+
+        Scoreboard scoreboard = new WaitingBoard(this.game, player, this.config);
+        this.sbManager.addScoreboard(player, scoreboard);
     }
 
     @Override
     public void remove() {
 
+        Player player = this.gamePlayer.getPlayer();
+
+        this.sbManager.removeScoreboard(player);
     }
 
     @Override
