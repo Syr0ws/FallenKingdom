@@ -30,7 +30,12 @@ public enum GameSettings implements SettingKey {
     ),
 
     SPAWN_LOCATION(
-            new LocationSetting("game-spawn", Objects::nonNull));
+            new LocationSetting("game-spawn", Objects::nonNull)
+    ),
+
+    MAX_PLAYERS(
+            new SimpleConfigSetting<>("max-players", 8, Integer.class, players -> players >= 2)
+    );
 
     private final Setting<?> setting;
 
