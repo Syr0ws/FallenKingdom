@@ -224,6 +224,11 @@ public class FKGame implements GameModel {
     }
 
     @Override
+    public boolean areInSameTeam(TeamPlayer player1, TeamPlayer player2) {
+        return player1.getTeam().equals(player2.getTeam());
+    }
+
+    @Override
     public int getTime() {
         return this.time;
     }

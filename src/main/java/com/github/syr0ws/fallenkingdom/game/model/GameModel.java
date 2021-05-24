@@ -53,6 +53,8 @@ public interface GameModel extends AttributeObservable {
 
     boolean isTeamPlayer(GamePlayer player);
 
+    boolean areInSameTeam(TeamPlayer player1, TeamPlayer player2);
+
     int getTime();
 
     GameCycle getCycle();
