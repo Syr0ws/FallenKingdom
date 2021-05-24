@@ -27,7 +27,8 @@ public class CraftGamePlayer implements GamePlayer {
         if(mode == null)
             throw new IllegalArgumentException("Mode cannot be null.");
 
-        if(this.mode != null) this.mode.remove(); // Removing old mode.
+        if(this.mode != null && !this.mode.equals(mode))
+            this.mode.remove(); // Removing old mode.
 
         mode.set(); // Setting new mode.
         this.mode = mode;
