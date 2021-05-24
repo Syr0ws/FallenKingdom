@@ -6,6 +6,10 @@ general-settings:
   default-weather: "SUNNY"
 
 
+game-rules:
+  friendly-fire: false
+
+
 # All the settings of the game.
 game-settings:
   max-players: 8
