@@ -348,7 +348,7 @@ public class FKGame implements GameModel {
     @Override
     public Collection<? extends TeamPlayer> getTeamPlayers() {
         return this.teams.stream()
-                .flatMap(team -> team.getPlayers().stream())
+                .flatMap(team -> team.getTeamPlayers().stream())
                 .collect(Collectors.toList());
     }
 
