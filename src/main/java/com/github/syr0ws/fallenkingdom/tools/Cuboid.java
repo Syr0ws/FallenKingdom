@@ -75,9 +75,9 @@ public class Cuboid {
 
     public boolean isIn(Location location) {
 
-        double x = location.getX();
-        double y = location.getY();
-        double z = location.getZ();
+        double x = location.getBlockX();
+        double y = location.getBlockY();
+        double z = location.getBlockZ();
 
         return x >= this.minX && x <= this.maxX
                 && y >= this.minY && y <= this.maxY
