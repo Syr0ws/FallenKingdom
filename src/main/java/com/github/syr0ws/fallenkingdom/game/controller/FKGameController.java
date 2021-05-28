@@ -265,7 +265,7 @@ public class FKGameController implements GameController, AttributeObserver {
 
         GamePlayer gamePlayer = this.game.getGamePlayer(catcher.getUUID());
 
-        PlayerCaptureBaseStartEvent event = new PlayerCaptureBaseStartEvent(this.game, gamePlayer, catcher, catcher.getTeam());
+        PlayerCaptureBaseStartEvent event = new PlayerCaptureBaseStartEvent(this.game, gamePlayer, catcher, captured);
 
         PluginManager manager = Bukkit.getPluginManager();
         manager.callEvent(event);
@@ -305,7 +305,7 @@ public class FKGameController implements GameController, AttributeObserver {
 
         GamePlayer gamePlayer = this.game.getGamePlayer(catcher.getUUID());
 
-        PlayerCaptureBaseStopEvent event = new PlayerCaptureBaseStopEvent(this.game, gamePlayer, catcher, catcher.getTeam());
+        PlayerCaptureBaseStopEvent event = new PlayerCaptureBaseStopEvent(this.game, gamePlayer, catcher, capture.getCaptured());
 
         manager.callEvent(event);
     }
