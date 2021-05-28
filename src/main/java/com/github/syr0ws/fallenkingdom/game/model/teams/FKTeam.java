@@ -1,8 +1,13 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
+import com.github.syr0ws.fallenkingdom.displays.Display;
+import com.github.syr0ws.fallenkingdom.game.model.players.AbstractPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class FKTeam implements Team {
 
@@ -63,6 +68,19 @@ public class FKTeam implements Team {
     }
 
     @Override
+    public void sendDisplay(Display display) {
+        this.getOnlinePlayers().forEach(display::displayTo);
+    }
+
+    @Override
+    public void sendDisplay(Display display, Predicate<TeamPlayer> predicate) {
+        this.getOnlineTeamPlayers().stream()
+                .filter(predicate)
+                .map(AbstractPlayer::getPlayer)
+                .forEach(display::displayTo);
+    }
+
+    @Override
     public String getName() {
         return this.name;
     }
@@ -89,7 +107,7 @@ public class FKTeam implements Team {
 
     @Override
     public boolean contains(TeamPlayer player) {
-        return this.getPlayers().contains(player);
+        return this.getTeamPlayers().contains(player);
     }
 
     @Override
@@ -129,7 +147,22 @@ public class FKTeam implements Team {
     }
 
     @Override
-    public List<? extends TeamPlayer> getPlayers() {
+    public Collection<? extends TeamPlayer> getOnlineTeamPlayers() {
+        return this.players.stream()
+                .filter(FKTeamPlayer::isOnline)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<? extends Player> getOnlinePlayers() {
+        return this.players.stream()
+                .filter(FKTeamPlayer::isOnline)
+                .map(FKTeamPlayer::getPlayer)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<? extends TeamPlayer> getTeamPlayers() {
         return Collections.unmodifiableList(this.players);
     }
 }

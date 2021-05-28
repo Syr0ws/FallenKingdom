@@ -1,12 +1,19 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
+import com.github.syr0ws.fallenkingdom.displays.Display;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import org.bukkit.entity.Player;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public interface Team {
+
+    void sendDisplay(Display display);
+
+    void sendDisplay(Display display, Predicate<TeamPlayer> predicate);
 
     String getName();
 
@@ -32,5 +39,9 @@ public interface Team {
 
     Optional<TeamPlayer> getTeamPlayer(GamePlayer player);
 
-    List<? extends TeamPlayer> getPlayers();
+    Collection<? extends TeamPlayer> getOnlineTeamPlayers();
+
+    Collection<? extends Player> getOnlinePlayers();
+
+    Collection<? extends TeamPlayer> getTeamPlayers();
 }
