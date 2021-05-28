@@ -94,7 +94,10 @@ team-messages:
 
 
 capture:
-  capturing: "&6>> &eVous &acapturez &ela base de l'équipe %team_name%."
+  player-start-capture: "&6>> &eVous capturez la base de l'équipe %team_name%."
+  player-stop-capture: "&6>> &eVous ne capturez plus la base de l'équipe %team_name%."
+  team-base-start-capture: "&6>> &eL'équipe %team_name% &ecapture votre base."
+  team-base-stop-capture: "&6>> &eL'équipe %team_name% &ene capture plus votre base."
 
 #############################################
 ###                CYCLES                 ###
