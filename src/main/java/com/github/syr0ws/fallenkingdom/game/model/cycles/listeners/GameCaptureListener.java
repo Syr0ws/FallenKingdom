@@ -6,7 +6,6 @@ import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.players.AbstractPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
@@ -124,10 +123,7 @@ public class GameCaptureListener implements Listener {
         Message message = new Message(this.getCaptureSection().getString("team-base-start-capture"));
         message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCatcher().getDisplayName());
 
-        event.getTeam().getPlayers().stream()
-                .filter(player -> player.isOnline() && player.isAlive())
-                .map(AbstractPlayer::getPlayer)
-                .forEach(message::displayTo);
+        event.getTeam().sendDisplay(message, TeamPlayer::isAlive);
     }
 
     @EventHandler
@@ -136,10 +132,7 @@ public class GameCaptureListener implements Listener {
         Message message = new Message(this.getCaptureSection().getString("team-base-stop-capture"));
         message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCatcher().getDisplayName());
 
-        event.getTeam().getPlayers().stream()
-                .filter(player -> player.isOnline() && player.isAlive())
-                .map(AbstractPlayer::getPlayer)
-                .forEach(message::displayTo);
+        event.getTeam().sendDisplay(message, TeamPlayer::isAlive);
     }
 
     private void onCaptureStop(TeamPlayer player) {
