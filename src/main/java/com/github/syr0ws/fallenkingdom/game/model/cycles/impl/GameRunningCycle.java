@@ -48,7 +48,7 @@ public class GameRunningCycle extends GameCycle {
 
         listenerManager.addListener(new GameRunningPlayerListener(this.game, this.controller));
         listenerManager.addListener(new GameRunningBlockListener(this.game));
-        listenerManager.addListener(new GameCaptureListener(this.controller));
+        listenerManager.addListener(new GameCaptureListener(this.getPlugin(), this.controller));
     }
 
     @Override

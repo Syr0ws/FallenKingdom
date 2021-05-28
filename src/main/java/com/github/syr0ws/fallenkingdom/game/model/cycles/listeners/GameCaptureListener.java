@@ -1,26 +1,33 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
-import com.github.syr0ws.fallenkingdom.events.GamePlayerLeaveEvent;
+import com.github.syr0ws.fallenkingdom.displays.impl.Message;
+import com.github.syr0ws.fallenkingdom.displays.placeholders.impl.TeamPlaceholder;
+import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.players.AbstractPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Optional;
 
 public class GameCaptureListener implements Listener {
 
+    private final Plugin plugin;
     private final GameController controller;
     private final GameModel game;
 
-    public GameCaptureListener(GameController controller) {
+    public GameCaptureListener(Plugin plugin, GameController controller) {
+        this.plugin = plugin;
         this.controller = controller;
         this.game = controller.getGame();
     }
@@ -58,7 +65,15 @@ public class GameCaptureListener implements Listener {
 
         } else if(optionalTeamTo.isPresent() && !optionalTeamFrom.isPresent()) {
 
-            if(!this.game.isCapturing(teamPlayer)) this.onCaptureStart(teamPlayer, optionalTeamTo.get());
+            // If the player is already capturing, do not do anything.
+            if(this.game.isCapturing(teamPlayer)) return;
+
+            Team team = optionalTeamTo.get();
+
+            // If the team is already eliminated, do no do anything.
+            if(team.isEliminated()) return;
+
+            this.onCaptureStart(teamPlayer, optionalTeamTo.get());
         }
     }
 
@@ -81,6 +96,52 @@ public class GameCaptureListener implements Listener {
         this.onCaptureStop(teamPlayer);
     }
 
+    @EventHandler
+    public void onPlayerCaptureBaseStart(PlayerCaptureBaseStartEvent event) {
+
+        GamePlayer gamePlayer = event.getPlayer();
+
+        Message message = new Message(this.getCaptureSection().getString("player-start-capture"));
+        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCapturedTeam().getDisplayName());
+
+        message.displayTo(gamePlayer.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerCaptureBaseStop(PlayerCaptureBaseStopEvent event) {
+
+        GamePlayer gamePlayer = event.getPlayer();
+
+        Message message = new Message(this.getCaptureSection().getString("player-stop-capture"));
+        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCapturedTeam().getDisplayName());
+
+        message.displayTo(gamePlayer.getPlayer());
+    }
+
+    @EventHandler
+    public void onTeamBaseCaptureStart(TeamBaseCaptureStartEvent event) {
+
+        Message message = new Message(this.getCaptureSection().getString("team-base-start-capture"));
+        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCatcher().getDisplayName());
+
+        event.getTeam().getPlayers().stream()
+                .filter(player -> player.isOnline() && player.isAlive())
+                .map(AbstractPlayer::getPlayer)
+                .forEach(message::displayTo);
+    }
+
+    @EventHandler
+    public void onTeamBaseCaptureStop(TeamBaseCaptureStopEvent event) {
+
+        Message message = new Message(this.getCaptureSection().getString("team-base-stop-capture"));
+        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCatcher().getDisplayName());
+
+        event.getTeam().getPlayers().stream()
+                .filter(player -> player.isOnline() && player.isAlive())
+                .map(AbstractPlayer::getPlayer)
+                .forEach(message::displayTo);
+    }
+
     private void onCaptureStop(TeamPlayer player) {
 
         try { this.controller.stopCapture(player);
@@ -98,5 +159,9 @@ public class GameCaptureListener implements Listener {
                 .filter(team -> !team.contains(player))
                 .filter(team -> team.getBase().getVault().isIn(location))
                 .findFirst();
+    }
+
+    private ConfigurationSection getCaptureSection() {
+        return this.plugin.getConfig().getConfigurationSection("capture");
     }
 }
