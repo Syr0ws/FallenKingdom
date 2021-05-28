@@ -9,6 +9,10 @@ public abstract class TeamEvent extends GameEvent {
 
     public TeamEvent(GameModel game, Team team) {
         super(game);
+
+        if(team == null)
+            throw new IllegalArgumentException("Team cannot be null.");
+
         this.team = team;
     }
 

@@ -17,17 +17,13 @@ import java.util.UUID;
 
 public interface GameModel extends AttributeObservable {
 
-    TeamPlayer setTeam(GamePlayer player, String teamName);
+    TeamPlayer setTeam(GamePlayer player, Team team);
 
     TeamPlayer removeTeam(GamePlayer player);
 
     void setPvPEnabled(boolean enabled);
 
     void setAssaultsEnabled(boolean enabled);
-
-    void addCapture(Capture capture);
-
-    void removeCapture(Capture capture);
 
     void setGamePlayerMode(UUID uuid, Mode mode);
 
@@ -45,6 +41,12 @@ public interface GameModel extends AttributeObservable {
 
     boolean areAssaultsEnabled();
 
+    boolean isValid(Team team);
+
+    boolean isValid(TeamPlayer player);
+
+    boolean isValid(Capture capture);
+
     boolean hasTeam(UUID uuid);
 
     boolean hasTeam(GamePlayer player);
@@ -53,7 +55,9 @@ public interface GameModel extends AttributeObservable {
 
     boolean isTeamPlayer(GamePlayer player);
 
-    boolean areInSameTeam(TeamPlayer player1, TeamPlayer player2);
+    boolean isCaptured(Team team);
+
+    boolean isCapturing(TeamPlayer player);
 
     int getTime();
 
@@ -67,19 +71,21 @@ public interface GameModel extends AttributeObservable {
 
     GamePlayer getGamePlayer(UUID uuid);
 
-    Optional<GamePlayer> getGamePlayer(String name);
+    Optional<? extends GamePlayer> getGamePlayer(String name);
 
     Optional<? extends TeamPlayer> getTeamPlayer(UUID uuid);
 
     Optional<? extends TeamPlayer> getTeamPlayer(GamePlayer player);
 
-    Optional<Team> getTeam(UUID uuid);
+    Optional<? extends Team> getTeam(UUID uuid);
 
-    Optional<Team> getTeam(GamePlayer player);
+    Optional<? extends Team> getTeam(GamePlayer player);
 
-    Optional<Team> getTeamByName(String name);
+    Optional<? extends Team> getTeamByName(String name);
 
-    Collection<Capture> getCaptures();
+    Optional<? extends Capture> getCapture(Team captured);
+
+    Collection<? extends Capture> getCaptures();
 
     Collection<? extends Team> getTeams();
 

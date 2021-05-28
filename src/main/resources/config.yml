@@ -93,6 +93,9 @@ team-messages:
   leave: "&6>> &eVous avez &cquitté &el'équipe %team_name%&e."
 
 
+capture:
+  capturing: "&6>> &eVous &acapturez &ela base de l'équipe %team_name%."
+
 #############################################
 ###                CYCLES                 ###
 #############################################

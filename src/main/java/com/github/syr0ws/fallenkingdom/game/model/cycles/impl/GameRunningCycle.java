@@ -3,8 +3,10 @@ package com.github.syr0ws.fallenkingdom.game.model.cycles.impl;
 import com.github.syr0ws.fallenkingdom.displays.Display;
 import com.github.syr0ws.fallenkingdom.displays.DisplayFactory;
 import com.github.syr0ws.fallenkingdom.game.GameSettings;
+import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameCaptureListener;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningBlockListener;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningPlayerListener;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.PlayingMode;
@@ -23,13 +25,15 @@ import org.bukkit.plugin.Plugin;
 public class GameRunningCycle extends GameCycle {
 
     private final GameModel game;
+    private final GameController controller;
     private final ScoreboardManager sbManager;
 
     private CycleTask task;
 
-    public GameRunningCycle(Plugin plugin, GameModel game) {
+    public GameRunningCycle(Plugin plugin, GameModel game, GameController controller) {
         super(plugin);
         this.game = game;
+        this.controller = controller;
         this.sbManager = new ScoreboardManager();
     }
 
@@ -42,8 +46,9 @@ public class GameRunningCycle extends GameCycle {
         // Loading listeners.
         ListenerManager listenerManager = super.getListenerManager();
 
-        listenerManager.addListener(new GameRunningPlayerListener(this.game));
+        listenerManager.addListener(new GameRunningPlayerListener(this.game, this.controller));
         listenerManager.addListener(new GameRunningBlockListener(this.game));
+        listenerManager.addListener(new GameCaptureListener(this.controller));
     }
 
     @Override

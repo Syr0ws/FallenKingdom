@@ -10,6 +10,10 @@ public abstract class TeamPlayerEvent extends TeamEvent {
 
     public TeamPlayerEvent(GameModel game, Team team, TeamPlayer player) {
         super(game, team);
+
+        if(player == null)
+            throw new IllegalArgumentException("TeamPlayer cannot be null.");
+
         this.player = player;
     }
 

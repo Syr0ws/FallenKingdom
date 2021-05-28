@@ -35,6 +35,10 @@ public enum GameSettings implements SettingKey {
 
     MAX_PLAYERS(
             new SimpleConfigSetting<>("max-players", 8, Integer.class, players -> players >= 2)
+    ),
+
+    CATCHER_PERCENTAGE(
+            new SimpleConfigSetting<>("catcher-percentage", 50, Integer.class, percentage -> percentage > 0 && percentage <= 100)
     );
 
     private final Setting<?> setting;

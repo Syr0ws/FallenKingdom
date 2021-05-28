@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles;
 
+import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameRunningCycle;
@@ -9,10 +10,12 @@ import org.bukkit.plugin.Plugin;
 public class GameCycleFactory {
 
     private final GameModel game;
+    private final GameController controller;
     private final Plugin plugin;
 
-    public GameCycleFactory(GameModel game, Plugin plugin) {
+    public GameCycleFactory(GameModel game, GameController controller, Plugin plugin) {
         this.game = game;
+        this.controller = controller;
         this.plugin = plugin;
     }
 
@@ -22,7 +25,7 @@ public class GameCycleFactory {
             case WAITING:
                 return new GameWaitingCycle(this.plugin, this.game);
             case RUNNING:
-                return new GameRunningCycle(this.plugin, this.game);
+                return new GameRunningCycle(this.plugin, this.game, this.controller);
             case FINISHED:
                 return null;
             default:

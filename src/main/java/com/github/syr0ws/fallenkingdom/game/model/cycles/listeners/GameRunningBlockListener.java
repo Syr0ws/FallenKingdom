@@ -42,7 +42,7 @@ public class GameRunningBlockListener implements Listener {
         Material material = block.getType();
         Location location = block.getLocation();
 
-        Optional<Team> optional = this.game.getTeam(player.getUniqueId());
+        Optional<? extends Team> optional = this.game.getTeam(player.getUniqueId());
 
         // If the player has no team, cancelling the event.
         if(!optional.isPresent()) {

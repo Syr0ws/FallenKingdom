@@ -12,6 +12,7 @@ game-rules:
 
 # All the settings of the game.
 game-settings:
+  catcher-percentage: 50
   max-players: 8
   # Time in seconds before pvp activation.
   pvp-activation-time: 15

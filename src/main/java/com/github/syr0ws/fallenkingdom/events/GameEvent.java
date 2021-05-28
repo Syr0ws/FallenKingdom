@@ -8,6 +8,10 @@ public abstract class GameEvent extends Event {
     private final GameModel game;
 
     public GameEvent(GameModel game) {
+
+        if(game == null)
+            throw new IllegalArgumentException("Game cannot be null.");
+
         this.game = game;
     }
 

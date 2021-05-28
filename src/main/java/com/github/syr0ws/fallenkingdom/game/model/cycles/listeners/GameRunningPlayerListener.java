@@ -2,6 +2,7 @@ package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
 import com.github.syr0ws.fallenkingdom.events.GamePlayerJoinEvent;
 import com.github.syr0ws.fallenkingdom.game.GameRule;
+import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.SpectatorMode;
@@ -22,9 +23,11 @@ import java.util.Optional;
 public class GameRunningPlayerListener implements Listener {
 
     private final GameModel game;
+    private final GameController controller;
 
-    public GameRunningPlayerListener(GameModel game) {
+    public GameRunningPlayerListener(GameModel game, GameController controller) {
         this.game = game;
+        this.controller = controller;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -80,7 +83,7 @@ public class GameRunningPlayerListener implements Listener {
         TeamPlayer player1 = optional1.get();
         TeamPlayer player2 = optional2.get();
 
-        if(this.game.areInSameTeam(player1, player2)) event.setCancelled(true);
+        if(player1.getTeam().equals(player2.getTeam())) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

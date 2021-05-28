@@ -1,15 +1,17 @@
 package com.github.syr0ws.fallenkingdom.events;
 
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import org.bukkit.event.HandlerList;
 
-public class TeamCaptureStopEvent extends TeamCaptureEvent {
+public class PlayerCaptureBaseStartEvent extends PlayerCaptureBaseEvent {
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 
-    public TeamCaptureStopEvent(GameModel game, Team team, Team capturer) {
-        super(game, team, capturer);
+    public PlayerCaptureBaseStartEvent(GameModel game, GamePlayer gamePlayer, TeamPlayer catcher, Team captured) {
+        super(game, gamePlayer, catcher, captured);
     }
 
     @Override

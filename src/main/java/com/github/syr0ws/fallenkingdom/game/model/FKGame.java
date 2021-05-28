@@ -5,6 +5,7 @@ import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.capture.Capture;
+import com.github.syr0ws.fallenkingdom.game.model.capture.FKCapture;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.players.CraftGamePlayer;
@@ -27,7 +28,7 @@ public class FKGame implements GameModel {
     private final SettingManager settings;
     private final List<FKTeam> teams;
 
-    private final List<Capture> captures = new ArrayList<>();
+    private final List<FKCapture> captures = new ArrayList<>();
     private final List<CraftGamePlayer> players = new ArrayList<>();
     private final List<AttributeObserver> observers = new ArrayList<>();
 
@@ -49,10 +50,6 @@ public class FKGame implements GameModel {
         this.teams = teams;
     }
 
-    public boolean isGamePlayer(UUID uuid) {
-        return this.players.stream().anyMatch(gamePlayer -> gamePlayer.getUUID().equals(uuid));
-    }
-
     public void setCycle(GameCycle cycle) {
 
         if(cycle == null)
@@ -71,23 +68,39 @@ public class FKGame implements GameModel {
         this.notifyChange(GameAttribute.STATE_CHANGE);
     }
 
+    public void addCapture(FKCapture capture) {
+
+        if(this.captures.contains(capture))
+            throw new IllegalArgumentException("Capture already exists.");
+
+        this.captures.add(capture);
+    }
+
+    public void removeCapture(FKCapture capture) {
+
+        if(!this.captures.contains(capture))
+            throw new IllegalArgumentException("Capture doesn't exist.");
+
+        this.captures.remove(capture);
+    }
+
+    public boolean isGamePlayer(UUID uuid) {
+        return this.players.stream().anyMatch(gamePlayer -> gamePlayer.getUUID().equals(uuid));
+    }
+
     @Override
-    public TeamPlayer setTeam(GamePlayer player, String teamName) {
+    public TeamPlayer setTeam(GamePlayer player, Team team) {
 
         if(this.isStarted() || this.isFinished())
             throw new IllegalArgumentException("Cannot set a team to a player when a game is started or finished.");
 
-        Optional<Team> optional = this.getTeamByName(teamName);
+        if(!this.isValid(team))
+            throw new IllegalArgumentException("Team not registered.");
 
-        if(!optional.isPresent())
-            throw new IllegalArgumentException(String.format("Team '%s' doesn't exist.", teamName));
+        // If the team exists, it is an instance of the FKTeam class.
+        FKTeam fkTeam = (FKTeam) team;
 
-        Optional<Team> optionalTeam = this.getTeam(player.getUUID());
-        optionalTeam.map(team -> (FKTeam) team).ifPresent(team -> team.removePlayer(player.getUUID()));
-
-        FKTeam team = (FKTeam) optional.get();
-
-        return team.addPlayer(player);
+        return fkTeam.addPlayer(player);
     }
 
     @Override
@@ -119,24 +132,6 @@ public class FKGame implements GameModel {
     public void setAssaultsEnabled(boolean enabled) {
         this.assaults = enabled;
         this.notifyChange(GameAttribute.ASSAULTS_STATE);
-    }
-
-    @Override
-    public void addCapture(Capture capture) {
-
-        if(this.captures.contains(capture))
-            throw new IllegalArgumentException("Capture already exists.");
-
-        this.captures.add(capture);
-    }
-
-    @Override
-    public void removeCapture(Capture capture) {
-
-        if(!this.captures.contains(capture))
-            throw new IllegalArgumentException("Capture doesn't exist.");
-
-        this.captures.remove(capture);
     }
 
     @Override
@@ -204,6 +199,21 @@ public class FKGame implements GameModel {
     }
 
     @Override
+    public boolean isValid(Team team) {
+        return this.getTeams().contains(team);
+    }
+
+    @Override
+    public boolean isValid(TeamPlayer player) {
+        return this.getTeamPlayers().contains(player);
+    }
+
+    @Override
+    public boolean isValid(Capture capture) {
+        return this.getCaptures().contains(capture);
+    }
+
+    @Override
     public boolean hasTeam(UUID uuid) {
         return this.teams.stream().anyMatch(team -> team.contains(uuid));
     }
@@ -224,8 +234,15 @@ public class FKGame implements GameModel {
     }
 
     @Override
-    public boolean areInSameTeam(TeamPlayer player1, TeamPlayer player2) {
-        return player1.getTeam().equals(player2.getTeam());
+    public boolean isCaptured(Team team) {
+        return this.captures.stream()
+                .anyMatch(capture -> capture.getCaptured().equals(team));
+    }
+
+    @Override
+    public boolean isCapturing(TeamPlayer player) {
+        return this.captures.stream()
+                .anyMatch(capture -> capture.getCapturers().contains(player));
     }
 
     @Override
@@ -268,10 +285,9 @@ public class FKGame implements GameModel {
     }
 
     @Override
-    public Optional<GamePlayer> getGamePlayer(String name) {
+    public Optional<? extends GamePlayer> getGamePlayer(String name) {
         return this.players.stream()
                 .filter(player -> player.getName().equals(name))
-                .map(player -> (GamePlayer) player)
                 .findFirst();
     }
 
@@ -292,31 +308,35 @@ public class FKGame implements GameModel {
     }
 
     @Override
-    public Optional<Team> getTeam(UUID uuid) {
+    public Optional<FKTeam> getTeam(UUID uuid) {
         return this.teams.stream()
                 .filter(team -> team.contains(uuid))
-                .map(team -> (Team) team)
                 .findFirst();
     }
 
     @Override
-    public Optional<Team> getTeam(GamePlayer player) {
+    public Optional<FKTeam> getTeam(GamePlayer player) {
         return this.teams.stream()
                 .filter(team -> team.contains(player))
-                .map(team -> (Team) team)
                 .findFirst();
     }
 
     @Override
-    public Optional<Team> getTeamByName(String name) {
+    public Optional<FKTeam> getTeamByName(String name) {
         return this.teams.stream()
                 .filter(team -> team.getName().equalsIgnoreCase(name))
-                .map(team -> (Team) team)
                 .findFirst();
     }
 
     @Override
-    public Collection<Capture> getCaptures() {
+    public Optional<FKCapture> getCapture(Team captured) {
+        return this.captures.stream()
+                .filter(capture -> capture.getCaptured().equals(captured))
+                .findFirst();
+    }
+
+    @Override
+    public Collection<FKCapture> getCaptures() {
         return Collections.unmodifiableList(this.captures);
     }
 

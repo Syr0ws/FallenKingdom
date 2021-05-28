@@ -58,6 +58,10 @@ public class FKTeam implements Team {
         this.players.forEach(player -> player.setAlive(false));
     }
 
+    public void setBaseCaptured() {
+        this.state = TeamState.BASE_CAPTURED;
+    }
+
     @Override
     public String getName() {
         return this.name;

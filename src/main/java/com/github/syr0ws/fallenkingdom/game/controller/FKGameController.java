@@ -2,26 +2,29 @@ package com.github.syr0ws.fallenkingdom.game.controller;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
-import com.github.syr0ws.fallenkingdom.events.GamePlayerJoinEvent;
-import com.github.syr0ws.fallenkingdom.events.GamePlayerLeaveEvent;
-import com.github.syr0ws.fallenkingdom.events.TeamPlayerAddEvent;
-import com.github.syr0ws.fallenkingdom.events.TeamPlayerRemoveEvent;
+import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.GameInitializer;
+import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameCycleAttribute;
+import com.github.syr0ws.fallenkingdom.game.model.capture.FKCapture;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycleFactory;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.SpectatorMode;
 import com.github.syr0ws.fallenkingdom.game.model.players.CraftGamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.teams.TeamState;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
+import com.github.syr0ws.fallenkingdom.settings.Setting;
+import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -54,7 +57,7 @@ public class FKGameController implements GameController, AttributeObserver {
         this.game = initializer.getGame();
 
         // Initializing factory.
-        this.factory = new GameCycleFactory(this.game, plugin);
+        this.factory = new GameCycleFactory(this.game, this, this.plugin);
 
         // Adding listeners.
         this.manager.addListener(new GameListener());
@@ -113,7 +116,7 @@ public class FKGameController implements GameController, AttributeObserver {
                     .min(Comparator.comparingInt(Team::size))
                     .orElse(null); // Should not happen.
 
-            try { this.setTeam(player, team.getName());
+            try { this.setTeam(player, team);
             } catch (GameException e) { e.printStackTrace(); }
         }
     }
@@ -188,12 +191,15 @@ public class FKGameController implements GameController, AttributeObserver {
     }
 
     @Override
-    public TeamPlayer setTeam(GamePlayer player, String teamName) throws GameException {
+    public TeamPlayer setTeam(GamePlayer player, Team team) throws GameException {
 
         if(this.game.isStarted())
             throw new GameException("A game is starting or already started.");
 
-        TeamPlayer teamPlayer = this.game.setTeam(player, teamName);
+        if(!this.game.isValid(team))
+            throw new GameException("Invalid team.");
+
+        TeamPlayer teamPlayer = this.game.setTeam(player,team);
 
         TeamPlayerAddEvent event = new TeamPlayerAddEvent(this.game, teamPlayer.getTeam(), teamPlayer);
 
@@ -217,6 +223,112 @@ public class FKGameController implements GameController, AttributeObserver {
         manager.callEvent(event);
 
         return teamPlayer;
+    }
+
+    @Override
+    public void startCapture(TeamPlayer catcher, Team captured) throws GameException {
+
+        if(!this.game.isValid(catcher))
+            throw new GameException("Invalid TeamPlayer.");
+
+        if(!this.game.isValid(captured))
+            throw new GameException("Invalid team.");
+
+        if(captured.getState() != TeamState.ALIVE)
+            throw new GameException("Team without base.");
+
+        if(this.game.isCapturing(catcher))
+            throw new GameException("TeamPlayer already capturing.");
+
+        Optional<FKCapture> optional = this.game.getCapture(captured);
+
+        if(!optional.isPresent()) {
+
+            FKCapture capture = new FKCapture(catcher, captured);
+
+            this.game.addCapture(capture);
+
+            TeamBaseCaptureStartEvent event = new TeamBaseCaptureStartEvent(this.game, captured, catcher.getTeam());
+
+            PluginManager manager = Bukkit.getPluginManager();
+            manager.callEvent(event);
+
+        } else {
+
+            FKCapture capture = optional.get();
+
+            if(!capture.getCapturer().contains(catcher))
+                throw new GameException("Only one team can capture a base.");
+
+            capture.addCapturer(catcher);
+        }
+
+        GamePlayer gamePlayer = this.game.getGamePlayer(catcher.getUUID());
+
+        PlayerCaptureBaseStartEvent event = new PlayerCaptureBaseStartEvent(this.game, gamePlayer, catcher, catcher.getTeam());
+
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.callEvent(event);
+    }
+
+    @Override
+    public void stopCapture(TeamPlayer catcher) throws GameException {
+
+        if(!this.game.isValid(catcher))
+            throw new GameException("Invalid TeamPlayer.");
+
+        Optional<FKCapture> optional = this.game.getCaptures().stream()
+                .filter(capture -> capture.getCapturers().contains(catcher))
+                .findFirst();
+
+        if(!optional.isPresent())
+            throw new GameException("TeamPlayer not capturing.");
+
+        FKCapture capture = optional.get();
+        capture.removeCapturer(catcher);
+
+        SettingManager settingManager = this.game.getSettings();
+        Setting<Integer> setting = settingManager.getGenericSetting(GameSettings.CATCHER_PERCENTAGE, Integer.class);
+
+        int required = (int) Math.ceil((setting.getValue() * catcher.getTeam().size()) / (double) 100);
+
+        PluginManager manager = Bukkit.getPluginManager();
+
+        if(capture.getCapturers().size() < required) {
+
+            this.game.removeCapture(capture);
+
+            TeamBaseCaptureStopEvent event = new TeamBaseCaptureStopEvent(this.game, capture.getCaptured(), capture.getCapturer());
+
+            manager.callEvent(event);
+        }
+
+        GamePlayer gamePlayer = this.game.getGamePlayer(catcher.getUUID());
+
+        PlayerCaptureBaseStopEvent event = new PlayerCaptureBaseStopEvent(this.game, gamePlayer, catcher, catcher.getTeam());
+
+        manager.callEvent(event);
+    }
+
+    @Override
+    public void onBaseCapture(Team catcher, Team team) throws GameException {
+
+        if(!this.game.isValid(catcher))
+            throw new GameException("Invalid catcher team.");
+
+        if(!this.game.isValid(team))
+            throw new GameException("Invalid captured team.");
+
+        if(team.getState() != TeamState.ALIVE)
+            throw new GameException("Team without base.");
+
+        FKTeam catcherFKTeam = (FKTeam) catcher;
+        catcherFKTeam.setBaseCaptured();
+
+        TeamBaseCapturedEvent event = new TeamBaseCapturedEvent(this.game, team, catcher);
+
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.callEvent(event);
     }
 
     @Override

@@ -4,12 +4,12 @@ import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import org.bukkit.event.HandlerList;
 
-public class TeamCaptureStartEvent extends TeamCaptureEvent {
+public class TeamBaseCaptureStopEvent extends TeamBaseCaptureEvent {
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 
-    public TeamCaptureStartEvent(GameModel game, Team team, Team capturer) {
-        super(game, team, capturer);
+    public TeamBaseCaptureStopEvent(GameModel game, Team team, Team catcher) {
+        super(game, team, catcher);
     }
 
     @Override

@@ -19,9 +19,15 @@ public interface GameController {
 
     void onQuit(Player player);
 
-    TeamPlayer setTeam(GamePlayer player, String teamName) throws GameException;
+    TeamPlayer setTeam(GamePlayer player, Team team) throws GameException;
 
     TeamPlayer removeTeam(GamePlayer player) throws GameException;
+
+    void startCapture(TeamPlayer catcher, Team captured) throws GameException;
+
+    void stopCapture(TeamPlayer catcher) throws GameException;
+
+    void onBaseCapture(Team catcher, Team team) throws GameException;
 
     void win(Team team);
 
