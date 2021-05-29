@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.displays;
 
+import com.github.syr0ws.fallenkingdom.displays.loaders.ActionBarLoader;
 import com.github.syr0ws.fallenkingdom.displays.loaders.MessageLoader;
 import com.github.syr0ws.fallenkingdom.displays.loaders.SoundLoader;
 import com.github.syr0ws.fallenkingdom.displays.loaders.TitleLoader;
@@ -16,6 +17,7 @@ public class DisplayFactory {
         DISPLAY_LOADERS.put("MESSAGE", new MessageLoader());
         DISPLAY_LOADERS.put("SOUND", new SoundLoader());
         DISPLAY_LOADERS.put("TITLE", new TitleLoader());
+        DISPLAY_LOADERS.put("ACTION_BAR", new ActionBarLoader());
     }
 
     public static Display getDisplay(ConfigurationSection section) {
