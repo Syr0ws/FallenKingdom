@@ -312,3 +312,4 @@ running-cycle:
     assaults-state:
       enabled: "&a✔"
       disabled: "&c✘"
+  displays: {}
