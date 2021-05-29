@@ -1,7 +1,8 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.impl;
 
 import com.github.syr0ws.fallenkingdom.displays.Display;
-import com.github.syr0ws.fallenkingdom.displays.DisplayFactory;
+import com.github.syr0ws.fallenkingdom.displays.DisplayException;
+import com.github.syr0ws.fallenkingdom.displays.dao.TimerDisplayDAO;
 import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
@@ -18,9 +19,11 @@ import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
 import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
 import com.github.syr0ws.fallenkingdom.tools.Task;
-import com.github.syr0ws.fallenkingdom.tools.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class GameRunningCycle extends GameCycle {
 
@@ -101,27 +104,18 @@ public class GameRunningCycle extends GameCycle {
     private void loadDisplays() {
 
         ConfigurationSection section = this.getCycleSection();
-        ConfigurationSection displaySection = section.getConfigurationSection("displays");
 
-        // May happens when no display are needed.
-        if(displaySection == null) return;
+        TimerDisplayDAO dao = new TimerDisplayDAO(section);
 
-        for(String key : displaySection.getKeys(false)) {
+        try {
 
-            if(!Validate.isInt(key)) continue;
+            Map<Integer, Collection<Display>> displays = dao.getTimeDisplays("displays");
 
-            if(!displaySection.isConfigurationSection(key)) continue;
+            displays.forEach((time, list) -> list.stream()
+                    .map(DisplayAction::new)
+                    .forEach(action -> super.getActionManager().addAction(time, action)));
 
-            int time = Integer.parseInt(key);
-
-            ConfigurationSection keySection = displaySection.getConfigurationSection(key);
-
-            for(String displayKey : keySection.getKeys(false)) {
-
-                Display display = DisplayFactory.getDisplay(keySection.getConfigurationSection(displayKey));
-                super.getActionManager().addAction(time, new DisplayAction(display));
-            }
-        }
+        } catch (DisplayException e) { e.printStackTrace(); }
     }
 
     private void setPlayingMode() {
