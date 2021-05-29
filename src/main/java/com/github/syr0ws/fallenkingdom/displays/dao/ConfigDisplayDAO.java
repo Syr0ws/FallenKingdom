@@ -27,7 +27,7 @@ public class ConfigDisplayDAO implements DisplayDAO {
         ConfigurationSection section = this.section.getConfigurationSection(path);
 
         if(section == null)
-            throw new DisplayException(String.format("No display section found at '%s'.", path));
+            throw new DisplayException(String.format("No display section found at '%s.%s'.", this.section.getName(), path));
 
         return DisplayFactory.getDisplay(section);
     }
@@ -38,7 +38,7 @@ public class ConfigDisplayDAO implements DisplayDAO {
         ConfigurationSection section = this.section.getConfigurationSection(path);
 
         if(section == null)
-            throw new DisplayException(String.format("No display section found at '%s'.", path));
+            throw new DisplayException(String.format("No display section found at '%s.%s'.", this.section.getName(), path));
 
         List<Display> displays = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class ConfigDisplayDAO implements DisplayDAO {
             ConfigurationSection displaySection = section.getConfigurationSection(key);
 
             if(displaySection == null)
-                throw new DisplayException(String.format("Invalid display section found at '%s.%s'.", path, key));
+                throw new DisplayException(String.format("Invalid display section found at '%s.%s'.", section.getCurrentPath(), key));
 
             Display display = DisplayFactory.getDisplay(displaySection);
 

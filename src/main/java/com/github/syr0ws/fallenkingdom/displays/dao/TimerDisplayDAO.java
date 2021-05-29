@@ -20,19 +20,19 @@ public class TimerDisplayDAO extends ConfigDisplayDAO {
         ConfigurationSection section = super.getSection().getConfigurationSection(path);
 
         if(section == null)
-            throw new DisplayException(String.format("No display section found at '%s'.", path));
+            throw new DisplayException(String.format("No display section found at '%s.%s'.", super.getSection().getName(), path));
 
         Map<Integer, Collection<Display>> displays = new HashMap<>();
 
         for(String key : section.getKeys(false)) {
 
             if(!Validate.isInt(key))
-                throw new DisplayException(String.format("Key %s.%s must be a number.", path, key));
+                throw new DisplayException(String.format("Key %s.%s must be a number.", section.getCurrentPath(), key));
 
             ConfigurationSection displaySection = section.getConfigurationSection(key);
 
             if(displaySection == null)
-                throw new DisplayException(String.format("Invalid display section found at '%s.%s'.", path, key));
+                throw new DisplayException(String.format("Invalid display section found at '%s.%s'.", section.getCurrentPath(), key));
 
             Collection<Display> list = super.getDisplays(path + "." + key);
 
