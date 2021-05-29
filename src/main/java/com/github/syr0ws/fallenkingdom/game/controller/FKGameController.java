@@ -121,6 +121,12 @@ public class FKGameController implements GameController, AttributeObserver {
         }
     }
 
+    private void eliminateEmptyTeams() {
+        this.game.getTeams().stream()
+                .filter(team -> team.size() == 0)
+                .forEach(FKTeam::eliminate);
+    }
+
     @Override
     public void preStart() throws GameException {
 
@@ -137,6 +143,7 @@ public class FKGameController implements GameController, AttributeObserver {
             throw new GameException("A game is starting or already started.");
 
         this.addTeams();
+        this.eliminateEmptyTeams();
         this.setGameState(GameState.RUNNING);
     }
 
