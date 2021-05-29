@@ -15,17 +15,21 @@ public class LegacyActionBar extends ActionBar {
 
     @Override
     public void displayTo(Player player) {
-        this.send(player);
+        Object packet = this.getPacket();
+        Reflection.sendPacket(player, packet);
     }
 
     @Override
     public void displayAll() {
-        Bukkit.getOnlinePlayers().forEach(this::send);
+        Object packet = this.getPacket();
+        Bukkit.getOnlinePlayers().forEach(player -> Reflection.sendPacket(player, packet));
     }
 
-    private void send(Player player) {
+    private Object getPacket() {
 
         String text = super.getText();
+
+        Object packet = null;
 
         try {
 
@@ -41,10 +45,10 @@ public class LegacyActionBar extends ActionBar {
             // Constructor : PacketPlayOutChat(IChatBaseComponent component, byte value)
             Constructor<?> constructor = packetClass.getConstructor(chatBaseComponentClass, byte.class);
 
-            Object packet = constructor.newInstance(formattedText, (byte) 2);
-
-            Reflection.sendPacket(player, packet);
+            packet = constructor.newInstance(formattedText, (byte) 2);
 
         } catch (Exception e) { e.printStackTrace(); }
+
+        return packet;
     }
 }

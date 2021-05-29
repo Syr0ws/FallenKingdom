@@ -19,15 +19,24 @@ public class LegacyTitle extends Title {
 
     @Override
     public void displayTo(Player player) {
-        this.send(player);
+        Object[] packets = this.getPackets();
+        this.send(player, packets);
     }
 
     @Override
     public void displayAll() {
-        Bukkit.getOnlinePlayers().forEach(this::displayTo);
+        Object[] packets = this.getPackets();
+        Bukkit.getOnlinePlayers().forEach(player -> this.send(player, packets));
     }
 
-    private void send(Player player) {
+    private void send(Player player, Object[] packets) {
+        if(packets[0] != null) Reflection.sendPacket(player, packets[0]);
+        if(packets[1] != null) Reflection.sendPacket(player, packets[1]);
+    }
+
+    private Object[] getPackets() {
+
+        Object[] packets = new Object[2];
 
         String title = super.getTitle();
         String subtitle = super.getSubtitle();
@@ -55,9 +64,11 @@ public class LegacyTitle extends Title {
             Object packetTitle = constructor.newInstance(enumTitleActionClass.getField("TITLE").get(null), formattedTitle, fadeIn, stay, fadeOut);
             Object packetSubtitle = constructor.newInstance(enumTitleActionClass.getField("SUBTITLE").get(null), formattedSubtitle, fadeIn, stay, fadeOut);
 
-            Reflection.sendPacket(player, packetTitle);
-            Reflection.sendPacket(player, packetSubtitle);
+            packets[0] = packetTitle;
+            packets[1] = packetSubtitle;
 
         } catch (Exception e) { e.printStackTrace(); }
+
+        return packets;
     }
 }
