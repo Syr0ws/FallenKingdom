@@ -341,7 +341,7 @@ public class FKGame implements GameModel {
     }
 
     @Override
-    public Collection<? extends Team> getTeams() {
+    public Collection<FKTeam> getTeams() {
         return Collections.unmodifiableList(this.teams);
     }
 
