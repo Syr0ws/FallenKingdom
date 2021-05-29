@@ -2,11 +2,12 @@ package com.github.syr0ws.fallenkingdom.notifiers;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
-import com.github.syr0ws.fallenkingdom.displays.impl.Message;
+import com.github.syr0ws.fallenkingdom.displays.Display;
+import com.github.syr0ws.fallenkingdom.displays.DisplayException;
+import com.github.syr0ws.fallenkingdom.displays.dao.ConfigDisplayDAO;
+import com.github.syr0ws.fallenkingdom.displays.dao.DisplayDAO;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
@@ -15,23 +16,31 @@ import java.util.Collections;
 public class AssaultsNotifier implements AttributeObserver {
 
     private final GameModel model;
-    private final Plugin plugin;
+    private final DisplayDAO dao;
 
     public AssaultsNotifier(GameModel model, Plugin plugin) {
+
+        if(model == null)
+            throw new IllegalArgumentException("GameModel cannot be null.");
+
+        if(plugin == null)
+            throw new IllegalArgumentException("Plugin cannot be null.");
+
         this.model = model;
-        this.plugin = plugin;
+        this.dao = new ConfigDisplayDAO(plugin.getConfig().getConfigurationSection("assaults"));
     }
 
     @Override
     public void onUpdate(Attribute attribute) {
 
-        FileConfiguration config = this.plugin.getConfig();
-        ConfigurationSection section = config.getConfigurationSection("assaults");
-
         String path = this.model.areAssaultsEnabled() ? "enabled" : "disabled";
-        String message = section.getString(path);
 
-        new Message(message).displayAll();
+        try {
+
+            Collection<Display> displays = this.dao.getDisplays(path);
+            displays.forEach(Display::displayAll);
+
+        } catch (DisplayException e) { e.printStackTrace(); }
     }
 
     @Override
