@@ -55,4 +55,8 @@ public class ConfigDisplayDAO implements DisplayDAO {
         }
         return displays;
     }
+
+    public ConfigurationSection getSection() {
+        return this.section;
+    }
 }
