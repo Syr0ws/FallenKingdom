@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.settings;
 
-public class SettingException extends RuntimeException {
+public class SettingException extends Exception {
 
     public SettingException(String message) {
         super(message);
