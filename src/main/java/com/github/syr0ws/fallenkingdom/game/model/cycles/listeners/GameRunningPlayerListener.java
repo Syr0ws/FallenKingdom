@@ -1,12 +1,12 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
 import com.github.syr0ws.fallenkingdom.events.GamePlayerJoinEvent;
-import com.github.syr0ws.fallenkingdom.game.GameRule;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.SpectatorMode;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.settings.Setting;
 import org.bukkit.Location;
@@ -67,7 +67,8 @@ public class GameRunningPlayerListener implements Listener {
 
         if(event.isCancelled()) return;
 
-        Setting<Boolean> setting = this.game.getSettings().getGenericSetting(GameRule.FRIENDLY_FIRE, Boolean.class);
+        SettingAccessor accessor = this.game.getSettings();
+        Setting<Boolean> setting = accessor.getFriendlyFireSetting();
 
         // Friendly fire activated. Do not do anything.
         if(setting.getValue()) return;

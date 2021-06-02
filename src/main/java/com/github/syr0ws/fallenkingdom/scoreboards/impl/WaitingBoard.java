@@ -5,12 +5,11 @@ import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.displays.impl.Message;
 import com.github.syr0ws.fallenkingdom.displays.placeholders.Placeholder;
 import com.github.syr0ws.fallenkingdom.displays.placeholders.impl.GamePlaceholder;
-import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.scoreboards.AbstractFastBoard;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -50,9 +49,9 @@ public class WaitingBoard extends AbstractFastBoard implements AttributeObserver
     @Override
     protected List<String> parseLines(Collection<String> lines) {
 
-        SettingManager settings = this.game.getSettings();
+        SettingAccessor accessor = this.game.getSettings();
 
-        int maxPlayers = settings.getGenericSetting(GameSettings.MAX_PLAYERS, Integer.class).getValue();
+        int maxPlayers = accessor.getMaxPlayersSetting().getValue();
         int onlinePlayers = Bukkit.getOnlinePlayers().size();
 
         return lines.stream().map(line -> {

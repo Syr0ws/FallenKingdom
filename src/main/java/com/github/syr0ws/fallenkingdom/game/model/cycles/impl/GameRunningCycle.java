@@ -3,7 +3,6 @@ package com.github.syr0ws.fallenkingdom.game.model.cycles.impl;
 import com.github.syr0ws.fallenkingdom.displays.Display;
 import com.github.syr0ws.fallenkingdom.displays.DisplayException;
 import com.github.syr0ws.fallenkingdom.displays.dao.TimerDisplayDAO;
-import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
@@ -11,11 +10,11 @@ import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameCaptureLi
 import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningBlockListener;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningPlayerListener;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.PlayingMode;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
 import com.github.syr0ws.fallenkingdom.settings.Setting;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
 import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
 import com.github.syr0ws.fallenkingdom.tools.Task;
@@ -89,11 +88,11 @@ public class GameRunningCycle extends GameCycle {
         TimerActionManager actionManager = super.getActionManager();
 
         // Retrieving settings.
-        SettingManager settingManager = this.game.getSettings();
+        SettingAccessor accessor = this.game.getSettings();
 
-        Setting<Integer> pvpSetting = settingManager.getGenericSetting(GameSettings.PVP_ACTIVATION_TIME, Integer.class);
-        Setting<Integer> assaultsSetting = settingManager.getGenericSetting(GameSettings.ASSAULTS_ACTIVATION_TIME, Integer.class);
-        Setting<Integer> maxDurationSetting = settingManager.getGenericSetting(GameSettings.MAX_GAME_DURATION, Integer.class);
+        Setting<Integer> pvpSetting = accessor.getPvPActivationTimeSetting();
+        Setting<Integer> assaultsSetting = accessor.getAssaultsActivationTimeSetting();
+        Setting<Integer> maxDurationSetting = accessor.getMaxGameDurationSetting();
 
         // Setting actions.
         actionManager.addAction(pvpSetting.getValue(), () -> this.game.setPvPEnabled(true));

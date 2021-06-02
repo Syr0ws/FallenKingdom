@@ -5,9 +5,9 @@ import com.github.syr0ws.fallenkingdom.game.model.capture.Capture;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -67,7 +67,7 @@ public interface GameModel extends AttributeObservable {
 
     Location getSpawn();
 
-    SettingManager getSettings();
+    SettingAccessor getSettings();
 
     GamePlayer getGamePlayer(UUID uuid);
 

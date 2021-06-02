@@ -5,7 +5,6 @@ import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.GameInitializer;
-import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
@@ -17,6 +16,7 @@ import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.SpectatorMode;
 import com.github.syr0ws.fallenkingdom.game.model.players.CraftGamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
@@ -24,7 +24,6 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.TeamState;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
 import com.github.syr0ws.fallenkingdom.settings.Setting;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -294,8 +293,8 @@ public class FKGameController implements GameController, AttributeObserver {
         FKCapture capture = optional.get();
         capture.removeCapturer(catcher);
 
-        SettingManager settingManager = this.game.getSettings();
-        Setting<Integer> setting = settingManager.getGenericSetting(GameSettings.CATCHER_PERCENTAGE, Integer.class);
+        SettingAccessor accessor = this.game.getSettings();
+        Setting<Integer> setting = accessor.getCatcherPercentageSetting();
 
         int required = (int) Math.ceil((setting.getValue() * catcher.getTeam().size()) / (double) 100);
 

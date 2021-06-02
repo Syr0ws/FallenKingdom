@@ -1,18 +1,15 @@
 package com.github.syr0ws.fallenkingdom.game;
 
 import com.github.syr0ws.fallenkingdom.game.model.FKGame;
+import com.github.syr0ws.fallenkingdom.game.model.settings.GameSettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.game.model.teams.dao.ConfigTeamDAO;
 import com.github.syr0ws.fallenkingdom.game.model.teams.dao.TeamDAO;
-import com.github.syr0ws.fallenkingdom.settings.dao.FKSettingDAO;
-import com.github.syr0ws.fallenkingdom.settings.dao.SettingDAO;
-import com.github.syr0ws.fallenkingdom.settings.manager.ConfigSettingManager;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,9 +28,9 @@ public class GameInitializer {
         if(teams.size() <= 2)
             throw new GameException("Number of teams cannot be lower than 2.");
 
-        SettingManager settingManager = this.loadSettings();
+        SettingAccessor accessor = this.loadSettings();
 
-        return new FKGame(settingManager, teams);
+        return new FKGame(accessor, teams);
     }
 
     private List<FKTeam> loadTeams() {
@@ -52,18 +49,11 @@ public class GameInitializer {
         return teams;
     }
 
-    private SettingManager loadSettings() {
+    private SettingAccessor loadSettings() {
 
-        SettingDAO dao = new FKSettingDAO(this.plugin);
-        SettingManager manager = new ConfigSettingManager();
+        GameSettingAccessor accessor = new GameSettingAccessor();
+        accessor.init(this.plugin.getConfig());
 
-        List<GameSettings> settings = Arrays.asList(GameSettings.values());
-        settings.forEach(setting -> manager.addSetting(setting, setting.getSetting()));
-
-        dao.readSettings("general-settings", manager.getSettings());
-        dao.readSettings("game-settings", manager.getSettings());
-        dao.readSettings("game-rules", manager.getSettings());
-
-        return manager;
+        return accessor;
     }
 }

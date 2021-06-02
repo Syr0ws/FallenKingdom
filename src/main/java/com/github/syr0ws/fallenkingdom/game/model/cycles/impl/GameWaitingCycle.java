@@ -10,27 +10,23 @@ import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameWaitingListener;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
 import com.github.syr0ws.fallenkingdom.settings.Setting;
-import com.github.syr0ws.fallenkingdom.settings.SettingKey;
-import com.github.syr0ws.fallenkingdom.settings.dao.FKSettingDAO;
-import com.github.syr0ws.fallenkingdom.settings.dao.SettingDAO;
-import com.github.syr0ws.fallenkingdom.settings.impl.SimpleConfigSetting;
-import com.github.syr0ws.fallenkingdom.settings.manager.ConfigSettingManager;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
 import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
 import com.github.syr0ws.fallenkingdom.tools.Task;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 public class GameWaitingCycle extends GameCycle implements AttributeObserver {
 
     private final GameModel game;
     private final ScoreboardManager sbManager = new ScoreboardManager();
-    private final SettingManager settings = new ConfigSettingManager();
 
     private CycleTask task;
 
@@ -42,7 +38,6 @@ public class GameWaitingCycle extends GameCycle implements AttributeObserver {
     @Override
     public void load() {
 
-        this.loadSettings();
         this.loadDisplays();
 
         ListenerManager listenerManager = super.getListenerManager();
@@ -86,9 +81,10 @@ public class GameWaitingCycle extends GameCycle implements AttributeObserver {
 
     public void startTask() {
 
-        Setting<Integer> durationSetting = this.settings.getGenericSetting(CycleSetting.TIMER_DURATION, Integer.class);
+        SettingAccessor accessor = this.game.getSettings();
+        Setting<Integer> setting = accessor.getStartingCycleDurationSetting();
 
-        this.task = new CycleTask(durationSetting.getValue());
+        this.task = new CycleTask(setting.getValue());
         this.task.start();
     }
 
@@ -115,16 +111,6 @@ public class GameWaitingCycle extends GameCycle implements AttributeObserver {
                     .forEach(action -> super.getActionManager().addAction(time, action)));
 
         } catch (DisplayException e) { e.printStackTrace(); }
-    }
-
-    private void loadSettings() {
-
-        SettingDAO dao = new FKSettingDAO(this.getPlugin());
-
-        List<CycleSetting> settings = Arrays.asList(CycleSetting.values());
-        settings.forEach(setting -> this.settings.addSetting(setting, setting.getSetting()));
-
-        dao.readSettings("waiting-cycle.settings", this.settings.getSettings());
     }
 
     private ConfigurationSection getCycleSection() {
@@ -154,26 +140,6 @@ public class GameWaitingCycle extends GameCycle implements AttributeObserver {
         public void start() {
             super.start();
             this.runTaskTimer(GameWaitingCycle.this.getPlugin(), 0L, 20L);
-        }
-    }
-
-    private enum CycleSetting implements SettingKey {
-
-        TIMER_DURATION(new SimpleConfigSetting<>("timer-duration", 10, Integer.class));
-
-        private final Setting<?> setting;
-
-        CycleSetting(Setting<?> setting) {
-            this.setting = setting;
-        }
-
-        public Setting<?> getSetting() {
-            return this.setting;
-        }
-
-        @Override
-        public String getKey() {
-            return this.name();
         }
     }
 }

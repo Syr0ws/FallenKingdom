@@ -2,7 +2,6 @@ package com.github.syr0ws.fallenkingdom.game.model;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
-import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.capture.Capture;
 import com.github.syr0ws.fallenkingdom.game.model.capture.FKCapture;
@@ -10,12 +9,12 @@ import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.players.CraftGamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
-import com.github.syr0ws.fallenkingdom.settings.impl.LocationSetting;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
+import com.github.syr0ws.fallenkingdom.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -25,7 +24,7 @@ import java.util.stream.Stream;
 
 public class FKGame implements GameModel {
 
-    private final SettingManager settings;
+    private final SettingAccessor settings;
     private final List<FKTeam> teams;
 
     private final List<FKCapture> captures = new ArrayList<>();
@@ -38,7 +37,7 @@ public class FKGame implements GameModel {
     private boolean pvp, assaults;
     private int time;
 
-    public FKGame(SettingManager settings, List<FKTeam> teams) {
+    public FKGame(SettingAccessor settings, List<FKTeam> teams) {
 
         if(settings == null)
             throw new IllegalArgumentException("SettingsManager cannot be null.");
@@ -262,12 +261,12 @@ public class FKGame implements GameModel {
 
     @Override
     public Location getSpawn() {
-        LocationSetting setting = this.settings.getSetting(GameSettings.SPAWN_LOCATION, LocationSetting.class);
+        MutableSetting<Location> setting = this.settings.getGameSpawnSetting();
         return setting.getValue();
     }
 
     @Override
-    public SettingManager getSettings() {
+    public SettingAccessor getSettings() {
         return this.settings;
     }
 

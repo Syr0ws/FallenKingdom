@@ -1,11 +1,10 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
-import com.github.syr0ws.fallenkingdom.game.GameSettings;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamBase;
-import com.github.syr0ws.fallenkingdom.settings.impl.MaterialSetting;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
+import com.github.syr0ws.fallenkingdom.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,6 +16,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
+import java.util.List;
 import java.util.Optional;
 
 public class GameRunningBlockListener implements Listener {
@@ -59,11 +59,11 @@ public class GameRunningBlockListener implements Listener {
 
             // If the block can only be placed in the vault and it isn't
             // cancelling the event.
-            if(this.isChest(material) && !base.getVault().isIn(location)) event.setCancelled(true);
+            if(this.isVaultBlockAllowed(block) && !base.getVault().isIn(location)) event.setCancelled(true);
 
             // The block is now placed outside the player base.
             // If the block isn't allowed, cancelling the event.
-        } else if(!this.isAllowed(material)) event.setCancelled(true);
+        } else if(!this.isBlockAllowed(block)) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -87,19 +87,21 @@ public class GameRunningBlockListener implements Listener {
         if(inEnemyBase) event.setCancelled(true);
     }
 
-    private boolean isAllowed(Material material) {
+    private boolean isBlockAllowed(Block block) {
 
-        SettingManager manager = this.game.getSettings();
-        MaterialSetting setting = manager.getSetting(GameSettings.ALLOWED_BLOCKS, MaterialSetting.class);
+        SettingAccessor accessor = this.game.getSettings();
 
-        return setting.getValue().contains(material);
+        MutableSetting<List<Material>> setting = accessor.getAllowedBlocksSetting();
+
+        return setting.getValue().contains(block.getType());
     }
 
-    private boolean isChest(Material material) {
+    private boolean isVaultBlockAllowed(Block block) {
 
-        SettingManager manager = this.game.getSettings();
-        MaterialSetting setting = manager.getSetting(GameSettings.VAULT_BLOCKS, MaterialSetting.class);
+        SettingAccessor accessor = this.game.getSettings();
 
-        return setting.getValue().contains(material);
+        MutableSetting<List<Material>> setting = accessor.getVaultAllowedBlocksSetting();
+
+        return setting.getValue().contains(block.getType());
     }
 }
