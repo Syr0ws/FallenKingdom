@@ -233,83 +233,137 @@ waiting-cycle:
         fade-out: 20
 
 
-#############################################
-###               SETTINGS                ###
-#############################################
-
-# This part of the configuration allows you to configure different options.
-# You can find all the general settings here. For settings that are cycle
-# specific, refer to the "cycles" section.
-
-
-# The general settings.
-general-settings:
-  # Set 'true' if you allow weather to change or else set 'false'.
-  weather-change: false
-  # Set the default weather of the game. Available values are: SUNNY, STORM
-  default-weather: "SUNNY"
-
-
-# The game settings.
-game-settings:
-  # Time in seconds before pvp activation.
-  pvp-activation-time: 15
-  # Time in seconds before assaults activation.
-  assaults-activation-time: 30
-  # The maximum duration in seconds of a game. After this time, the current game
-  # will be stopped and the remaining teams will be declared equal.
-  max-game-duration: 10800
-  # The spawn of the game. Must have the following format:
-  # spawn:
-  #  x: 0
-  #  y: 0
-  #  z: 0
-  #  yaw: 180 (optional, default value is 180)
-  #  pitch: 0 (optional, default value is 0)
-  #  world: "world"
-  game-spawn:
-    x: 96.5
-    y: 116
-    z: 56.5
-    yaw: 90
-    pitch: 0
-    world: "world"
-  # The list of blocks that players can place outside their base.
-  # All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-  allowed-blocks:
-    - TNT
-    - LEVER
-    - REDSTONE_TORCH_ON
-    - RED_ROSE
-    - YELLOW_FLOWER
-  # A list of blocks which are only placeable in the chest room.
-  # All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-  vault-blocks:
-    - CHEST
-    - ENDER_CHEST
-    - SHULKER_BOX
-
-
-
-
-running-cycle:
-  scoreboard:
-    title: "&6&lFallenKingdom"
-    lines:
-      - "&6&m--------------------"
-      - " "
-      - "&6• &eEquipe&6: %team_name%"
-      - " "
-      - "&6• &ePvP&6: %pvp_state%"
-      - "&6• &eAssaults&6: %assaults_state%"
-      - " "
-      - "&6• &eTemps de jeu&6: %time%"
-      - " "
-      - "&6&m--------------------"
-    pvp-state:
-      enabled: "&a✔"
-      disabled: "&c✘"
-    assaults-state:
-      enabled: "&a✔"
-      disabled: "&c✘"
+capture-cycle:
+  action-bar:
+    enabled: true
+    text: "&eCapture en cours (&6%time%&e)"
+    time:
+      use-short-units: true
+      format: "%day%%hour%%minute%%second%"
+      time-units:
+        day: "j"
+        hour: "h"
+        minute: "m"
+        second: "s"
   displays: {}
+
+#############################################
+###           GENERAL SETTINGS            ###
+#############################################
+
+# The spawn of the game. Must have the following format:
+# spawn:
+#  x: 0
+#  y: 0
+#  z: 0
+#  yaw: 180 (optional, default value is 180)
+#  pitch: 0 (optional, default value is 0)
+#  world: "world"
+game-spawn:
+  x: 96.5
+  y: 116
+  z: 56.5
+  yaw: 90
+  pitch: 0
+  world: "world"
+
+# The list of blocks that players can place outside their base.
+# All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+allowed-blocks:
+  - TNT
+  - LEVER
+  - REDSTONE_TORCH_ON
+  - RED_ROSE
+  - YELLOW_FLOWER
+
+# A list of blocks which are only placeable in the chest room.
+# All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+vault-blocks:
+  - CHEST
+  - ENDER_CHEST
+  - SHULKER_BOX
+
+# The maximum number of players who can play in the same game.
+max-players: 16
+
+# The maximum number of spectators who can join a game.
+max-spectators: 8
+
+# Set 'true' if you want eliminated players to be kicked of the server or else set 'false'.
+kick-eliminated: false
+
+# Time in seconds before pvp activation.
+# Default value is 1800 (30 minutes).
+pvp-activation-time: 15
+
+# Time in seconds before assaults activation.
+# Default value is 3600 (1 hour).
+assaults-activation-time: 30
+
+# The maximum duration in seconds of a game. After this time, the current game
+# will be stopped and the remaining teams will be declared equal.
+# Default value is 10800 (3 hours).
+max-game-duration: 10800
+
+# The duration in seconds of the launch period.
+starting-cycle-duration: 1
+
+# Set 'true' if you want to allow friendly fire or else set 'false'.
+friendly-fire: false
+
+#############################################
+###             CHAT SETTINGS             ###
+#############################################
+
+
+# All the settings about the chat used during the waiting cycle.
+waiting-cycle-chat:
+  # Set 'true' if you want to allow players to send messages in the chat
+  # or else, set this value to 'false'.
+  enabled: true
+  # The chat format. You can use the following placeholders:
+  # - %player% -> The player's name.
+  # - %display_name% -> The player's display name.
+  # - %message% -> The message.
+  format: "%player% &r: %message%"
+
+
+# All the settings about the chat used during a game.
+game-chat:
+  # Set 'true' if you want to allow players to send messages in the chat
+  # or else, set this value to 'false'.
+  enabled: true
+  # The chat format. You can use the following placeholders:
+  # - %player% -> The player's name.
+  # - %display_name% -> The player's display name.
+  # - %team_name% -> The name of the player's team.
+  # - %message% -> The message.
+  format: "%team_name% %player%&r : %message%"
+
+
+# All the settings about the team chat used during a game.
+team-chat:
+  # Set 'true' if you want to allow players to send messages in the chat
+  # or else, set this value to 'false'.
+  enabled: true
+  # The prefix set before a message to indicate that it is a team message.
+  # Must be a single character like '!' or '@' for example.
+  prefix: "@"
+  # The chat format. You can use the following placeholders:
+  # - %player% -> The player's name.
+  # - %display_name% -> The player's display name.
+  # - %team_name% -> The name of the player's team.
+  # - %message% -> The message.
+  format: "%team_name% %player%&r : %message%"
+
+
+# All the settings about the spectator chat.
+spectator-chat:
+  # Set 'true' if you want to allow players to send messages in the chat
+  # or else, set this value to 'false'.
+  enabled: true
+  # The chat format. You can use the following placeholders:
+  # - %player% -> The player's name.
+  # - %display_name% -> The player's display name.
+  # - %message% -> The message.
+  format: "&7%player% &r: %message%"
