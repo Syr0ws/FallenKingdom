@@ -79,7 +79,7 @@ public enum GameSettingEnum implements SettingType {
         @Override
         public Setting<?> getSetting() {
             return new SimpleConfigSetting
-                    .Builder<>("startingCycleDuration", 10, "starting-cycle.duration", Integer.class)
+                    .Builder<>("startingCycleDuration", 10, "starting-cycle-duration", Integer.class)
                     .withFilter(value -> value >= 0)
                     .build();
         }
@@ -108,7 +108,7 @@ public enum GameSettingEnum implements SettingType {
         @Override
         public Setting<?> getSetting() {
             return new SimpleConfigSetting
-                    .Builder<>("waitingChatFormat", "%player% : %message%", "waiting-cycle-chat.format", String.class)
+                    .Builder<>("waitingChatFormat", "%player% &r: %message%", "waiting-cycle-chat.format", String.class)
                     .withFilter(value -> value != null && !value.isEmpty())
                     .build();
         }
@@ -118,7 +118,7 @@ public enum GameSettingEnum implements SettingType {
         @Override
         public Setting<?> getSetting() {
             return new SimpleConfigSetting
-                    .Builder<>("allowGameChat", true, "game-cycle-chat.enabled", Boolean.class)
+                    .Builder<>("allowGameChat", true, "game-chat.enabled", Boolean.class)
                     .build();
         }
     },
@@ -127,7 +127,7 @@ public enum GameSettingEnum implements SettingType {
         @Override
         public Setting<?> getSetting() {
             return new SimpleConfigSetting
-                    .Builder<>("gameChatFormat", "%team_name% %player%&r : %message%", "game-cycle-chat.format", String.class)
+                    .Builder<>("gameChatFormat", "%team_name% %player%&r : %message%", "game-chat.format", String.class)
                     .withFilter(value -> value != null && !value.isEmpty())
                     .build();
         }
