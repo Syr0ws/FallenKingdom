@@ -4,7 +4,7 @@ import com.github.syr0ws.fallenkingdom.displays.placeholders.Placeholder;
 
 public enum GlobalPlaceholder implements Placeholder {
 
-    PLAYER_NAME("player");
+    PLAYER_NAME("player"), DISPLAY_NAME("display_name"), MESSAGE("message");
 
     private final String placeholder;
 
