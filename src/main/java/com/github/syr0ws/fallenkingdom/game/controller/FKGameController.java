@@ -10,6 +10,7 @@ import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameCycleAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.capture.FKCapture;
+import com.github.syr0ws.fallenkingdom.game.model.chat.Chat;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycleFactory;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
@@ -28,6 +29,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
@@ -408,6 +410,22 @@ public class FKGameController implements GameController, AttributeObserver {
             Player player = event.getPlayer();
 
             onQuit(player);
+        }
+
+        @EventHandler
+        public void onPlayerChat(AsyncPlayerChatEvent event) {
+
+            // Cancelling the event to not spam the console.
+            event.setCancelled(true);
+
+            Player player = event.getPlayer();
+
+            GamePlayer gamePlayer = game.getGamePlayer(player.getUniqueId());
+
+            Mode mode = gamePlayer.getMode();
+            Chat chat = mode.getChat();
+
+            chat.onPlayerChat(event);
         }
     }
 }

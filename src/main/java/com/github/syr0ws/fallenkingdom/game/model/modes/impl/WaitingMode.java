@@ -1,6 +1,8 @@
 package com.github.syr0ws.fallenkingdom.game.model.modes.impl;
 
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.chat.Chat;
+import com.github.syr0ws.fallenkingdom.game.model.chat.WaitingChat;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.ModeType;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
@@ -19,6 +21,8 @@ public class WaitingMode implements Mode {
     private final FileConfiguration config;
     private final ScoreboardManager sbManager;
 
+    private final Chat chat;
+
     public WaitingMode(GamePlayer gamePlayer, GameModel game, FileConfiguration config, ScoreboardManager sbManager) {
 
         if(gamePlayer == null)
@@ -32,6 +36,8 @@ public class WaitingMode implements Mode {
 
         this.config = config;
         this.sbManager = sbManager;
+
+        this.chat = new WaitingChat(game);
     }
 
     @Override
@@ -57,6 +63,11 @@ public class WaitingMode implements Mode {
         Player player = this.gamePlayer.getPlayer();
 
         this.sbManager.removeScoreboard(player);
+    }
+
+    @Override
+    public Chat getChat() {
+        return this.chat;
     }
 
     @Override

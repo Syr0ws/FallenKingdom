@@ -1,6 +1,8 @@
 package com.github.syr0ws.fallenkingdom.game.model.modes.impl;
 
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.chat.Chat;
+import com.github.syr0ws.fallenkingdom.game.model.chat.GameChat;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.ModeType;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
@@ -20,6 +22,8 @@ public class PlayingMode implements Mode {
     private final ScoreboardManager sbManager;
     private final FileConfiguration config;
 
+    private final Chat gameChat;
+
     public PlayingMode(TeamPlayer teamPlayer, GameModel game, ScoreboardManager sbManager, FileConfiguration config) {
 
         if(teamPlayer == null)
@@ -32,6 +36,8 @@ public class PlayingMode implements Mode {
         this.game = game;
         this.sbManager = sbManager;
         this.config = config;
+
+        this.gameChat = new GameChat(game, teamPlayer);
     }
 
     @Override
@@ -65,6 +71,11 @@ public class PlayingMode implements Mode {
     public void remove() {
 
         this.sbManager.removeScoreboard(this.teamPlayer.getPlayer());
+    }
+
+    @Override
+    public Chat getChat() {
+        return this.gameChat;
     }
 
     @Override

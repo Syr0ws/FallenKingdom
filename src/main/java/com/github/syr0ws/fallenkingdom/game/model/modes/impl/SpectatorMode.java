@@ -1,6 +1,8 @@
 package com.github.syr0ws.fallenkingdom.game.model.modes.impl;
 
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.chat.Chat;
+import com.github.syr0ws.fallenkingdom.game.model.chat.SpectatorChat;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
 import com.github.syr0ws.fallenkingdom.game.model.modes.ModeType;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
@@ -12,6 +14,8 @@ public class SpectatorMode implements Mode {
     private final GamePlayer gamePlayer;
     private final GameModel game;
 
+    private final Chat chat;
+
     public SpectatorMode(GamePlayer gamePlayer, GameModel game) {
 
         if(gamePlayer == null)
@@ -22,6 +26,8 @@ public class SpectatorMode implements Mode {
 
         this.gamePlayer = gamePlayer;
         this.game = game;
+
+        this.chat = new SpectatorChat(game);
     }
 
     @Override
@@ -44,6 +50,11 @@ public class SpectatorMode implements Mode {
     @Override
     public void remove() {
 
+    }
+
+    @Override
+    public Chat getChat() {
+        return this.chat;
     }
 
     @Override
