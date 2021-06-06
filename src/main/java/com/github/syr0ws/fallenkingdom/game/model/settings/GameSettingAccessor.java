@@ -24,10 +24,8 @@ public class GameSettingAccessor implements SettingAccessor {
 
     public void init(FileConfiguration config) {
 
-        SettingManager manager = new CacheSettingManager();
-
         for (GameSettingEnum value : GameSettingEnum.values()) {
-            manager.addSetting(value, value.getSetting());
+            this.manager.addSetting(value, value.getSetting());
         }
 
         SettingLoader loader = new ConfigSettingLoader(config);
