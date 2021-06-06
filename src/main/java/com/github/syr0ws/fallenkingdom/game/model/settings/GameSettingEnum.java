@@ -184,7 +184,7 @@ public enum GameSettingEnum implements SettingType {
         @Override
         public Setting<?> getSetting() {
             return new LocationSetting
-                    .Builder("gameSpawn", new Location(Bukkit.getWorld("wolrd"), 0, 60, 0), "spawn")
+                    .Builder("gameSpawn", new Location(Bukkit.getWorld("world"), 0, 60, 0), "game-spawn")
                     .withFilter(location -> location.getWorld() != null)
                     .build();
         }
