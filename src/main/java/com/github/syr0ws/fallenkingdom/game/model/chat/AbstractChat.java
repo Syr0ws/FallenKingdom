@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game.model.chat;
 
-import com.github.syr0ws.fallenkingdom.displays.impl.Message;
-import com.github.syr0ws.fallenkingdom.displays.placeholders.impl.GlobalPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placholders.GlobalPlaceholder;
+import com.github.syr0ws.universe.displays.impl.Message;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

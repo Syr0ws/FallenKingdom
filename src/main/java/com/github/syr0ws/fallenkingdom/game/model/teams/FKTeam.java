@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
-import com.github.syr0ws.fallenkingdom.displays.Display;
 import com.github.syr0ws.fallenkingdom.game.model.players.AbstractPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
+import com.github.syr0ws.universe.displays.Display;
 import org.bukkit.entity.Player;
 
 import java.util.*;

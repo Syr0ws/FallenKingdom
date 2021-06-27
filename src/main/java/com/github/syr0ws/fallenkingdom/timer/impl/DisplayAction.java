@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.timer.impl;
 
-import com.github.syr0ws.fallenkingdom.displays.Display;
 import com.github.syr0ws.fallenkingdom.timer.TimerAction;
+import com.github.syr0ws.universe.displays.Display;
 
 public class DisplayAction implements TimerAction {
 

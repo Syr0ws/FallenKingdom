@@ -1,14 +1,14 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
-import com.github.syr0ws.fallenkingdom.displays.impl.Message;
-import com.github.syr0ws.fallenkingdom.displays.placeholders.impl.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.universe.displays.impl.Message;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;

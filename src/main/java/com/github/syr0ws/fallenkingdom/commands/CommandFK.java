@@ -1,15 +1,15 @@
 package com.github.syr0ws.fallenkingdom.commands;
 
-import com.github.syr0ws.fallenkingdom.displays.impl.Message;
-import com.github.syr0ws.fallenkingdom.displays.placeholders.impl.GlobalPlaceholder;
-import com.github.syr0ws.fallenkingdom.displays.placeholders.impl.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.controller.GameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.placholders.GlobalPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
+import com.github.syr0ws.universe.displays.impl.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

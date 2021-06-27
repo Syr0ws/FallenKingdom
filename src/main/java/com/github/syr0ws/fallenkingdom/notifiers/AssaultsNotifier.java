@@ -2,12 +2,12 @@ package com.github.syr0ws.fallenkingdom.notifiers;
 
 import com.github.syr0ws.fallenkingdom.attributes.Attribute;
 import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
-import com.github.syr0ws.fallenkingdom.displays.Display;
-import com.github.syr0ws.fallenkingdom.displays.DisplayException;
-import com.github.syr0ws.fallenkingdom.displays.dao.ConfigDisplayDAO;
-import com.github.syr0ws.fallenkingdom.displays.dao.DisplayDAO;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
+import com.github.syr0ws.universe.displays.Display;
+import com.github.syr0ws.universe.displays.DisplayException;
+import com.github.syr0ws.universe.displays.dao.ConfigDisplayDAO;
+import com.github.syr0ws.universe.displays.dao.DisplayDAO;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;

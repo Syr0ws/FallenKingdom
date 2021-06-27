@@ -1,11 +1,11 @@
 package com.github.syr0ws.fallenkingdom.game.model.chat;
 
-import com.github.syr0ws.fallenkingdom.displays.impl.Message;
-import com.github.syr0ws.fallenkingdom.displays.placeholders.impl.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
+import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.universe.displays.impl.Message;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
