@@ -5,7 +5,7 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.TeamBase;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamColor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.tools.Cuboid;
-import com.github.syr0ws.fallenkingdom.utils.LocationUtils;
+import com.github.syr0ws.universe.utils.LocationUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;

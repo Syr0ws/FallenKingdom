@@ -10,8 +10,8 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.scoreboards.AbstractFastBoard;
 import com.github.syr0ws.fallenkingdom.tools.PeriodFormatter;
-import com.github.syr0ws.fallenkingdom.utils.TextUtils;
 import com.github.syr0ws.universe.displays.impl.Message;
+import com.github.syr0ws.universe.utils.TextUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 

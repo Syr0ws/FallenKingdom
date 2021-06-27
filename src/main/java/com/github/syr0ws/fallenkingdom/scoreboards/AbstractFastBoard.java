@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.scoreboards;
 
-import com.github.syr0ws.fallenkingdom.utils.TextUtils;
+import com.github.syr0ws.universe.utils.TextUtils;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
