@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.settings;
 
-import com.github.syr0ws.fallenkingdom.settings.types.MutableSetting;
+import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.Material;
 

@@ -13,9 +13,9 @@ import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameWaitingLi
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
-import com.github.syr0ws.fallenkingdom.settings.Setting;
 import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
 import com.github.syr0ws.fallenkingdom.tools.Task;
+import com.github.syr0ws.universe.settings.Setting;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 

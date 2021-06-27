@@ -14,7 +14,7 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
-import com.github.syr0ws.fallenkingdom.settings.types.MutableSetting;
+import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

@@ -8,7 +8,7 @@ import com.github.syr0ws.fallenkingdom.game.model.modes.impl.SpectatorMode;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
-import com.github.syr0ws.fallenkingdom.settings.Setting;
+import com.github.syr0ws.universe.settings.Setting;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

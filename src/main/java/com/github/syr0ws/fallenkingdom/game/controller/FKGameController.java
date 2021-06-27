@@ -24,7 +24,7 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamState;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
-import com.github.syr0ws.fallenkingdom.settings.Setting;
+import com.github.syr0ws.universe.settings.Setting;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

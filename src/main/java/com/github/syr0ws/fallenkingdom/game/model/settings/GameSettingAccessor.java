@@ -1,13 +1,13 @@
 package com.github.syr0ws.fallenkingdom.game.model.settings;
 
-import com.github.syr0ws.fallenkingdom.settings.dao.ConfigSettingLoader;
-import com.github.syr0ws.fallenkingdom.settings.dao.SettingLoader;
-import com.github.syr0ws.fallenkingdom.settings.manager.CacheSettingManager;
-import com.github.syr0ws.fallenkingdom.settings.manager.SettingManager;
-import com.github.syr0ws.fallenkingdom.settings.types.CharacterSetting;
-import com.github.syr0ws.fallenkingdom.settings.types.LocationSetting;
-import com.github.syr0ws.fallenkingdom.settings.types.MaterialSetting;
-import com.github.syr0ws.fallenkingdom.settings.types.MutableSetting;
+import com.github.syr0ws.universe.settings.dao.ConfigSettingLoader;
+import com.github.syr0ws.universe.settings.dao.SettingLoader;
+import com.github.syr0ws.universe.settings.manager.CacheSettingManager;
+import com.github.syr0ws.universe.settings.manager.SettingManager;
+import com.github.syr0ws.universe.settings.types.CharacterSetting;
+import com.github.syr0ws.universe.settings.types.LocationSetting;
+import com.github.syr0ws.universe.settings.types.MaterialSetting;
+import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

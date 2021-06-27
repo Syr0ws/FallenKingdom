@@ -1,11 +1,11 @@
 package com.github.syr0ws.fallenkingdom.game.model.settings;
 
-import com.github.syr0ws.fallenkingdom.settings.Setting;
-import com.github.syr0ws.fallenkingdom.settings.SettingType;
-import com.github.syr0ws.fallenkingdom.settings.types.CharacterSetting;
-import com.github.syr0ws.fallenkingdom.settings.types.LocationSetting;
-import com.github.syr0ws.fallenkingdom.settings.types.MaterialSetting;
-import com.github.syr0ws.fallenkingdom.settings.types.SimpleConfigSetting;
+import com.github.syr0ws.universe.settings.Setting;
+import com.github.syr0ws.universe.settings.SettingType;
+import com.github.syr0ws.universe.settings.types.CharacterSetting;
+import com.github.syr0ws.universe.settings.types.LocationSetting;
+import com.github.syr0ws.universe.settings.types.MaterialSetting;
+import com.github.syr0ws.universe.settings.types.SimpleConfigSetting;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
