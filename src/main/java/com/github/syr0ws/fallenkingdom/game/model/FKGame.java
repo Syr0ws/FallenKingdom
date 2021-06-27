@@ -1,7 +1,5 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
-import com.github.syr0ws.fallenkingdom.attributes.Attribute;
-import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.capture.Capture;
 import com.github.syr0ws.fallenkingdom.game.model.capture.FKCapture;
@@ -14,6 +12,9 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.universe.attributes.AbstractAttributeObservable;
+import com.github.syr0ws.universe.attributes.Attribute;
+import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class FKGame implements GameModel {
+public class FKGame extends AbstractAttributeObservable implements GameModel {
 
     private final SettingAccessor settings;
     private final List<FKTeam> teams;

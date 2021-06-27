@@ -1,7 +1,5 @@
 package com.github.syr0ws.fallenkingdom.game.controller;
 
-import com.github.syr0ws.fallenkingdom.attributes.Attribute;
-import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.GameException;
 import com.github.syr0ws.fallenkingdom.game.GameInitializer;
@@ -24,6 +22,8 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamState;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
+import com.github.syr0ws.universe.attributes.Attribute;
+import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.settings.Setting;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

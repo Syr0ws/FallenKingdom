@@ -1,6 +1,5 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
-import com.github.syr0ws.fallenkingdom.attributes.AttributeObservable;
 import com.github.syr0ws.fallenkingdom.game.model.capture.Capture;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.modes.Mode;
@@ -8,6 +7,7 @@ import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.universe.attributes.AttributeObservable;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

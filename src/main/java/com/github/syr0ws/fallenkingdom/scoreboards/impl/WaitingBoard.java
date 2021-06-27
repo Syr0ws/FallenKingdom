@@ -1,13 +1,13 @@
 package com.github.syr0ws.fallenkingdom.scoreboards.impl;
 
-import com.github.syr0ws.fallenkingdom.attributes.Attribute;
-import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.placholders.GamePlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.scoreboards.AbstractFastBoard;
+import com.github.syr0ws.universe.attributes.Attribute;
+import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.displays.impl.Message;
 import com.github.syr0ws.universe.displays.placeholders.Placeholder;
 import org.bukkit.Bukkit;

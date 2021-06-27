@@ -1,7 +1,5 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.impl;
 
-import com.github.syr0ws.fallenkingdom.attributes.Attribute;
-import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
@@ -11,6 +9,8 @@ import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
 import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
+import com.github.syr0ws.universe.attributes.Attribute;
+import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.displays.Display;
 import com.github.syr0ws.universe.displays.DisplayException;
 import com.github.syr0ws.universe.displays.dao.TimerDisplayDAO;

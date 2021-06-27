@@ -1,11 +1,11 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles;
 
-import com.github.syr0ws.fallenkingdom.attributes.Attribute;
-import com.github.syr0ws.fallenkingdom.attributes.AttributeObservable;
-import com.github.syr0ws.fallenkingdom.attributes.AttributeObserver;
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameCycleAttribute;
 import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
+import com.github.syr0ws.universe.attributes.AbstractAttributeObservable;
+import com.github.syr0ws.universe.attributes.Attribute;
+import com.github.syr0ws.universe.attributes.AttributeObserver;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class GameCycle implements AttributeObservable {
+public abstract class GameCycle extends AbstractAttributeObservable {
 
     private final Plugin plugin;
     private final ListenerManager listenerManager;
