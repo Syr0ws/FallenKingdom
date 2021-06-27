@@ -6,10 +6,12 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKGameController;
 import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
+import com.github.syr0ws.universe.Game;
+import com.github.syr0ws.universe.modules.ModuleEnum;
+import com.github.syr0ws.universe.modules.ModuleService;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class FallenKingdomPlugin extends JavaPlugin {
+public class FallenKingdomPlugin extends Game {
 
     private FKGameController controller;
 
@@ -27,6 +29,9 @@ public class FallenKingdomPlugin extends JavaPlugin {
 
         this.setupNotifiers();
         this.registerCommands();
+
+        // Loading modules.
+        this.loadModules();
     }
 
     private void loadConfiguration() {
@@ -41,6 +46,12 @@ public class FallenKingdomPlugin extends JavaPlugin {
         GameModel game = this.controller.getGame();
         game.addObserver(new PvPNotifier(game, this));
         game.addObserver(new AssaultsNotifier(game, this));
+    }
+
+    private void loadModules() {
+
+        ModuleService service = super.getModuleService();
+        service.enableModule(ModuleEnum.COMBAT_MODULE.newInstance(this));
     }
 
     private FKGameController createController() {
