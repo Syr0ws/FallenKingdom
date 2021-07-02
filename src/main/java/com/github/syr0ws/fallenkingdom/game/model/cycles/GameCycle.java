@@ -1,7 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles;
 
 import com.github.syr0ws.fallenkingdom.game.model.attributes.GameCycleAttribute;
-import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
 import com.github.syr0ws.universe.attributes.AbstractAttributeObservable;
 import com.github.syr0ws.universe.attributes.Attribute;

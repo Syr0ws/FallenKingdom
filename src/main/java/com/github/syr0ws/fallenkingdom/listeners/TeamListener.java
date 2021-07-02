@@ -1,10 +1,10 @@
 package com.github.syr0ws.fallenkingdom.listeners;
 
-import com.github.syr0ws.fallenkingdom.events.TeamPlayerAddEvent;
-import com.github.syr0ws.fallenkingdom.events.TeamPlayerRemoveEvent;
 import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
-import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
-import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.v2.events.TeamPlayerAddEvent;
+import com.github.syr0ws.fallenkingdom.game.model.v2.events.TeamPlayerRemoveEvent;
+import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.displays.impl.Message;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,12 +22,12 @@ public class TeamListener implements Listener {
     }
 
     @EventHandler
-    public void onTeamPlayerAdd(TeamPlayerAddEvent event) {
+    public void onPlayerTeamAdd(TeamPlayerAddEvent event) {
 
-        Team team = event.getTeam();
-        TeamPlayer teamPlayer = event.getPlayer();
+        FKTeam team = event.getTeam();
+        FKTeamPlayer teamPlayer = event.getPlayer();
 
-        Player player = event.getPlayer().getPlayer();
+        Player player = teamPlayer.getPlayer();
 
         FileConfiguration config = this.plugin.getConfig();
         ConfigurationSection section = config.getConfigurationSection("team-messages");
@@ -38,12 +38,12 @@ public class TeamListener implements Listener {
     }
 
     @EventHandler
-    public void onTeamPlayerRemove(TeamPlayerRemoveEvent event) {
+    public void onPlayerTeamRemove(TeamPlayerRemoveEvent event) {
 
-        Team team = event.getTeam();
-        TeamPlayer teamPlayer = event.getPlayer();
+        FKTeam team = event.getTeam();
+        FKTeamPlayer teamPlayer = event.getPlayer();
 
-        Player player = event.getPlayer().getPlayer();
+        Player player = teamPlayer.getPlayer();
 
         FileConfiguration config = this.plugin.getConfig();
         ConfigurationSection section = config.getConfigurationSection("team-messages");

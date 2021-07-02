@@ -1,9 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
 import com.github.syr0ws.fallenkingdom.events.*;
-import com.github.syr0ws.fallenkingdom.game.GameException;
-import com.github.syr0ws.fallenkingdom.game.controller.GameController;
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
@@ -45,7 +42,7 @@ public class GameCaptureListener implements Listener {
 
         Optional<? extends TeamPlayer> optional = this.game.getTeamPlayer(player.getUniqueId());
 
-        // Checking if the player is playing (is a TeamPlayer).
+        // Checking if the player is playing (is a FKTeamPlayer).
         if(!optional.isPresent()) return;
 
         TeamPlayer teamPlayer = optional.get();
@@ -83,7 +80,7 @@ public class GameCaptureListener implements Listener {
 
         Optional<? extends TeamPlayer> optionalPlayer = this.game.getTeamPlayer(player.getUUID());
 
-        // Player is not a TeamPlayer (is not playing).
+        // Player is not a FKTeamPlayer (is not playing).
         if(!optionalPlayer.isPresent()) return;
 
         TeamPlayer teamPlayer = optionalPlayer.get();

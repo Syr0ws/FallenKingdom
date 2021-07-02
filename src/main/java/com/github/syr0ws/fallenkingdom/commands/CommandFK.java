@@ -1,8 +1,5 @@
 package com.github.syr0ws.fallenkingdom.commands;
 
-import com.github.syr0ws.fallenkingdom.game.GameException;
-import com.github.syr0ws.fallenkingdom.game.controller.GameController;
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.placholders.GlobalPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;

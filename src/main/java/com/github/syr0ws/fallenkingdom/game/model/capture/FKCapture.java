@@ -32,10 +32,10 @@ public class FKCapture implements Capture {
     public void addCapturer(TeamPlayer player) {
 
         if(player == null)
-            throw new IllegalArgumentException("TeamPlayer cannot be null.");
+            throw new IllegalArgumentException("FKTeamPlayer cannot be null.");
 
         if(!this.capturer.contains(player))
-            throw new IllegalArgumentException("TeamPlayer not a member of the capturer team.");
+            throw new IllegalArgumentException("FKTeamPlayer not a member of the capturer team.");
 
         if(!this.capturers.contains(player)) this.capturers.add(player);
     }

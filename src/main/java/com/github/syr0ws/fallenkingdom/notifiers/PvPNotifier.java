@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.notifiers;
 
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
+import com.github.syr0ws.fallenkingdom.game.model.v2.FKModel;
+import com.github.syr0ws.fallenkingdom.game.model.v2.GameAttribute;
 import com.github.syr0ws.universe.attributes.Attribute;
 import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.displays.Display;
@@ -15,13 +15,13 @@ import java.util.Collections;
 
 public class PvPNotifier implements AttributeObserver {
 
-    private final GameModel model;
+    private final FKModel model;
     private final DisplayDAO dao;
 
-    public PvPNotifier(GameModel model, Plugin plugin) {
+    public PvPNotifier(FKModel model, Plugin plugin) {
 
         if(model == null)
-            throw new IllegalArgumentException("GameModel cannot be null.");
+            throw new IllegalArgumentException("FKModel cannot be null.");
 
         if(plugin == null)
             throw new IllegalArgumentException("Plugin cannot be null.");

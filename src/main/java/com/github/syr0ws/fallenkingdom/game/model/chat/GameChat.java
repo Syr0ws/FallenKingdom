@@ -1,10 +1,9 @@
 package com.github.syr0ws.fallenkingdom.game.model.chat;
 
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
 import com.github.syr0ws.universe.displays.impl.Message;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Bukkit;
@@ -22,7 +21,7 @@ public class GameChat extends AbstractChat {
             throw new IllegalArgumentException("Game cannot be null.");
 
         if(teamPlayer == null)
-            throw new IllegalArgumentException("TeamPlayer cannot be null.");
+            throw new IllegalArgumentException("FKTeamPlayer cannot be null.");
 
         this.game = game;
         this.teamPlayer = teamPlayer;

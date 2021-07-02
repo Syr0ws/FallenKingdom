@@ -1,8 +1,5 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles;
 
-import com.github.syr0ws.fallenkingdom.game.controller.GameController;
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameRunningCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameWaitingCycle;
 import org.bukkit.plugin.Plugin;

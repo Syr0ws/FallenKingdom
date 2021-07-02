@@ -1,7 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.chat;
 
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
 import com.github.syr0ws.universe.displays.impl.Message;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 

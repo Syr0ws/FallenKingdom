@@ -1,12 +1,8 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.impl;
 
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
-import com.github.syr0ws.fallenkingdom.game.model.GameState;
-import com.github.syr0ws.fallenkingdom.game.model.attributes.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameWaitingListener;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
-import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
+import com.github.syr0ws.fallenkingdom.game.model.v2.GameAttribute;
+import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
 import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
 import com.github.syr0ws.universe.attributes.Attribute;

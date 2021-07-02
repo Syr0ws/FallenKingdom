@@ -318,6 +318,9 @@ friendly-fire: false
 # The percentage of players needed to capture a base.
 catcher-percentage: 50
 
+# Set 'true' if you want players who has slept in a bed to respawn in it or else set 'false'.
+allow-bed-respawn: true
+
 #############################################
 ###             CHAT SETTINGS             ###
 #############################################

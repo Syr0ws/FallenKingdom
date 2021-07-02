@@ -1,15 +1,10 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.impl;
 
-import com.github.syr0ws.fallenkingdom.game.controller.GameController;
-import com.github.syr0ws.fallenkingdom.game.model.GameModel;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycle;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameCaptureListener;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningBlockListener;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.listeners.GameRunningPlayerListener;
 import com.github.syr0ws.fallenkingdom.game.model.modes.impl.PlayingMode;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
-import com.github.syr0ws.fallenkingdom.listeners.ListenerManager;
+import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.scoreboards.ScoreboardManager;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
 import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
