@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.v2.settings;
 
+import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -51,4 +52,6 @@ public interface SettingAccessor {
     MutableSetting<List<Material>> getVaultAllowedBlocksSetting();
 
     MutableSetting<Boolean> getAllowRespawnBedSetting();
+
+    MutableSetting<CaptureType> getCaptureTypeSetting();
 }

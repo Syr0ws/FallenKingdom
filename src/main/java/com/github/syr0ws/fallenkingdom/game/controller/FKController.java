@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.controller;
 
+import com.github.syr0ws.fallenkingdom.capture.CaptureManager;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.game.controller.GameController;
@@ -17,4 +18,6 @@ public interface FKController extends GameController {
     void eliminate(FKTeam team) throws GameException;
 
     void eliminate(FKTeamPlayer player) throws GameException;
+
+    CaptureManager getCaptureManager();
 }

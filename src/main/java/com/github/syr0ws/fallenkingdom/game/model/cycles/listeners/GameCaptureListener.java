@@ -1,7 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles.listeners;
 
-import com.github.syr0ws.fallenkingdom.events.*;
-import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;

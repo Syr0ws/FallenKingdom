@@ -1,11 +1,15 @@
 package com.github.syr0ws.fallenkingdom.game.controller;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
+import com.github.syr0ws.fallenkingdom.capture.CaptureFactory;
+import com.github.syr0ws.fallenkingdom.capture.CaptureManager;
+import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.model.v2.CraftFKModel;
 import com.github.syr0ws.fallenkingdom.game.model.v2.CraftFKPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.v2.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.v2.cycles.GameCycleFactory;
+import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.CraftFKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
@@ -21,6 +25,7 @@ import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
 import com.github.syr0ws.universe.game.model.mode.Mode;
 import com.github.syr0ws.universe.game.model.mode.ModeFactory;
 import com.github.syr0ws.universe.game.model.mode.ModeType;
+import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,6 +44,7 @@ public class CraftFKController implements FKController {
 
     private final CraftFKModel model;
     private final GameCycleFactory factory;
+    private final CaptureManager captureManager;
 
     public CraftFKController(FKGame game, CraftFKModel model) {
 
@@ -54,6 +60,12 @@ public class CraftFKController implements FKController {
         // Registering listeners.
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new GameListener(), game);
+
+        // Handling capture manager.
+        SettingAccessor accessor = model.getSettings();
+        MutableSetting<CaptureType> setting = accessor.getCaptureTypeSetting();
+
+        this.captureManager = CaptureFactory.getCaptureManager(game, setting.getValue());
     }
 
     private void onPlayerJoin(Player player) {
@@ -330,6 +342,11 @@ public class CraftFKController implements FKController {
 
         // If there is no player alive, eliminating the team.
         if(playersAlive == 0) this.eliminate(player.getTeam());
+    }
+
+    @Override
+    public CaptureManager getCaptureManager() {
+        return this.captureManager;
     }
 
     private void checkTeamWin() throws GameException {

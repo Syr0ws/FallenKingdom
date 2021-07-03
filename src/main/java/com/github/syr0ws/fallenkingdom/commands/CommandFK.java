@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.commands;
 
-import com.github.syr0ws.fallenkingdom.game.model.placholders.GlobalPlaceholder;
-import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.GlobalPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.players.GamePlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;

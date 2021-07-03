@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.v2.settings;
 
+import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.universe.settings.dao.ConfigSettingLoader;
 import com.github.syr0ws.universe.settings.dao.SettingLoader;
 import com.github.syr0ws.universe.settings.manager.CacheSettingManager;
@@ -140,5 +141,10 @@ public class GameSettingAccessor implements SettingAccessor {
     @Override
     public MutableSetting<Boolean> getAllowRespawnBedSetting() {
         return this.manager.getGenericSetting(GameSettingEnum.ALLOW_BED_RESPAWN, Boolean.class);
+    }
+
+    @Override
+    public MutableSetting<CaptureType> getCaptureTypeSetting() {
+        return null;
     }
 }

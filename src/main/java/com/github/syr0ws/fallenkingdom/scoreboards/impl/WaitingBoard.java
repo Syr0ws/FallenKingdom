@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.scoreboards.impl;
 
-import com.github.syr0ws.fallenkingdom.game.model.placholders.GamePlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.GamePlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.v2.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.scoreboards.AbstractFastBoard;

@@ -32,6 +32,9 @@ public class GameRunningCycle extends GameCycle {
 
         // Registering cycle listeners.
         this.registerListeners();
+
+        // Handling captures.
+        this.controller.getCaptureManager().enable();
     }
 
     @Override
@@ -40,6 +43,9 @@ public class GameRunningCycle extends GameCycle {
 
         // Unregistering listeners.
         super.getListenerManager().removeListeners();
+
+        // Handling captures.
+        this.controller.getCaptureManager().disable();
     }
 
     @Override

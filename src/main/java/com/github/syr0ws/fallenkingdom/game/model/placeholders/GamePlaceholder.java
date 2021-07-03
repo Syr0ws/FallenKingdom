@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.game.model.placholders;
+package com.github.syr0ws.fallenkingdom.game.model.placeholders;
 
 import com.github.syr0ws.universe.displays.placeholders.Placeholder;
 

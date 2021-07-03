@@ -5,7 +5,7 @@ import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStar
 import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStopEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStartEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStopEvent;
-import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.displays.impl.Message;
 import org.bukkit.configuration.ConfigurationSection;

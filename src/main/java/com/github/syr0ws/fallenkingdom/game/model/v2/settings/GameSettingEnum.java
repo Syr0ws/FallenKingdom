@@ -226,6 +226,13 @@ public enum GameSettingEnum implements SettingType {
                     .Builder<>("allowBedRespawn", true, "allow-bed-respawn", Boolean.class)
                     .build();
         }
+    },
+
+    CAPTURE_TYPE {
+        @Override
+        public Setting<?> getSetting() {
+            return null;
+        }
     };
 
     public abstract Setting<?> getSetting();

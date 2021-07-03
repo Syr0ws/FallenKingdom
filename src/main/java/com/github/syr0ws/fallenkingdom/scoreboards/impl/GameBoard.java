@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.scoreboards.impl;
 
-import com.github.syr0ws.fallenkingdom.game.model.placholders.GamePlaceholder;
-import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.GamePlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.v2.GameAttribute;

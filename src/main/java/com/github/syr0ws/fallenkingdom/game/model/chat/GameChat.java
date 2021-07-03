@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.chat;
 
-import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.TeamPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.Team;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
