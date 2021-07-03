@@ -1,8 +1,9 @@
-package com.github.syr0ws.fallenkingdom.game.model.v2.teams.base.capture;
+package com.github.syr0ws.fallenkingdom.capture.nexus.model;
 
+import com.github.syr0ws.fallenkingdom.capture.Capturable;
 import org.bukkit.Location;
 
-public interface NexusModel {
+public interface NexusModel extends Capturable {
 
     void addHealth(int health);
 

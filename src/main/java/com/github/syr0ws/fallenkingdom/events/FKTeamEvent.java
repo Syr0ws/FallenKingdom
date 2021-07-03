@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.game.model.v2.events;
+package com.github.syr0ws.fallenkingdom.events;
 
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
 

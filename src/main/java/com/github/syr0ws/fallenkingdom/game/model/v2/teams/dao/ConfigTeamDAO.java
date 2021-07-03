@@ -1,7 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.v2.teams.dao;
 
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.CraftFKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.TeamBase;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.TeamColor;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.TeamException;
 import com.github.syr0ws.universe.tools.Cuboid;

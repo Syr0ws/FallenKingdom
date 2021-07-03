@@ -1,11 +1,11 @@
 package com.github.syr0ws.fallenkingdom.game.controller;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
+import com.github.syr0ws.fallenkingdom.events.*;
 import com.github.syr0ws.fallenkingdom.game.model.v2.CraftFKModel;
 import com.github.syr0ws.fallenkingdom.game.model.v2.CraftFKPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.v2.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.v2.cycles.GameCycleFactory;
-import com.github.syr0ws.fallenkingdom.game.model.v2.events.*;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.CraftFKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;

@@ -1,5 +1,6 @@
-package com.github.syr0ws.fallenkingdom.game.model.v2.teams.base.capture;
+package com.github.syr0ws.fallenkingdom.capture.area.model;
 
+import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.universe.tools.Cuboid;
 
 public class CraftAreaModel implements AreaModel {
@@ -17,5 +18,10 @@ public class CraftAreaModel implements AreaModel {
     @Override
     public Cuboid getArea() {
         return this.area;
+    }
+
+    @Override
+    public CaptureType getCaptureType() {
+        return CaptureType.AREA;
     }
 }

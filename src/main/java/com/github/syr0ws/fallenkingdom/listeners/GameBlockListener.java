@@ -4,7 +4,6 @@ import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.v2.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.TeamBase;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.Material;

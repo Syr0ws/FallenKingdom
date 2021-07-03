@@ -1,16 +1,16 @@
-package com.github.syr0ws.fallenkingdom.game.model.v2.events;
+package com.github.syr0ws.fallenkingdom.events;
 
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
 import org.bukkit.event.HandlerList;
 
-public class TeamPlayerAddEvent extends FKTeamEvent {
+public class TeamPlayerRemoveEvent extends FKTeamEvent {
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 
     private final FKTeamPlayer player;
 
-    public TeamPlayerAddEvent(FKTeam team, FKTeamPlayer player) {
+    public TeamPlayerRemoveEvent(FKTeam team, FKTeamPlayer player) {
         super(team);
 
         if(player == null)

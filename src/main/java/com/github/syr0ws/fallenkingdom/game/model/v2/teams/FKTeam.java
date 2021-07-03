@@ -27,7 +27,7 @@ public interface FKTeam {
 
     TeamColor getColor();
 
-    TeamBase getBase();
+    FKTeamBase getBase();
 
     TeamState getState();
 

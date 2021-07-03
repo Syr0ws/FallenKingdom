@@ -1,13 +1,13 @@
-package com.github.syr0ws.fallenkingdom.game.model.v2.events;
+package com.github.syr0ws.fallenkingdom.events;
 
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
 import org.bukkit.event.HandlerList;
 
-public class TeamWinEvent extends FKTeamEvent {
+public class TeamEliminateEvent extends FKTeamEvent {
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 
-    public TeamWinEvent(FKTeam team) {
+    public TeamEliminateEvent(FKTeam team) {
         super(team);
     }
 

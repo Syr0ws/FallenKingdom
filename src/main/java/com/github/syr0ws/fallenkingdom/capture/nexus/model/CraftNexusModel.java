@@ -1,5 +1,6 @@
-package com.github.syr0ws.fallenkingdom.game.model.v2.teams.base.capture;
+package com.github.syr0ws.fallenkingdom.capture.nexus.model;
 
+import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import org.bukkit.Location;
 
 public class CraftNexusModel implements NexusModel {
@@ -50,5 +51,10 @@ public class CraftNexusModel implements NexusModel {
     @Override
     public Location getLocation() {
         return this.location;
+    }
+
+    @Override
+    public CaptureType getCaptureType() {
+        return CaptureType.NEXUS;
     }
 }

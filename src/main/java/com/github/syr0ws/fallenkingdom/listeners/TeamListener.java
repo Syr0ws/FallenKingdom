@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.listeners;
 
+import com.github.syr0ws.fallenkingdom.events.TeamPlayerAddEvent;
+import com.github.syr0ws.fallenkingdom.events.TeamPlayerRemoveEvent;
 import com.github.syr0ws.fallenkingdom.game.model.placholders.TeamPlaceholder;
-import com.github.syr0ws.fallenkingdom.game.model.v2.events.TeamPlayerAddEvent;
-import com.github.syr0ws.fallenkingdom.game.model.v2.events.TeamPlayerRemoveEvent;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.displays.impl.Message;
@@ -32,7 +32,7 @@ public class TeamListener implements Listener {
         FileConfiguration config = this.plugin.getConfig();
         ConfigurationSection section = config.getConfigurationSection("team-messages");
 
-        Message message = new Message(section.getString("join"));
+        Message message = new Message(section.getString("join", ""));
         message.addPlaceholder(TeamPlaceholder.TEAM_NAME, team.getDisplayName());
         message.displayTo(player);
     }
@@ -48,7 +48,7 @@ public class TeamListener implements Listener {
         FileConfiguration config = this.plugin.getConfig();
         ConfigurationSection section = config.getConfigurationSection("team-messages");
 
-        Message message = new Message(section.getString("quit"));
+        Message message = new Message(section.getString("quit", ""));
         message.addPlaceholder(TeamPlaceholder.TEAM_NAME, team.getDisplayName());
         message.displayTo(player);
     }
