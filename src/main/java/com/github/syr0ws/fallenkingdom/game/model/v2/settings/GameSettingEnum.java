@@ -1,11 +1,9 @@
 package com.github.syr0ws.fallenkingdom.game.model.v2.settings;
 
+import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.universe.settings.Setting;
 import com.github.syr0ws.universe.settings.SettingType;
-import com.github.syr0ws.universe.settings.types.CharacterSetting;
-import com.github.syr0ws.universe.settings.types.LocationSetting;
-import com.github.syr0ws.universe.settings.types.MaterialSetting;
-import com.github.syr0ws.universe.settings.types.SimpleConfigSetting;
+import com.github.syr0ws.universe.settings.types.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -231,7 +229,9 @@ public enum GameSettingEnum implements SettingType {
     CAPTURE_TYPE {
         @Override
         public Setting<?> getSetting() {
-            return null;
+            return new EnumSetting
+                    .Builder<>("captureType", CaptureType.AREA, CaptureType.class, "capture-type")
+                    .build();
         }
     };
 

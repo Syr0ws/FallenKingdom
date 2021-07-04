@@ -26,14 +26,14 @@ public class GameInitializer {
         SettingAccessor accessor = this.loadSettings();
 
         // Loading teams.
-        List<CraftFKTeam> teams = this.loadTeams();
+        List<CraftFKTeam> teams = this.loadTeams(accessor);
 
         return new CraftFKModel(accessor, teams);
     }
 
-    private List<CraftFKTeam> loadTeams() throws GameException {
+    private List<CraftFKTeam> loadTeams(SettingAccessor accessor) throws GameException {
 
-        ConfigTeamDAO dao = new ConfigTeamDAO(this.plugin);
+        ConfigTeamDAO dao = new ConfigTeamDAO(this.plugin, accessor);
 
         List<CraftFKTeam> teams = new ArrayList<>();
 

@@ -145,6 +145,6 @@ public class GameSettingAccessor implements SettingAccessor {
 
     @Override
     public MutableSetting<CaptureType> getCaptureTypeSetting() {
-        return null;
+        return this.manager.getGenericSetting(GameSettingEnum.CAPTURE_TYPE, CaptureType.class);
     }
 }

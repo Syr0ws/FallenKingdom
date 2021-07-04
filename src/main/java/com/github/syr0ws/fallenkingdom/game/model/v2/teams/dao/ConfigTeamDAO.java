@@ -1,8 +1,12 @@
 package com.github.syr0ws.fallenkingdom.game.model.v2.teams.dao;
 
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.CraftFKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.TeamColor;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.TeamException;
+import com.github.syr0ws.fallenkingdom.capture.Capturable;
+import com.github.syr0ws.fallenkingdom.capture.CapturableDAO;
+import com.github.syr0ws.fallenkingdom.capture.CaptureDAOFactory;
+import com.github.syr0ws.fallenkingdom.capture.CaptureType;
+import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.v2.teams.*;
+import com.github.syr0ws.universe.settings.types.MutableSetting;
 import com.github.syr0ws.universe.tools.Cuboid;
 import com.github.syr0ws.universe.utils.LocationUtils;
 import org.bukkit.Location;
@@ -23,9 +27,11 @@ public class ConfigTeamDAO implements TeamDAO<CraftFKTeam> {
     private static final String TEAM_FILE_NAME = "teams.yml";
 
     private final Plugin plugin;
+    private final SettingAccessor accessor;
 
-    public ConfigTeamDAO(Plugin plugin) {
+    public ConfigTeamDAO(Plugin plugin, SettingAccessor accessor) {
         this.plugin = plugin;
+        this.accessor = accessor;
     }
 
     @Override
@@ -75,12 +81,12 @@ public class ConfigTeamDAO implements TeamDAO<CraftFKTeam> {
         String displayName = section.getString("display-name");
 
         TeamColor color = this.loadTeamColor(section);
-        TeamBase base = this.loadTeamBase(section);
+        FKTeamBase base = this.loadTeamBase(section);
 
         return new CraftFKTeam(name, displayName, base, color);
     }
 
-    private TeamBase loadTeamBase(ConfigurationSection section) throws TeamException {
+    private FKTeamBase loadTeamBase(ConfigurationSection section) throws TeamException {
 
         ConfigurationSection baseSection = section.getConfigurationSection("base");
         ConfigurationSection vaultSection = section.getConfigurationSection("vault");
@@ -100,7 +106,23 @@ public class ConfigTeamDAO implements TeamDAO<CraftFKTeam> {
 
         Location spawn = LocationUtils.getLocation(section.getConfigurationSection("spawn"));
 
-        return new TeamBase(base, vault, spawn);
+        Capturable capturable = this.loadCapturable(section);
+
+        return new CraftFKTeamBase(base, vault, spawn, capturable);
+    }
+
+    private Capturable loadCapturable(ConfigurationSection section) throws TeamException {
+
+        ConfigurationSection capturableSection = section.getConfigurationSection("capturable");
+
+        if(capturableSection == null)
+            throw new TeamException("Section 'capturable' not found or invalid.");
+
+        MutableSetting<CaptureType> setting = this.accessor.getCaptureTypeSetting();
+
+        CapturableDAO dao = CaptureDAOFactory.getDAO(setting.getValue());
+
+        return dao.loadCapturable(capturableSection);
     }
 
     private TeamColor loadTeamColor(ConfigurationSection section) throws TeamException {

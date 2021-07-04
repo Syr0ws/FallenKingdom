@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 public class CraftFKTeam implements FKTeam {
 
     private final String name, displayName;
-    private final TeamBase base;
+    private final FKTeamBase base;
     private final TeamColor color;
     private final Map<UUID, CraftFKTeamPlayer> players = new HashMap<>();
 
     private TeamState state;
 
-    public CraftFKTeam(String name, String displayName, TeamBase base, TeamColor color) {
+    public CraftFKTeam(String name, String displayName, FKTeamBase base, TeamColor color) {
 
         if(name == null || name.isEmpty())
             throw new IllegalArgumentException("Name cannot be null or empty.");
@@ -113,7 +113,7 @@ public class CraftFKTeam implements FKTeam {
     }
 
     @Override
-    public TeamBase getBase() {
+    public FKTeamBase getBase() {
         return this.base;
     }
 
