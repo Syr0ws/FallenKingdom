@@ -1,32 +1,46 @@
 package com.github.syr0ws.fallenkingdom.game.model.cycles;
 
-import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameRunningCycle;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.impl.GameWaitingCycle;
-import org.bukkit.plugin.Plugin;
+import com.github.syr0ws.fallenkingdom.FKGame;
+import com.github.syr0ws.fallenkingdom.game.controller.FKController;
+import com.github.syr0ws.fallenkingdom.game.model.FKModel;
+import com.github.syr0ws.fallenkingdom.game.model.GameState;
+import com.github.syr0ws.universe.game.model.cycle.GameCycle;
+
+import java.util.Optional;
 
 public class GameCycleFactory {
 
-    private final GameModel game;
-    private final GameController controller;
-    private final Plugin plugin;
+    private final FKGame game;
 
-    public GameCycleFactory(GameModel game, GameController controller, Plugin plugin) {
+    public GameCycleFactory(FKGame game) {
+
+        if(game == null)
+            throw new IllegalArgumentException("FKGame cannot be null.");
+
         this.game = game;
-        this.controller = controller;
-        this.plugin = plugin;
     }
 
-    public GameCycle getCycle(GameState state) {
+    public Optional<GameCycle> getCycle(GameState state) {
+
+        FKModel model = this.game.getGameModel();
+        FKController controller = this.game.getGameController();
+
+        GameCycle cycle;
 
         switch (state) {
             case WAITING:
-                return new GameWaitingCycle(this.plugin, this.game);
+                cycle = new GameWaitingCycle(this.game, controller, model);
+                break;
             case RUNNING:
-                return new GameRunningCycle(this.plugin, this.game, this.controller);
+                cycle = new GameRunningCycle(this.game, controller, model);
+                break;
             case FINISHED:
-                return null;
+                cycle = new GameFinishCycle(this.game, controller, model);
+                break;
             default:
-                return null;
+                cycle = null;
+                break;
         }
+        return Optional.ofNullable(cycle);
     }
 }

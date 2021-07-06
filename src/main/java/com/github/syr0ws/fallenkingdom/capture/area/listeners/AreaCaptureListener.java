@@ -5,8 +5,8 @@ import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStar
 import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStopEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStartEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStopEvent;
-import com.github.syr0ws.fallenkingdom.game.model.placeholders.TeamPlaceholder;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.displays.impl.Message;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
@@ -30,7 +30,7 @@ public class AreaCaptureListener implements Listener {
         FKTeamPlayer player = event.getTeamPlayer();
 
         Message message = new Message(this.getCaptureSection().getString("player-start-capture", ""));
-        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCapturedTeam().getDisplayName());
+        message.addPlaceholder(FKPlaceholder.TEAM_NAME, event.getCapturedTeam().getDisplayName());
 
         message.displayTo(player.getPlayer());
     }
@@ -41,7 +41,7 @@ public class AreaCaptureListener implements Listener {
         FKTeamPlayer player = event.getTeamPlayer();
 
         Message message = new Message(this.getCaptureSection().getString("player-stop-capture", ""));
-        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCapturedTeam().getDisplayName());
+        message.addPlaceholder(FKPlaceholder.TEAM_NAME, event.getCapturedTeam().getDisplayName());
 
         message.displayTo(player.getPlayer());
     }
@@ -50,7 +50,7 @@ public class AreaCaptureListener implements Listener {
     public void onTeamBaseCaptureStart(TeamBaseCaptureStartEvent event) {
 
         Message message = new Message(this.getCaptureSection().getString("team-base-start-capture", ""));
-        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCatcher().getDisplayName());
+        message.addPlaceholder(FKPlaceholder.TEAM_NAME, event.getCatcher().getDisplayName());
 
         event.getTeam().sendDisplay(message, FKTeamPlayer::isAlive);
     }
@@ -59,7 +59,7 @@ public class AreaCaptureListener implements Listener {
     public void onTeamBaseCaptureStop(TeamBaseCaptureStopEvent event) {
 
         Message message = new Message(this.getCaptureSection().getString("team-base-stop-capture", ""));
-        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, event.getCatcher().getDisplayName());
+        message.addPlaceholder(FKPlaceholder.TEAM_NAME, event.getCatcher().getDisplayName());
 
         event.getTeam().sendDisplay(message, FKTeamPlayer::isAlive);
     }

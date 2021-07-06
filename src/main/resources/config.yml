@@ -321,6 +321,8 @@ catcher-percentage: 50
 # Set 'true' if you want players who has slept in a bed to respawn in it or else set 'false'.
 allow-bed-respawn: true
 
+capture-type: "AREA"
+
 #############################################
 ###             CHAT SETTINGS             ###
 #############################################
@@ -377,3 +379,9 @@ spectator-chat:
   # - %display_name% -> The player's display name.
   # - %message% -> The message.
   format: "&7%player% &r: %message%"
+
+
+
+
+combat-module:
+  combat-duration: 15

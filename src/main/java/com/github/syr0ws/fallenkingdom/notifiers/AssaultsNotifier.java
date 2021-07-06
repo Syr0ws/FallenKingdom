@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.notifiers;
 
-import com.github.syr0ws.fallenkingdom.game.model.v2.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.v2.GameAttribute;
+import com.github.syr0ws.fallenkingdom.game.model.FKModel;
+import com.github.syr0ws.fallenkingdom.game.model.GameAttribute;
 import com.github.syr0ws.universe.attributes.Attribute;
 import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.displays.Display;

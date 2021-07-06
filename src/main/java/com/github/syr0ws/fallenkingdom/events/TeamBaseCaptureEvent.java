@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.events;
 
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 
 public abstract class TeamBaseCaptureEvent extends FKTeamEvent {
 

@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.capture.area.model;
 
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 
 import java.util.*;
 
@@ -9,44 +9,82 @@ public class CraftAreaCaptureModel implements AreaCaptureModel {
 
     private final List<CraftAreaCapture> captures = new ArrayList<>();
 
-    public void addCapture(FKTeam captured, FKTeamPlayer catcher) {
+    public void capture(FKTeamPlayer player, FKTeam captured) {
+
+        if(captured.contains(player))
+            throw new IllegalArgumentException("Catcher cannot be a member to the team he's capturing.");
 
         Optional<CraftAreaCapture> optional = this.captures.stream()
                 .filter(capture -> capture.getCapturedTeam().equals(captured))
                 .findFirst();
 
         // If a capture already exists, using it.
-        // Else, creating and storing a new one.
-        if(optional.isPresent()) {
-
-            CraftAreaCapture capture = optional.get();
-
-            // Only one team can capture a base. If the player isn't a member of the
-            // current catcher team, throwing an exception.
-            if(!capture.getCatcherTeam().contains(catcher))
-                throw new IllegalArgumentException("Only one team can capture a base.");
-
-            capture.addCatcher(catcher);
-
-        } else {
-
-            CraftAreaCapture capture = new CraftAreaCapture(captured, catcher);
+        if(!optional.isPresent()) {
+            CraftAreaCapture capture = new CraftAreaCapture(captured, player);
             this.captures.add(capture);
+            return;
         }
+
+        CraftAreaCapture capture = optional.get();
+
+        // Only one team can capture a base. If the player isn't a member of the
+        // current catcher team, throwing an exception.
+        if(!capture.getCatcherTeam().contains(player))
+            throw new IllegalArgumentException("Only one team can capture a base.");
+
+        capture.addCatcher(player);
     }
 
-    public void removeCapture(FKTeamPlayer player) {
+    public CraftAreaCapture removeCapture(FKTeamPlayer player) {
 
         Optional<CraftAreaCapture> optional = this.captures.stream()
                 .filter(capture -> capture.getCatchers().contains(player))
                 .findFirst();
 
-        if(!optional.isPresent()) return;
+        if(!optional.isPresent())
+            throw new IllegalArgumentException("Player not capturing.");
 
         CraftAreaCapture capture = optional.get();
         capture.removeCatcher(player);
 
         if(capture.getCatchers().size() == 0) this.captures.remove(capture);
+
+        return capture;
+    }
+
+    public CraftAreaCapture removeCapture(FKTeam captured) {
+
+        Optional<CraftAreaCapture> optional = this.getCapture(captured);
+
+        if(!optional.isPresent())
+            throw new IllegalArgumentException("Team not captured");
+
+        CraftAreaCapture capture = optional.get();
+
+        this.captures.remove(capture);
+
+        return capture;
+    }
+
+    @Override
+    public boolean canCapture(FKTeam team, FKTeamPlayer player) {
+
+        // An eliminated team cannot be captured.
+        if(team.isEliminated()) return false;
+
+        // A dead player cannot capture a team.
+        if(!player.isAlive()) return false;
+
+        Optional<CraftAreaCapture> optional = this.getCapture(team);
+
+        // The team is not currently captured so it can be captured by the player.
+        if(!optional.isPresent()) return true;
+
+        CraftAreaCapture capture = optional.get();
+
+        // Only one team can capture another one. If the player is a member
+        // of the capturing team, he can captures the team.
+        return capture.getCatcherTeam().contains(player);
     }
 
     @Override

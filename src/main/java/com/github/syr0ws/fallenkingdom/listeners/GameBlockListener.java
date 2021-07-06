@@ -1,9 +1,10 @@
 package com.github.syr0ws.fallenkingdom.listeners;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
-import com.github.syr0ws.fallenkingdom.game.model.v2.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.FKModel;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamBase;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,10 +49,10 @@ public class GameBlockListener implements Listener {
         }
 
         FKTeam team = optional.get();
-        TeamBase base = team.getBase();
+        FKTeamBase base = team.getBase();
 
         // If the block is placed inside the player's base, allow him to place it.
-        if(base.getCuboid().isIn(location)) return;
+        if(base.getBase().isIn(location)) return;
 
         // The placed block is outside the player base. If the block isn't allowed,
         // cancelling the event.
@@ -73,7 +74,7 @@ public class GameBlockListener implements Listener {
         // Players cannot break blocs manually in enemy bases.
         boolean inEnemyBase = this.model.getTeams().stream()
                 .filter(team -> !team.contains(player.getUniqueId())) // Only checking the enemy bases.
-                .map(team -> team.getBase().getCuboid()) // Mapping to Cuboid.
+                .map(team -> team.getBase().getBase()) // Mapping to Cuboid.
                 .anyMatch(cuboid -> cuboid.isIn(block.getLocation())); // Checking if the broken block is in an enemy base.
 
         if(inEnemyBase) event.setCancelled(true);

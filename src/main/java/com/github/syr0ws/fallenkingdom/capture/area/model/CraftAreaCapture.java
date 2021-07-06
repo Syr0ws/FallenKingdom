@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.capture.area.model;
 
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 
 import java.util.ArrayList;
 import java.util.Collections;

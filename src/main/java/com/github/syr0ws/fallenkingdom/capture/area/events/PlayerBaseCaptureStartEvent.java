@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.capture.area.events;
 
 import com.github.syr0ws.fallenkingdom.events.FKTeamPlayerEvent;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import org.bukkit.event.HandlerList;
 
 public class PlayerBaseCaptureStartEvent extends FKTeamPlayerEvent {

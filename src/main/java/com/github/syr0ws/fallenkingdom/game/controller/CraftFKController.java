@@ -5,15 +5,15 @@ import com.github.syr0ws.fallenkingdom.capture.CaptureFactory;
 import com.github.syr0ws.fallenkingdom.capture.CaptureManager;
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.fallenkingdom.events.*;
-import com.github.syr0ws.fallenkingdom.game.model.v2.CraftFKModel;
-import com.github.syr0ws.fallenkingdom.game.model.v2.CraftFKPlayer;
-import com.github.syr0ws.fallenkingdom.game.model.v2.GameState;
-import com.github.syr0ws.fallenkingdom.game.model.v2.cycles.GameCycleFactory;
-import com.github.syr0ws.fallenkingdom.game.model.v2.settings.SettingAccessor;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.CraftFKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.CraftFKTeamPlayer;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.CraftFKModel;
+import com.github.syr0ws.fallenkingdom.game.model.CraftFKPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.GameState;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycleFactory;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.events.GamePlayerJoinEvent;
 import com.github.syr0ws.universe.events.GamePlayerModeChangeEvent;
 import com.github.syr0ws.universe.events.GamePlayerQuitEvent;
@@ -269,6 +269,11 @@ public class CraftFKController implements FKController {
         Bukkit.getPluginManager().callEvent(event);
 
         return teamPlayer;
+    }
+
+    @Override
+    public void setBaseCaptured(FKTeam team) {
+
     }
 
     @Override

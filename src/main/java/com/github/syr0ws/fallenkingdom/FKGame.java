@@ -4,6 +4,7 @@ import com.github.syr0ws.fallenkingdom.chat.PlayingChat;
 import com.github.syr0ws.fallenkingdom.chat.SpectatorChat;
 import com.github.syr0ws.fallenkingdom.chat.TeamChat;
 import com.github.syr0ws.fallenkingdom.chat.WaitingChat;
+import com.github.syr0ws.fallenkingdom.commands.CommandFK;
 import com.github.syr0ws.fallenkingdom.game.controller.CraftFKController;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.CraftFKModel;
@@ -54,6 +55,9 @@ public class FKGame extends Game {
 
             // Adding notifiers.
             this.setupNotifiers();
+
+            // Registering commands.
+            this.registerCommands();
 
         } catch (GameException e) { e.printStackTrace(); }
     }
@@ -116,5 +120,9 @@ public class FKGame extends Game {
     private void setupNotifiers() {
         this.model.addObserver(new PvPNotifier(this.model, this));
         this.model.addObserver(new AssaultsNotifier(this.model, this));
+    }
+
+    private void registerCommands() {
+        super.getCommand("fk").setExecutor(new CommandFK(this, this.model, this.controller));
     }
 }

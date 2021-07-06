@@ -2,9 +2,9 @@ package com.github.syr0ws.fallenkingdom.listeners;
 
 import com.github.syr0ws.fallenkingdom.events.TeamPlayerAddEvent;
 import com.github.syr0ws.fallenkingdom.events.TeamPlayerRemoveEvent;
-import com.github.syr0ws.fallenkingdom.game.model.placeholders.TeamPlaceholder;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.displays.impl.Message;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -33,7 +33,7 @@ public class TeamListener implements Listener {
         ConfigurationSection section = config.getConfigurationSection("team-messages");
 
         Message message = new Message(section.getString("join", ""));
-        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, team.getDisplayName());
+        message.addPlaceholder(FKPlaceholder.TEAM_NAME, team.getDisplayName());
         message.displayTo(player);
     }
 
@@ -49,7 +49,7 @@ public class TeamListener implements Listener {
         ConfigurationSection section = config.getConfigurationSection("team-messages");
 
         Message message = new Message(section.getString("quit", ""));
-        message.addPlaceholder(TeamPlaceholder.TEAM_NAME, team.getDisplayName());
+        message.addPlaceholder(FKPlaceholder.TEAM_NAME, team.getDisplayName());
         message.displayTo(player);
     }
 

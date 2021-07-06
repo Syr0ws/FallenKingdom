@@ -3,13 +3,23 @@ package com.github.syr0ws.fallenkingdom.capture.area.manager;
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.capture.CaptureManager;
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
+import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStartEvent;
+import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStopEvent;
+import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStartEvent;
+import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStopEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.listeners.AreaCaptureListener;
+import com.github.syr0ws.fallenkingdom.capture.area.model.AreaCapture;
+import com.github.syr0ws.fallenkingdom.capture.area.model.AreaModel;
 import com.github.syr0ws.fallenkingdom.capture.area.model.CraftAreaCaptureModel;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
-import com.github.syr0ws.fallenkingdom.game.model.v2.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.v2.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.FKModel;
+import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
+import com.github.syr0ws.universe.game.model.GameException;
 import com.github.syr0ws.universe.listeners.ListenerManager;
+import com.github.syr0ws.universe.tools.Task;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +28,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 public class CraftAreaCaptureManager implements CaptureManager {
@@ -28,6 +40,8 @@ public class CraftAreaCaptureManager implements CaptureManager {
 
     private final CraftAreaCaptureModel captureModel;
     private final ListenerManager listenerManager;
+
+    private CaptureTask task;
 
     public CraftAreaCaptureManager(FKGame game) {
 
@@ -43,14 +57,31 @@ public class CraftAreaCaptureManager implements CaptureManager {
     }
 
     @Override
+    public void capture(FKTeam team, FKTeam catcher) throws GameException {
+
+        if(team.isEliminated())
+            throw new GameException("Team already eliminated.");
+
+        if(catcher.isEliminated())
+            throw new GameException("Catcher team eliminated.");
+
+        this.captureModel.removeCapture(team);
+        this.controller.setBaseCaptured(team);
+    }
+
+    @Override
     public void enable() {
+
         this.listenerManager.addListener(new CaptureListener());
         this.listenerManager.addListener(new AreaCaptureListener(this.game));
+
+        this.startTask();
     }
 
     @Override
     public void disable() {
         this.listenerManager.removeListeners();
+        this.stopTask();
     }
 
     @Override
@@ -58,12 +89,55 @@ public class CraftAreaCaptureManager implements CaptureManager {
         return CaptureType.AREA;
     }
 
-    private void onCaptureStart(FKTeam captured, FKTeamPlayer player) {
+    private void startTask() {
 
+        SettingAccessor accessor = this.model.getSettings();
+        // MutableSetting<Integer> setting = accessor.getCaptureTimeSetting(); // TODO To change.
+
+        this.task = new CaptureTask(60); // TODO To change.
+        this.task.start();
     }
 
-    private void onCaptureStop(FKTeamPlayer player) {
+    private void stopTask() {
+        this.task.stop();
+        this.task = null;
+    }
 
+    private void onCaptureStart(FKTeam captured, FKTeamPlayer player) throws GameException {
+
+        if(this.captureModel.isCapturing(player))
+            throw new GameException("Player already capturing.");
+
+        if(!this.captureModel.canCapture(captured, player))
+            throw new GameException("Player cannot capture this team.");
+
+        PlayerBaseCaptureStartEvent playerBaseCaptureStartEvent = new PlayerBaseCaptureStartEvent(player, captured);
+        Bukkit.getPluginManager().callEvent(playerBaseCaptureStartEvent);
+
+        if(!this.captureModel.isCaptured(captured)) {
+
+            TeamBaseCaptureStartEvent teamBaseCaptureStartEvent = new TeamBaseCaptureStartEvent(captured, player.getTeam());
+            Bukkit.getPluginManager().callEvent(teamBaseCaptureStartEvent);
+        }
+
+        this.captureModel.capture(player, captured);
+    }
+
+    private void onCaptureStop(FKTeamPlayer player) throws GameException {
+
+        if(!this.captureModel.isCapturing(player))
+            throw new GameException("Player not capturing.");
+
+        AreaCapture capture = this.captureModel.removeCapture(player);
+
+        PlayerBaseCaptureStopEvent playerBaseCaptureStopEvent = new PlayerBaseCaptureStopEvent(player, capture.getCapturedTeam());
+        Bukkit.getPluginManager().callEvent(playerBaseCaptureStopEvent);
+
+        if(!this.captureModel.isCaptured(capture.getCapturedTeam())) {
+
+            TeamBaseCaptureStopEvent teamBaseCaptureStopEvent = new TeamBaseCaptureStopEvent(capture.getCapturedTeam(), capture.getCatcherTeam());
+            Bukkit.getPluginManager().callEvent(teamBaseCaptureStopEvent);
+        }
     }
 
     private class CaptureListener implements Listener {
@@ -105,7 +179,8 @@ public class CraftAreaCaptureManager implements CaptureManager {
             if(!captureModel.isCapturing(teamPlayer)) return;
 
             // If the player is capturing a base, stopping the capture.
-            onCaptureStop(teamPlayer);
+            try { onCaptureStop(teamPlayer);
+            } catch (GameException e) { e.printStackTrace(); }
         }
 
         private void handleMove(Player player, Location from, Location to) {
@@ -133,7 +208,10 @@ public class CraftAreaCaptureManager implements CaptureManager {
             // If he's not, checking if the player is entering in a vault.
             if(optionalTeamFrom.isPresent() && !optionalTeamTo.isPresent()) {
 
-                if(captureModel.isCapturing(teamPlayer)) onCaptureStop(teamPlayer);
+                if(!captureModel.isCapturing(teamPlayer)) return;
+
+                try { onCaptureStop(teamPlayer);
+                } catch (GameException e) { e.printStackTrace(); }
 
             } else if(optionalTeamTo.isPresent() && !optionalTeamFrom.isPresent()) {
 
@@ -145,15 +223,58 @@ public class CraftAreaCaptureManager implements CaptureManager {
                 // If the team is already eliminated, do no do anything.
                 if(team.isEliminated()) return;
 
-                onCaptureStart(optionalTeamTo.get(), teamPlayer);
+                try { onCaptureStart(optionalTeamTo.get(), teamPlayer);
+                } catch (GameException e) { e.printStackTrace(); }
             }
         }
 
         private Optional<? extends FKTeam> getEnemyVault(FKTeamPlayer player, Location location) {
-            return model.getTeams().stream()
-                    .filter(team -> !team.contains(player))
-                    .filter(team -> team.getBase().getVault().isIn(location))
-                    .findFirst();
+            return model.getTeams().stream().filter(team -> {
+
+                        if(team.contains(player)) return false;
+
+                        AreaModel area = (AreaModel) team.getBase().getCapurable();
+
+                        return area.getArea().isIn(location);
+
+                    }).findFirst();
+        }
+    }
+
+    private class CaptureTask extends Task {
+
+        private final int captureDuration;
+
+        public CaptureTask(int captureDuration) {
+
+            if(captureDuration <= 0)
+                throw new IllegalArgumentException("Capture duration must be positive.");
+
+            this.captureDuration = captureDuration;
+        }
+
+        @Override
+        public void run() {
+
+            Collection<AreaCapture> captures = new ArrayList<>(captureModel.getCaptures());
+
+            for(AreaCapture capture : captures) {
+
+                if(!this.isCaptureComplete(capture)) continue;
+
+                try { capture(capture.getCapturedTeam(), capture.getCatcherTeam());
+                } catch (GameException e) { e.printStackTrace(); }
+            }
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            this.runTaskTimer(game, 0L, 20L);
+        }
+
+        private boolean isCaptureComplete(AreaCapture capture) {
+            return (System.currentTimeMillis() - capture.getStartTime()) >= this.captureDuration * 1000L;
         }
     }
 }
