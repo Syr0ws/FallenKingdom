@@ -55,7 +55,7 @@ public class CraftFKController implements FKController {
             throw new IllegalArgumentException("FKModel cannot be null.");
 
         this.model = model;
-        this.factory = new GameCycleFactory(game);
+        this.factory = new GameCycleFactory(game, model, this);
 
         // Registering listeners.
         PluginManager manager = Bukkit.getPluginManager();
@@ -66,6 +66,9 @@ public class CraftFKController implements FKController {
         MutableSetting<CaptureType> setting = accessor.getCaptureTypeSetting();
 
         this.captureManager = CaptureFactory.getCaptureManager(game, setting.getValue());
+
+        // Handling game state.
+        this.setGameState(GameState.WAITING);
     }
 
     private void onPlayerJoin(Player player) {
@@ -135,10 +138,14 @@ public class CraftFKController implements FKController {
             // Actions on the old GameCycle.
             GameCycle current = this.model.getCycle();
 
-            // If it is not stopped, stopping it.
-            if(current.getState() != GameCycleState.STOPPED) current.stop();
+            // Current game state can be null when setting WAITING state.
+            if(current != null) {
 
-            current.unload(); // Unloading cycle.
+                // If it is not stopped, stopping it.
+                if(current.getState() != GameCycleState.STOPPED) current.stop();
+
+                current.unload(); // Unloading cycle.
+            }
 
             // Actions on the new GameCycle.
             this.model.setCycle(cycle);
