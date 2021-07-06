@@ -2,13 +2,18 @@ package com.github.syr0ws.fallenkingdom.game.model.placeholders;
 
 import com.github.syr0ws.universe.displays.placeholders.Placeholder;
 
-public enum GlobalPlaceholder implements Placeholder {
+public enum FKPlaceholder implements Placeholder {
 
-    PLAYER_NAME("player"), DISPLAY_NAME("display_name"), MESSAGE("message");
+    PVP_STATE("pvp_state"),
+    ASSAULTS_STATE("assaults_state"),
+    TIME("time"),
+    ONLINE_PLAYERS("online_players"),
+    MAX_PLAYERS("max_players"),
+    TEAM_NAME("team_name");
 
     private final String placeholder;
 
-    GlobalPlaceholder(String placeholder) {
+    FKPlaceholder(String placeholder) {
         this.placeholder = placeholder;
     }
 
