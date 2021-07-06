@@ -11,13 +11,23 @@ import java.util.Optional;
 public class GameCycleFactory {
 
     private final FKGame game;
+    private final FKModel model;
+    private final FKController controller;
 
-    public GameCycleFactory(FKGame game) {
+    public GameCycleFactory(FKGame game, FKModel model, FKController controller) {
 
         if(game == null)
             throw new IllegalArgumentException("FKGame cannot be null.");
 
+        if(model == null)
+            throw new IllegalArgumentException("FKModel cannot be null.");
+
+        if(controller == null)
+            throw new IllegalArgumentException("FKController cannot be null.");
+
         this.game = game;
+        this.model = model;
+        this.controller = controller;
     }
 
     public Optional<GameCycle> getCycle(GameState state) {
@@ -29,13 +39,13 @@ public class GameCycleFactory {
 
         switch (state) {
             case WAITING:
-                cycle = new GameWaitingCycle(this.game, controller, model);
+                cycle = new GameWaitingCycle(this.game, this.controller, this.model);
                 break;
             case RUNNING:
-                cycle = new GameRunningCycle(this.game, controller, model);
+                cycle = new GameRunningCycle(this.game, this.controller, this.model);
                 break;
             case FINISHED:
-                cycle = new GameFinishCycle(this.game, controller, model);
+                cycle = new GameFinishCycle(this.game, this.controller, this.model);
                 break;
             default:
                 cycle = null;
