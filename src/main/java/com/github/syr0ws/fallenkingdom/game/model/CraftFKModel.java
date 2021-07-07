@@ -84,8 +84,8 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
     @Override
     public CraftFKTeamPlayer setTeam(GamePlayer player, FKTeam team) {
 
-        if(!this.isWaiting())
-            throw new IllegalArgumentException("A player can be assigned to a team only when a game is waiting.");
+        if(this.isStarted())
+            throw new IllegalArgumentException("A player can be assigned to a team only when a game isn't started.");
 
         if(!this.isValid(team))
             throw new IllegalArgumentException("FKTeam not registered.");
@@ -99,8 +99,8 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
     @Override
     public CraftFKTeamPlayer removeTeam(GamePlayer player) {
 
-        if(!this.isWaiting())
-            throw new IllegalArgumentException("A player can be removed from a team only when a game is waiting.");
+        if(this.isStarted())
+            throw new IllegalArgumentException("A player can be removed from a team only when a game isn't started.");
 
         Optional<CraftFKTeamPlayer> optional = this.getTeamPlayer(player.getUUID());
 
@@ -246,6 +246,11 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
     @Override
     public boolean isFinished() {
         return this.state == GameState.FINISHED;
+    }
+
+    @Override
+    public boolean isStarted() {
+        return this.state.ordinal() >= GameState.RUNNING.ordinal();
     }
 
     @Override

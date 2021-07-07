@@ -14,13 +14,14 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
+import com.github.syr0ws.universe.attributes.Attribute;
+import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.events.GamePlayerJoinEvent;
 import com.github.syr0ws.universe.events.GamePlayerModeChangeEvent;
 import com.github.syr0ws.universe.events.GamePlayerQuitEvent;
 import com.github.syr0ws.universe.game.model.GameException;
 import com.github.syr0ws.universe.game.model.GamePlayer;
 import com.github.syr0ws.universe.game.model.cycle.GameCycle;
-import com.github.syr0ws.universe.game.model.cycle.GameCycleState;
 import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
 import com.github.syr0ws.universe.game.model.mode.Mode;
 import com.github.syr0ws.universe.game.model.mode.ModeFactory;
@@ -34,13 +35,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class CraftFKController implements FKController {
+public class CraftFKController implements FKController, AttributeObserver {
 
     private final CraftFKModel model;
     private final GameCycleFactory factory;
@@ -126,33 +125,40 @@ public class CraftFKController implements FKController {
 
     private void setGameState(GameState state) {
 
-        this.model.setState(state);
+        // Actions on the old GameCycle.
+        GameCycle current = this.model.getCycle();
+
+        // Disabling cycle only if it exists.
+        if(current != null) this.disableCycle(current);
 
         // Actions on state change.
         if(state == GameState.RUNNING) this.onGameStart();
 
+        // Actions on the new GameCycle.
         Optional<GameCycle> optional = this.factory.getCycle(state);
+        optional.ifPresent(this::enableCycle);
 
-        optional.ifPresent(cycle -> {
+        // Setting state.
+        this.model.setState(state);
+    }
 
-            // Actions on the old GameCycle.
-            GameCycle current = this.model.getCycle();
+    private void enableCycle(GameCycle cycle) {
 
-            // Current game state can be null when setting WAITING state.
-            if(current != null) {
+        this.model.setCycle(cycle);
 
-                // If it is not stopped, stopping it.
-                if(current.getState() != GameCycleState.STOPPED) current.stop();
+        cycle.load(); // Loading cycle.
+        cycle.start(); // Starting cycle.
+        cycle.addObserver(this); // Adding observer.
+    }
 
-                current.unload(); // Unloading cycle.
-            }
+    private void disableCycle(GameCycle cycle) {
 
-            // Actions on the new GameCycle.
-            this.model.setCycle(cycle);
+        // If it is not stopped, stopping it.
+        // if(cycle.getState() != GameCycleState.STOPPED) cycle.stop();
 
-            cycle.load(); // Loading cycle.
-            cycle.start(); // Starting cycle.
-        });
+        cycle.stop();
+        cycle.unload(); // Unloading cycle.
+        cycle.removeObserver(this); // Removing observer.
     }
 
     private void onGameStart() {
@@ -170,6 +176,7 @@ public class CraftFKController implements FKController {
         // Setting playing mode to all players.
         this.model.getTeams().stream()
                 .flatMap(team -> team.getTeamPlayers().stream())
+                .map(teamPlayer -> this.model.getPlayer(teamPlayer.getUUID()))
                 .forEach(player -> {
                     this.setMode(player, DefaultModeType.PLAYING);
                     this.model.getPlayer(player.getUUID()).setPlaying();
@@ -230,10 +237,16 @@ public class CraftFKController implements FKController {
     @Override
     public void stopGame() throws GameException {
 
-        if(!this.model.isRunning())
+        if(this.model.isWaiting())
             throw new GameException("No game is currently running.");
 
-        this.setGameState(GameState.FINISHED);
+        if(this.model.isFinished())
+            throw new GameException("Game already finished.");
+
+        GameState state = this.model.getState();
+
+        if(state == GameState.STARTING) this.setGameState(GameState.WAITING);
+        else this.setGameState(GameState.FINISHED);
     }
 
     @Override
@@ -242,7 +255,7 @@ public class CraftFKController implements FKController {
         if(player == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
 
-        if(!this.model.isWaiting())
+        if(this.model.isStarted())
             throw new GameException("A player can be added to a team only when a game is not started.");
 
         if(!this.model.isValid(team))
@@ -266,7 +279,7 @@ public class CraftFKController implements FKController {
         if(player == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
 
-        if(!this.model.isWaiting())
+        if(this.model.isStarted())
             throw new GameException("A player can be removed from a team only when a game is not started.");
 
         FKTeamPlayer teamPlayer = this.model.removeTeam(player);
@@ -354,6 +367,31 @@ public class CraftFKController implements FKController {
 
         // If there is no player alive, eliminating the team.
         if(playersAlive == 0) this.eliminate(player.getTeam());
+    }
+
+    @Override
+    public void onUpdate(Attribute attribute) {
+
+        Optional<GameState> optional = this.model.getState().getNext();
+        optional.ifPresent(this::setGameState);
+
+        /*
+        System.out.println(this.model.getState() + " " + this.model.getCycle().getState());
+
+        GameCycle cycle = this.model.getCycle();
+
+        if(cycle.getState() != GameCycleState.STOPPED) return;
+
+        System.out.println("state : " + cycle.getState());
+
+        Optional<GameState> optional = this.model.getState().getNext();
+        optional.ifPresent(this::setGameState);
+         */
+    }
+
+    @Override
+    public Collection<Attribute> observed() {
+        return Collections.singleton(GameCycle.GameCycleAttribute.DONE);
     }
 
     @Override
