@@ -337,7 +337,7 @@ waiting-cycle-chat:
   # - %player% -> The player's name.
   # - %display_name% -> The player's display name.
   # - %message% -> The message.
-  format: "%player% &r: %message%"
+  format: "&e%player% &6: &r%message%"
 
 
 # All the settings about the chat used during a game.
