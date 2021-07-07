@@ -153,9 +153,6 @@ public class CraftFKController implements FKController, AttributeObserver {
 
     private void disableCycle(GameCycle cycle) {
 
-        // If it is not stopped, stopping it.
-        // if(cycle.getState() != GameCycleState.STOPPED) cycle.stop();
-
         cycle.stop();
         cycle.unload(); // Unloading cycle.
         cycle.removeObserver(this); // Removing observer.
@@ -237,8 +234,8 @@ public class CraftFKController implements FKController, AttributeObserver {
     @Override
     public void stopGame() throws GameException {
 
-        if(this.model.isWaiting())
-            throw new GameException("No game is currently running.");
+        if(!this.model.isStarted())
+            throw new GameException("No game is currently started.");
 
         if(this.model.isFinished())
             throw new GameException("Game already finished.");
@@ -255,11 +252,11 @@ public class CraftFKController implements FKController, AttributeObserver {
         if(player == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
 
-        if(this.model.isStarted())
-            throw new GameException("A player can be added to a team only when a game is not started.");
-
         if(!this.model.isValid(team))
             throw new GameException("Invalid team.");
+
+        if(this.model.isStarted())
+            throw new GameException("A player can be added to a team only when a game is not started.");
 
         // If the player is already in a team, removing him from it.
         if(this.model.hasTeam(player)) this.removeTeam(player);
@@ -299,6 +296,9 @@ public class CraftFKController implements FKController, AttributeObserver {
     @Override
     public void win(FKTeam team) throws GameException {
 
+        if(!this.model.isStarted())
+            throw new GameException("Game not started.");
+
         if(!this.model.isValid(team))
             throw new GameException("Invalid team.");
 
@@ -318,6 +318,9 @@ public class CraftFKController implements FKController, AttributeObserver {
 
     @Override
     public void eliminate(FKTeam team) throws GameException {
+
+        if(!this.model.isStarted())
+            throw new GameException("Game not started.");
 
         if(!this.model.isValid(team))
             throw new GameException("Invalid FKTeam.");
@@ -342,6 +345,9 @@ public class CraftFKController implements FKController, AttributeObserver {
 
     @Override
     public void eliminate(FKTeamPlayer player) throws GameException {
+
+        if(!this.model.isStarted())
+            throw new GameException("Game not started.");
 
         if(!this.model.isValid(player))
             throw new GameException("Invalid FKTeamPlayer.");
@@ -374,19 +380,6 @@ public class CraftFKController implements FKController, AttributeObserver {
 
         Optional<GameState> optional = this.model.getState().getNext();
         optional.ifPresent(this::setGameState);
-
-        /*
-        System.out.println(this.model.getState() + " " + this.model.getCycle().getState());
-
-        GameCycle cycle = this.model.getCycle();
-
-        if(cycle.getState() != GameCycleState.STOPPED) return;
-
-        System.out.println("state : " + cycle.getState());
-
-        Optional<GameState> optional = this.model.getState().getNext();
-        optional.ifPresent(this::setGameState);
-         */
     }
 
     @Override
