@@ -14,6 +14,7 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
 import com.github.syr0ws.universe.attributes.Attribute;
 import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.events.GamePlayerJoinEvent;
@@ -59,6 +60,7 @@ public class CraftFKController implements FKController, AttributeObserver {
         // Registering listeners.
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new GameListener(), game);
+        manager.registerEvents(new TeamListener(game), game);
 
         // Handling capture manager.
         SettingAccessor accessor = model.getSettings();
