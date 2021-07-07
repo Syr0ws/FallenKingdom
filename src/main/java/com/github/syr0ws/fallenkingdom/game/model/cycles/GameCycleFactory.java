@@ -32,14 +32,14 @@ public class GameCycleFactory {
 
     public Optional<GameCycle> getCycle(GameState state) {
 
-        FKModel model = this.game.getGameModel();
-        FKController controller = this.game.getGameController();
-
         GameCycle cycle;
 
         switch (state) {
             case WAITING:
                 cycle = new GameWaitingCycle(this.game, this.controller, this.model);
+                break;
+            case STARTING:
+                cycle = new GameStartingCycle(this.game, this.controller, this.model);
                 break;
             case RUNNING:
                 cycle = new GameRunningCycle(this.game, this.controller, this.model);
