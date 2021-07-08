@@ -321,7 +321,17 @@ catcher-percentage: 50
 # Set 'true' if you want players who has slept in a bed to respawn in it or else set 'false'.
 allow-bed-respawn: true
 
+# The type of capture used. You can choose between two types of capture:
+#
+# - AREA -> Players have to go into the enemy vaults and to stay in them during
+#   a specific amount of time to capture an enemy base.
+#
+# - NEXUS -> Players have to damage a nexus with a specific amount of life
+#   to capture an enemy base.
+#
+# The default value is 'AREA'.
 capture-type: "AREA"
+
 
 #############################################
 ###             CHAT SETTINGS             ###
@@ -381,7 +391,13 @@ spectator-chat:
   format: "&7%player% &r: %message%"
 
 
+#############################################
+###           COMBAT SETTINGS             ###
+#############################################
 
 
+# This section contains all the settings about the combat module.
 combat-module:
+  # The duration of a combat between two players. If a player disconnect
+  # while he's in combat, he will be automatically killed.
   combat-duration: 15
