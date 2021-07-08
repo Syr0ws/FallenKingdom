@@ -43,6 +43,8 @@ public interface SettingAccessor {
 
     MutableSetting<Boolean> getFriendlyFireSetting();
 
+    MutableSetting<Boolean> getEliminateOnCaptureSetting();
+
     MutableSetting<Location> getGameSpawnSetting();
 
     MutableSetting<List<Material>> getAllowedBlocksSetting();

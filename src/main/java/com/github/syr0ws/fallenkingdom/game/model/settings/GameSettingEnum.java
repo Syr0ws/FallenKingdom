@@ -217,6 +217,15 @@ public enum GameSettingEnum implements SettingType {
         }
     },
 
+    ELIMINATE_ON_CAPTURE {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("eliminateOnCapture", true, "eliminate-on-capture", Boolean.class)
+                    .build();
+        }
+    },
+
     ALLOW_BED_RESPAWN {
         @Override
         public Setting<?> getSetting() {

@@ -119,6 +119,11 @@ public class GameSettingAccessor implements SettingAccessor {
     }
 
     @Override
+    public MutableSetting<Boolean> getEliminateOnCaptureSetting() {
+        return this.manager.getGenericSetting(GameSettingEnum.ELIMINATE_ON_CAPTURE, Boolean.class);
+    }
+
+    @Override
     public MutableSetting<Location> getGameSpawnSetting() {
         return this.manager.getSetting(GameSettingEnum.GAME_SPAWN, LocationSetting.class);
     }

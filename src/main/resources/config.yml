@@ -315,6 +315,11 @@ starting-cycle-duration: 1
 # Set 'true' if you want to allow friendly fire or else set 'false'.
 friendly-fire: false
 
+# Set 'true' if you want all the players of the team to be eliminated
+# when their base is captured. If 'false' is set, players with their
+# base captured will be eliminated when they die.
+eliminate-on-capture: true
+
 # The percentage of players needed to capture a base.
 catcher-percentage: 50
 
