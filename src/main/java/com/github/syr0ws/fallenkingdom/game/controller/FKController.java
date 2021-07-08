@@ -13,7 +13,7 @@ public interface FKController extends GameController {
 
     FKTeamPlayer removeTeam(GamePlayer player) throws GameException;
 
-    void setBaseCaptured(FKTeam team);
+    void setBaseCaptured(FKTeam team) throws GameException;
 
     void win(FKTeam team) throws GameException;
 
