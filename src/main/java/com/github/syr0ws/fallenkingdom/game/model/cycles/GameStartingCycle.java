@@ -5,16 +5,26 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.listeners.WaitingCycleListener;
+import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
+import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
 import com.github.syr0ws.universe.Game;
+import com.github.syr0ws.universe.displays.Display;
+import com.github.syr0ws.universe.displays.DisplayException;
+import com.github.syr0ws.universe.displays.dao.TimerDisplayDAO;
 import com.github.syr0ws.universe.game.model.cycle.GameCycle;
 import com.github.syr0ws.universe.game.model.cycle.GameCycleTask;
 import com.github.syr0ws.universe.listeners.ListenerManager;
+import org.bukkit.configuration.ConfigurationSection;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class GameStartingCycle extends GameCycle {
 
     private final FKController controller;
     private final FKModel model;
 
+    private final TimerActionManager actionManager;
     private GameCycleTask task;
 
     public GameStartingCycle(FKGame game, FKController controller, FKModel model) {
@@ -28,6 +38,8 @@ public class GameStartingCycle extends GameCycle {
 
         this.controller = controller;
         this.model = model;
+
+        this.actionManager = new TimerActionManager();
     }
 
     @Override
@@ -36,6 +48,9 @@ public class GameStartingCycle extends GameCycle {
 
         // Registering cycle listeners.
         this.registerListeners();
+
+        // Handling displays.
+        this.loadDisplays();
     }
 
     @Override
@@ -82,6 +97,27 @@ public class GameStartingCycle extends GameCycle {
         this.task = null; // Avoid reuse.
     }
 
+    private void loadDisplays() {
+
+        ConfigurationSection section = this.getCycleSection();
+
+        TimerDisplayDAO dao = new TimerDisplayDAO(section);
+
+        try {
+
+            Map<Integer, Collection<Display>> displays = dao.getTimeDisplays("displays");
+
+            displays.forEach((time, list) -> list.stream()
+                    .map(DisplayAction::new)
+                    .forEach(action -> this.actionManager.addAction(time, action)));
+
+        } catch (DisplayException e) { e.printStackTrace(); }
+    }
+
+    private ConfigurationSection getCycleSection() {
+        return super.getGame().getConfig().getConfigurationSection("waiting-cycle");
+    }
+
     private class StartingCycleTask extends GameCycleTask {
 
         private int duration;
@@ -98,11 +134,13 @@ public class GameStartingCycle extends GameCycle {
         @Override
         public void run() {
 
-            if(this.duration < 0) {
+            if(this.duration >= 0) {
 
-                GameStartingCycle.this.done(); // Stopping cycle.
+                this.duration--;
 
-            } else this.duration--;
+                GameStartingCycle.this.actionManager.executeActions(this.duration);
+
+            } else GameStartingCycle.this.done(); // Stopping cycle.
         }
     }
 }

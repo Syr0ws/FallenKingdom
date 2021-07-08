@@ -6,17 +6,28 @@ import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.listeners.GameBlockListener;
 import com.github.syr0ws.fallenkingdom.listeners.GamePlayerListener;
+import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
+import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
 import com.github.syr0ws.universe.Game;
+import com.github.syr0ws.universe.displays.Display;
+import com.github.syr0ws.universe.displays.DisplayException;
+import com.github.syr0ws.universe.displays.dao.TimerDisplayDAO;
 import com.github.syr0ws.universe.game.model.cycle.GameCycle;
 import com.github.syr0ws.universe.game.model.cycle.GameCycleTask;
 import com.github.syr0ws.universe.listeners.ListenerManager;
+import com.github.syr0ws.universe.settings.Setting;
 import com.github.syr0ws.universe.tools.Task;
+import org.bukkit.configuration.ConfigurationSection;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class GameRunningCycle extends GameCycle {
 
     private final FKController controller;
     private final FKModel model;
 
+    private final TimerActionManager actionManager;
     private Task task;
 
     public GameRunningCycle(FKGame game, FKController controller, FKModel model) {
@@ -30,6 +41,8 @@ public class GameRunningCycle extends GameCycle {
 
         this.controller = controller;
         this.model = model;
+
+        this.actionManager = new TimerActionManager();
     }
 
     @Override
@@ -41,6 +54,10 @@ public class GameRunningCycle extends GameCycle {
 
         // Handling captures.
         this.controller.getCaptureManager().enable();
+
+        // Handling actions and displays.
+        this.loadActions();
+        this.loadDisplays();
     }
 
     @Override
@@ -84,11 +101,7 @@ public class GameRunningCycle extends GameCycle {
     }
 
     private void startTask() {
-
-        SettingAccessor settings = this.model.getSettings();
-        int duration = settings.getMaxGameDurationSetting().getValue();
-
-        this.task = new RunningCycleTask(this.getGame(), duration);
+        this.task = new RunningCycleTask(this.getGame());
         this.task.start();
     }
 
@@ -97,27 +110,57 @@ public class GameRunningCycle extends GameCycle {
         this.task = null; // Avoid reuse.
     }
 
+    private void loadActions() {
+
+        TimerActionManager actionManager = this.actionManager;
+
+        // Retrieving settings.
+        SettingAccessor accessor = this.model.getSettings();
+
+        Setting<Integer> pvpSetting = accessor.getPvPActivationTimeSetting();
+        Setting<Integer> assaultsSetting = accessor.getAssaultsActivationTimeSetting();
+        Setting<Integer> maxDurationSetting = accessor.getMaxGameDurationSetting();
+
+        // Setting actions.
+        actionManager.addAction(pvpSetting.getValue(), () -> this.model.setPvPEnabled(true));
+        actionManager.addAction(assaultsSetting.getValue(), () -> this.model.setAssaultsEnabled(true));
+        actionManager.addAction(maxDurationSetting.getValue(), this::done);
+    }
+
+    private void loadDisplays() {
+
+        ConfigurationSection section = this.getCycleSection();
+
+        TimerDisplayDAO dao = new TimerDisplayDAO(section);
+
+        try {
+
+            Map<Integer, Collection<Display>> displays = dao.getTimeDisplays("displays");
+
+            displays.forEach((time, list) -> list.stream()
+                    .map(DisplayAction::new)
+                    .forEach(action -> this.actionManager.addAction(time, action)));
+
+        } catch (DisplayException e) { e.printStackTrace(); }
+    }
+
+    private ConfigurationSection getCycleSection() {
+        return super.getGame().getConfig().getConfigurationSection("running-cycle");
+    }
+
     private class RunningCycleTask extends GameCycleTask {
 
-        private final int duration;
-
-        public RunningCycleTask(Game game, int duration) {
+        public RunningCycleTask(Game game) {
             super(game);
-
-            if(duration < 0)
-                throw new IllegalArgumentException("Duration must be positive.");
-
-            this.duration = duration;
         }
 
         @Override
         public void run() {
 
-            if(GameRunningCycle.this.model.getTime() > this.duration) {
+            int time = GameRunningCycle.this.model.getTime();
 
-                GameRunningCycle.this.done();
-
-            } else GameRunningCycle.this.model.addTime();
+            GameRunningCycle.this.actionManager.executeActions(time);
+            GameRunningCycle.this.model.addTime();
         }
     }
 }
