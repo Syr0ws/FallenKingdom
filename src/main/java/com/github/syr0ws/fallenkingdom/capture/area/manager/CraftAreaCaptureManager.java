@@ -43,14 +43,20 @@ public class CraftAreaCaptureManager implements CaptureManager {
 
     private CaptureTask task;
 
-    public CraftAreaCaptureManager(FKGame game) {
+    public CraftAreaCaptureManager(FKGame game, FKModel model, FKController controller) {
 
         if(game == null)
             throw new IllegalArgumentException("FKGame cannot be null.");
 
+        if(model == null)
+            throw new IllegalArgumentException("FKModel cannot be null.");
+
+        if(controller == null)
+            throw new IllegalArgumentException("FKController cannot be null.");
+
         this.game = game;
-        this.model = game.getGameModel();
-        this.controller = game.getGameController();
+        this.model = model;
+        this.controller = controller;
 
         this.captureModel = new CraftAreaCaptureModel();
         this.listenerManager = new ListenerManager(game);
@@ -94,7 +100,7 @@ public class CraftAreaCaptureManager implements CaptureManager {
         SettingAccessor accessor = this.model.getSettings();
         // MutableSetting<Integer> setting = accessor.getCaptureTimeSetting(); // TODO To change.
 
-        this.task = new CaptureTask(60); // TODO To change.
+        this.task = new CaptureTask(5); // TODO To change.
         this.task.start();
     }
 
@@ -197,9 +203,6 @@ public class CraftAreaCaptureManager implements CaptureManager {
 
             // Checking if the player is alive.
             if(!teamPlayer.isAlive()) return;
-
-            // Checking if the player is already capturing.
-            if(captureModel.isCapturing(teamPlayer)) return;
 
             Optional<? extends FKTeam> optionalTeamFrom = this.getEnemyVault(teamPlayer, from);
             Optional<? extends FKTeam> optionalTeamTo = this.getEnemyVault(teamPlayer, to);
