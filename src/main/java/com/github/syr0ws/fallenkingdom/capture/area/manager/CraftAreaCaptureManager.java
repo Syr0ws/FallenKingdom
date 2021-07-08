@@ -72,7 +72,7 @@ public class CraftAreaCaptureManager implements CaptureManager {
             throw new GameException("Catcher team eliminated.");
 
         this.captureModel.removeCapture(team);
-        this.controller.setBaseCaptured(team);
+        this.controller.setBaseCaptured(team, catcher);
     }
 
     @Override

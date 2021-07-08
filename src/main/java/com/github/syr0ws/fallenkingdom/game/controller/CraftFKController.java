@@ -297,7 +297,7 @@ public class CraftFKController implements FKController, AttributeObserver {
     }
 
     @Override
-    public void setBaseCaptured(FKTeam team) throws GameException {
+    public void setBaseCaptured(FKTeam team, FKTeam catcher) throws GameException {
 
         if(!this.model.isRunning())
             throw new GameException("Game not running.");
@@ -311,7 +311,8 @@ public class CraftFKController implements FKController, AttributeObserver {
         CraftFKTeam fkTeam = (CraftFKTeam) team;
         fkTeam.setBaseCaptured();
 
-        // TODO Throw an event here.
+        TeamBaseCapturedEvent event = new TeamBaseCapturedEvent(team, catcher);
+        Bukkit.getPluginManager().callEvent(event);
     }
 
     @Override
