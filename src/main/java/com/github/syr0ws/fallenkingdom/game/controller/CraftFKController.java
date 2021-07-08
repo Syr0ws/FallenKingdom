@@ -10,10 +10,7 @@ import com.github.syr0ws.fallenkingdom.game.model.CraftFKPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.GameState;
 import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycleFactory;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
-import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeamPlayer;
-import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
-import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.teams.*;
 import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
 import com.github.syr0ws.universe.attributes.Attribute;
 import com.github.syr0ws.universe.attributes.AttributeObserver;
@@ -42,6 +39,7 @@ import java.util.stream.Collectors;
 
 public class CraftFKController implements FKController, AttributeObserver {
 
+    private final FKGame game;
     private final CraftFKModel model;
     private final GameCycleFactory factory;
     private final CaptureManager captureManager;
@@ -54,6 +52,7 @@ public class CraftFKController implements FKController, AttributeObserver {
         if(model == null)
             throw new IllegalArgumentException("FKModel cannot be null.");
 
+        this.game = game;
         this.model = model;
         this.factory = new GameCycleFactory(game, model, this);
 
@@ -63,10 +62,7 @@ public class CraftFKController implements FKController, AttributeObserver {
         manager.registerEvents(new TeamListener(game), game);
 
         // Handling capture manager.
-        SettingAccessor accessor = model.getSettings();
-        MutableSetting<CaptureType> setting = accessor.getCaptureTypeSetting();
-
-        this.captureManager = CaptureFactory.getCaptureManager(game, setting.getValue());
+        this.captureManager = this.createCaptureManager();
 
         // Handling game state.
         this.setGameState(GameState.WAITING);
@@ -193,6 +189,16 @@ public class CraftFKController implements FKController, AttributeObserver {
         } catch (GameException e) { e.printStackTrace(); }
     }
 
+    private CaptureManager createCaptureManager() {
+
+        SettingAccessor accessor = this.model.getSettings();
+        MutableSetting<CaptureType> setting = accessor.getCaptureTypeSetting();
+
+        CaptureFactory factory = new CaptureFactory(this.game, this.model, this);
+
+        return factory.getCaptureManager(setting.getValue());
+    }
+
     @Override
     public void setMode(GamePlayer player, ModeType type) {
 
@@ -291,8 +297,21 @@ public class CraftFKController implements FKController, AttributeObserver {
     }
 
     @Override
-    public void setBaseCaptured(FKTeam team) {
+    public void setBaseCaptured(FKTeam team) throws GameException {
 
+        if(!this.model.isRunning())
+            throw new GameException("Game not running.");
+
+        if(!this.model.isValid(team))
+            throw new GameException("Invalid team.");
+
+        if(team.getState() != TeamState.ALIVE)
+            throw new GameException("Team not alive.");
+
+        CraftFKTeam fkTeam = (CraftFKTeam) team;
+        fkTeam.setBaseCaptured();
+
+        // TODO Throw an event here.
     }
 
     @Override
