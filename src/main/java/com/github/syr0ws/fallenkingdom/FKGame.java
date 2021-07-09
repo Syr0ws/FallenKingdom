@@ -10,9 +10,9 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.CraftFKModel;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameInitializer;
-import com.github.syr0ws.fallenkingdom.game.model.modes.PlayingMode;
-import com.github.syr0ws.fallenkingdom.game.model.modes.SpectatorMode;
-import com.github.syr0ws.fallenkingdom.game.model.modes.WaitingMode;
+import com.github.syr0ws.fallenkingdom.modes.PlayingMode;
+import com.github.syr0ws.fallenkingdom.modes.SpectatorMode;
+import com.github.syr0ws.fallenkingdom.modes.WaitingMode;
 import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
 import com.github.syr0ws.universe.Game;
@@ -92,6 +92,7 @@ public class FKGame extends Game {
         service.enableModule(ModuleEnum.COMBAT_MODULE.newInstance(this));
         service.enableModule(ModuleEnum.CHAT_MODULE.newInstance(this));
         service.enableModule(ModuleEnum.BORDER_MODULE.newInstance(this));
+        service.enableModule(ModuleEnum.SCOREBOARD_MODULE.newInstance(this));
     }
 
     private void registerGameModes() {
