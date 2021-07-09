@@ -20,8 +20,8 @@ import com.github.syr0ws.universe.game.model.GameException;
 import com.github.syr0ws.universe.game.model.mode.ModeFactory;
 import com.github.syr0ws.universe.modules.ModuleEnum;
 import com.github.syr0ws.universe.modules.ModuleService;
+import com.github.syr0ws.universe.modules.chat.ChatModel;
 import com.github.syr0ws.universe.modules.chat.ChatModule;
-import com.github.syr0ws.universe.modules.chat.ChatService;
 
 import java.util.Optional;
 
@@ -91,6 +91,7 @@ public class FKGame extends Game {
         ModuleService service = super.getModuleService();
         service.enableModule(ModuleEnum.COMBAT_MODULE.newInstance(this));
         service.enableModule(ModuleEnum.CHAT_MODULE.newInstance(this));
+        service.enableModule(ModuleEnum.BORDER_MODULE.newInstance(this));
     }
 
     private void registerGameModes() {
@@ -109,7 +110,7 @@ public class FKGame extends Game {
             throw new UnsupportedOperationException("ChatModule not registered.");
 
         ChatModule module = optional.get();
-        ChatService chatService = module.getChatService();
+        ChatModel chatService = module.getChatModel();
 
         chatService.registerChat(new WaitingChat(this.model));
         chatService.registerChat(new PlayingChat(this.model));

@@ -1,15 +1,19 @@
 package com.github.syr0ws.fallenkingdom.chat;
 
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
+import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.displays.impl.Message;
 import com.github.syr0ws.universe.displays.placeholders.PlaceholderEnum;
+import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
+import com.github.syr0ws.universe.game.model.mode.ModeType;
 import com.github.syr0ws.universe.modules.chat.Chat;
 import com.github.syr0ws.universe.modules.chat.ChatException;
 import com.github.syr0ws.universe.modules.chat.ChatMessage;
+import com.github.syr0ws.universe.modules.chat.ChatPriority;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.entity.Player;
 
@@ -59,10 +63,22 @@ public class TeamChat implements Chat {
 
         if(!this.isChatAllowed()) return false;
 
+        Player player = message.getPlayer();
+        FKPlayer fkPlayer = this.model.getPlayer(player.getUniqueId());
+
+        ModeType modeType = fkPlayer.getModeType();
+
+        if(!modeType.equals(DefaultModeType.PLAYING)) return false;
+
         MutableSetting<Character> setting = this.settings.getTeamChatPrefixSetting();
         String msg = message.getMessage();
 
         return msg.startsWith(setting.getValue().toString());
+    }
+
+    @Override
+    public ChatPriority getPriority() {
+        return ChatPriority.HIGH;
     }
 
     private boolean isChatAllowed() {

@@ -6,6 +6,7 @@ import com.github.syr0ws.universe.displays.impl.Message;
 import com.github.syr0ws.universe.displays.placeholders.PlaceholderEnum;
 import com.github.syr0ws.universe.modules.chat.Chat;
 import com.github.syr0ws.universe.modules.chat.ChatMessage;
+import com.github.syr0ws.universe.modules.chat.ChatPriority;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Bukkit;
 
@@ -41,6 +42,11 @@ public class WaitingChat implements Chat {
     @Override
     public boolean canSend(ChatMessage chatMessage) {
         return this.isChatAllowed() && this.model.isWaiting();
+    }
+
+    @Override
+    public ChatPriority getPriority() {
+        return ChatPriority.LOW;
     }
 
     private boolean isChatAllowed() {

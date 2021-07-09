@@ -12,6 +12,7 @@ import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
 import com.github.syr0ws.universe.modules.chat.Chat;
 import com.github.syr0ws.universe.modules.chat.ChatException;
 import com.github.syr0ws.universe.modules.chat.ChatMessage;
+import com.github.syr0ws.universe.modules.chat.ChatPriority;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -64,6 +65,11 @@ public class PlayingChat implements Chat {
         FKPlayer fkPlayer = this.model.getPlayer(player.getUniqueId());
 
         return this.isChatAllowed() && this.model.isRunning() && fkPlayer.getModeType().equals(DefaultModeType.PLAYING);
+    }
+
+    @Override
+    public ChatPriority getPriority() {
+        return ChatPriority.LOW;
     }
 
     private boolean isChatAllowed() {
