@@ -132,7 +132,7 @@ waiting-scoreboard:
   lines:
     - "&6&m--------------------"
     - " "
-    - "&6• &eStatus&6: %state%"
+    - "&6• &eStatus&6: %game_state%"
     - "&6• &eJoueurs&6: &e%online_players%&6/&e%max_players%"
     - " "
     - "&6&m--------------------"
@@ -310,7 +310,7 @@ assaults-activation-time: 30
 max-game-duration: 10800
 
 # The duration in seconds of the launch period.
-starting-cycle-duration: 1
+starting-cycle-duration: 10
 
 # Set 'true' if you want to allow friendly fire or else set 'false'.
 friendly-fire: false
