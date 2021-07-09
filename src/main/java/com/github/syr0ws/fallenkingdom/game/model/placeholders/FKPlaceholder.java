@@ -4,6 +4,7 @@ import com.github.syr0ws.universe.displays.placeholders.Placeholder;
 
 public enum FKPlaceholder implements Placeholder {
 
+    GAME_STATE("game_state"),
     PVP_STATE("pvp_state"),
     ASSAULTS_STATE("assaults_state"),
     TIME("time"),
