@@ -136,9 +136,9 @@ public class GameStartingCycle extends GameCycle {
 
             if(this.duration >= 0) {
 
-                this.duration--;
-
                 GameStartingCycle.this.actionManager.executeActions(this.duration);
+
+                this.duration--;
 
             } else GameStartingCycle.this.done(); // Stopping cycle.
         }
