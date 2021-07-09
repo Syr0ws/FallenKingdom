@@ -10,13 +10,12 @@ import com.github.syr0ws.universe.attributes.Attribute;
 import com.github.syr0ws.universe.attributes.AttributeObserver;
 import com.github.syr0ws.universe.displays.impl.Message;
 import com.github.syr0ws.universe.modules.scoreboard.ScoreboardManager;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 public class WaitingBoard extends FKBoard implements AttributeObserver {
 
@@ -53,7 +52,7 @@ public class WaitingBoard extends FKBoard implements AttributeObserver {
         SettingAccessor accessor = this.model.getSettings();
 
         int maxPlayers = accessor.getMaxPlayersSetting().getValue();
-        int onlinePlayers = Bukkit.getOnlinePlayers().size();
+        int onlinePlayers = this.model.getOnlinePlayers().size();
 
         Message message = new Message(text);
 
@@ -83,7 +82,7 @@ public class WaitingBoard extends FKBoard implements AttributeObserver {
 
     @Override
     public Collection<Attribute> observed() {
-        return Collections.singletonList(GameAttribute.STATE_CHANGE);
+        return Arrays.asList(GameAttribute.STATE_CHANGE, GameAttribute.GAME_PLAYER_CHANGE);
     }
 
     private String getState() {
