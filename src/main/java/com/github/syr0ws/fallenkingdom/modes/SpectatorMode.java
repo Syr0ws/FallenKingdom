@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.game.model.modes;
+package com.github.syr0ws.fallenkingdom.modes;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
