@@ -406,3 +406,17 @@ combat-module:
   # The duration of a combat between two players. If a player disconnect
   # while he's in combat, he will be automatically killed.
   combat-duration: 15
+
+
+#############################################
+###           BORDER SETTINGS             ###
+#############################################
+
+borders:
+  world-border:
+    center:
+      x: 0
+      z: 0
+    size: 860
+    damages: 100
+    world: "world"
