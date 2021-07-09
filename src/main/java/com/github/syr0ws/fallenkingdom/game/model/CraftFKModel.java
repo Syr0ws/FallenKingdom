@@ -46,6 +46,7 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
             throw new IllegalArgumentException("Player already exists.");
 
         this.players.put(player.getUUID(), player);
+        this.notifyChange(GameAttribute.GAME_PLAYER_CHANGE);
     }
 
     public void removePlayer(CraftFKPlayer player) {
@@ -57,6 +58,7 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
             throw new IllegalArgumentException("Cannot remove a Player while he is playing.");
 
         this.players.remove(player.getUUID());
+        this.notifyChange(GameAttribute.GAME_PLAYER_CHANGE);
     }
 
     public void setCycle(GameCycle cycle) {
