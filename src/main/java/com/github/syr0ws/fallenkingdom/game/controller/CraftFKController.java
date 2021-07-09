@@ -79,16 +79,16 @@ public class CraftFKController implements FKController, AttributeObserver {
 
         } else fkPlayer = this.model.getPlayer(player.getUniqueId());
 
-        // Throwing an event.
-        GamePlayerJoinEvent event = new GamePlayerJoinEvent(fkPlayer);
-        Bukkit.getPluginManager().callEvent(event);
-
         // Handling mode.
         if(fkPlayer.getModeType() != null) {
 
             Mode mode = ModeFactory.getMode(fkPlayer.getModeType());
             mode.enable(player);
         }
+
+        // Throwing an event.
+        GamePlayerJoinEvent event = new GamePlayerJoinEvent(fkPlayer);
+        Bukkit.getPluginManager().callEvent(event);
     }
 
     private void onPlayerQuit(Player player) {
