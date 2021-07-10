@@ -381,9 +381,6 @@ public class CraftFKController implements FKController, AttributeObserver {
         CraftFKTeamPlayer craftFKTeamPlayer = (CraftFKTeamPlayer) player;
         craftFKTeamPlayer.setAlive(false);
 
-        // Setting player in spectator mode.
-        this.setMode(player, DefaultModeType.SPECTATOR);
-
         // Throwing an event.
         PlayerEliminateEvent event = new PlayerEliminateEvent(player);
         Bukkit.getPluginManager().callEvent(event);
