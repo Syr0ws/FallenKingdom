@@ -151,6 +151,38 @@ game-scoreboard:
     - "&6• &ePvP&6: %pvp_state%"
     - "&6• &eAssaults&6: %assaults_state%"
     - " "
+    - "&6• &eKills&6: %kills%"
+    - "&6• &eMorts&6: %deaths%"
+    - " "
+    - "&6• &eTemps de jeu&6: %time%"
+    - " "
+    - "&6&m--------------------"
+  pvp-state:
+    enabled: "&a✔"
+    disabled: "&c✘"
+  assaults-state:
+    enabled: "&a✔"
+    disabled: "&c✘"
+  time:
+    use-short-units: true
+    format: "%day%%hour%%minute%%second%"
+    time-units:
+      day: "j"
+      hour: "h"
+      minute: "m"
+      second: "s"
+
+
+spectator-scoreboard:
+  title: "&6&lFallenKingdom"
+  lines:
+    - "&6&m--------------------"
+    - " "
+    - "&6• &eStatus&6: &7Spectateur"
+    - " "
+    - "&6• &ePvP&6: %pvp_state%"
+    - "&6• &eAssaults&6: %assaults_state%"
+    - " "
     - "&6• &eTemps de jeu&6: %time%"
     - " "
     - "&6&m--------------------"
