@@ -5,6 +5,7 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.listeners.GameBlockListener;
+import com.github.syr0ws.fallenkingdom.listeners.GameEliminationListener;
 import com.github.syr0ws.fallenkingdom.listeners.GamePlayerListener;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
 import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
@@ -98,6 +99,7 @@ public class GameRunningCycle extends GameCycle {
 
         manager.addListener(new GamePlayerListener(this.getGame()));
         manager.addListener(new GameBlockListener(this.getGame()));
+        manager.addListener(new GameEliminationListener(this.getGame()));
     }
 
     private void startTask() {
