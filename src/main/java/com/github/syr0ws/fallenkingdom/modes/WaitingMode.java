@@ -37,26 +37,15 @@ public class WaitingMode extends FKMode {
         player.getInventory().clear();
         player.teleport(this.model.getSpawn());
 
-        try {
-
-            ScoreboardManager manager = this.getScoreboardManager();
-            Scoreboard scoreboard = new WaitingBoard(manager, player, this.getGame());
-            scoreboard.set();
-
-        } catch (GameException e) { e.printStackTrace(); }
+        // Handling scoreboard.
+        this.setScoreboard(player);
     }
 
     @Override
     public void disable(Player player) {
 
-        try {
-
-            ScoreboardManager manager = this.getScoreboardManager();
-
-            Optional<? extends Scoreboard> optional = manager.getScoreboard(player);
-            optional.ifPresent(Scoreboard::remove);
-
-        } catch (GameException e) { e.printStackTrace(); }
+        // Handling scoreboard.
+        this.removeScoreboard(player);
     }
 
     @Override
@@ -74,5 +63,28 @@ public class WaitingMode extends FKMode {
             throw new GameException("ScoreboardModule not enabled.");
 
         return optional.get().getScoreboardManager();
+    }
+
+    private void setScoreboard(Player player) {
+
+        try {
+
+            ScoreboardManager manager = this.getScoreboardManager();
+            Scoreboard scoreboard = new WaitingBoard(manager, player, this.getGame());
+            scoreboard.set();
+
+        } catch (GameException e) { e.printStackTrace(); }
+    }
+
+    private void removeScoreboard(Player player) {
+
+        try {
+
+            ScoreboardManager manager = this.getScoreboardManager();
+
+            Optional<? extends Scoreboard> optional = manager.getScoreboard(player);
+            optional.ifPresent(Scoreboard::remove);
+
+        } catch (GameException e) { e.printStackTrace(); }
     }
 }
