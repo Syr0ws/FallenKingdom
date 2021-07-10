@@ -5,6 +5,7 @@ import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.universe.events.GamePlayerJoinEvent;
 import com.github.syr0ws.universe.game.model.GamePlayer;
 import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
+import com.github.syr0ws.universe.modules.combat.events.GamePlayerRespawnEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,7 +20,6 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class WaitingCycleListener implements Listener {
 
@@ -100,7 +100,7 @@ public class WaitingCycleListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerRespawn(PlayerRespawnEvent event) {
+    public void onPlayerRespawn(GamePlayerRespawnEvent event) {
         event.setRespawnLocation(this.model.getSpawn());
     }
 }
