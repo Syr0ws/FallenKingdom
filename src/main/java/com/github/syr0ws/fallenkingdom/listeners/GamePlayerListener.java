@@ -8,6 +8,7 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.events.GamePlayerJoinEvent;
 import com.github.syr0ws.universe.game.model.GamePlayer;
 import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
+import com.github.syr0ws.universe.modules.combat.events.GamePlayerRespawnEvent;
 import com.github.syr0ws.universe.settings.Setting;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -16,7 +17,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.Optional;
 
@@ -84,7 +84,7 @@ public class GamePlayerListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerRespawn(PlayerRespawnEvent event) {
+    public void onPlayerRespawn(GamePlayerRespawnEvent event) {
 
         Player player = event.getPlayer();
 
