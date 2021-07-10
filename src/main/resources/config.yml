@@ -330,11 +330,11 @@ kick-eliminated: false
 
 # Time in seconds before pvp activation.
 # Default value is 1800 (30 minutes).
-pvp-activation-time: 15
+pvp-activation-time: 5
 
 # Time in seconds before assaults activation.
 # Default value is 3600 (1 hour).
-assaults-activation-time: 30
+assaults-activation-time: 10
 
 # The maximum duration in seconds of a game. After this time, the current game
 # will be stopped and the remaining teams will be declared equal.
@@ -350,7 +350,7 @@ friendly-fire: false
 # Set 'true' if you want all the players of the team to be eliminated
 # when their base is captured. If 'false' is set, players with their
 # base captured will be eliminated when they die.
-eliminate-on-capture: true
+eliminate-on-capture: false
 
 # The percentage of players needed to capture a base.
 catcher-percentage: 50
@@ -438,6 +438,9 @@ combat-module:
   # The duration of a combat between two players. If a player disconnect
   # while he's in combat, he will be automatically killed.
   combat-duration: 15
+  # Set 'true' if you want a player to be killed when he disconnects while
+  # being in combat or else set 'false'.
+  die-on-combat-disconnection: true
 
 
 #############################################
