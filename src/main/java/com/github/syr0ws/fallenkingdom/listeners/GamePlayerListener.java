@@ -36,7 +36,7 @@ public class GamePlayerListener implements Listener {
         this.controller = game.getGameController();
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onGamePlayerJoin(GamePlayerJoinEvent event) {
 
         GamePlayer player = event.getGamePlayer();
@@ -58,10 +58,14 @@ public class GamePlayerListener implements Listener {
         if(!this.model.isPvPEnabled()) event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onFriendlyFire(EntityDamageByEntityEvent event) {
 
+        // If the damage is already cancelled, the event is handled.
         if(event.isCancelled()) return;
+
+        // If pvp is not enabled, cancelling the damage.
+        if(!this.model.isPvPEnabled()) event.setCancelled(true);
 
         SettingAccessor accessor = this.model.getSettings();
         Setting<Boolean> setting = accessor.getFriendlyFireSetting();
@@ -83,18 +87,15 @@ public class GamePlayerListener implements Listener {
         if(player1.getTeam().equals(player2.getTeam())) event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerRespawn(GamePlayerRespawnEvent event) {
 
         Player player = event.getPlayer();
 
         Optional<? extends FKTeamPlayer> optional = this.model.getTeamPlayer(player.getUniqueId());
 
-        // If the player isn't playing, using the game spawn as respawn location.
-        if(!optional.isPresent()) {
-            event.setRespawnLocation(this.model.getSpawn());
-            return;
-        }
+        // If the player isn't playing, using the default spawn as respawn location.
+        if(!optional.isPresent()) return;
 
         FKTeamPlayer teamPlayer = optional.get();
         SettingAccessor settings = this.model.getSettings();
