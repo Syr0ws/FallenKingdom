@@ -51,6 +51,7 @@ public class GameEliminationListener implements Listener {
         // Only alive players are interesting us.
         if(!teamPlayer.isAlive()) return;
 
+        // TODO Le joueur est encore considéré comme online dans cet événement ce qui a pour cause une taille de la liste égale à 1
         int onlinePlayers = fkTeam.getOnlineTeamPlayers().size();
 
         // Checking if there is no online players in the team.
