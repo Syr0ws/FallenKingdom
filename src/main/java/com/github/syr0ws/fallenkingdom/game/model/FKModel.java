@@ -53,6 +53,12 @@ public interface FKModel extends GameModel {
     @Override
     Optional<? extends FKPlayer> getPlayer(String s);
 
+    @Override
+    Collection<? extends FKPlayer> getOnlinePlayers();
+
+    @Override
+    Collection<? extends FKPlayer> getPlayers();
+
     Optional<? extends FKTeamPlayer> getTeamPlayer(UUID uuid);
 
     Optional<? extends FKTeam> getTeam(UUID uuid);
