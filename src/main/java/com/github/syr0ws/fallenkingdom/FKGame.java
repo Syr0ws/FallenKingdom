@@ -10,6 +10,7 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.CraftFKModel;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameInitializer;
+import com.github.syr0ws.fallenkingdom.listeners.GameListener;
 import com.github.syr0ws.fallenkingdom.modes.PlayingMode;
 import com.github.syr0ws.fallenkingdom.modes.SpectatorMode;
 import com.github.syr0ws.fallenkingdom.modes.WaitingMode;
@@ -18,6 +19,7 @@ import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
 import com.github.syr0ws.universe.Game;
 import com.github.syr0ws.universe.game.model.GameException;
 import com.github.syr0ws.universe.game.model.mode.ModeFactory;
+import com.github.syr0ws.universe.listeners.ListenerManager;
 import com.github.syr0ws.universe.modules.ModuleEnum;
 import com.github.syr0ws.universe.modules.ModuleService;
 import com.github.syr0ws.universe.modules.chat.ChatModel;
@@ -29,6 +31,7 @@ public class FKGame extends Game {
 
     private CraftFKModel model;
     private CraftFKController controller;
+    private ListenerManager listenerManager;
 
     @Override
     public void onEnable() {
@@ -59,12 +62,16 @@ public class FKGame extends Game {
             // Registering commands.
             this.registerCommands();
 
+            // Registering listeners.
+            this.registerListeners();
+
         } catch (GameException e) { e.printStackTrace(); }
     }
 
     @Override
     public void onDisable() {
 
+        this.listenerManager.removeListeners();
     }
 
     @Override
@@ -126,5 +133,10 @@ public class FKGame extends Game {
 
     private void registerCommands() {
         super.getCommand("fk").setExecutor(new CommandFK(this, this.model, this.controller));
+    }
+
+    private void registerListeners() {
+        this.listenerManager = new ListenerManager(this);
+        this.listenerManager.addListener(new GameListener(this.model));
     }
 }
