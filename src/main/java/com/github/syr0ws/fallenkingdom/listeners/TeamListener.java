@@ -52,5 +52,4 @@ public class TeamListener implements Listener {
         message.addPlaceholder(FKPlaceholder.TEAM_NAME, team.getDisplayName());
         message.displayTo(player);
     }
-
 }
