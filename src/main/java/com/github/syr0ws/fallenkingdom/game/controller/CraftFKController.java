@@ -451,7 +451,7 @@ public class CraftFKController implements FKController, AttributeObserver {
         }
     }
 
-    public class GameListener implements Listener {
+    private class GameListener implements Listener {
 
         @EventHandler
         public void onPlayerJoin(PlayerJoinEvent event) {
