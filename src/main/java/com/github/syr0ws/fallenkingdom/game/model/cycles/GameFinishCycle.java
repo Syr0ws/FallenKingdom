@@ -29,7 +29,8 @@ public class GameFinishCycle extends GameCycle {
         super.start();
 
         // Setting all the online players in spectator.
-        this.model.getOnlinePlayers()
+        this.model.getOnlinePlayers().stream()
+                .filter(player -> player.getModeType() == DefaultModeType.PLAYING)
                 .forEach(player -> this.controller.setMode(player, DefaultModeType.SPECTATOR));
     }
 }

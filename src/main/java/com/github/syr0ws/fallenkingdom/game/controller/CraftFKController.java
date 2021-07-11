@@ -221,7 +221,7 @@ public class CraftFKController implements FKController, AttributeObserver {
 
         // Removing old mode if it exists and is not the same as the new one.
         // Also checking that the player is online.
-        if(old != null && !old.equals(mode.getType()) && player.isOnline())
+        if(old != null && player.isOnline())
             ModeFactory.getMode(old).disable(player.getPlayer());
 
         fkPlayer.setModeType(mode.getType());
@@ -367,6 +367,8 @@ public class CraftFKController implements FKController, AttributeObserver {
 
     @Override
     public void eliminate(FKTeamPlayer player) throws GameException {
+
+        System.out.println("elimination !");
 
         if(!this.model.isStarted())
             throw new GameException("Game not started.");
