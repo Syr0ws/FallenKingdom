@@ -1,5 +1,10 @@
 # FallenKingdom v0.0.1
 
+# Select the language of the plugin. Here is the list of available languages:
+# - EN
+# - FR
+lang: FR
+
 #############################################
 ###                MESSAGES               ###
 #############################################
