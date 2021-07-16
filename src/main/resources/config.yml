@@ -1,295 +1,16 @@
 # FallenKingdom v0.0.1
 
+#############################################
+###           GENERAL SETTINGS            ###
+#############################################
+
 # Select the language of the plugin. Here is the list of available languages:
 # - EN
 # - FR
 lang: FR
 
 #############################################
-###                MESSAGES               ###
-#############################################
-
-
-# This section is about the '/fk' command.
-command-fk:
-  # Message sent to the sender when he doesn't have the permission to execute the command.
-  no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-  # This section is about the '/fk start' command.
-  start:
-    # Message sent to the sender when he doesn't have the permission to execute the command.
-    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-    # Message sent to the sender when he's trying to start a game when another one is already started.
-    already-started: "&c>> Une partie est déjà en cours."
-    # Message sent to the sender when an error occurred while starting a game.
-    error: "&c>> Une erreur est survenue lors du lancement de la partie."
-  # This section is about the '/fk stop' command.
-  stop:
-    # Message sent to the sender when he doesn't have the permission to execute the command.
-    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-    # Message sent to the sender when he's trying to stop a game when there is no game running.
-    not-started: "&c>> Il n'y a aucune partie en cours."
-    # Message sent to the sender when an error occurred while stopping a game.
-    error: "&c>> Une erreur est survenue lors du lancement de la partie."
-  # This section is about the '/fk pvp' command.
-  pvp:
-    # Message sent to the sender when he doesn't have the permission to execute the command.
-    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-    # Message sent to the sender when he's trying to enable / disable pvp when no game is running.
-    game-not-running: "&c>> La partie n'a pas encore commencé."
-    # Message sent to the sender when he's trying to enable pvp when it already is.
-    already-enabled: "&c>> Le pvp est déjà activé."
-    # Message sent to the sender when he's trying to disable pvp when it already is.
-    already-disabled: "&c>> Le pvp est déjà désactivé."
-  # This section is about the '/fk assaults' command.
-  assaults:
-    # Message sent when the sender doesn't have the permission to execute the command.
-    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-    # Message sent to the sender when he's trying to enable / disable assaults when no game is running.
-    game-not-running: "&c>> La partie n'a pas encore commencé."
-    # Message sent to the sender when he's trying to enable assaults when they already are.
-    already-enabled: "&c>> Les assaults sont déjà activés."
-    # Message sent to the sender when he's trying to disable assaults when they already are.
-    already-disabled: "&c>> Les assaults sont déjà désactivés."
-  # This section is about the '/fk team' command.
-  team:
-    # Message sent to the sender when the targeted player doesn't exist.
-    player-not-found: "&c>> Ce joueur n'est pas connecté."
-    # Message sent to the sender when the targeted team doesn't exist.
-    team-not-found: "&c>> Cette team n'existe pas."
-    # This section is about the '/fk team add' command.
-    add:
-      # Message sent when the targeted player is already in the specified team.
-      already-in-team: "&c>> Ce joueur est déjà dans cette équipe."
-      # Message sent to the sender when he added a player to a team. You can use the following placeholders:
-      # - %player% -> The name of the targeted player.
-      # - %team_name% -> The name of the team to which he was added.
-      player-added: "&6%player% &ea été &aajouté &eà l'équipe %team_name%&e."
-    # This section is about the '/fk team remove' command.
-    remove:
-      # Message sent when the targeted player is not in the specified team.
-      not-in-team: "&c>> Ce joueur n'est pas dans cette équipe."
-      # Message sent to the sender when he removed a player from a team. You can use the following placeholders:
-      # - %player% -> The name of the targeted player.
-      # - %team_name% -> The name of the team from which he was removed.
-      player-removed: "&6%player% &ea été &cretiré &ede l'équipe %team_name%&e."
-
-
-pvp:
-  enabled:
-    message:
-      type: "MESSAGE"
-      text: "&6>> &eLe pvp est désormais &aactivé&e."
-    title:
-      type: "TITLE"
-      title: "&ePvP &aactivé"
-      subtitle: "&eRestez sur vos gardes !"
-  disabled:
-    message:
-      type: "MESSAGE"
-      text: "&6>> &eLe pvp est désormais &cdésactivé&e."
-    title:
-      type: "TITLE"
-      title: "&ePvP &cdésactivé"
-      subtitle: "&eReposez vous un peu !"
-
-
-assaults:
-  enabled:
-    message:
-      type: "MESSAGE"
-      text: "&6>> &eLes assaults sont désormais &aautorisés&e."
-    title:
-      type: "TITLE"
-      title: "&eAssaults &aactivés"
-      subtitle: "&ePréparez vos armes !"
-  disabled:
-    message:
-      type: "MESSAGE"
-      text: "&6>> &eLes assaults sont désormais &cdésactivés&e."
-    title:
-      type: "TITLE"
-      title: "&eAssaults &cdésactivés"
-      subtitle: "&eRangez vos armes !"
-
-
-
-# This section is about team messages.
-team-messages:
-  # Message sent to a player when he joins a team.
-  join: "&6>> &eVous avez &arejoint &el'équipe %team_name%&e."
-  # Message sent to a player when he leaves a team.
-  leave: "&6>> &eVous avez &cquitté &el'équipe %team_name%&e."
-
-
-capture:
-  player-start-capture: "&6>> &eVous capturez la base de l'équipe %team_name%."
-  player-stop-capture: "&6>> &eVous ne capturez plus la base de l'équipe %team_name%."
-  team-base-start-capture: "&6>> &eL'équipe %team_name% &ecapture votre base."
-  team-base-stop-capture: "&6>> &eL'équipe %team_name% &ene capture plus votre base."
-
-#############################################
-###                CYCLES                 ###
-#############################################
-
-
-waiting-scoreboard:
-  title: "&6&lFallenKingdom"
-  lines:
-    - "&6&m--------------------"
-    - " "
-    - "&6• &eStatus&6: %game_state%"
-    - "&6• &eJoueurs&6: &e%online_players%&6/&e%max_players%"
-    - " "
-    - "&6&m--------------------"
-  state:
-    waiting: "&cEn attente"
-    starting: "&aDémarrage"
-
-
-game-scoreboard:
-  title: "&6&lFallenKingdom"
-  lines:
-    - "&6&m--------------------"
-    - " "
-    - "&6• &eEquipe&6: %team_name%"
-    - " "
-    - "&6• &ePvP&6: %pvp_state%"
-    - "&6• &eAssaults&6: %assaults_state%"
-    - " "
-    - "&6• &eKills&6: %kills%"
-    - "&6• &eMorts&6: %deaths%"
-    - " "
-    - "&6• &eTemps de jeu&6: %time%"
-    - " "
-    - "&6&m--------------------"
-  pvp-state:
-    enabled: "&a✔"
-    disabled: "&c✘"
-  assaults-state:
-    enabled: "&a✔"
-    disabled: "&c✘"
-  time:
-    use-short-units: true
-    format: "%day%%hour%%minute%%second%"
-    time-units:
-      day: "j"
-      hour: "h"
-      minute: "m"
-      second: "s"
-
-
-spectator-scoreboard:
-  title: "&6&lFallenKingdom"
-  lines:
-    - "&6&m--------------------"
-    - " "
-    - "&6• &eStatus&6: &7Spectateur"
-    - " "
-    - "&6• &ePvP&6: %pvp_state%"
-    - "&6• &eAssaults&6: %assaults_state%"
-    - " "
-    - "&6• &eTemps de jeu&6: %time%"
-    - " "
-    - "&6&m--------------------"
-  pvp-state:
-    enabled: "&a✔"
-    disabled: "&c✘"
-  assaults-state:
-    enabled: "&a✔"
-    disabled: "&c✘"
-  time:
-    use-short-units: true
-    format: "%day%%hour%%minute%%second%"
-    time-units:
-      day: "j"
-      hour: "h"
-      minute: "m"
-      second: "s"
-
-
-waiting-cycle:
-  # All the settings of the cycle.
-  settings:
-    # The duration is seconds of the lauch period.
-    timer-duration: 10
-  # All the displays sent during launch period.
-  displays:
-    10:
-      message:
-        type: "MESSAGE"
-        text: "&eLa partie commence dans &610 secondes&e."
-      sound:
-        type: "SOUND"
-        sound: "NOTE_BASS"
-        pitch: 1
-    3:
-      message:
-        type: "MESSAGE"
-        text: "&eLa partie commence dans &63 secondes&e."
-      sound:
-        type: "SOUND"
-        sound: "NOTE_PIANO"
-        pitch: 1
-      title:
-        type: "TITLE"
-        subtitle: "&eLa partie commence dans &63"
-    2:
-      message:
-        type: "MESSAGE"
-        text: "&eLa partie commence dans &62 secondes&e."
-      sound:
-        type: "SOUND"
-        sound: "NOTE_PIANO"
-        pitch: 1.5
-      title:
-        type: "TITLE"
-        subtitle: "&eLa partie commence dans &62"
-    1:
-      message:
-        type: "MESSAGE"
-        text: "&eLa partie commence dans &61 seconde&e."
-      sound:
-        type: "SOUND"
-        sound: "NOTE_PIANO"
-        pitch: 2
-      title:
-        type: "TITLE"
-        subtitle: "&eLa partie commence dans &61"
-    0:
-      message:
-        type: "MESSAGE"
-        text: "&eLa partie commence !"
-      sound:
-        type: "SOUND"
-        sound: "LEVEL_UP"
-        pitch: 2
-      title:
-        type: "TITLE"
-        subtitle: "&6La partie commence !"
-        stay: 20
-        fade-out: 20
-
-
-capture-cycle:
-  action-bar:
-    enabled: true
-    text: "&eCapture en cours (&6%time%&e)"
-    time:
-      use-short-units: true
-      format: "%day%%hour%%minute%%second%"
-      time-units:
-        day: "j"
-        hour: "h"
-        minute: "m"
-        second: "s"
-  displays: {}
-
-
-running-cycle:
-  displays: {}
-
-#############################################
-###           GENERAL SETTINGS            ###
+###            GAME SETTINGS              ###
 #############################################
 
 # The spawn of the game. Must have the following format:
@@ -374,11 +95,9 @@ allow-bed-respawn: true
 # The default value is 'AREA'.
 capture-type: "AREA"
 
-
 #############################################
 ###             CHAT SETTINGS             ###
 #############################################
-
 
 # All the settings about the chat used during the waiting cycle.
 waiting-cycle-chat:
@@ -452,6 +171,7 @@ combat-module:
 ###           BORDER SETTINGS             ###
 #############################################
 
+
 borders:
   world-border:
     center:
@@ -460,3 +180,97 @@ borders:
     size: 860
     damages: 100
     world: "world"
+
+
+#############################################
+###                CYCLES                 ###
+#############################################
+
+
+waiting-cycle:
+  displays:
+    10:
+      message:
+        type: "MESSAGE"
+        text: "${waiting-cycle.timer.10.message}"
+      title:
+        type: "TITLE"
+        subtitle: "${waiting-cycle.timer.10.subtitle}"
+      sound:
+        type: "SOUND"
+        sound: "NOTE_BASS"
+        pitch: 1
+    3:
+      message:
+        type: "MESSAGE"
+        text: "${waiting-cycle.timer.3.message}"
+      sound:
+        type: "SOUND"
+        sound: "NOTE_PIANO"
+        pitch: 1
+      title:
+        type: "TITLE"
+        subtitle: "${waiting-cycle.timer.3.subtitle}"
+    2:
+      message:
+        type: "MESSAGE"
+        text: "${waiting-cycle.timer.2.message}"
+      sound:
+        type: "SOUND"
+        sound: "NOTE_PIANO"
+        pitch: 1.5
+      title:
+        type: "TITLE"
+        subtitle: "${waiting-cycle.timer.2.subtitle}"
+    1:
+      message:
+        type: "MESSAGE"
+        text: "${waiting-cycle.timer.1.message}"
+      sound:
+        type: "SOUND"
+        sound: "NOTE_PIANO"
+        pitch: 2
+      title:
+        type: "TITLE"
+        subtitle: "${waiting-cycle.timer.1.subtitle}"
+    0:
+      message:
+        type: "MESSAGE"
+        text: "${waiting-cycle.timer.0.message}"
+      sound:
+        type: "SOUND"
+        sound: "LEVEL_UP"
+        pitch: 2
+      title:
+        type: "TITLE"
+        subtitle: "${waiting-cycle.timer.0.subtitle}"
+        stay: 20
+        fade-out: 20
+
+
+game-cycle:
+  displays:
+    1200:
+      message:
+        type: "MESSAGE"
+        text: "${game-cycle.timer.1200.message}"
+    1500:
+      message:
+        type: "MESSAGE"
+        text: "${game-cycle.timer.1500.message}"
+    1740:
+      message:
+        type: "MESSAGE"
+        text: "${game-cycle.timer.1740.message}"
+    3000:
+      message:
+        type: "MESSAGE"
+        text: "${game-cycle.timer.3000.message}"
+    3300:
+      message:
+        type: "MESSAGE"
+        text: "${game-cycle.timer.3300.message}"
+    3540:
+      message:
+        type: "MESSAGE"
+        text: "${game-cycle.timer.3540.message}"
