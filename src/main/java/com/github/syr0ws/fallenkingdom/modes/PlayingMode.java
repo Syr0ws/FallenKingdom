@@ -91,10 +91,12 @@ public class PlayingMode extends FKMode {
 
     private void setScoreboard(Player player) {
 
+        FKGame game = this.getGame();
+
         try {
 
             ScoreboardManager manager = this.getScoreboardManager();
-            Scoreboard scoreboard = new GameBoard(manager, player, this.getGame());
+            Scoreboard scoreboard = new GameBoard(manager, player, game.getLangService(), this.model);
             scoreboard.set();
 
         } catch (GameException e) { e.printStackTrace(); }

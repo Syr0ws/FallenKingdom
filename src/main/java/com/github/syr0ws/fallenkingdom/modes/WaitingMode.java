@@ -67,10 +67,12 @@ public class WaitingMode extends FKMode {
 
     private void setScoreboard(Player player) {
 
+        FKGame game = this.getGame();
+
         try {
 
             ScoreboardManager manager = this.getScoreboardManager();
-            Scoreboard scoreboard = new WaitingBoard(manager, player, this.getGame());
+            Scoreboard scoreboard = new WaitingBoard(manager, player, game.getLangService(), this.model);
             scoreboard.set();
 
         } catch (GameException e) { e.printStackTrace(); }

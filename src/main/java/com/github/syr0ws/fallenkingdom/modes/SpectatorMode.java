@@ -69,6 +69,7 @@ public class SpectatorMode extends FKMode {
 
     private void setScoreboard(Player player) {
 
+        FKGame game = this.getGame();
         FKPlayer fkPlayer = this.model.getPlayer(player.getUniqueId());
 
         try {
@@ -76,7 +77,8 @@ public class SpectatorMode extends FKMode {
             ScoreboardManager manager = this.getScoreboardManager();
 
             Scoreboard scoreboard = fkPlayer.isPlaying() ?
-                    new GameBoard(manager, player, this.getGame()) : new SpectatorBoard(manager, player, this.getGame());
+                    new GameBoard(manager, player, game.getLangService(), this.model) :
+                    new SpectatorBoard(manager, player, game.getLangService(), this.model);
 
             scoreboard.set();
 
