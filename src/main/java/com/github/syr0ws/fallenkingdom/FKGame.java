@@ -14,8 +14,6 @@ import com.github.syr0ws.fallenkingdom.listeners.GameListener;
 import com.github.syr0ws.fallenkingdom.modes.PlayingMode;
 import com.github.syr0ws.fallenkingdom.modes.SpectatorMode;
 import com.github.syr0ws.fallenkingdom.modes.WaitingMode;
-import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
-import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
 import com.github.syr0ws.universe.Game;
 import com.github.syr0ws.universe.game.model.GameException;
 import com.github.syr0ws.universe.game.model.mode.ModeFactory;
@@ -24,6 +22,8 @@ import com.github.syr0ws.universe.modules.ModuleEnum;
 import com.github.syr0ws.universe.modules.ModuleService;
 import com.github.syr0ws.universe.modules.chat.ChatModel;
 import com.github.syr0ws.universe.modules.chat.ChatModule;
+import com.github.syr0ws.universe.modules.lang.LangModule;
+import com.github.syr0ws.universe.modules.lang.LangService;
 
 import java.util.Optional;
 
@@ -55,9 +55,6 @@ public class FKGame extends Game {
 
             // Registering chats.
             this.registerChats();
-
-            // Adding notifiers.
-            this.setupNotifiers();
 
             // Registering commands.
             this.registerCommands();
@@ -116,7 +113,7 @@ public class FKGame extends Game {
         Optional<ChatModule> optional = service.getModule(ModuleEnum.CHAT_MODULE.getName(), ChatModule.class);
 
         if(!optional.isPresent())
-            throw new UnsupportedOperationException("ChatModule not registered.");
+            throw new UnsupportedOperationException("ChatModule not enabled.");
 
         ChatModule module = optional.get();
         ChatModel chatService = module.getChatModel();
@@ -127,11 +124,6 @@ public class FKGame extends Game {
         chatService.registerChat(new SpectatorChat(this.model));
     }
 
-    private void setupNotifiers() {
-        this.model.addObserver(new PvPNotifier(this.model, this));
-        this.model.addObserver(new AssaultsNotifier(this.model, this));
-    }
-
     private void registerCommands() {
         super.getCommand("fk").setExecutor(new CommandFK(this, this.model, this.controller));
     }
@@ -139,5 +131,17 @@ public class FKGame extends Game {
     private void registerListeners() {
         this.listenerManager = new ListenerManager(this);
         this.listenerManager.addListener(new GameListener(this.model));
+    }
+
+    public LangService getLangService() {
+
+        ModuleService service = this.getModuleService();
+
+        Optional<LangModule> optional = service.getModule(ModuleEnum.LANG_MODULE.getName(), LangModule.class);
+
+        if(!optional.isPresent())
+            throw new NullPointerException("LangModule not enabled.");
+
+        return optional.get().getLangService();
     }
 }
