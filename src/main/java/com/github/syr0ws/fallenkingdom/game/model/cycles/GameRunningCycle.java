@@ -62,14 +62,14 @@ public class GameRunningCycle extends GameCycle {
         // Handling captures.
         this.controller.getCaptureManager().enable();
 
-        // Adding notifiers.
-        this.setupNotifiers();
-
         // Loading actions.
         this.loadActions();
 
         // Loading displays.
         this.loadDisplays();
+
+        // Adding notifiers.
+        this.setupNotifiers();
     }
 
     @Override
