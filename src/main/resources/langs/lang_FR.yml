@@ -106,6 +106,18 @@ assaults:
     subtitle: "&eRangez vos armes !"
 
 
+# This section contains all the texts related to teams.
+team:
+  # Texts sent when a player joins a team.
+  add:
+    # The text of the message sent in the chat.
+    message: "&eVous avez &arejoint &el'équipe %team_name%&e."
+  # Texts sent when a player leaves a team.
+  leave:
+    # The text of the message sent in the chat.
+    message: "&eVous avez &cquitté &el'équipe %team_name%&e."
+
+
 # This section contains all the texts related to a team win.
 win:
   # The text of the message sent in the chat.
@@ -130,21 +142,21 @@ capture:
   start:
     self:
       message: "&6>> &eVous &acapturez la base de l'équipe %team_name%&e."
-    other:
+    captured-team:
       message: "&6>> &eL'équipe %team_name% &ccapture &evotre base !"
   # Texts sent when a capture stops.
   stop:
     self:
       message: "&6>> &eVous &cne capturez plus &ela base de l'équipe %team_name%&e."
-    other:
+    captured-team:
       message: "&6>> &eL'équipe %team_name% &ane capture plus &evotre base !"
   # Texts sent when a base is captured.
-  captured:
+  base-captured:
     self:
       message: "&6>> &eVous avez &acapturé &ela base de l'équipe %team_name%&e."
     other:
       message: "&6>> &eL'équipe %catcher_team_name% &ea &acapturé &ela base de l'équipe %captured_team_name%&e."
-    team:
+    captured-team:
       message: "&6>> &eL'équipe %team_name% &ea &ccapturé &evotre base."
       title: "&cBase capturée"
       subtitle: "&7Vous serez éliminé si vous mourrez"
