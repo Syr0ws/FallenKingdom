@@ -1,6 +1,8 @@
 package com.github.syr0ws.fallenkingdom.game.model.settings;
 
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
+import com.github.syr0ws.universe.placeholders.PlaceholderEnum;
 import com.github.syr0ws.universe.settings.Setting;
 import com.github.syr0ws.universe.settings.SettingType;
 import com.github.syr0ws.universe.settings.types.*;
@@ -11,8 +13,6 @@ import org.bukkit.Material;
 import java.util.ArrayList;
 
 public enum GameSettingEnum implements SettingType {
-
-    // TODO Use placeholders.
 
     MAX_PLAYERS {
         @Override
@@ -105,8 +105,11 @@ public enum GameSettingEnum implements SettingType {
     WAITING_CHAT_FORMAT {
         @Override
         public Setting<?> getSetting() {
+
+            String defaultFormat = String.format("%s &r: %s", PlaceholderEnum.PLAYER_NAME.get(), PlaceholderEnum.MESSAGE.get());
+
             return new SimpleConfigSetting
-                    .Builder<>("waitingChatFormat", "%player% &r: %message%", "waiting-cycle-chat.format", String.class)
+                    .Builder<>("waitingChatFormat", defaultFormat, "waiting-cycle-chat.format", String.class)
                     .withFilter(value -> value != null && !value.isEmpty())
                     .build();
         }
@@ -124,8 +127,12 @@ public enum GameSettingEnum implements SettingType {
     GAME_CHAT_FORMAT {
         @Override
         public Setting<?> getSetting() {
+
+            String defaultFormat = String.format("%s %s &r: %s", FKPlaceholder.TEAM_NAME.get(),
+                    PlaceholderEnum.PLAYER_NAME.get(), PlaceholderEnum.MESSAGE.get());
+
             return new SimpleConfigSetting
-                    .Builder<>("gameChatFormat", "%team_name% %player%&r : %message%", "game-chat.format", String.class)
+                    .Builder<>("gameChatFormat", defaultFormat, "game-chat.format", String.class)
                     .withFilter(value -> value != null && !value.isEmpty())
                     .build();
         }
@@ -152,8 +159,12 @@ public enum GameSettingEnum implements SettingType {
     TEAM_CHAT_FORMAT {
         @Override
         public Setting<?> getSetting() {
+
+            String defaultFormat = String.format("%s %s &r: %s", FKPlaceholder.TEAM_NAME.get(),
+                    PlaceholderEnum.PLAYER_NAME.get(), PlaceholderEnum.MESSAGE.get());
+
             return new SimpleConfigSetting
-                    .Builder<>("teamChatFormat", "%team_name% %player%&r : %message%", "team-chat.format", String.class)
+                    .Builder<>("teamChatFormat", defaultFormat, "team-chat.format", String.class)
                     .withFilter(value -> value != null && !value.isEmpty())
                     .build();
         }
@@ -171,8 +182,11 @@ public enum GameSettingEnum implements SettingType {
     SPECTATOR_CHAT_FORMAT {
         @Override
         public Setting<?> getSetting() {
+
+            String defaultFormat = String.format("&7%s &r: %s", PlaceholderEnum.PLAYER_NAME.get(), PlaceholderEnum.MESSAGE.get());
+
             return new SimpleConfigSetting
-                    .Builder<>("spectatorChatFormat", "&7%player% : %message%", "spectator-chat.format", String.class)
+                    .Builder<>("spectatorChatFormat", defaultFormat, "spectator-chat.format", String.class)
                     .withFilter(value -> value != null && !value.isEmpty())
                     .build();
         }
