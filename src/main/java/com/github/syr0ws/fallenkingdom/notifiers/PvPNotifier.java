@@ -32,7 +32,7 @@ public class PvPNotifier implements AttributeObserver {
     @Override
     public void onUpdate(Attribute attribute) {
 
-        GameRunningDisplayEnum displayEnum = this.model.areAssaultsEnabled() ?
+        GameRunningDisplayEnum displayEnum = this.model.isPvPEnabled() ?
                 GameRunningDisplayEnum.PVP_ENABLED : GameRunningDisplayEnum.PVP_DISABLED;
 
         // Retrieving displays.
