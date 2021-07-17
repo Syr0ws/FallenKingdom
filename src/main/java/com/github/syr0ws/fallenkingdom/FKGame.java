@@ -145,8 +145,6 @@ public class FKGame extends Game {
         if(!optional.isPresent())
             throw new NullPointerException("LangModule not enabled.");
 
-        System.out.println(optional.get().getLangModel().getMessages().keySet());
-
         return optional.get().getLangService();
     }
 }
