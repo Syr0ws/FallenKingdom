@@ -1,16 +1,14 @@
 package com.github.syr0ws.fallenkingdom.scoreboards;
 
-import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
-import com.github.syr0ws.fallenkingdom.tools.PeriodFormatter;
 import com.github.syr0ws.universe.attributes.Attribute;
 import com.github.syr0ws.universe.attributes.AttributeObserver;
-import com.github.syr0ws.universe.displays.impl.Message;
+import com.github.syr0ws.universe.displays.types.Message;
+import com.github.syr0ws.universe.modules.lang.LangService;
+import com.github.syr0ws.universe.modules.lang.messages.impl.Text;
 import com.github.syr0ws.universe.modules.scoreboard.ScoreboardManager;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -19,20 +17,22 @@ import java.util.Collection;
 public class SpectatorBoard extends FKBoard implements AttributeObserver {
 
     private static final String SCOREBOARD_SECTION = "spectator-scoreboard";
-
-    private final FKGame game;
     private final FKModel model;
-    private final PeriodFormatter formatter;
+    // private final PeriodFormatter formatter;
 
-    public SpectatorBoard(ScoreboardManager manager, Player player, FKGame game) {
-        super(manager, player);
+    public SpectatorBoard(ScoreboardManager manager, Player player, LangService service, FKModel model) {
+        super(manager, player, service);
 
-        if(game == null)
-            throw new IllegalArgumentException("FKGame cannot be null.");
+        if(model == null)
+            throw new IllegalArgumentException("FKModel cannot be null.");
 
-        this.game = game;
-        this.model = game.getGameModel();
-        this.formatter = new PeriodFormatter(this.getScoreboardSection().getConfigurationSection("time"));
+        this.model = model;
+        // this.formatter = new PeriodFormatter(this.getScoreboardSection().getConfigurationSection("time"));
+    }
+
+    @Override
+    protected String getSectionName() {
+        return "spectator-scoreboard";
     }
 
     @Override
@@ -60,45 +60,33 @@ public class SpectatorBoard extends FKBoard implements AttributeObserver {
     @Override
     protected String parse(String text) {
 
-        String timeFormat = this.getScoreboardSection().getString("time.format", "");
-        String time = this.formatter.format(timeFormat, this.model.getTime());
+        // String timeFormat = this.getScoreboardSection().getString("time.format", "");
+        // String time = this.formatter.format(timeFormat, this.model.getTime());
 
         Message message = new Message(text);
 
-        message.addPlaceholder(FKPlaceholder.PVP_STATE, this.getPvPState());
-        message.addPlaceholder(FKPlaceholder.ASSAULTS_STATE, this.getAssaultsState());
-        message.addPlaceholder(FKPlaceholder.TIME, time);
+        message.addPlaceholder(FKPlaceholder.PVP_STATE.get(), this.getPvPState());
+        message.addPlaceholder(FKPlaceholder.ASSAULTS_STATE.get(), this.getAssaultsState());
+        // message.addPlaceholder(FKPlaceholder.TIME, time);
 
-        return super.parse(message.getText());
-    }
-
-    @Override
-    protected ConfigurationSection getScoreboardSection() {
-
-        FileConfiguration config = this.game.getConfig();
-        ConfigurationSection section = config.getConfigurationSection(SCOREBOARD_SECTION);
-
-        if(section == null)
-            throw new NullPointerException(String.format("ConfigurationSection '%s' not found.", SCOREBOARD_SECTION));
-
-        return section;
+        return message.getText();
     }
 
     private String getPvPState() {
 
-        ConfigurationSection section = this.getScoreboardSection().getConfigurationSection("pvp-state");
+        String key = String.format("%s.pvp-state.%s", this.getSectionName(), (this.model.isPvPEnabled() ? "enabled" : "disabled"));
 
-        String path = this.model.isPvPEnabled() ? "enabled" : "disabled";
+        Text text = this.getLangService().getMessage(key, Text.class);
 
-        return section.getString(path, "");
+        return text.getText();
     }
 
     private String getAssaultsState() {
 
-        ConfigurationSection section = this.getScoreboardSection().getConfigurationSection("assaults-state");
+        String key = String.format("%s.assaults-state.%s", this.getSectionName(), (this.model.isPvPEnabled() ? "enabled" : "disabled"));
 
-        String path = this.model.areAssaultsEnabled() ? "enabled" : "disabled";
+        Text text = this.getLangService().getMessage(key, Text.class);
 
-        return section.getString(path, "");
+        return text.getText();
     }
 }

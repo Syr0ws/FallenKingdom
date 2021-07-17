@@ -1,32 +1,38 @@
 package com.github.syr0ws.fallenkingdom.scoreboards;
 
-import com.github.syr0ws.universe.displays.impl.Message;
+import com.github.syr0ws.universe.modules.lang.LangService;
+import com.github.syr0ws.universe.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.modules.lang.messages.impl.TextList;
 import com.github.syr0ws.universe.modules.scoreboard.ScoreboardManager;
 import com.github.syr0ws.universe.modules.scoreboard.impl.AbstractScoreboard;
 import fr.mrmicky.fastboard.FastBoard;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class FKBoard extends AbstractScoreboard {
 
-    private final Player player;
+    private final LangService service;
     private FastBoard board;
 
-    public FKBoard(ScoreboardManager manager, Player player) {
+    public FKBoard(ScoreboardManager manager, Player player, LangService service) {
         super(manager, player);
-        this.player = player;
+
+        if(service == null)
+            throw new IllegalArgumentException("LangService cannot be null.");
+
+        this.service = service;
     }
 
-    protected abstract ConfigurationSection getScoreboardSection();
+    protected abstract String getSectionName();
+
+    protected abstract String parse(String text);
 
     @Override
     public void set() {
         super.set();
-        this.board = new FastBoard(this.player);
+        this.board = new FastBoard(this.getPlayer());
         this.update();
     }
 
@@ -46,33 +52,27 @@ public abstract class FKBoard extends AbstractScoreboard {
         this.board.updateLines(lines);
     }
 
-    protected String parse(String text) {
-        return new Message(text).getText();
-    }
-
     private Collection<String> getLines() {
 
-        ConfigurationSection section = this.getScoreboardSection();
+        String key = this.getSectionName() + ".lines";
+        TextList list = this.service.getMessage(key, TextList.class);
 
-        if(section == null)
-            throw new NullPointerException("Scoreboard section cannot be null.");
-
-        List<String> lines = section.getStringList("lines");
-
-        return lines.stream()
+        return list.getList().stream()
                 .map(this::parse)
                 .collect(Collectors.toList());
     }
 
     private String getTitle() {
 
-        ConfigurationSection section = this.getScoreboardSection();
+        String key = this.getSectionName() + ".title";
+        Text text = this.service.getMessage(key, Text.class);
 
-        if(section == null)
-            throw new NullPointerException("Scoreboard section cannot be null.");
-
-        String title = section.getString("title", "");
+        String title = text.getText();
 
         return this.parse(title);
+    }
+
+    public LangService getLangService() {
+        return this.service;
     }
 }
