@@ -7,17 +7,18 @@ import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStar
 import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStopEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStartEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStopEvent;
-import com.github.syr0ws.fallenkingdom.capture.area.listeners.AreaCaptureListener;
 import com.github.syr0ws.fallenkingdom.capture.area.model.AreaCapture;
 import com.github.syr0ws.fallenkingdom.capture.area.model.AreaModel;
 import com.github.syr0ws.fallenkingdom.capture.area.model.CraftAreaCaptureModel;
+import com.github.syr0ws.fallenkingdom.capture.area.settings.CaptureSettingsAccessor;
+import com.github.syr0ws.fallenkingdom.capture.area.settings.CraftCaptureSettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.game.model.GameException;
 import com.github.syr0ws.universe.listeners.ListenerManager;
+import com.github.syr0ws.universe.settings.types.MutableSetting;
 import com.github.syr0ws.universe.tools.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -58,7 +59,9 @@ public class CraftAreaCaptureManager implements CaptureManager {
         this.model = model;
         this.controller = controller;
 
-        this.captureModel = new CraftAreaCaptureModel();
+        CaptureSettingsAccessor settings = new CraftCaptureSettingAccessor(game.getConfig());
+
+        this.captureModel = new CraftAreaCaptureModel(settings);
         this.listenerManager = new ListenerManager(game);
     }
 
@@ -79,7 +82,7 @@ public class CraftAreaCaptureManager implements CaptureManager {
     public void enable() {
 
         this.listenerManager.addListener(new CaptureListener());
-        this.listenerManager.addListener(new AreaCaptureListener(this.game));
+        // this.listenerManager.addListener(new AreaCaptureListener(this.game.getLangService()));
 
         this.startTask();
     }
@@ -97,10 +100,10 @@ public class CraftAreaCaptureManager implements CaptureManager {
 
     private void startTask() {
 
-        SettingAccessor accessor = this.model.getSettings();
-        // MutableSetting<Integer> setting = accessor.getCaptureTimeSetting(); // TODO To change.
+        CaptureSettingsAccessor accessor = this.captureModel.getSettings();
+        MutableSetting<Integer> setting = accessor.getCaptureDurationSetting();
 
-        this.task = new CaptureTask(5); // TODO To change.
+        this.task = new CaptureTask(setting.getValue());
         this.task.start();
     }
 

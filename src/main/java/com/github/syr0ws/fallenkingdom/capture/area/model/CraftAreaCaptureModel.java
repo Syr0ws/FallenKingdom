@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.capture.area.model;
 
+import com.github.syr0ws.fallenkingdom.capture.area.settings.CaptureSettingsAccessor;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 
@@ -7,7 +8,16 @@ import java.util.*;
 
 public class CraftAreaCaptureModel implements AreaCaptureModel {
 
+    private final CaptureSettingsAccessor settings;
     private final List<CraftAreaCapture> captures = new ArrayList<>();
+
+    public CraftAreaCaptureModel(CaptureSettingsAccessor settings) {
+
+        if(settings == null)
+            throw new IllegalArgumentException("CaptureSettingsAccessor cannot be null.");
+
+        this.settings = settings;
+    }
 
     public void capture(FKTeamPlayer player, FKTeam captured) {
 
@@ -85,6 +95,11 @@ public class CraftAreaCaptureModel implements AreaCaptureModel {
         // Only one team can capture another one. If the player is a member
         // of the capturing team, he can captures the team.
         return capture.getCatcherTeam().contains(player);
+    }
+
+    @Override
+    public CaptureSettingsAccessor getSettings() {
+        return this.settings;
     }
 
     @Override
