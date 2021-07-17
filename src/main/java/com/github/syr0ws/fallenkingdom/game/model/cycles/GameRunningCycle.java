@@ -31,10 +31,10 @@ public class GameRunningCycle extends GameCycle {
     private final FKController controller;
     private final FKModel model;
 
+    private final DisplayManager manager;
     private final TimerActionManager actionManager;
     private final List<AttributeObserver> notifiers = new ArrayList<>();
 
-    private DisplayManager manager;
     private Task task;
 
     public GameRunningCycle(FKGame game, FKController controller, FKModel model) {
@@ -49,6 +49,7 @@ public class GameRunningCycle extends GameCycle {
         this.controller = controller;
         this.model = model;
 
+        this.manager = DisplayUtils.getDisplayManager(this.getGame());
         this.actionManager = new TimerActionManager();
     }
 
@@ -157,8 +158,6 @@ public class GameRunningCycle extends GameCycle {
     }
 
     private void loadDisplays() {
-
-        this.manager = DisplayUtils.getDisplayManager(this.getGame());
 
         for (GameRunningDisplayEnum value : GameRunningDisplayEnum.values())
             this.manager.loadDisplays(value.getPath());
