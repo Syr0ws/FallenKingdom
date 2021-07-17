@@ -97,7 +97,7 @@ public class GameBoard extends FKBoard implements AttributeObserver {
 
     private String getAssaultsState() {
 
-        String key = String.format("%s.assaults-state.%s", this.getSectionName(), (this.model.isPvPEnabled() ? "enabled" : "disabled"));
+        String key = String.format("%s.assaults-state.%s", this.getSectionName(), (this.model.areAssaultsEnabled() ? "enabled" : "disabled"));
 
         Text text = this.getLangService().getMessage(key, Text.class);
 
