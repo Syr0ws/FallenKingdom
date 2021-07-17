@@ -3,13 +3,13 @@ package com.github.syr0ws.fallenkingdom.chat;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
-import com.github.syr0ws.universe.displays.impl.Message;
-import com.github.syr0ws.universe.displays.placeholders.PlaceholderEnum;
+import com.github.syr0ws.universe.displays.types.Message;
 import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
 import com.github.syr0ws.universe.game.model.mode.ModeType;
 import com.github.syr0ws.universe.modules.chat.Chat;
 import com.github.syr0ws.universe.modules.chat.ChatMessage;
 import com.github.syr0ws.universe.modules.chat.ChatPriority;
+import com.github.syr0ws.universe.placeholders.PlaceholderEnum;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
 import org.bukkit.entity.Player;
 
@@ -34,8 +34,8 @@ public class SpectatorChat implements Chat {
 
         // Creating the message.
         Message msg = new Message(format);
-        msg.addPlaceholder(PlaceholderEnum.PLAYER_NAME, message.getPlayer().getName());
-        msg.addPlaceholder(PlaceholderEnum.MESSAGE, message.getMessage());
+        msg.addPlaceholder(PlaceholderEnum.PLAYER_NAME.get(), message.getPlayer().getName());
+        msg.addPlaceholder(PlaceholderEnum.MESSAGE.get(), message.getMessage());
 
         // Displaying the message to all the spectators.
         this.model.getOnlinePlayers().stream()
