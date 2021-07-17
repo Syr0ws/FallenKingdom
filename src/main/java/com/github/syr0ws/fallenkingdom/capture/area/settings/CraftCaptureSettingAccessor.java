@@ -1,6 +1,5 @@
 package com.github.syr0ws.fallenkingdom.capture.area.settings;
 
-import com.github.syr0ws.fallenkingdom.game.model.settings.GameSettingEnum;
 import com.github.syr0ws.universe.settings.dao.ConfigSettingLoader;
 import com.github.syr0ws.universe.settings.dao.SettingLoader;
 import com.github.syr0ws.universe.settings.manager.CacheSettingManager;
@@ -23,7 +22,7 @@ public class CraftCaptureSettingAccessor implements CaptureSettingsAccessor {
 
     private void loadSettings(FileConfiguration config) {
 
-        for (GameSettingEnum value : GameSettingEnum.values()) {
+        for (CaptureSettingEnum value : CaptureSettingEnum.values()) {
             this.manager.addSetting(value, value.getSetting());
         }
 
