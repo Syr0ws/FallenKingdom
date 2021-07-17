@@ -3,16 +3,19 @@ package com.github.syr0ws.fallenkingdom.game.model.cycles;
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
+import com.github.syr0ws.fallenkingdom.game.model.cycles.displays.GameRunningDisplayEnum;
 import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.listeners.GameBlockListener;
 import com.github.syr0ws.fallenkingdom.listeners.GameEliminationListener;
 import com.github.syr0ws.fallenkingdom.listeners.GamePlayerListener;
+import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
+import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
-import com.github.syr0ws.fallenkingdom.timer.impl.DisplayAction;
+import com.github.syr0ws.fallenkingdom.timer.TimerUtils;
+import com.github.syr0ws.fallenkingdom.utils.DisplayUtils;
 import com.github.syr0ws.universe.Game;
-import com.github.syr0ws.universe.displays.Display;
-import com.github.syr0ws.universe.displays.DisplayException;
-import com.github.syr0ws.universe.displays.dao.TimerDisplayDAO;
+import com.github.syr0ws.universe.attributes.AttributeObserver;
+import com.github.syr0ws.universe.displays.DisplayManager;
 import com.github.syr0ws.universe.game.model.cycle.GameCycle;
 import com.github.syr0ws.universe.game.model.cycle.GameCycleTask;
 import com.github.syr0ws.universe.listeners.ListenerManager;
@@ -20,8 +23,8 @@ import com.github.syr0ws.universe.settings.Setting;
 import com.github.syr0ws.universe.tools.Task;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameRunningCycle extends GameCycle {
 
@@ -29,6 +32,9 @@ public class GameRunningCycle extends GameCycle {
     private final FKModel model;
 
     private final TimerActionManager actionManager;
+    private final List<AttributeObserver> notifiers = new ArrayList<>();
+
+    private DisplayManager manager;
     private Task task;
 
     public GameRunningCycle(FKGame game, FKController controller, FKModel model) {
@@ -50,14 +56,19 @@ public class GameRunningCycle extends GameCycle {
     public void load() {
         super.load();
 
-        // Registering cycle listeners.
+        // Registering listeners.
         this.registerListeners();
 
         // Handling captures.
         this.controller.getCaptureManager().enable();
 
-        // Handling actions and displays.
+        // Adding notifiers.
+        this.setupNotifiers();
+
+        // Loading actions.
         this.loadActions();
+
+        // Loading displays.
         this.loadDisplays();
     }
 
@@ -70,6 +81,9 @@ public class GameRunningCycle extends GameCycle {
 
         // Handling captures.
         this.controller.getCaptureManager().disable();
+
+        // Removing notifiers.
+        this.notifiers.forEach(this.model::removeObserver);
     }
 
     @Override
@@ -102,6 +116,16 @@ public class GameRunningCycle extends GameCycle {
         manager.addListener(new GameEliminationListener(this.getGame()));
     }
 
+    private void setupNotifiers() {
+
+        // Storing notifiers to unregister them later.
+        this.notifiers.add(new PvPNotifier(this.model, this.manager));
+        this.notifiers.add(new AssaultsNotifier(this.model, this.manager));
+
+        // Observing the model.
+        this.notifiers.forEach(this.model::addObserver);
+    }
+
     private void startTask() {
         this.task = new RunningCycleTask(this.getGame());
         this.task.start();
@@ -127,23 +151,17 @@ public class GameRunningCycle extends GameCycle {
         actionManager.addAction(pvpSetting.getValue(), () -> this.model.setPvPEnabled(true));
         actionManager.addAction(assaultsSetting.getValue(), () -> this.model.setAssaultsEnabled(true));
         actionManager.addAction(maxDurationSetting.getValue(), this::done);
+
+        // Adding display actions.
+        TimerUtils.loadDisplayActions(this.actionManager, this.getCycleSection());
     }
 
     private void loadDisplays() {
 
-        ConfigurationSection section = this.getCycleSection();
+        this.manager = DisplayUtils.getDisplayManager(this.getGame());
 
-        TimerDisplayDAO dao = new TimerDisplayDAO(section);
-
-        try {
-
-            Map<Integer, Collection<Display>> displays = dao.getTimeDisplays("displays");
-
-            displays.forEach((time, list) -> list.stream()
-                    .map(DisplayAction::new)
-                    .forEach(action -> this.actionManager.addAction(time, action)));
-
-        } catch (DisplayException e) { e.printStackTrace(); }
+        for (GameRunningDisplayEnum value : GameRunningDisplayEnum.values())
+            this.manager.loadDisplays(value.getPath());
     }
 
     private ConfigurationSection getCycleSection() {
@@ -161,7 +179,13 @@ public class GameRunningCycle extends GameCycle {
 
             int time = GameRunningCycle.this.model.getTime();
 
+            // Executing action for the current time.
             GameRunningCycle.this.actionManager.executeActions(time);
+
+            // Removing the action because it will no longer be used.
+            GameRunningCycle.this.actionManager.removeActions(time);
+
+            // Adding time to the model.
             GameRunningCycle.this.model.addTime();
         }
     }
