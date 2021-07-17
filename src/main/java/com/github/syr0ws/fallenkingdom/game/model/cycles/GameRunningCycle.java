@@ -165,7 +165,7 @@ public class GameRunningCycle extends GameCycle {
     }
 
     private ConfigurationSection getCycleSection() {
-        return super.getGame().getConfig().getConfigurationSection("running-cycle");
+        return super.getGame().getConfig().getConfigurationSection("game-cycle");
     }
 
     private class RunningCycleTask extends GameCycleTask {
