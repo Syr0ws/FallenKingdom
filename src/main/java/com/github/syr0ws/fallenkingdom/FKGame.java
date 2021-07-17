@@ -41,14 +41,14 @@ public class FKGame extends Game {
 
         try {
 
+            // Loading modules.
+            this.loadModules();
+
             // Model setup.
             this.setupGameModel();
 
             // Controller setup.
             this.setupGameController();
-
-            // Loading modules.
-            this.loadModules();
 
             // Registering game modes.
             this.registerGameModes();
@@ -144,6 +144,8 @@ public class FKGame extends Game {
 
         if(!optional.isPresent())
             throw new NullPointerException("LangModule not enabled.");
+
+        System.out.println(optional.get().getLangModel().getMessages().keySet());
 
         return optional.get().getLangService();
     }
