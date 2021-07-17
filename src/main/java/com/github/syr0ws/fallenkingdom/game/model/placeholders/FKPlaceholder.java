@@ -13,7 +13,9 @@ public enum FKPlaceholder implements Placeholder {
     KDR("kdr"),
     ONLINE_PLAYERS("online_players"),
     MAX_PLAYERS("max_players"),
-    TEAM_NAME("team_name");
+    TEAM_NAME("team_name"),
+    CATCHER_TEAM_NAME("catcher_team_name"),
+    CAPTURED_TEAM_NAME("captured_team_name");
 
     private final String placeholder;
 
