@@ -10,7 +10,7 @@ public enum CaptureSettingEnum implements SettingType {
         @Override
         public Setting<?> getSetting() {
             return new SimpleConfigSetting
-                    .Builder<>("captureTime", 60, CAPTURE_SETTING_SECTION + ".capture-time", Integer.class)
+                    .Builder<>("captureDuration", 60, CAPTURE_SETTING_SECTION + ".capture-duration", Integer.class)
                     .withFilter(time -> time >= 0)
                     .build();
         }
