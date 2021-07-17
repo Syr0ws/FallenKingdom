@@ -125,7 +125,10 @@ public class FKGame extends Game {
     }
 
     private void registerCommands() {
-        super.getCommand("fk").setExecutor(new CommandFK(this, this.model, this.controller));
+
+        LangService service = this.getLangService();
+
+        super.getCommand("fk").setExecutor(new CommandFK(this.model, this.controller, service));
     }
 
     private void registerListeners() {
