@@ -23,7 +23,7 @@ public class PvPNotifier implements AttributeObserver {
             throw new IllegalArgumentException("FKModel cannot be null.");
 
         if(manager == null)
-            throw new IllegalArgumentException("Plugin cannot be null.");
+            throw new IllegalArgumentException("DisplayManager cannot be null.");
 
         this.model = model;
         this.manager = manager;
