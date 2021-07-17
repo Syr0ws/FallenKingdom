@@ -74,6 +74,11 @@ public class GameStartingCycle extends GameCycle {
         this.stopTask();
     }
 
+    @Override
+    public FKGame getGame() {
+        return (FKGame) super.getGame();
+    }
+
     private void registerListeners() {
 
         ListenerManager manager = super.getListenerManager();
@@ -95,7 +100,7 @@ public class GameStartingCycle extends GameCycle {
     }
 
     private void loadActions() {
-        TimerUtils.loadDisplayActions(this.actionManager, this.getCycleSection());
+        TimerUtils.loadDisplayActions(this.actionManager, this.getGame().getLangService(), this.getCycleSection());
     }
 
     private ConfigurationSection getCycleSection() {

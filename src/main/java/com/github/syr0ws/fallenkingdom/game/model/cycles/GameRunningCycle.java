@@ -154,7 +154,7 @@ public class GameRunningCycle extends GameCycle {
         actionManager.addAction(maxDurationSetting.getValue(), this::done);
 
         // Adding display actions.
-        TimerUtils.loadDisplayActions(this.actionManager, this.getCycleSection());
+        TimerUtils.loadDisplayActions(this.actionManager, this.getGame().getLangService(), this.getCycleSection());
     }
 
     private void loadDisplays() {

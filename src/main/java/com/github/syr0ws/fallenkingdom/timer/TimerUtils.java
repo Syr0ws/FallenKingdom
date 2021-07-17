@@ -5,6 +5,7 @@ import com.github.syr0ws.universe.displays.Display;
 import com.github.syr0ws.universe.displays.DisplayException;
 import com.github.syr0ws.universe.displays.DisplayFactory;
 import com.github.syr0ws.universe.displays.impl.SimpleDisplayFactory;
+import com.github.syr0ws.universe.modules.lang.LangService;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Collection;
@@ -12,9 +13,9 @@ import java.util.Map;
 
 public class TimerUtils {
 
-    public static void loadDisplayActions(TimerActionManager manager, ConfigurationSection section) {
+    public static void loadDisplayActions(TimerActionManager manager, LangService service, ConfigurationSection section) {
 
-        DisplayFactory factory = new SimpleDisplayFactory();
+        DisplayFactory factory = new SimpleDisplayFactory(service);
         TimerDisplayDAO dao = new TimerDisplayDAO(factory, section);
 
         try {
