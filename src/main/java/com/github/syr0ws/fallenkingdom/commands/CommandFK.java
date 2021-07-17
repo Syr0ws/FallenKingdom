@@ -7,41 +7,47 @@ import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
-import com.github.syr0ws.universe.displays.impl.Message;
-import com.github.syr0ws.universe.displays.placeholders.PlaceholderEnum;
+import com.github.syr0ws.universe.displays.types.Message;
 import com.github.syr0ws.universe.game.model.GameException;
+import com.github.syr0ws.universe.modules.lang.LangService;
+import com.github.syr0ws.universe.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.placeholders.PlaceholderEnum;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.Optional;
 
 public class CommandFK implements CommandExecutor {
 
-    private final Plugin plugin;
     private final FKModel model;
     private final FKController controller;
+    private final LangService service;
 
-    public CommandFK(Plugin plugin, FKModel model, FKController controller) {
-        this.plugin = plugin;
+    public CommandFK(FKModel model, FKController controller, LangService service) {
+
+        if(model == null)
+            throw new IllegalArgumentException("FKModel cannot be null.");
+
+        if(controller == null)
+            throw new IllegalArgumentException("FKController cannot be null.");
+
+        if(service == null)
+            throw new IllegalArgumentException("LangService cannot be null.");
+
         this.model = model;
         this.controller = controller;
+        this.service = service;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        FileConfiguration config = this.plugin.getConfig();
-        ConfigurationSection section = config.getConfigurationSection("command-fk");
-
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK.get())) {
-            new Message(section.getString("no-permission", "")).displayTo(sender);
+            this.getMessage("no-permission").displayTo(sender);
             return true;
         }
 
@@ -52,19 +58,19 @@ public class CommandFK implements CommandExecutor {
 
         switch (args[0].toLowerCase()) {
             case "start":
-                this.onStartCommand(sender, section, args);
+                this.onStartCommand(sender);
                 break;
             case "stop":
-                this.onStopCommand(sender, section, args);
+                this.onStopCommand(sender);
                 break;
             case "pvp":
-                this.onPvPCommand(sender, section, args);
+                this.onPvPCommand(sender, args);
                 break;
             case "assaults":
-                this.onAssaultsCommand(sender, section, args);
+                this.onAssaultsCommand(sender, args);
                 break;
             case "team":
-                this.onTeamCommand(sender, section, args);
+                this.onTeamCommand(sender, args);
                 break;
             default:
                 // TODO send help here.
@@ -77,19 +83,17 @@ public class CommandFK implements CommandExecutor {
     /*
         Command : /fk start
     */
-    private void onStartCommand(CommandSender sender, ConfigurationSection section, String[] args) {
-
-        ConfigurationSection startSection = section.getConfigurationSection("start");
+    private void onStartCommand(CommandSender sender) {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_START.get())) {
-            new Message(startSection.getString("no-permission", "")).displayTo(sender);
+            this.getMessage("start.no-permission").displayTo(sender);
             return;
         }
 
         // Checking if there is a started game.
         if(!this.model.isWaiting()) {
-            new Message(startSection.getString("already-started", "")).displayTo(sender);
+            this.getMessage("start.already-started").displayTo(sender);
             return;
         }
 
@@ -101,26 +105,24 @@ public class CommandFK implements CommandExecutor {
 
             e.printStackTrace();
 
-            new Message(startSection.getString("error", "")).displayTo(sender);
+            this.getMessage("start.error").displayTo(sender);
         }
     }
 
     /*
         Command : /fk stop
     */
-    private void onStopCommand(CommandSender sender, ConfigurationSection section, String[] args) {
-
-        ConfigurationSection stopSection = section.getConfigurationSection("stop");
+    private void onStopCommand(CommandSender sender) {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_STOP.get())) {
-            new Message(stopSection.getString("no-permission", "")).displayTo(sender);
+            this.getMessage("stop.no-permission").displayTo(sender);
             return;
         }
 
         // Checking if there is a started game.
         if(!this.model.isRunning()) {
-            new Message(stopSection.getString("not-started", "")).displayTo(sender);
+            this.getMessage("stop.not-started").displayTo(sender);
             return;
         }
 
@@ -132,18 +134,14 @@ public class CommandFK implements CommandExecutor {
 
             e.printStackTrace();
 
-            new Message(stopSection.getString("error", "")).displayTo(sender);
+            this.getMessage("stop.error").displayTo(sender);
         }
     }
 
     /*
-        Command : /fk pvp on|off
+        Command : /fk pvp
     */
-
-    // Command : /fk pvp
-    private void onPvPCommand(CommandSender sender, ConfigurationSection section, String[] args) {
-
-        ConfigurationSection pvpSection = section.getConfigurationSection("pvp");
+    private void onPvPCommand(CommandSender sender, String[] args) {
 
         if(args.length < 2) {
             // TODO send help here.
@@ -152,57 +150,55 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_PVP.get())) {
-            new Message(pvpSection.getString("no-permission", "")).displayTo(sender);
+            this.getMessage("pvp.no-permission").displayTo(sender);
             return;
         }
 
         // Only enable / disable pvp when the game is running.
         if(!this.model.isRunning()) {
-            new Message(pvpSection.getString("game-not-running", "")).displayTo(sender);
+            this.getMessage("pvp.game-not-running").displayTo(sender);
             return;
         }
 
         if(args[1].equalsIgnoreCase("on")) {
 
-            this.onPvPOnCommand(sender, pvpSection);
+            this.onPvPOnCommand(sender);
 
         } else if(args[1].equalsIgnoreCase("off")) {
 
-            this.onPvPOffCommand(sender, pvpSection);
+            this.onPvPOffCommand(sender);
 
         } else ; // TODO Send usages here.
     }
 
-    // Command : /fk pvp on
-    private void onPvPOnCommand(CommandSender sender, ConfigurationSection section) {
+    /*
+        Command : /fk pvp on
+    */
+    private void onPvPOnCommand(CommandSender sender) {
 
         if(this.model.isPvPEnabled()) {
 
-            String message = section.getString("already-enabled", "");
-            new Message(message).displayTo(sender);
+            this.getMessage("pvp.already-enabled").displayTo(sender);
 
         } else this.model.setPvPEnabled(true);
     }
 
-    // Command : /fk pvp off
-    private void onPvPOffCommand(CommandSender sender, ConfigurationSection section) {
+    /*
+        Command : /fk pvp off
+    */
+    private void onPvPOffCommand(CommandSender sender) {
 
         if(!this.model.isPvPEnabled()) {
 
-            String message = section.getString("already-disabled", "");
-            new Message(message).displayTo(sender);
+            this.getMessage("pvp.already-disabled").displayTo(sender);
 
         } else this.model.setPvPEnabled(false);
     }
 
     /*
-        Command : /fk assaults on|off
+        Command : /fk assaults
     */
-
-    // Command : /fk assaults
-    private void onAssaultsCommand(CommandSender sender, ConfigurationSection section, String[] args) {
-
-        ConfigurationSection assaultsSection = section.getConfigurationSection("assaults");
+    private void onAssaultsCommand(CommandSender sender, String[] args) {
 
         if(args.length != 2) {
             // TODO send help here.
@@ -211,45 +207,47 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_ASSAULTS.get())) {
-            new Message(assaultsSection.getString("no-permission", "")).displayTo(sender);
+            this.getMessage("assaults.no-permission").displayTo(sender);
             return;
         }
 
         // Only enable / disable assaults when the game is running.
         if(!this.model.isRunning()) {
-            new Message(assaultsSection.getString("game-not-running", "")).displayTo(sender);
+            this.getMessage("assaults.game-not-running").displayTo(sender);
             return;
         }
 
         if(args[1].equalsIgnoreCase("on")) {
 
-            this.onAssaultsOnCommand(sender, assaultsSection);
+            this.onAssaultsOnCommand(sender);
 
         } else if(args[1].equalsIgnoreCase("off")) {
 
-            this.onAssaultsOffCommand(sender, assaultsSection);
+            this.onAssaultsOffCommand(sender);
 
         } else ; // TODO Send usages here.
     }
 
-    // Command : /fk assaults on
-    private void onAssaultsOnCommand(CommandSender sender, ConfigurationSection section) {
+    /*
+        Command : /fk assaults on
+    */
+    private void onAssaultsOnCommand(CommandSender sender) {
 
         if(this.model.areAssaultsEnabled()) {
 
-            String message = section.getString("already-enabled", "");
-            new Message(message).displayTo(sender);
+            this.getMessage("assaults.already-enabled").displayTo(sender);
 
         } else this.model.setAssaultsEnabled(true);
     }
 
-    // Command : /fk assaults off
-    private void onAssaultsOffCommand(CommandSender sender, ConfigurationSection section) {
+    /*
+        Command : /fk assaults off
+    */
+    private void onAssaultsOffCommand(CommandSender sender) {
 
         if(!this.model.areAssaultsEnabled()) {
 
-            String message = section.getString("already-disabled", "");
-            new Message(message).displayTo(sender);
+            this.getMessage("assaults.already-disabled").displayTo(sender);
 
         } else this.model.setAssaultsEnabled(false);
     }
@@ -257,11 +255,7 @@ public class CommandFK implements CommandExecutor {
     /*
         Command : /fk team
     */
-
-    // Command : /fk team
-    private void onTeamCommand(CommandSender sender, ConfigurationSection section, String[] args) {
-
-        ConfigurationSection teamSection = section.getConfigurationSection("team");
+    private void onTeamCommand(CommandSender sender, String[] args) {
 
         if(args.length < 2) {
             // TODO send help here.
@@ -270,25 +264,25 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the sender has the permission to use the command.
         if(!sender.hasPermission(Permission.COMMAND_FK_TEAM.get())) {
-            new Message(teamSection.getString("no-permission", "")).displayTo(sender);
+            this.getMessage("team.no-permission").displayTo(sender);
             return;
         }
 
         if(args[1].equalsIgnoreCase("add")) {
 
-            this.onTeamAddCommand(sender, teamSection, args);
+            this.onTeamAddCommand(sender, args);
 
         } else if(args[1].equalsIgnoreCase("remove")) {
 
-            this.onTeamRemoveCommand(sender, teamSection, args);
+            this.onTeamRemoveCommand(sender, args);
 
         } else ; // TODO Send usages here.
     }
 
-    // Command : /fk team add <player> <team>
-    private void onTeamAddCommand(CommandSender sender, ConfigurationSection section, String[] args) {
-
-        ConfigurationSection addSection = section.getConfigurationSection("add");
+    /*
+        Command : /fk team add <player> <team>
+    */
+    private void onTeamAddCommand(CommandSender sender, String[] args) {
 
         if(args.length != 4) {
             // TODO send help here.
@@ -299,12 +293,12 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the targeted player is valid.
         if(target == null) {
-            new Message(section.getString("player-not-found", "")).displayTo(sender);
+            this.getMessage("team.add.player-not-found").displayTo(sender);
             return;
         }
 
         if(this.model.hasTeam(target.getUniqueId())) {
-            new Message(addSection.getString("already-in-team", "")).displayTo(sender);
+            this.getMessage("team.add.already-in-team").displayTo(sender);
             return;
         }
 
@@ -312,7 +306,7 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the targeted team is valid.
         if(!optional.isPresent()) {
-            new Message(section.getString("team-not-found", "")).displayTo(sender);
+            this.getMessage("team.add.team-not-found").displayTo(sender);
             return;
         }
 
@@ -322,22 +316,19 @@ public class CommandFK implements CommandExecutor {
 
             FKTeamPlayer teamPlayer = this.controller.addTeam(gamePlayer, optional.get());
 
-            Message message = new Message(addSection.getString("player-added", ""));
-            message.addPlaceholder(PlaceholderEnum.PLAYER_NAME, target.getName());
-            message.addPlaceholder(FKPlaceholder.TEAM_NAME, teamPlayer.getTeam().getDisplayName());
+            Message message = this.getMessage("team.add.player-added");
+            message.addPlaceholder(PlaceholderEnum.PLAYER_NAME.get(), target.getName());
+            message.addPlaceholder(FKPlaceholder.TEAM_NAME.get(), teamPlayer.getTeam().getDisplayName());
 
             message.displayTo(sender);
 
-        } catch (GameException e) {
-
-            e.printStackTrace();
-        }
+        } catch (GameException e) { e.printStackTrace(); }
     }
 
-    // Command : /fk team remove <player>
-    private void onTeamRemoveCommand(CommandSender sender, ConfigurationSection section, String[] args) {
-
-        ConfigurationSection removeSection = section.getConfigurationSection("remove");
+    /*
+        Command : /fk team remove <player>
+    */
+    private void onTeamRemoveCommand(CommandSender sender, String[] args) {
 
         if(args.length != 3) {
             // TODO send help here.
@@ -348,12 +339,12 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the targeted player is valid.
         if(target == null) {
-            new Message(section.getString("player-not-found", "")).displayTo(sender);
+            this.getMessage("team.remove.player-not-found").displayTo(sender);
             return;
         }
 
         if(!this.model.hasTeam(target.getUniqueId())) {
-            new Message(removeSection.getString("not-in-team", "")).displayTo(sender);
+            this.getMessage("team.remove.not-in-team").displayTo(sender);
             return;
         }
 
@@ -363,9 +354,9 @@ public class CommandFK implements CommandExecutor {
 
             FKTeamPlayer teamPlayer = this.controller.removeTeam(gamePlayer);
 
-            Message message = new Message(removeSection.getString("player-removed", ""));
-            message.addPlaceholder(PlaceholderEnum.PLAYER_NAME, target.getName());
-            message.addPlaceholder(FKPlaceholder.TEAM_NAME, teamPlayer.getTeam().getDisplayName());
+            Message message = this.getMessage("team.remove.player-removed");
+            message.addPlaceholder(PlaceholderEnum.PLAYER_NAME.get(), target.getName());
+            message.addPlaceholder(FKPlaceholder.TEAM_NAME.get(), teamPlayer.getTeam().getDisplayName());
 
             message.displayTo(sender);
 
@@ -373,5 +364,10 @@ public class CommandFK implements CommandExecutor {
 
             e.printStackTrace();
         }
+    }
+
+    private Message getMessage(String key) {
+        Text text = this.service.getMessage("command-fk." + key, Text.class);
+        return new Message(text.getText());
     }
 }
