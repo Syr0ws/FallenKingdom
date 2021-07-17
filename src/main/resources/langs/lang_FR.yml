@@ -171,7 +171,7 @@ waiting-cycle:
   timer:
     10:
       message: "&eLa partie commence dans &610 secondes&e."
-      subtitle: "&eLa partie commence dans &610 secondes&e."
+      subtitle: "&eLa partie commence dans &610"
     3:
       message: "&eLa partie commence dans &63 secondes&e."
       subtitle: "&eLa partie commence dans &63"
