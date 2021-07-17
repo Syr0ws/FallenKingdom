@@ -95,6 +95,11 @@ allow-bed-respawn: true
 # The default value is 'AREA'.
 capture-type: "AREA"
 
+# This section contains all the settings about the capture type 'AREA'.
+area-capture:
+  # The time in seconds during which a player must stay in a base to capture it.
+  capture-duration: 5
+
 #############################################
 ###             CHAT SETTINGS             ###
 #############################################
@@ -274,3 +279,102 @@ game-cycle:
       message:
         type: "MESSAGE"
         text: "${game-cycle.timer.3540.message}"
+
+
+#############################################
+###               DISPLAYS                ###
+#############################################
+
+pvp:
+  enabled:
+    message:
+      type: "MESSAGE"
+      text: "${pvp.enabled.message}"
+    title:
+      type: "TITLE"
+      title: "${pvp.enabled.title}"
+      subtitle: "${pvp.enabled.subtitle}"
+  disabled:
+    message:
+      type: "MESSAGE"
+      text: "${pvp.disabled.message}"
+    title:
+      type: "TITLE"
+      title: "${pvp.disabled.title}"
+      subtitle: "${pvp.disabled.subtitle}"
+
+
+assaults:
+  enabled:
+    message:
+      type: "MESSAGE"
+      text: "${assaults.enabled.message}"
+    title:
+      type: "TITLE"
+      title: "${assaults.enabled.title}"
+      subtitle: "${assaults.enabled.subtitle}"
+  disabled:
+    message:
+      type: "MESSAGE"
+      text: "${assaults.disabled.message}"
+    title:
+      type: "TITLE"
+      title: "${assaults.disabled.title}"
+      subtitle: "${assaults.disabled.subtitle}"
+
+
+win:
+  all:
+    message:
+      type: "MESSAGE"
+      text: "${win.message}"
+  self:
+    title:
+      type: "TITLE"
+      title: "${win.self.title}"
+      subtitle: "${win.self.subtitle}"
+  other:
+    title:
+      type: "TITLE"
+      title: "${win.other.title}"
+      subtitle: "${win.other.subtitle}"
+
+
+on-base-capture-start:
+  self:
+    message:
+      type: "MESSAGE"
+      text: "${capture.start.self.message}"
+  captured-team:
+    message:
+      type: "MESSAGE"
+      text: "${capture.start.captured-team.message}"
+
+
+on-base-capture-stop:
+  self:
+    message:
+      type: "MESSAGE"
+      text: "${capture.stop.self.message}"
+  captured-team:
+    message:
+      type: "MESSAGE"
+      text: "${capture.captured-team.message}"
+
+
+on-base-captured:
+  self:
+    message:
+      type: "MESSAGE"
+      text: "${capture.base-captured.self.message}"
+  other:
+    message:
+      type: "MESSAGE"
+      text: "${capture.base-captured.other.message}"
+  captured-team:
+    message:
+      type: "MESSAGE"
+      text: "${capture.base-captured.captured-team.message}"
+    title:
+      type: "TITLE"
+      subtitle: "${capture.base-captured.captured-team.subtitle}"
