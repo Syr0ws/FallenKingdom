@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.tools;
 
-import com.github.syr0ws.universe.displays.impl.Message;
-import com.github.syr0ws.universe.displays.placeholders.Placeholder;
+import com.github.syr0ws.universe.displays.types.Message;
+import com.github.syr0ws.universe.placeholders.Placeholder;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
@@ -42,10 +42,10 @@ public class PeriodFormatter {
 
         Message message = new Message(string);
 
-        message.addPlaceholder(TimePlaceholder.DAY, this.getUnit(TimeUnit.DAY, values[0]));
-        message.addPlaceholder(TimePlaceholder.HOUR, this.getUnit(TimeUnit.HOUR, values[1]));
-        message.addPlaceholder(TimePlaceholder.MINUTE, this.getUnit(TimeUnit.MINUTE, values[2]));
-        message.addPlaceholder(TimePlaceholder.SECOND, this.getUnit(TimeUnit.SECOND, values[3]));
+        message.addPlaceholder(TimePlaceholder.DAY.get(), this.getUnit(TimeUnit.DAY, values[0]));
+        message.addPlaceholder(TimePlaceholder.HOUR.get(), this.getUnit(TimeUnit.HOUR, values[1]));
+        message.addPlaceholder(TimePlaceholder.MINUTE.get(), this.getUnit(TimeUnit.MINUTE, values[2]));
+        message.addPlaceholder(TimePlaceholder.SECOND.get(), this.getUnit(TimeUnit.SECOND, values[3]));
 
         return message.getText();
     }
