@@ -108,12 +108,12 @@ assaults:
 
 # This section contains all the texts related to teams.
 team:
-  # Texts sent when a player joins a team.
+  # Texts sent when a player is added to a team.
   add:
     # The text of the message sent in the chat.
     message: "&eVous avez &arejoint &el'équipe %team_name%&e."
-  # Texts sent when a player leaves a team.
-  leave:
+  # Texts sent when a player is removed from a team.
+  remove:
     # The text of the message sent in the chat.
     message: "&eVous avez &cquitté &el'équipe %team_name%&e."
 
