@@ -8,6 +8,7 @@ import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
 import com.github.syr0ws.fallenkingdom.listeners.GameBlockListener;
 import com.github.syr0ws.fallenkingdom.listeners.GameEliminationListener;
 import com.github.syr0ws.fallenkingdom.listeners.GamePlayerListener;
+import com.github.syr0ws.fallenkingdom.listeners.GameTeamWinListener;
 import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
 import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
@@ -115,6 +116,7 @@ public class GameRunningCycle extends GameCycle {
         manager.addListener(new GamePlayerListener(this.getGame()));
         manager.addListener(new GameBlockListener(this.getGame()));
         manager.addListener(new GameEliminationListener(this.getGame()));
+        manager.addListener(new GameTeamWinListener(this.manager));
     }
 
     private void setupNotifiers() {
