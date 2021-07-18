@@ -45,7 +45,7 @@ public class DisplayUtils {
         displays.forEach(display -> display.displayTo(player));
     }
 
-    public static void sendDisplays(Collection<Display> displays, Collection<Player> players) {
+    public static void sendDisplays(Collection<Display> displays, Collection<? extends Player> players) {
         players.forEach(player ->
                 displays.forEach(display -> display.displayTo(player)));
     }
