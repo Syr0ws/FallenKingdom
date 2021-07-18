@@ -323,6 +323,17 @@ assaults:
       subtitle: "${assaults.disabled.subtitle}"
 
 
+team:
+  add:
+    message:
+      type: "MESSAGE"
+      text: "${team.add.message}"
+  remove:
+    message:
+      type: "MESSAGE"
+      text: "${team.remove.message}"
+
+
 win:
   all:
     message:
