@@ -1,6 +1,5 @@
 package com.github.syr0ws.fallenkingdom.capture.area.listeners;
 
-import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.capture.area.displays.AreaDisplayEnum;
 import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStartEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStopEvent;
@@ -28,7 +27,7 @@ public class AreaCaptureListener implements Listener {
 
     private final DisplayManager manager;
 
-    public AreaCaptureListener(FKGame game, DisplayManager manager) {
+    public AreaCaptureListener(DisplayManager manager) {
 
         if(manager == null)
             throw new IllegalArgumentException("DisplayManager cannot be null.");
@@ -84,10 +83,11 @@ public class AreaCaptureListener implements Listener {
     public void onTeamBaseCaptureStart(TeamBaseCaptureStartEvent event) {
 
         FKTeam captured = event.getTeam();
+        FKTeam catcher = event.getCatcher();
 
         // Handling placeholders.
         Map<String, String> placeholders = new HashMap<>();
-        placeholders.put(FKPlaceholder.CAPTURED_TEAM_NAME.get(), captured.getDisplayName());
+        placeholders.put(FKPlaceholder.CATCHER_TEAM_NAME.get(), catcher.getDisplayName());
 
         // Retrieving displays.
         Collection<Display> displays = this.manager.getDisplays(AreaDisplayEnum.CAPTURE_START_CAPTURED_TEAM.getPath());
@@ -103,10 +103,11 @@ public class AreaCaptureListener implements Listener {
     public void onTeamBaseCaptureStop(TeamBaseCaptureStopEvent event) {
 
         FKTeam captured = event.getTeam();
+        FKTeam catcher = event.getCatcher();
 
         // Handling placeholders.
         Map<String, String> placeholders = new HashMap<>();
-        placeholders.put(FKPlaceholder.CAPTURED_TEAM_NAME.get(), captured.getDisplayName());
+        placeholders.put(FKPlaceholder.CATCHER_TEAM_NAME.get(), catcher.getDisplayName());
 
         // Retrieving displays.
         Collection<Display> displays = this.manager.getDisplays(AreaDisplayEnum.CAPTURE_STOP_CAPTURED_TEAM.getPath());

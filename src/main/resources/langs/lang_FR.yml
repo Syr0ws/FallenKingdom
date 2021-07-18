@@ -141,7 +141,7 @@ capture:
   # Texts sent when a capture starts.
   start:
     self:
-      message: "&6>> &eVous &acapturez la base de l'équipe %captured_team_name%&e."
+      message: "&6>> &eVous &acapturez &ela base de l'équipe %captured_team_name%&e."
     captured-team:
       message: "&6>> &eL'équipe %catcher_team_name% &ccapture &evotre base !"
   # Texts sent when a capture stops.

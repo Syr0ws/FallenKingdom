@@ -370,7 +370,7 @@ on-base-capture-stop:
   captured-team:
     message:
       type: "MESSAGE"
-      text: "${capture.captured-team.message}"
+      text: "${capture.stop.captured-team.message}"
 
 
 on-base-captured:

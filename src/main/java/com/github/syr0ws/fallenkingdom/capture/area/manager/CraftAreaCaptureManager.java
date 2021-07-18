@@ -3,10 +3,12 @@ package com.github.syr0ws.fallenkingdom.capture.area.manager;
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.capture.CaptureManager;
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
+import com.github.syr0ws.fallenkingdom.capture.area.displays.AreaDisplayEnum;
 import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStartEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.PlayerBaseCaptureStopEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStartEvent;
 import com.github.syr0ws.fallenkingdom.capture.area.events.TeamBaseCaptureStopEvent;
+import com.github.syr0ws.fallenkingdom.capture.area.listeners.AreaCaptureListener;
 import com.github.syr0ws.fallenkingdom.capture.area.model.AreaCapture;
 import com.github.syr0ws.fallenkingdom.capture.area.model.AreaModel;
 import com.github.syr0ws.fallenkingdom.capture.area.model.CraftAreaCaptureModel;
@@ -16,6 +18,8 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.utils.DisplayUtils;
+import com.github.syr0ws.universe.displays.DisplayManager;
 import com.github.syr0ws.universe.game.model.GameException;
 import com.github.syr0ws.universe.listeners.ListenerManager;
 import com.github.syr0ws.universe.settings.types.MutableSetting;
@@ -40,7 +44,9 @@ public class CraftAreaCaptureManager implements CaptureManager {
     private final FKController controller;
 
     private final CraftAreaCaptureModel captureModel;
+
     private final ListenerManager listenerManager;
+    private final DisplayManager displayManager;
 
     private CaptureTask task;
 
@@ -62,6 +68,8 @@ public class CraftAreaCaptureManager implements CaptureManager {
         CaptureSettingsAccessor settings = new CraftCaptureSettingAccessor(game.getConfig());
 
         this.captureModel = new CraftAreaCaptureModel(settings);
+
+        this.displayManager = this.loadDisplayManager();
         this.listenerManager = new ListenerManager(game);
     }
 
@@ -82,7 +90,7 @@ public class CraftAreaCaptureManager implements CaptureManager {
     public void enable() {
 
         this.listenerManager.addListener(new CaptureListener());
-        // this.listenerManager.addListener(new AreaCaptureListener(this.game.getLangService()));
+        this.listenerManager.addListener(new AreaCaptureListener(this.displayManager));
 
         this.startTask();
     }
@@ -147,6 +155,18 @@ public class CraftAreaCaptureManager implements CaptureManager {
             TeamBaseCaptureStopEvent teamBaseCaptureStopEvent = new TeamBaseCaptureStopEvent(capture.getCapturedTeam(), capture.getCatcherTeam());
             Bukkit.getPluginManager().callEvent(teamBaseCaptureStopEvent);
         }
+    }
+
+    private DisplayManager loadDisplayManager() {
+
+        // Creating manager.
+        DisplayManager manager = DisplayUtils.getDisplayManager(this.game);
+
+        // Loading displays.
+        for(AreaDisplayEnum value : AreaDisplayEnum.values())
+            manager.loadDisplays(value.getPath());
+
+        return manager;
     }
 
     private class CaptureListener implements Listener {
