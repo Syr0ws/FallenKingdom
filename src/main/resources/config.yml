@@ -388,4 +388,5 @@ on-base-captured:
       text: "${capture.base-captured.captured-team.message}"
     title:
       type: "TITLE"
+      title: "${capture.base-captured.captured-team.title}"
       subtitle: "${capture.base-captured.captured-team.subtitle}"
