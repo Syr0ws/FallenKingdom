@@ -51,7 +51,7 @@ public class SpectatorChat implements Chat {
 
         ModeType modeType = fkPlayer.getModeType();
 
-        return this.isChatAllowed() && this.model.isRunning() && modeType.equals(DefaultModeType.SPECTATOR);
+        return this.isChatAllowed() && modeType.equals(DefaultModeType.SPECTATOR);
     }
 
     @Override
