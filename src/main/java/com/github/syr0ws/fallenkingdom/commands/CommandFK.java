@@ -293,7 +293,7 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the targeted player is valid.
         if(target == null) {
-            this.getMessage("team.add.player-not-found").displayTo(sender);
+            this.getMessage("team.player-not-found").displayTo(sender);
             return;
         }
 
@@ -306,7 +306,7 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the targeted team is valid.
         if(!optional.isPresent()) {
-            this.getMessage("team.add.team-not-found").displayTo(sender);
+            this.getMessage("team.team-not-found").displayTo(sender);
             return;
         }
 
@@ -339,7 +339,7 @@ public class CommandFK implements CommandExecutor {
 
         // Checking if the targeted player is valid.
         if(target == null) {
-            this.getMessage("team.remove.player-not-found").displayTo(sender);
+            this.getMessage("team.player-not-found").displayTo(sender);
             return;
         }
 
