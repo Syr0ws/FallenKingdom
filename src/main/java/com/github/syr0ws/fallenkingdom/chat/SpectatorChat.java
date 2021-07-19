@@ -39,7 +39,7 @@ public class SpectatorChat implements Chat {
 
         // Displaying the message to all the spectators.
         this.model.getOnlinePlayers().stream()
-                .filter(gamePlayer -> !gamePlayer.isPlaying())
+                .filter(gamePlayer -> gamePlayer.getModeType().equals(DefaultModeType.SPECTATOR))
                 .forEach(gamePlayer -> msg.displayTo(gamePlayer.getPlayer()));
     }
 
