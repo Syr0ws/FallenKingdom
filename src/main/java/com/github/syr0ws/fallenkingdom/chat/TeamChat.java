@@ -63,6 +63,8 @@ public class TeamChat implements Chat {
 
         if(!this.isChatAllowed()) return false;
 
+        if(!this.model.isRunning()) return false;
+
         Player player = message.getPlayer();
         FKPlayer fkPlayer = this.model.getPlayer(player.getUniqueId());
 
