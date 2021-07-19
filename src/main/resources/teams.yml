@@ -44,140 +44,139 @@ teams:
     display-name: "Bleu"
     color: "BLUE"
     base:
-      x1: 106
+      x1: -97
       y1: 0
-      z1: 66
-      x2: 108
+      z1: -47
+      x2: -119
       y2: 256
-      z2: 64
-      world: "world"
-    vault:
-      x1: 107
-      y1: 0
-      z1: 65
-      x2: 107
-      y2: 256
-      z2: 65
+      z2: -69
       world: "world"
     spawn:
-      x: 107.5
-      y: 130.0
-      z: 65.5
+      x: -108.5
+      y: 120
+      z: -58.5
       yaw: -90
       pitch: 0
       world: "world"
+    vault:
+      x1: -106
+      y1: 0
+      z1: -60
+      x2: -110
+      y2: 256
+      z2: -56
+      world: "world"
     capturable:
       area:
-        x1: 107
+        x1: -106
         y1: 0
-        z1: 65
-        x2: 107
+        z1: -60
+        x2: -110
         y2: 256
-        z2: 65
+        z2: -56
         world: "world"
   red:
     display-name: "Rouge"
     color: "RED"
     base:
-      x1: 106
+      x1: 228
       y1: 0
-      z1: 60
-      x2: 108
+      z1: 220
+      x2: 250
       y2: 256
-      z2: 58
-      world: "world"
-    vault:
-      x1: 107
-      y1: 0
-      z1: 59
-      x2: 107
-      y2: 256
-      z2: 59
+      z2: 242
       world: "world"
     spawn:
-      x: 107.5
-      y: 130.0
-      z: 59.5
+      x: 239.5
+      y: 127
+      z: 231.5
       yaw: -90
       pitch: 0
       world: "world"
+    vault:
+      x1: 241
+      y1: 0
+      z1: 233
+      x2: 237
+      y2: 256
+      z2: 229
+      world: "world"
     capturable:
       area:
-        x1: 107
+        x1: 241
         y1: 0
-        z1: 59
-        x2: 107
+        z1: 233
+        x2: 237
         y2: 256
-        z2: 59
+        z2: 229
         world: "world"
   yellow:
     display-name: "Jaune"
     color: "YELLOW"
     base:
-      x1: 112
+      x1: -69
       y1: 0
-      z1: 66
-      x2: 114
+      z1: 215
+      x2: -91
       y2: 256
-      z2: 64
+      z2: 237
       world: "world"
     vault:
-      x1: 113
+      x1: -82
       y1: 0
-      z1: 65
-      x2: 113
+      z1: 224
+      x2: -78
       y2: 256
-      z2: 65
+      z2: 228
       world: "world"
     spawn:
-      x: 113.5
-      y: 130.0
-      z: 65.5
+      x: -80.5
+      y: 127
+      z: 226.5
       yaw: -90
       pitch: 0
       world: "world"
     capturable:
       area:
-        x1: 113
+        x1: -82
         y1: 0
-        z1: 65
-        x2: 113
+        z1: 224
+        x2: -78
         y2: 256
-        z2: 65
+        z2: 228
         world: "world"
   green:
     display-name: "Verte"
     color: "GREEN"
     base:
-      x1: 112
+      x1: 212
       y1: 0
-      z1: 58
-      x2: 114
+      z1: -98
+      x2: 234
       y2: 256
-      z2: 60
+      z2: -76
       world: "world"
     vault:
-      x1: 113
+      x1: 225
       y1: 0
-      z1: 59
-      x2: 113
+      z1: -85
+      x2: 221
       y2: 256
-      z2: 59
+      z2: -89
       world: "world"
     spawn:
-      x: 113.5
-      y: 130.0
-      z: 59.5
+      x: 223.5
+      y: 124
+      z: -87.5
       yaw: -90
       pitch: 0
       world: "world"
     capturable:
       area:
-        x1: 113
+        x1: 225
         y1: 0
-        z1: 59
-        x2: 113
+        z1: -85
+        x2: 221
         y2: 256
-        z2: 59
+        z2: -89
         world: "world"
-
