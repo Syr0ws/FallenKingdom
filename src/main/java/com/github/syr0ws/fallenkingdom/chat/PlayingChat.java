@@ -8,6 +8,7 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.displays.types.Message;
 import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
+import com.github.syr0ws.universe.game.model.mode.ModeType;
 import com.github.syr0ws.universe.modules.chat.Chat;
 import com.github.syr0ws.universe.modules.chat.ChatException;
 import com.github.syr0ws.universe.modules.chat.ChatMessage;
@@ -64,7 +65,9 @@ public class PlayingChat implements Chat {
         Player player = message.getPlayer();
         FKPlayer fkPlayer = this.model.getPlayer(player.getUniqueId());
 
-        return this.isChatAllowed() && this.model.isRunning() && fkPlayer.getModeType().equals(DefaultModeType.PLAYING);
+        ModeType modeType = fkPlayer.getModeType();
+
+        return this.isChatAllowed() && this.model.isRunning() && modeType.equals(DefaultModeType.PLAYING);
     }
 
     @Override
