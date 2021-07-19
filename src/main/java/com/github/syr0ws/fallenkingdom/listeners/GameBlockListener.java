@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -78,6 +79,13 @@ public class GameBlockListener implements Listener {
                 .anyMatch(cuboid -> cuboid.isIn(block.getLocation())); // Checking if the broken block is in an enemy base.
 
         if(inEnemyBase) event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityExplode(EntityExplodeEvent event) {
+
+        // Cancelling explosions if assaults are disabled.
+        if(!this.model.areAssaultsEnabled()) event.blockList().clear();
     }
 
     private boolean isBlockAllowed(Block block) {
