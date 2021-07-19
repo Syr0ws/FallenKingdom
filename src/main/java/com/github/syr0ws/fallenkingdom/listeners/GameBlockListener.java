@@ -84,8 +84,13 @@ public class GameBlockListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityExplode(EntityExplodeEvent event) {
 
-        // Cancelling explosions if assaults are disabled.
-        if(!this.model.areAssaultsEnabled()) event.blockList().clear();
+        if(this.model.areAssaultsEnabled()) return;
+
+        // Cancelling damages.
+        event.setCancelled(true);
+
+        // Cancelling block explosions.
+        event.blockList().clear();
     }
 
     private boolean isBlockAllowed(Block block) {
