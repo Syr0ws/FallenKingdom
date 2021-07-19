@@ -41,9 +41,14 @@ public class GameWaitingCycle extends GameCycle {
         super.getListenerManager().removeListeners();
     }
 
+    @Override
+    public FKGame getGame() {
+        return (FKGame) super.getGame();
+    }
+
     private void registerListeners() {
 
         ListenerManager manager = super.getListenerManager();
-        manager.addListener(new WaitingCycleListener(this.controller, this.model));
+        manager.addListener(new WaitingCycleListener(this.controller, this.model, this.getGame().getLangService()));
     }
 }

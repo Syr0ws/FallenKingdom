@@ -66,6 +66,9 @@ command-fk:
       player-removed: "&6%player% &ea été &cretiré &ede l'équipe %team_name%&e."
 
 
+# Text sent when a player is kicked because the game is full.
+kick-full: "&cLa partie est complète."
+
 # This section contains all the texts related to pvp.
 pvp:
   # Texts sent when the pvp is enabled.

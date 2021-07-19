@@ -82,7 +82,7 @@ public class GameStartingCycle extends GameCycle {
     private void registerListeners() {
 
         ListenerManager manager = super.getListenerManager();
-        manager.addListener(new WaitingCycleListener(this.controller, this.model));
+        manager.addListener(new WaitingCycleListener(this.controller, this.model, this.getGame().getLangService()));
     }
 
     private void startTask() {
