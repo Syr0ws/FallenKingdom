@@ -41,7 +41,7 @@ public class WaitingChat implements Chat {
 
     @Override
     public boolean canSend(ChatMessage chatMessage) {
-        return this.isChatAllowed() && this.model.isWaiting();
+        return this.isChatAllowed() && !this.model.isStarted();
     }
 
     @Override
