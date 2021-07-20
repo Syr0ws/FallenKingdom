@@ -246,8 +246,8 @@ public class CraftAreaCaptureManager implements CaptureManager {
 
                 FKTeam team = optionalTeamTo.get();
 
-                // If the team is already eliminated, do no do anything.
-                if(team.isEliminated()) return;
+                // A team without base or already eliminated cannot be captured.
+                if(team.hasBaseCaptured() || team.isEliminated()) return;
 
                 try { onCaptureStart(optionalTeamTo.get(), teamPlayer);
                 } catch (GameException e) { e.printStackTrace(); }
