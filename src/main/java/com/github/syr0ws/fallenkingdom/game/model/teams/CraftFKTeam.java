@@ -93,6 +93,11 @@ public class CraftFKTeam implements FKTeam {
     }
 
     @Override
+    public boolean hasBaseCaptured() {
+        return this.state == TeamState.BASE_CAPTURED;
+    }
+
+    @Override
     public boolean contains(UUID uuid) {
         return this.players.containsKey(uuid);
     }

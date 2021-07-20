@@ -19,6 +19,8 @@ public interface FKTeam {
 
     boolean isEliminated();
 
+    boolean hasBaseCaptured();
+
     boolean contains(UUID uuid);
 
     boolean contains(FKTeamPlayer player);
