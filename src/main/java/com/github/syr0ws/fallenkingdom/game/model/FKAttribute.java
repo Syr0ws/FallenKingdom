@@ -4,5 +4,5 @@ import com.github.syr0ws.universe.sdk.attributes.Attribute;
 
 public enum FKAttribute implements Attribute {
 
-    PVP_STATE, ASSAULTS_STATE;
+    PVP_STATE, ASSAULTS_STATE, NETHER_STATE, END_STATE;
 }

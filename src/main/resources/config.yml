@@ -73,6 +73,20 @@ pvp-activation-time: 5
 # Default value is 3600 (1 hour).
 assaults-activation-time: 10
 
+# Time in seconds before nether activation.
+# Default value is 900 (15 minutes).
+nether-activation-time: 900
+
+# Time in seconds before end activation.
+# Default value is 1800 (30 minutes).
+end-activation-time: 1800
+
+# Set 'true' if you want to allow players to go to the nether or else set 'false'.
+allow-nether: true
+
+# Set 'true' if you want to allow players to go to the end or else set 'false'.
+allow-end: true
+
 # The maximum duration in seconds of a game. After this time, the current game
 # will be stopped and the remaining teams will be declared equal.
 # Default value is 10800 (3 hours).

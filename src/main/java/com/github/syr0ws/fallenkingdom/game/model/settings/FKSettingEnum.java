@@ -44,6 +44,44 @@ public enum FKSettingEnum implements SettingType {
         }
     },
 
+    NETHER_ACTIVATION_TIME {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("netherActivationTime", 900, "nether-activation-time", Integer.class)
+                    .withFilter(value -> value >= 0)
+                    .build();
+        }
+    },
+
+    END_ACTIVATION_TIME {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("endActivationTime", 1800, "end-activation-time", Integer.class)
+                    .withFilter(value -> value >= 0)
+                    .build();
+        }
+    },
+
+    ALLOW_END {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("allowNether", false, "allow-nether", Boolean.class)
+                    .build();
+        }
+    },
+
+    ALLOW_NETHER {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("allowEnd", false, "allow-end", Boolean.class)
+                    .build();
+        }
+    },
+
     CATCHER_PERCENTAGE {
         @Override
         public Setting<?> getSetting() {

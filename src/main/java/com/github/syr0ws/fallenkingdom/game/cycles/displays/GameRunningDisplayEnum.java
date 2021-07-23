@@ -6,6 +6,10 @@ public enum GameRunningDisplayEnum {
     PVP_DISABLED("pvp.disabled"),
     ASSAULTS_ENABLED("assaults.enabled"),
     ASSAULTS_DISABLED("assaults.disabled"),
+    NETHER_ENABLED("nether.enabled"),
+    NETHER_DISABLED("nether.enabled"),
+    END_ENABLED("end.enabled"),
+    END_DISABLED("end.disabled"),
     WIN_ALL("win.all"),
     WIN_SELF("win.self"),
     WIN_OTHER("win.other");
