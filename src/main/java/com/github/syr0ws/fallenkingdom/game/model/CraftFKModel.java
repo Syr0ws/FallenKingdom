@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public class CraftFKModel extends DefaultGameModel implements FKModel {
 
     private final List<CraftFKTeam> teams;
-    private boolean pvp, assaults;
+    private boolean pvp, assaults, nether, end;
 
     public CraftFKModel(FKSettings settings, List<CraftFKTeam> teams) {
         super(settings);
@@ -80,6 +80,16 @@ public class CraftFKModel extends DefaultGameModel implements FKModel {
     }
 
     @Override
+    public void setNetherEnabled(boolean enabled) {
+        this.nether = enabled;
+    }
+
+    @Override
+    public void setEndEnabled(boolean enabled) {
+        this.end = enabled;
+    }
+
+    @Override
     public boolean isPvPEnabled() {
         return this.pvp;
     }
@@ -87,6 +97,16 @@ public class CraftFKModel extends DefaultGameModel implements FKModel {
     @Override
     public boolean areAssaultsEnabled() {
         return this.assaults;
+    }
+
+    @Override
+    public boolean isNetherEnabled() {
+        return this.nether;
+    }
+
+    @Override
+    public boolean isEndEnabled() {
+        return this.end;
     }
 
     @Override

@@ -19,9 +19,17 @@ public interface FKModel extends GameModel {
 
     void setAssaultsEnabled(boolean enabled);
 
+    void setNetherEnabled(boolean enabled);
+
+    void setEndEnabled(boolean enabled);
+
     boolean isPvPEnabled();
 
     boolean areAssaultsEnabled();
+
+    boolean isNetherEnabled();
+
+    boolean isEndEnabled();
 
     FKSettings getSettings();
 
