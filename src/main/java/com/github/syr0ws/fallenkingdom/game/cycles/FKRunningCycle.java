@@ -5,10 +5,7 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.cycles.displays.GameRunningDisplayEnum;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
-import com.github.syr0ws.fallenkingdom.listeners.FKBlockListener;
-import com.github.syr0ws.fallenkingdom.listeners.FKEliminationListener;
-import com.github.syr0ws.fallenkingdom.listeners.FKPlayerListener;
-import com.github.syr0ws.fallenkingdom.listeners.FKTeamWinListener;
+import com.github.syr0ws.fallenkingdom.listeners.*;
 import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
 import com.github.syr0ws.universe.commons.cycle.types.RunningCycle;
@@ -111,6 +108,7 @@ public class FKRunningCycle extends RunningCycle {
 
         ListenerManager manager = super.getListenerManager();
 
+        manager.addListener(new FKGameListener(this.getModel()));
         manager.addListener(new FKPlayerListener(this.getGame()));
         manager.addListener(new FKBlockListener(this.getGame()));
         manager.addListener(new FKEliminationListener(this.getGame()));
