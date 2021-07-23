@@ -7,11 +7,11 @@ import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.tools.Permission;
-import com.github.syr0ws.universe.displays.types.Message;
-import com.github.syr0ws.universe.game.model.GameException;
-import com.github.syr0ws.universe.modules.lang.LangService;
-import com.github.syr0ws.universe.modules.lang.messages.impl.Text;
-import com.github.syr0ws.universe.placeholders.PlaceholderEnum;
+import com.github.syr0ws.universe.commons.modules.lang.LangService;
+import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.commons.placeholders.PlaceholderEnum;
+import com.github.syr0ws.universe.sdk.displays.types.Message;
+import com.github.syr0ws.universe.sdk.game.model.GameException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -310,7 +310,7 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        FKPlayer gamePlayer = this.model.getPlayer(target.getUniqueId());
+        FKPlayer gamePlayer = this.model.getFKPlayer(target.getUniqueId());
 
         try {
 
@@ -348,7 +348,7 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        FKPlayer gamePlayer = this.model.getPlayer(target.getUniqueId());
+        FKPlayer gamePlayer = this.model.getFKPlayer(target.getUniqueId());
 
         try {
 

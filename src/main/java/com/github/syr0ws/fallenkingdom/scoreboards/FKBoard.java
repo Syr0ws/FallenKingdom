@@ -1,10 +1,10 @@
 package com.github.syr0ws.fallenkingdom.scoreboards;
 
-import com.github.syr0ws.universe.modules.lang.LangService;
-import com.github.syr0ws.universe.modules.lang.messages.impl.Text;
-import com.github.syr0ws.universe.modules.lang.messages.impl.TextList;
-import com.github.syr0ws.universe.modules.scoreboard.ScoreboardManager;
-import com.github.syr0ws.universe.modules.scoreboard.impl.AbstractScoreboard;
+import com.github.syr0ws.universe.commons.modules.lang.LangService;
+import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.commons.modules.lang.messages.impl.TextList;
+import com.github.syr0ws.universe.commons.modules.scoreboard.ScoreboardManager;
+import com.github.syr0ws.universe.commons.modules.scoreboard.impl.AbstractScoreboard;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.entity.Player;
 

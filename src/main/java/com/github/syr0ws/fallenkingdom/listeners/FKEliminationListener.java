@@ -7,10 +7,10 @@ import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamState;
-import com.github.syr0ws.universe.game.model.GameException;
-import com.github.syr0ws.universe.game.model.GamePlayer;
-import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
-import com.github.syr0ws.universe.modules.combat.events.GamePlayerDeathEvent;
+import com.github.syr0ws.universe.commons.mode.DefaultModeType;
+import com.github.syr0ws.universe.commons.modules.combat.events.GamePlayerDeathEvent;
+import com.github.syr0ws.universe.sdk.game.model.GameException;
+import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,13 +19,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Optional;
 
-public class GameEliminationListener implements Listener {
+public class FKEliminationListener implements Listener {
 
     private final FKGame game;
     private final FKModel model;
     private final FKController controller;
 
-    public GameEliminationListener(FKGame game) {
+    public FKEliminationListener(FKGame game) {
 
         if(game == null)
             throw new IllegalArgumentException("FKGame cannot be null.");
@@ -77,6 +77,9 @@ public class GameEliminationListener implements Listener {
 
         // Setting player in spectator mode.
         this.controller.setMode(gamePlayer, DefaultModeType.SPECTATOR);
+
+        // Teleporting player.
+        if(gamePlayer.isOnline()) gamePlayer.getPlayer().teleport(this.model.getSpawn());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

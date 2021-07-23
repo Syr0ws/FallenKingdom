@@ -45,6 +45,17 @@ vault-blocks:
   - ENDER_CHEST
   - SHULKER_BOX
 
+# The minimum number of players required to start a game. Must be greater or equals than 2.
+min-players: 2
+
+# The minimum number of players required to start a game automatically. Must be greater or equals than 2.
+min-players-for-auto-start: 2
+
+# Set 'true' if you want to allow the plugin to start the game automatically when there is the
+# required number of online players. If 'false' is set, the game can only be launched using the
+# '/fk start' command.
+auto-start: true
+
 # The maximum number of players who can play in the same game.
 max-players: 16
 

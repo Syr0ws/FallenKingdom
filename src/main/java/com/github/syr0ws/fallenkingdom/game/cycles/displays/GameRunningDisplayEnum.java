@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.game.model.cycles.displays;
+package com.github.syr0ws.fallenkingdom.game.cycles.displays;
 
 public enum GameRunningDisplayEnum {
 

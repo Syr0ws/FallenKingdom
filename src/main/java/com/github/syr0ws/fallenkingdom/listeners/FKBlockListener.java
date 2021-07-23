@@ -2,10 +2,10 @@ package com.github.syr0ws.fallenkingdom.listeners;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamBase;
-import com.github.syr0ws.universe.settings.types.MutableSetting;
+import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,12 +20,12 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import java.util.List;
 import java.util.Optional;
 
-public class GameBlockListener implements Listener {
+public class FKBlockListener implements Listener {
 
     private final FKGame game;
     private final FKModel model;
 
-    public GameBlockListener(FKGame game) {
+    public FKBlockListener(FKGame game) {
 
         if(game == null)
             throw new IllegalArgumentException("FKGame cannot be null.");
@@ -95,7 +95,7 @@ public class GameBlockListener implements Listener {
 
     private boolean isBlockAllowed(Block block) {
 
-        SettingAccessor accessor = this.model.getSettings();
+        FKSettings accessor = this.model.getSettings();
         MutableSetting<List<Material>> setting = accessor.getAllowedBlocksSetting();
 
         return setting.getValue().contains(block.getType());

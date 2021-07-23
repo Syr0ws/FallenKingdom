@@ -1,36 +1,35 @@
-package com.github.syr0ws.fallenkingdom.game.model.cycles;
+package com.github.syr0ws.fallenkingdom.game.cycles;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
+import com.github.syr0ws.fallenkingdom.game.cycles.displays.GameRunningDisplayEnum;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.displays.GameRunningDisplayEnum;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
-import com.github.syr0ws.fallenkingdom.listeners.GameBlockListener;
-import com.github.syr0ws.fallenkingdom.listeners.GameEliminationListener;
-import com.github.syr0ws.fallenkingdom.listeners.GamePlayerListener;
-import com.github.syr0ws.fallenkingdom.listeners.GameTeamWinListener;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
+import com.github.syr0ws.fallenkingdom.listeners.FKBlockListener;
+import com.github.syr0ws.fallenkingdom.listeners.FKEliminationListener;
+import com.github.syr0ws.fallenkingdom.listeners.FKPlayerListener;
+import com.github.syr0ws.fallenkingdom.listeners.FKTeamWinListener;
 import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
-import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
-import com.github.syr0ws.fallenkingdom.timer.TimerUtils;
-import com.github.syr0ws.fallenkingdom.utils.DisplayUtils;
-import com.github.syr0ws.universe.Game;
-import com.github.syr0ws.universe.attributes.AttributeObserver;
-import com.github.syr0ws.universe.displays.DisplayManager;
-import com.github.syr0ws.universe.game.model.cycle.GameCycle;
-import com.github.syr0ws.universe.game.model.cycle.GameCycleTask;
-import com.github.syr0ws.universe.listeners.ListenerManager;
-import com.github.syr0ws.universe.settings.Setting;
-import com.github.syr0ws.universe.tools.Task;
+import com.github.syr0ws.universe.commons.cycle.types.RunningCycle;
+import com.github.syr0ws.universe.sdk.Game;
+import com.github.syr0ws.universe.sdk.attributes.AttributeObserver;
+import com.github.syr0ws.universe.sdk.displays.DisplayManager;
+import com.github.syr0ws.universe.sdk.displays.DisplayUtils;
+import com.github.syr0ws.universe.sdk.game.controller.GameController;
+import com.github.syr0ws.universe.sdk.game.cycle.GameCycleTask;
+import com.github.syr0ws.universe.sdk.game.model.GameModel;
+import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
+import com.github.syr0ws.universe.sdk.settings.Setting;
+import com.github.syr0ws.universe.sdk.timer.TimerActionManager;
+import com.github.syr0ws.universe.sdk.timer.TimerUtils;
+import com.github.syr0ws.universe.sdk.tools.Task;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameRunningCycle extends GameCycle {
-
-    private final FKController controller;
-    private final FKModel model;
+public class FKRunningCycle extends RunningCycle {
 
     private final DisplayManager manager;
     private final TimerActionManager actionManager;
@@ -38,21 +37,13 @@ public class GameRunningCycle extends GameCycle {
 
     private Task task;
 
-    public GameRunningCycle(FKGame game, FKController controller, FKModel model) {
-        super(game);
-
-        if(controller == null)
-            throw new IllegalArgumentException("FKController cannot be null.");
-
-        if(model == null)
-            throw new IllegalArgumentException("FKModel cannot be null.");
-
-        this.controller = controller;
-        this.model = model;
+    public FKRunningCycle(Game game, GameModel model, GameController controller) {
+        super(game, model, controller);
 
         this.manager = DisplayUtils.getDisplayManager(this.getGame());
         this.actionManager = new TimerActionManager();
     }
+
 
     @Override
     public void load() {
@@ -62,7 +53,7 @@ public class GameRunningCycle extends GameCycle {
         this.registerListeners();
 
         // Handling captures.
-        this.controller.getCaptureManager().enable();
+        this.getController().getCaptureManager().enable();
 
         // Loading actions.
         this.loadActions();
@@ -78,14 +69,11 @@ public class GameRunningCycle extends GameCycle {
     public void unload() {
         super.unload();
 
-        // Unregistering listeners.
-        super.getListenerManager().removeListeners();
-
         // Handling captures.
-        this.controller.getCaptureManager().disable();
+        this.getController().getCaptureManager().disable();
 
         // Removing notifiers.
-        this.notifiers.forEach(this.model::removeObserver);
+        this.notifiers.forEach(this.getModel()::removeObserver);
     }
 
     @Override
@@ -109,24 +97,36 @@ public class GameRunningCycle extends GameCycle {
         return (FKGame) super.getGame();
     }
 
+    @Override
+    public FKModel getModel() {
+        return (FKModel) super.getModel();
+    }
+
+    @Override
+    public FKController getController() {
+        return (FKController) super.getController();
+    }
+
     private void registerListeners() {
 
         ListenerManager manager = super.getListenerManager();
 
-        manager.addListener(new GamePlayerListener(this.getGame()));
-        manager.addListener(new GameBlockListener(this.getGame()));
-        manager.addListener(new GameEliminationListener(this.getGame()));
-        manager.addListener(new GameTeamWinListener(this.manager));
+        manager.addListener(new FKPlayerListener(this.getGame()));
+        manager.addListener(new FKBlockListener(this.getGame()));
+        manager.addListener(new FKEliminationListener(this.getGame()));
+        manager.addListener(new FKTeamWinListener(this.manager));
     }
 
     private void setupNotifiers() {
 
+        FKModel model = this.getModel();
+
         // Storing notifiers to unregister them later.
-        this.notifiers.add(new PvPNotifier(this.model, this.manager));
-        this.notifiers.add(new AssaultsNotifier(this.model, this.manager));
+        this.notifiers.add(new PvPNotifier(model, this.manager));
+        this.notifiers.add(new AssaultsNotifier(model, this.manager));
 
         // Observing the model.
-        this.notifiers.forEach(this.model::addObserver);
+        this.notifiers.forEach(model::addObserver);
     }
 
     private void startTask() {
@@ -141,18 +141,20 @@ public class GameRunningCycle extends GameCycle {
 
     private void loadActions() {
 
+        FKModel model = this.getModel();
+
         TimerActionManager actionManager = this.actionManager;
 
         // Retrieving settings.
-        SettingAccessor accessor = this.model.getSettings();
+        FKSettings accessor = model.getSettings();
 
         Setting<Integer> pvpSetting = accessor.getPvPActivationTimeSetting();
         Setting<Integer> assaultsSetting = accessor.getAssaultsActivationTimeSetting();
         Setting<Integer> maxDurationSetting = accessor.getMaxGameDurationSetting();
 
         // Setting actions.
-        actionManager.addAction(pvpSetting.getValue(), () -> this.model.setPvPEnabled(true));
-        actionManager.addAction(assaultsSetting.getValue(), () -> this.model.setAssaultsEnabled(true));
+        actionManager.addAction(pvpSetting.getValue(), () -> model.setPvPEnabled(true));
+        actionManager.addAction(assaultsSetting.getValue(), () -> model.setAssaultsEnabled(true));
         actionManager.addAction(maxDurationSetting.getValue(), this::done);
 
         // Adding display actions.
@@ -178,16 +180,18 @@ public class GameRunningCycle extends GameCycle {
         @Override
         public void run() {
 
-            int time = GameRunningCycle.this.model.getTime();
+            FKModel model = FKRunningCycle.this.getModel();
+
+            int time = model.getTime();
 
             // Executing action for the current time.
-            GameRunningCycle.this.actionManager.executeActions(time);
+            FKRunningCycle.this.actionManager.executeActions(time);
 
             // Removing the action because it will no longer be used.
-            GameRunningCycle.this.actionManager.removeActions(time);
+            FKRunningCycle.this.actionManager.removeActions(time);
 
             // Adding time to the model.
-            GameRunningCycle.this.model.addTime();
+            model.addTime();
         }
     }
 }

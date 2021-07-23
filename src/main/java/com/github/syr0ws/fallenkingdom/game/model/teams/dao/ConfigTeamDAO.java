@@ -4,11 +4,11 @@ import com.github.syr0ws.fallenkingdom.capture.Capturable;
 import com.github.syr0ws.fallenkingdom.capture.CapturableDAO;
 import com.github.syr0ws.fallenkingdom.capture.CaptureDAOFactory;
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.*;
-import com.github.syr0ws.universe.settings.types.MutableSetting;
-import com.github.syr0ws.universe.tools.Cuboid;
-import com.github.syr0ws.universe.utils.LocationUtils;
+import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
+import com.github.syr0ws.universe.sdk.tools.Cuboid;
+import com.github.syr0ws.universe.sdk.utils.LocationUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -27,9 +27,9 @@ public class ConfigTeamDAO implements TeamDAO<CraftFKTeam> {
     private static final String TEAM_FILE_NAME = "teams.yml";
 
     private final Plugin plugin;
-    private final SettingAccessor accessor;
+    private final FKSettings accessor;
 
-    public ConfigTeamDAO(Plugin plugin, SettingAccessor accessor) {
+    public ConfigTeamDAO(Plugin plugin, FKSettings accessor) {
         this.plugin = plugin;
         this.accessor = accessor;
     }

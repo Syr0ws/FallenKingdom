@@ -1,17 +1,13 @@
 package com.github.syr0ws.fallenkingdom.game.model.settings;
 
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
-import com.github.syr0ws.universe.settings.types.MutableSetting;
-import org.bukkit.Location;
+import com.github.syr0ws.universe.commons.settings.GameSettings;
+import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
 import org.bukkit.Material;
 
 import java.util.List;
 
-public interface SettingAccessor {
-
-    MutableSetting<Integer> getMaxPlayersSetting();
-
-    MutableSetting<Integer> getMaxSpectatorsSetting();
+public interface FKSettings extends GameSettings {
 
     MutableSetting<Boolean> getKickEliminatedSetting();
 
@@ -19,17 +15,7 @@ public interface SettingAccessor {
 
     MutableSetting<Integer> getAssaultsActivationTimeSetting();
 
-    MutableSetting<Integer> getMaxGameDurationSetting();
-
     MutableSetting<Integer> getStartingCycleDurationSetting();
-
-    MutableSetting<Boolean> getAllowWaitingChatSetting();
-
-    MutableSetting<String> getWaitingChatFormatSetting();
-
-    MutableSetting<Boolean> getAllowGameChatSetting();
-
-    MutableSetting<String> getGameChatFormatSetting();
 
     MutableSetting<Boolean> getAllowTeamChatSetting();
 
@@ -37,15 +23,9 @@ public interface SettingAccessor {
 
     MutableSetting<String> getTeamChatFormatSetting();
 
-    MutableSetting<Boolean> getAllowSpectatorChatSetting();
-
-    MutableSetting<String> getSpectatorChatFormatSetting();
-
     MutableSetting<Boolean> getFriendlyFireSetting();
 
     MutableSetting<Boolean> getEliminateOnCaptureSetting();
-
-    MutableSetting<Location> getGameSpawnSetting();
 
     MutableSetting<List<Material>> getAllowedBlocksSetting();
 

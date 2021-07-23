@@ -1,19 +1,19 @@
 package com.github.syr0ws.fallenkingdom.chat;
 
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
-import com.github.syr0ws.universe.displays.types.Message;
-import com.github.syr0ws.universe.modules.chat.Chat;
-import com.github.syr0ws.universe.modules.chat.ChatMessage;
-import com.github.syr0ws.universe.modules.chat.ChatPriority;
-import com.github.syr0ws.universe.placeholders.PlaceholderEnum;
-import com.github.syr0ws.universe.settings.types.MutableSetting;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
+import com.github.syr0ws.universe.commons.modules.chat.Chat;
+import com.github.syr0ws.universe.commons.modules.chat.ChatMessage;
+import com.github.syr0ws.universe.commons.modules.chat.ChatPriority;
+import com.github.syr0ws.universe.commons.placeholders.PlaceholderEnum;
+import com.github.syr0ws.universe.sdk.displays.types.Message;
+import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
 import org.bukkit.Bukkit;
 
 public class WaitingChat implements Chat {
 
     private final FKModel model;
-    private final SettingAccessor settings;
+    private final FKSettings settings;
 
     public WaitingChat(FKModel model) {
 

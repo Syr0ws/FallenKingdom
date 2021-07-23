@@ -1,10 +1,10 @@
 package com.github.syr0ws.fallenkingdom.capture.area.settings;
 
-import com.github.syr0ws.universe.settings.dao.ConfigSettingLoader;
-import com.github.syr0ws.universe.settings.dao.SettingLoader;
-import com.github.syr0ws.universe.settings.manager.CacheSettingManager;
-import com.github.syr0ws.universe.settings.manager.SettingManager;
-import com.github.syr0ws.universe.settings.types.MutableSetting;
+import com.github.syr0ws.universe.sdk.settings.dao.ConfigSettingLoader;
+import com.github.syr0ws.universe.sdk.settings.dao.SettingLoader;
+import com.github.syr0ws.universe.sdk.settings.manager.CacheSettingManager;
+import com.github.syr0ws.universe.sdk.settings.manager.SettingManager;
+import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class CraftCaptureSettingAccessor implements CaptureSettingsAccessor {

@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
-import com.github.syr0ws.universe.displays.Display;
-import com.github.syr0ws.universe.game.model.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
+import com.github.syr0ws.universe.sdk.displays.Display;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -37,7 +37,7 @@ public class CraftFKTeam implements FKTeam {
         this.state = TeamState.ALIVE;
     }
 
-    public CraftFKTeamPlayer addPlayer(GamePlayer player) {
+    public CraftFKTeamPlayer addPlayer(FKPlayer player) {
 
         if(this.contains(player.getUUID()))
             throw new IllegalArgumentException("Player already exists.");

@@ -3,13 +3,10 @@ package com.github.syr0ws.fallenkingdom.listeners;
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.events.GamePlayerJoinEvent;
-import com.github.syr0ws.universe.game.model.GamePlayer;
-import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
-import com.github.syr0ws.universe.modules.combat.events.GamePlayerRespawnEvent;
-import com.github.syr0ws.universe.settings.Setting;
+import com.github.syr0ws.universe.commons.modules.combat.events.GamePlayerRespawnEvent;
+import com.github.syr0ws.universe.sdk.settings.Setting;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,13 +17,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.Optional;
 
-public class GamePlayerListener implements Listener {
+public class FKPlayerListener implements Listener {
 
     private final FKGame game;
     private final FKModel model;
     private final FKController controller;
 
-    public GamePlayerListener(FKGame game) {
+    public FKPlayerListener(FKGame game) {
 
         if(game == null)
             throw new IllegalArgumentException("FKGame cannot be null.");
@@ -34,16 +31,6 @@ public class GamePlayerListener implements Listener {
         this.game = game;
         this.model = game.getGameModel();
         this.controller = game.getGameController();
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onGamePlayerJoin(GamePlayerJoinEvent event) {
-
-        GamePlayer player = event.getGamePlayer();
-
-        Optional<? extends FKTeamPlayer> optional = this.model.getTeamPlayer(player.getUUID());
-
-        if(!optional.isPresent()) this.controller.setMode(player, DefaultModeType.SPECTATOR);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -67,7 +54,7 @@ public class GamePlayerListener implements Listener {
         // If pvp is not enabled, cancelling the damage.
         if(!this.model.isPvPEnabled()) event.setCancelled(true);
 
-        SettingAccessor accessor = this.model.getSettings();
+        FKSettings accessor = this.model.getSettings();
         Setting<Boolean> setting = accessor.getFriendlyFireSetting();
 
         // Friendly fire activated. Do not do anything.
@@ -98,7 +85,7 @@ public class GamePlayerListener implements Listener {
         if(!optional.isPresent()) return;
 
         FKTeamPlayer teamPlayer = optional.get();
-        SettingAccessor settings = this.model.getSettings();
+        FKSettings settings = this.model.getSettings();
 
         Location respawn;
 

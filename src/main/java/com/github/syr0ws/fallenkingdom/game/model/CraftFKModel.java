@@ -1,93 +1,43 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.attributes.AbstractAttributeObservable;
-import com.github.syr0ws.universe.game.model.GamePlayer;
-import com.github.syr0ws.universe.game.model.cycle.GameCycle;
-import com.github.syr0ws.universe.settings.types.MutableSetting;
-import org.bukkit.Location;
+import com.github.syr0ws.universe.commons.mode.DefaultModeType;
+import com.github.syr0ws.universe.commons.model.DefaultGameModel;
+import com.github.syr0ws.universe.commons.model.DefaultGamePlayer;
+import com.github.syr0ws.universe.sdk.game.mode.ModeType;
+import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CraftFKModel extends AbstractAttributeObservable implements FKModel {
+public class CraftFKModel extends DefaultGameModel implements FKModel {
 
-    private final SettingAccessor settings;
     private final List<CraftFKTeam> teams;
-
-    private final Map<UUID, CraftFKPlayer> players = new HashMap<>();
-
-    private GameCycle cycle;
-    private GameState state;
-
     private boolean pvp, assaults;
-    private int time;
 
-    public CraftFKModel(SettingAccessor settings, List<CraftFKTeam> teams) {
-
-        if(settings == null)
-            throw new IllegalArgumentException("SettingsManager cannot be null.");
+    public CraftFKModel(FKSettings settings, List<CraftFKTeam> teams) {
+        super(settings);
 
         if(teams.size() < 2)
             throw new IllegalArgumentException("Number of teams must be at least 2.");
 
-        this.settings = settings;
         this.teams = teams;
     }
 
-    public void addPlayer(CraftFKPlayer player) {
-
-        if(this.isGamePlayer(player.getUUID()))
-            throw new IllegalArgumentException("Player already exists.");
-
-        this.players.put(player.getUUID(), player);
-        this.notifyChange(GameAttribute.GAME_PLAYER_CHANGE);
-    }
-
-    public void removePlayer(CraftFKPlayer player) {
-
-        if(!this.isGamePlayer(player.getUUID()))
-            throw new IllegalArgumentException("Player doesn't exist.");
-
-        if(player.isPlaying())
-            throw new IllegalArgumentException("Cannot remove a Player while he is playing.");
-
-        this.players.remove(player.getUUID());
-        this.notifyChange(GameAttribute.GAME_PLAYER_CHANGE);
-    }
-
-    public void setCycle(GameCycle cycle) {
-
-        if(cycle == null)
-            throw new IllegalArgumentException("GameCycle cannot be null.");
-
-        this.cycle = cycle;
-        this.notifyChange(GameAttribute.CYCLE_CHANGE);
-    }
-
-    public void setState(GameState state) {
-
-        if(state == null)
-            throw new IllegalArgumentException("GameState cannot be null.");
-
-        this.state = state;
-        this.notifyChange(GameAttribute.STATE_CHANGE);
-    }
-
-    public boolean isGamePlayer(UUID uuid) {
-        return this.players.containsKey(uuid);
-    }
-
     @Override
-    public CraftFKTeamPlayer setTeam(GamePlayer player, FKTeam team) {
+    public CraftFKTeamPlayer setTeam(FKPlayer player, FKTeam team) {
 
         if(this.isStarted())
             throw new IllegalArgumentException("A player can be assigned to a team only when a game isn't started.");
+
+        if(!this.isValid(player))
+            throw new IllegalArgumentException("Invalid player.");
 
         if(!this.isValid(team))
             throw new IllegalArgumentException("FKTeam not registered.");
@@ -99,7 +49,7 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
     }
 
     @Override
-    public CraftFKTeamPlayer removeTeam(GamePlayer player) {
+    public CraftFKTeamPlayer removeTeam(FKPlayer player) {
 
         if(this.isStarted())
             throw new IllegalArgumentException("A player can be removed from a team only when a game isn't started.");
@@ -112,7 +62,7 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
         CraftFKTeamPlayer teamPlayer = optional.get();
         CraftFKTeam team = (CraftFKTeam) teamPlayer.getTeam();
 
-        team.removePlayer(teamPlayer.getUUID());
+        team.removePlayer(teamPlayer.getFKPlayer().getUUID());
 
         return teamPlayer;
     }
@@ -130,12 +80,6 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
     }
 
     @Override
-    public void addTime() {
-        this.time++;
-        this.notifyChange(GameAttribute.TIME_CHANGE);
-    }
-
-    @Override
     public boolean isPvPEnabled() {
         return this.pvp;
     }
@@ -143,27 +87,6 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
     @Override
     public boolean areAssaultsEnabled() {
         return this.assaults;
-    }
-
-    @Override
-    public int getTime() {
-        return this.time;
-    }
-
-    @Override
-    public Location getSpawn() {
-        MutableSetting<Location> setting = this.settings.getGameSpawnSetting();
-        return setting.getValue();
-    }
-
-    @Override
-    public SettingAccessor getSettings() {
-        return this.settings;
-    }
-
-    @Override
-    public GameState getState() {
-        return this.state;
     }
 
     @Override
@@ -182,18 +105,41 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
     }
 
     @Override
-    public boolean hasTeam(GamePlayer player) {
+    public boolean hasTeam(FKPlayer player) {
         return this.teams.stream().anyMatch(team -> team.contains(player.getUUID()));
     }
 
     @Override
     public boolean isTeamPlayer(UUID uuid) {
-        return this.getTeamPlayers().stream().anyMatch(teamPlayer -> teamPlayer.getUUID().equals(uuid));
+        return this.getTeamPlayers().stream()
+                .map(CraftFKTeamPlayer::getFKPlayer)
+                .anyMatch(player -> player.getUUID().equals(uuid));
     }
 
     @Override
-    public boolean isTeamPlayer(GamePlayer player) {
-        return this.getTeamPlayers().stream().anyMatch(teamPlayer -> teamPlayer.getPlayer().equals(player.getPlayer()));
+    public boolean isTeamPlayer(FKPlayer player) {
+        return this.getTeams().stream().anyMatch(team -> team.contains(player.getUUID()));
+    }
+
+    @Override
+    public boolean isValid(GamePlayer player) {
+        return player instanceof CraftFKPlayer;
+    }
+
+    @Override
+    public FKPlayer getFKPlayer(UUID uuid) {
+        return (FKPlayer) super.getPlayer(uuid);
+    }
+
+    @Override
+    public DefaultGamePlayer createPlayer(Player player) {
+        ModeType type = this.isStarted() ? DefaultModeType.SPECTATOR : DefaultModeType.WAITING;
+        return new CraftFKPlayer(player, type);
+    }
+
+    @Override
+    public FKSettings getSettings() {
+        return (FKSettings) super.getSettings();
     }
 
     @Override
@@ -227,55 +173,6 @@ public class CraftFKModel extends AbstractAttributeObservable implements FKModel
     public Collection<CraftFKTeamPlayer> getTeamPlayers() {
         return this.teams.stream()
                 .flatMap(team -> team.getTeamPlayers().stream())
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public GameCycle getCycle() {
-        return this.cycle;
-    }
-
-    @Override
-    public boolean isWaiting() {
-        return this.state == GameState.WAITING;
-    }
-
-    @Override
-    public boolean isRunning() {
-        return this.state == GameState.RUNNING;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return this.state == GameState.FINISHED;
-    }
-
-    @Override
-    public boolean isStarted() {
-        return this.state.ordinal() >= GameState.RUNNING.ordinal();
-    }
-
-    @Override
-    public CraftFKPlayer getPlayer(UUID uuid) {
-        return this.players.get(uuid);
-    }
-
-    @Override
-    public Optional<CraftFKPlayer> getPlayer(String name) {
-        return this.players.values().stream()
-                .filter(player -> player.getName().equals(name))
-                .findFirst();
-    }
-
-    @Override
-    public Collection<CraftFKPlayer> getPlayers() {
-        return this.players.values();
-    }
-
-    @Override
-    public Collection<CraftFKPlayer> getOnlinePlayers() {
-        return this.players.values().stream()
-                .filter(CraftFKPlayer::isOnline)
                 .collect(Collectors.toList());
     }
 }

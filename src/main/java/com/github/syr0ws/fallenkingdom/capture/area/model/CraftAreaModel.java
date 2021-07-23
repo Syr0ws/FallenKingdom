@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.capture.area.model;
 
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
-import com.github.syr0ws.universe.tools.Cuboid;
+import com.github.syr0ws.universe.sdk.tools.Cuboid;
 
 public class CraftAreaModel implements AreaModel {
 

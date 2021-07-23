@@ -1,13 +1,13 @@
 package com.github.syr0ws.fallenkingdom.listeners;
 
 import com.github.syr0ws.fallenkingdom.events.TeamWinEvent;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.displays.GameRunningDisplayEnum;
+import com.github.syr0ws.fallenkingdom.game.cycles.displays.GameRunningDisplayEnum;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.fallenkingdom.utils.DisplayUtils;
-import com.github.syr0ws.universe.displays.Display;
-import com.github.syr0ws.universe.displays.DisplayManager;
+import com.github.syr0ws.universe.sdk.displays.Display;
+import com.github.syr0ws.universe.sdk.displays.DisplayManager;
+import com.github.syr0ws.universe.sdk.displays.DisplayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,11 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GameTeamWinListener implements Listener {
+public class FKTeamWinListener implements Listener {
 
     private final DisplayManager manager;
 
-    public GameTeamWinListener(DisplayManager manager) {
+    public FKTeamWinListener(DisplayManager manager) {
 
         if(manager == null)
             throw new IllegalArgumentException("DisplayManager cannot be null.");

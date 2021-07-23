@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
-import com.github.syr0ws.universe.attributes.Attribute;
+import com.github.syr0ws.universe.sdk.attributes.Attribute;
 
 public enum GameAttribute implements Attribute {
 

@@ -4,12 +4,12 @@ import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.attributes.Attribute;
-import com.github.syr0ws.universe.attributes.AttributeObserver;
-import com.github.syr0ws.universe.displays.types.Message;
-import com.github.syr0ws.universe.modules.lang.LangService;
-import com.github.syr0ws.universe.modules.lang.messages.impl.Text;
-import com.github.syr0ws.universe.modules.scoreboard.ScoreboardManager;
+import com.github.syr0ws.universe.commons.modules.lang.LangService;
+import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.commons.modules.scoreboard.ScoreboardManager;
+import com.github.syr0ws.universe.sdk.attributes.Attribute;
+import com.github.syr0ws.universe.sdk.attributes.AttributeObserver;
+import com.github.syr0ws.universe.sdk.displays.types.Message;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;

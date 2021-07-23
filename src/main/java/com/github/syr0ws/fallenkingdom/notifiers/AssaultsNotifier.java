@@ -1,12 +1,12 @@
 package com.github.syr0ws.fallenkingdom.notifiers;
 
+import com.github.syr0ws.fallenkingdom.game.cycles.displays.GameRunningDisplayEnum;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameAttribute;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.displays.GameRunningDisplayEnum;
-import com.github.syr0ws.universe.attributes.Attribute;
-import com.github.syr0ws.universe.attributes.AttributeObserver;
-import com.github.syr0ws.universe.displays.Display;
-import com.github.syr0ws.universe.displays.DisplayManager;
+import com.github.syr0ws.universe.sdk.attributes.Attribute;
+import com.github.syr0ws.universe.sdk.attributes.AttributeObserver;
+import com.github.syr0ws.universe.sdk.displays.Display;
+import com.github.syr0ws.universe.sdk.displays.DisplayManager;
 import org.bukkit.Bukkit;
 
 import java.util.Collection;

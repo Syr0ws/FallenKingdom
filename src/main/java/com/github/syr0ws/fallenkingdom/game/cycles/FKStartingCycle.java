@@ -1,61 +1,41 @@
-package com.github.syr0ws.fallenkingdom.game.model.cycles;
+package com.github.syr0ws.fallenkingdom.game.cycles;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
-import com.github.syr0ws.fallenkingdom.listeners.WaitingCycleListener;
-import com.github.syr0ws.fallenkingdom.timer.TimerActionManager;
-import com.github.syr0ws.fallenkingdom.timer.TimerUtils;
-import com.github.syr0ws.universe.Game;
-import com.github.syr0ws.universe.displays.DisplayManager;
-import com.github.syr0ws.universe.game.model.cycle.GameCycle;
-import com.github.syr0ws.universe.game.model.cycle.GameCycleTask;
-import com.github.syr0ws.universe.listeners.ListenerManager;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
+import com.github.syr0ws.fallenkingdom.listeners.FKWaitingListener;
+import com.github.syr0ws.universe.commons.cycle.types.StartingCycle;
+import com.github.syr0ws.universe.sdk.Game;
+import com.github.syr0ws.universe.sdk.game.controller.GameController;
+import com.github.syr0ws.universe.sdk.game.cycle.GameCycleTask;
+import com.github.syr0ws.universe.sdk.game.model.GameModel;
+import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
+import com.github.syr0ws.universe.sdk.timer.TimerActionManager;
+import com.github.syr0ws.universe.sdk.timer.TimerUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class GameStartingCycle extends GameCycle {
-
-    private final FKController controller;
-    private final FKModel model;
+public class FKStartingCycle extends StartingCycle {
 
     private final TimerActionManager actionManager;
 
-    private DisplayManager manager;
     private GameCycleTask task;
 
-    public GameStartingCycle(FKGame game, FKController controller, FKModel model) {
-        super(game);
-
-        if(controller == null)
-            throw new IllegalArgumentException("FKController cannot be null.");
-
-        if(model == null)
-            throw new IllegalArgumentException("FKModel cannot be null.");
-
-        this.controller = controller;
-        this.model = model;
-
+    public FKStartingCycle(Game game, GameModel model, GameController controller) {
+        super(game, model, controller);
         this.actionManager = new TimerActionManager();
     }
+
 
     @Override
     public void load() {
         super.load();
 
-        // Registering cycle listeners.
+        // Handling listeners.
         this.registerListeners();
 
         // Handling displays.
         this.loadActions();
-    }
-
-    @Override
-    public void unload() {
-        super.unload();
-
-        // Unregistering listeners.
-        super.getListenerManager().removeListeners();
     }
 
     @Override
@@ -79,15 +59,25 @@ public class GameStartingCycle extends GameCycle {
         return (FKGame) super.getGame();
     }
 
+    @Override
+    public FKModel getModel() {
+        return (FKModel) super.getModel();
+    }
+
+    @Override
+    public FKController getController() {
+        return (FKController) super.getController();
+    }
+
     private void registerListeners() {
 
         ListenerManager manager = super.getListenerManager();
-        manager.addListener(new WaitingCycleListener(this.controller, this.model, this.getGame().getLangService()));
+        manager.addListener(new FKWaitingListener(this.getModel(), this.getController()));
     }
 
     private void startTask() {
 
-        SettingAccessor settings = this.model.getSettings();
+        FKSettings settings = this.getModel().getSettings();
         int duration = settings.getStartingCycleDurationSetting().getValue();
 
         this.task = new StartingCycleTask(this.getGame(), duration);
@@ -125,11 +115,11 @@ public class GameStartingCycle extends GameCycle {
 
             if(this.duration >= 0) {
 
-                GameStartingCycle.this.actionManager.executeActions(this.duration);
+                FKStartingCycle.this.actionManager.executeActions(this.duration);
 
                 this.duration--;
 
-            } else GameStartingCycle.this.done(); // Stopping cycle.
+            } else FKStartingCycle.this.done(); // Stopping cycle.
         }
     }
 }

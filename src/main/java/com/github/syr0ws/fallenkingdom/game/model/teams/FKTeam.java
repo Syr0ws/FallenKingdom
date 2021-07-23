@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
-import com.github.syr0ws.universe.displays.Display;
+import com.github.syr0ws.universe.sdk.displays.Display;
 
 import java.util.Collection;
 import java.util.Optional;

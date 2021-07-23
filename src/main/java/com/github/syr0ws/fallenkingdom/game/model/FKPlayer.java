@@ -1,9 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
-import com.github.syr0ws.universe.game.model.GamePlayer;
-import com.github.syr0ws.universe.game.model.mode.ModeType;
+import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
 
 public interface FKPlayer extends GamePlayer {
 
-    ModeType getModeType();
 }

@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.placeholders;
 
-import com.github.syr0ws.universe.placeholders.Placeholder;
+import com.github.syr0ws.universe.sdk.placeholders.Placeholder;
 
 public enum FKPlaceholder implements Placeholder {
 

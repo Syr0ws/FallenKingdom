@@ -5,161 +5,66 @@ import com.github.syr0ws.fallenkingdom.capture.CaptureFactory;
 import com.github.syr0ws.fallenkingdom.capture.CaptureManager;
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.fallenkingdom.events.*;
+import com.github.syr0ws.fallenkingdom.game.cycles.FKCycleFactory;
 import com.github.syr0ws.fallenkingdom.game.model.CraftFKModel;
-import com.github.syr0ws.fallenkingdom.game.model.CraftFKPlayer;
-import com.github.syr0ws.fallenkingdom.game.model.GameState;
-import com.github.syr0ws.fallenkingdom.game.model.cycles.GameCycleFactory;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.*;
-import com.github.syr0ws.fallenkingdom.listeners.TeamListener;
-import com.github.syr0ws.universe.attributes.Attribute;
-import com.github.syr0ws.universe.attributes.AttributeObserver;
-import com.github.syr0ws.universe.events.GamePlayerJoinEvent;
-import com.github.syr0ws.universe.events.GamePlayerModeChangeEvent;
-import com.github.syr0ws.universe.events.GamePlayerQuitEvent;
-import com.github.syr0ws.universe.game.model.GameException;
-import com.github.syr0ws.universe.game.model.GamePlayer;
-import com.github.syr0ws.universe.game.model.cycle.GameCycle;
-import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
-import com.github.syr0ws.universe.game.model.mode.Mode;
-import com.github.syr0ws.universe.game.model.mode.ModeFactory;
-import com.github.syr0ws.universe.game.model.mode.ModeType;
-import com.github.syr0ws.universe.settings.types.MutableSetting;
+import com.github.syr0ws.universe.commons.controller.DefaultGameController;
+import com.github.syr0ws.universe.commons.mode.DefaultModeType;
+import com.github.syr0ws.universe.sdk.game.cycle.GameCycleFactory;
+import com.github.syr0ws.universe.sdk.game.model.GameException;
+import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
+import com.github.syr0ws.universe.sdk.game.model.GameState;
+import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.PluginManager;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class CraftFKController implements FKController, AttributeObserver {
+public class CraftFKController extends DefaultGameController implements FKController {
 
     private final FKGame game;
     private final CraftFKModel model;
-    private final GameCycleFactory factory;
     private final CaptureManager captureManager;
+    private final GameCycleFactory factory;
 
     public CraftFKController(FKGame game, CraftFKModel model) {
-
-        if(game == null)
-            throw new IllegalArgumentException("FKGame cannot be null.");
-
-        if(model == null)
-            throw new IllegalArgumentException("FKModel cannot be null.");
+        super(game, model);
 
         this.game = game;
         this.model = model;
-        this.factory = new GameCycleFactory(game, model, this);
 
-        // Registering listeners.
-        PluginManager manager = Bukkit.getPluginManager();
-        manager.registerEvents(new GameListener(), game);
-        manager.registerEvents(new TeamListener(game), game);
+        // Initializing cycle factory.
+        this.factory = new FKCycleFactory(game, model, this);
 
-        // Handling capture manager.
+        // Initializing capture manager.
         this.captureManager = this.createCaptureManager();
 
         // Handling game state.
-        this.setGameState(GameState.WAITING);
+        super.setGameState(GameState.WAITING);
     }
 
-    private void onPlayerJoin(Player player) {
-
-        CraftFKPlayer fkPlayer;
-
-        if(!this.model.isGamePlayer(player.getUniqueId())) {
-
-            fkPlayer = new CraftFKPlayer(player);
-            this.model.addPlayer(fkPlayer); // Storing player.
-
-        } else fkPlayer = this.model.getPlayer(player.getUniqueId());
-
-        // Handling mode.
-        if(fkPlayer.getModeType() != null) {
-
-            Mode mode = ModeFactory.getMode(fkPlayer.getModeType());
-            mode.enable(player);
-        }
-
-        // Throwing an event.
-        GamePlayerJoinEvent event = new GamePlayerJoinEvent(fkPlayer);
-        Bukkit.getPluginManager().callEvent(event);
+    @Override
+    public GameCycleFactory getCycleFactory() {
+        return this.factory;
     }
 
-    private void onPlayerQuit(Player player) {
+    @Override
+    protected void setGameState(GameState state) {
 
-        CraftFKPlayer fkPlayer = this.model.getPlayer(player.getUniqueId());
-
-        // - Removing the GamePlayer if game is waiting because storing data is useless.
-        //   It is not sure that the player will effectively rejoin the game again.
-        //
-        // - Removing the GamePlayer if he's not playing.
-        //   Reduce the amount of data stored.
-        if(this.model.isWaiting() || !fkPlayer.isPlaying()) {
-
-            this.model.removePlayer(fkPlayer);
-
-            // If the player is in a team, removing him from it.
-            if(this.model.hasTeam(fkPlayer)) {
-
-                try { this.removeTeam(fkPlayer);
-                } catch (GameException e) { e.printStackTrace(); }
-            }
-        }
-
-        // Throwing an event.
-        GamePlayerQuitEvent event = new GamePlayerQuitEvent(fkPlayer);
-        Bukkit.getPluginManager().callEvent(event);
-
-        // Disabling mode.
-        Mode mode = ModeFactory.getMode(fkPlayer.getModeType());
-        mode.disable(player);
-    }
-
-    private void setGameState(GameState state) {
-
-        // Actions on the old GameCycle.
-        GameCycle current = this.model.getCycle();
-
-        // Disabling cycle only if it exists.
-        if(current != null) this.disableCycle(current);
-
-        // Actions on state change.
         if(state == GameState.RUNNING) this.onGameStart();
 
-        // Actions on the new GameCycle.
-        Optional<GameCycle> optional = this.factory.getCycle(state);
-        optional.ifPresent(this::enableCycle);
-
-        // Setting state.
-        this.model.setState(state);
-    }
-
-    private void enableCycle(GameCycle cycle) {
-
-        this.model.setCycle(cycle);
-
-        cycle.load(); // Loading cycle.
-        cycle.start(); // Starting cycle.
-        cycle.addObserver(this); // Adding observer.
-    }
-
-    private void disableCycle(GameCycle cycle) {
-
-        cycle.stop();
-        cycle.unload(); // Unloading cycle.
-        cycle.removeObserver(this); // Removing observer.
+        super.setGameState(state);
     }
 
     private void onGameStart() {
 
         // Adding players without team to a team.
         this.model.getPlayers().stream()
+                .map(player -> (FKPlayer) player)
                 .filter(player -> !this.model.hasTeam(player))
                 .forEach(this::addToRandomTeam);
 
@@ -171,14 +76,19 @@ public class CraftFKController implements FKController, AttributeObserver {
         // Setting playing mode to all players.
         this.model.getTeams().stream()
                 .flatMap(team -> team.getTeamPlayers().stream())
-                .map(teamPlayer -> this.model.getPlayer(teamPlayer.getUUID()))
                 .forEach(player -> {
-                    this.setMode(player, DefaultModeType.PLAYING);
+
+                    FKTeam team = player.getTeam();
+                    GamePlayer gamePlayer = player.getFKPlayer();
+
+                    this.setMode(gamePlayer, DefaultModeType.PLAYING);
                     this.model.getPlayer(player.getUUID()).setPlaying();
+
+                    player.getPlayer().teleport(team.getBase().getSpawn());
                 });
     }
 
-    private void addToRandomTeam(GamePlayer player) {
+    private void addToRandomTeam(FKPlayer player) {
 
         // Finding the team with the minimum of players.
         FKTeam team = this.model.getTeams().stream()
@@ -191,7 +101,7 @@ public class CraftFKController implements FKController, AttributeObserver {
 
     private CaptureManager createCaptureManager() {
 
-        SettingAccessor accessor = this.model.getSettings();
+        FKSettings accessor = this.model.getSettings();
         MutableSetting<CaptureType> setting = accessor.getCaptureTypeSetting();
 
         CaptureFactory factory = new CaptureFactory(this.game, this.model, this);
@@ -200,62 +110,7 @@ public class CraftFKController implements FKController, AttributeObserver {
     }
 
     @Override
-    public void setMode(GamePlayer player, ModeType type) {
-
-        if(player == null)
-            throw new IllegalArgumentException("GamePlayer cannot be null.");
-
-        if(type == null)
-            throw new IllegalArgumentException("Mode cannot be null.");
-
-        Mode mode = ModeFactory.getMode(type);
-
-        CraftFKPlayer fkPlayer = (CraftFKPlayer) player;
-
-        // Throwing an event.
-        GamePlayerModeChangeEvent event = new GamePlayerModeChangeEvent(fkPlayer, mode);
-        Bukkit.getPluginManager().callEvent(event);
-
-        // Handling modes.
-        ModeType old = fkPlayer.getModeType();
-
-        // Removing old mode if it exists and is not the same as the new one.
-        // Also checking that the player is online.
-        if(old != null && player.isOnline())
-            ModeFactory.getMode(old).disable(player.getPlayer());
-
-        fkPlayer.setModeType(mode.getType());
-
-        // Setting new mode if the player is online.
-        if(player.isOnline()) mode.enable(player.getPlayer());
-    }
-
-    @Override
-    public void startGame() throws GameException {
-
-        if(!this.model.isWaiting())
-            throw new GameException("Game already started.");
-
-        this.setGameState(GameState.STARTING);
-    }
-
-    @Override
-    public void stopGame() throws GameException {
-
-        if(!this.model.isStarted())
-            throw new GameException("No game is currently started.");
-
-        if(this.model.isFinished())
-            throw new GameException("Game already finished.");
-
-        GameState state = this.model.getState();
-
-        if(state == GameState.STARTING) this.setGameState(GameState.WAITING);
-        else this.setGameState(GameState.FINISHED);
-    }
-
-    @Override
-    public FKTeamPlayer addTeam(GamePlayer player, FKTeam team) throws GameException {
+    public FKTeamPlayer addTeam(FKPlayer player, FKTeam team) throws GameException {
 
         if(player == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
@@ -279,7 +134,7 @@ public class CraftFKController implements FKController, AttributeObserver {
     }
 
     @Override
-    public FKTeamPlayer removeTeam(GamePlayer player) throws GameException {
+    public FKTeamPlayer removeTeam(FKPlayer player) throws GameException {
 
         if(player == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
@@ -335,7 +190,7 @@ public class CraftFKController implements FKController, AttributeObserver {
         Bukkit.getPluginManager().callEvent(event);
 
         // When a team has win, the game is finished.
-        this.setGameState(GameState.FINISHED);
+        super.setGameState(GameState.FINISHED);
     }
 
     @Override
@@ -368,8 +223,6 @@ public class CraftFKController implements FKController, AttributeObserver {
     @Override
     public void eliminate(FKTeamPlayer player) throws GameException {
 
-        System.out.println("elimination !");
-
         if(!this.model.isStarted())
             throw new GameException("Game not started.");
 
@@ -394,18 +247,6 @@ public class CraftFKController implements FKController, AttributeObserver {
 
         // If there is no player alive, eliminating the team.
         if(playersAlive == 0) this.eliminate(player.getTeam());
-    }
-
-    @Override
-    public void onUpdate(Attribute attribute) {
-
-        Optional<GameState> optional = this.model.getState().getNext();
-        optional.ifPresent(this::setGameState);
-    }
-
-    @Override
-    public Collection<Attribute> observed() {
-        return Collections.singleton(GameCycle.GameCycleAttribute.DONE);
     }
 
     @Override
@@ -448,19 +289,6 @@ public class CraftFKController implements FKController, AttributeObserver {
 
             try { this.eliminate(team);
             } catch (GameException e) { e.printStackTrace(); }
-        }
-    }
-
-    private class GameListener implements Listener {
-
-        @EventHandler
-        public void onPlayerJoin(PlayerJoinEvent event) {
-            CraftFKController.this.onPlayerJoin(event.getPlayer());
-        }
-
-        @EventHandler
-        public void onPlayerQuit(PlayerQuitEvent event) {
-            CraftFKController.this.onPlayerQuit(event.getPlayer());
         }
     }
 }

@@ -1,11 +1,13 @@
 package com.github.syr0ws.fallenkingdom.game.model;
 
-import com.github.syr0ws.fallenkingdom.game.model.settings.GameSettingAccessor;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
+import com.github.syr0ws.fallenkingdom.game.model.settings.CraftFKSettings;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.game.model.teams.dao.ConfigTeamDAO;
-import com.github.syr0ws.universe.game.model.GameException;
+import com.github.syr0ws.universe.sdk.game.model.GameException;
+import com.github.syr0ws.universe.sdk.settings.manager.CacheSettingManager;
+import com.github.syr0ws.universe.sdk.settings.manager.SettingManager;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class GameInitializer {
     public CraftFKModel getGame() throws GameException {
 
         // Loading game settings.
-        SettingAccessor accessor = this.loadSettings();
+        FKSettings accessor = this.loadSettings();
 
         // Loading teams.
         List<CraftFKTeam> teams = this.loadTeams(accessor);
@@ -31,7 +33,7 @@ public class GameInitializer {
         return new CraftFKModel(accessor, teams);
     }
 
-    private List<CraftFKTeam> loadTeams(SettingAccessor accessor) throws GameException {
+    private List<CraftFKTeam> loadTeams(FKSettings accessor) throws GameException {
 
         ConfigTeamDAO dao = new ConfigTeamDAO(this.plugin, accessor);
 
@@ -50,9 +52,11 @@ public class GameInitializer {
         return teams;
     }
 
-    private SettingAccessor loadSettings() {
+    private FKSettings loadSettings() {
 
-        GameSettingAccessor accessor = new GameSettingAccessor();
+        SettingManager manager = new CacheSettingManager();
+
+        CraftFKSettings accessor = new CraftFKSettings(manager);
         accessor.init(this.plugin.getConfig());
 
         return accessor;

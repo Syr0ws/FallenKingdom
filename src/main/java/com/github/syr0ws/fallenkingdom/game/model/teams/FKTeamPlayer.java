@@ -1,10 +1,21 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
-import com.github.syr0ws.universe.game.model.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
+import org.bukkit.entity.Player;
 
-public interface FKTeamPlayer extends GamePlayer {
+import java.util.UUID;
+
+public interface FKTeamPlayer {
+
+    UUID getUUID();
+
+    String getName();
+
+    Player getPlayer();
 
     FKTeam getTeam();
+
+    boolean isOnline();
 
     void addKill();
 
@@ -17,4 +28,6 @@ public interface FKTeamPlayer extends GamePlayer {
     double getKDR();
 
     boolean isAlive();
+
+    FKPlayer getFKPlayer();
 }

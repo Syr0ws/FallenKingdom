@@ -1,22 +1,22 @@
 package com.github.syr0ws.fallenkingdom.chat;
 
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
-import com.github.syr0ws.fallenkingdom.game.model.settings.SettingAccessor;
-import com.github.syr0ws.universe.displays.types.Message;
-import com.github.syr0ws.universe.game.model.mode.DefaultModeType;
-import com.github.syr0ws.universe.game.model.mode.ModeType;
-import com.github.syr0ws.universe.modules.chat.Chat;
-import com.github.syr0ws.universe.modules.chat.ChatMessage;
-import com.github.syr0ws.universe.modules.chat.ChatPriority;
-import com.github.syr0ws.universe.placeholders.PlaceholderEnum;
-import com.github.syr0ws.universe.settings.types.MutableSetting;
+import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
+import com.github.syr0ws.universe.commons.mode.DefaultModeType;
+import com.github.syr0ws.universe.commons.modules.chat.Chat;
+import com.github.syr0ws.universe.commons.modules.chat.ChatMessage;
+import com.github.syr0ws.universe.commons.modules.chat.ChatPriority;
+import com.github.syr0ws.universe.commons.placeholders.PlaceholderEnum;
+import com.github.syr0ws.universe.sdk.displays.types.Message;
+import com.github.syr0ws.universe.sdk.game.mode.ModeType;
+import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
+import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
 import org.bukkit.entity.Player;
 
 public class SpectatorChat implements Chat {
 
     private final FKModel model;
-    private final SettingAccessor settings;
+    private final FKSettings settings;
 
     public SpectatorChat(FKModel model) {
 
@@ -47,9 +47,9 @@ public class SpectatorChat implements Chat {
     public boolean canSend(ChatMessage message) {
 
         Player player = message.getPlayer();
-        FKPlayer fkPlayer = this.model.getPlayer(player.getUniqueId());
+        GamePlayer gamePlayer = this.model.getPlayer(player.getUniqueId());
 
-        ModeType modeType = fkPlayer.getModeType();
+        ModeType modeType = gamePlayer.getModeType();
 
         return this.isChatAllowed() && modeType.equals(DefaultModeType.SPECTATOR);
     }

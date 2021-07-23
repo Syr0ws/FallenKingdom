@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
-import com.github.syr0ws.universe.game.model.GamePlayer;
+import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -8,12 +8,12 @@ import java.util.UUID;
 public class CraftFKTeamPlayer implements FKTeamPlayer {
 
     private final FKTeam team;
-    private final GamePlayer player;
+    private final FKPlayer player;
 
     private boolean alive;
     private int kills, deaths;
 
-    public CraftFKTeamPlayer(FKTeam team, GamePlayer player) {
+    public CraftFKTeamPlayer(FKTeam team, FKPlayer player) {
 
         if(team == null)
             throw new IllegalArgumentException("FKTeam cannot be null.");
@@ -41,16 +41,6 @@ public class CraftFKTeamPlayer implements FKTeamPlayer {
     }
 
     @Override
-    public boolean isOnline() {
-        return this.player.isOnline();
-    }
-
-    @Override
-    public boolean isPlaying() {
-        return true;
-    }
-
-    @Override
     public Player getPlayer() {
         return this.player.getPlayer();
     }
@@ -58,6 +48,11 @@ public class CraftFKTeamPlayer implements FKTeamPlayer {
     @Override
     public FKTeam getTeam() {
         return this.team;
+    }
+
+    @Override
+    public boolean isOnline() {
+        return this.player.isOnline();
     }
 
     @Override
@@ -88,5 +83,10 @@ public class CraftFKTeamPlayer implements FKTeamPlayer {
     @Override
     public boolean isAlive() {
         return this.alive;
+    }
+
+    @Override
+    public FKPlayer getFKPlayer() {
+        return this.player;
     }
 }
