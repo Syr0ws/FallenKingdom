@@ -109,6 +109,38 @@ assaults:
     subtitle: "&eRangez vos armes !"
 
 
+# This section contains all the texts related to the nether.
+nether:
+  # Texts sent when nether is enabled.
+  enabled:
+    # The text of the message sent in the chat.
+    message: "&6>> &eLe &cnether &eest désormais &aactivé&e."
+    # The text of the title.
+    title: "&eNether &aactivé"
+  # Texts sent when nether is disabled.
+  disabled:
+    # The text of the message sent in the chat.
+    message: "&6>> &eLe &cnether &eest désormais &cdésactivés&e."
+    # The text of the title.
+    title: "&eNether &cdésactivé"
+
+
+# This section contains all the texts related to the end.
+end:
+  # Texts sent when end is enabled.
+  enabled:
+    # The text of the message sent in the chat.
+    message: "&6>> &eL'&5end &eest désormais &aactivé&e."
+    # The text of the title.
+    title: "&eEnd &aactivé"
+  # Texts sent when end is disabled.
+  disabled:
+    # The text of the message sent in the chat.
+    message: "&6>> &eL'&5end &eest désormais &cdésactivé&e."
+    # The text of the title.
+    title: "&eEnd &cdésactivé"
+
+
 # This section contains all the texts related to teams.
 team:
   # Texts sent when a player is added to a team.
