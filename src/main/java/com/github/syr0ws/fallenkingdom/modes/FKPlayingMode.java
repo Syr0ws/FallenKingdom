@@ -51,7 +51,6 @@ public class FKPlayingMode extends PlayingMode {
         this.removeScoreboard(player);
     }
 
-
     private FKTeamPlayer getTeamPlayer(Player player) {
 
         Optional<? extends FKTeamPlayer> optional = this.getModel().getTeamPlayer(player.getUniqueId());

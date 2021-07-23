@@ -1,9 +1,9 @@
 package com.github.syr0ws.fallenkingdom.scoreboards;
 
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
+import com.github.syr0ws.universe.commons.model.GameAttribute;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
 import com.github.syr0ws.universe.commons.modules.scoreboard.ScoreboardManager;

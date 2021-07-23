@@ -1,9 +1,10 @@
 package com.github.syr0ws.fallenkingdom.scoreboards;
 
+import com.github.syr0ws.fallenkingdom.game.model.FKAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.GameAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
+import com.github.syr0ws.universe.commons.model.GameAttribute;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
 import com.github.syr0ws.universe.commons.modules.scoreboard.ScoreboardManager;
@@ -64,7 +65,7 @@ public class GameBoard extends FKBoard implements AttributeObserver {
 
     @Override
     public Collection<Attribute> observed() {
-        return Arrays.asList(GameAttribute.PVP_STATE, GameAttribute.ASSAULTS_STATE, GameAttribute.TIME_CHANGE);
+        return Arrays.asList(FKAttribute.PVP_STATE, FKAttribute.ASSAULTS_STATE, GameAttribute.TIME_CHANGE);
     }
 
     @Override
