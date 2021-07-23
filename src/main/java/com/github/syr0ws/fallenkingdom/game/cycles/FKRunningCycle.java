@@ -7,6 +7,8 @@ import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.listeners.*;
 import com.github.syr0ws.fallenkingdom.notifiers.AssaultsNotifier;
+import com.github.syr0ws.fallenkingdom.notifiers.EndNotifier;
+import com.github.syr0ws.fallenkingdom.notifiers.NetherNotifier;
 import com.github.syr0ws.fallenkingdom.notifiers.PvPNotifier;
 import com.github.syr0ws.universe.commons.cycle.types.RunningCycle;
 import com.github.syr0ws.universe.sdk.Game;
@@ -122,6 +124,8 @@ public class FKRunningCycle extends RunningCycle {
         // Storing notifiers to unregister them later.
         this.notifiers.add(new PvPNotifier(model, this.manager));
         this.notifiers.add(new AssaultsNotifier(model, this.manager));
+        this.notifiers.add(new NetherNotifier(model, this.manager));
+        this.notifiers.add(new EndNotifier(model, this.manager));
 
         // Observing the model.
         this.notifiers.forEach(model::addObserver);

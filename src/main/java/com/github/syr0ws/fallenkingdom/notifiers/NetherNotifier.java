@@ -32,7 +32,7 @@ public class NetherNotifier implements AttributeObserver {
     @Override
     public void onUpdate(Attribute attribute) {
 
-        GameRunningDisplayEnum displayEnum = this.model.isPvPEnabled() ?
+        GameRunningDisplayEnum displayEnum = this.model.isNetherEnabled() ?
                 GameRunningDisplayEnum.NETHER_ENABLED : GameRunningDisplayEnum.NETHER_DISABLED;
 
         // Retrieving displays.

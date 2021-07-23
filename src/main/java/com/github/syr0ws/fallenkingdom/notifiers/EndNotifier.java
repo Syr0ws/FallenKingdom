@@ -32,7 +32,7 @@ public class EndNotifier implements AttributeObserver {
     @Override
     public void onUpdate(Attribute attribute) {
 
-        GameRunningDisplayEnum displayEnum = this.model.isPvPEnabled() ?
+        GameRunningDisplayEnum displayEnum = this.model.isEndEnabled() ?
                 GameRunningDisplayEnum.END_ENABLED : GameRunningDisplayEnum.END_DISABLED;
 
         // Retrieving displays.

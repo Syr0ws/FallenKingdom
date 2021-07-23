@@ -82,11 +82,13 @@ public class CraftFKModel extends DefaultGameModel implements FKModel {
     @Override
     public void setNetherEnabled(boolean enabled) {
         this.nether = enabled;
+        this.notifyChange(FKAttribute.NETHER_STATE);
     }
 
     @Override
     public void setEndEnabled(boolean enabled) {
         this.end = enabled;
+        this.notifyChange(FKAttribute.END_STATE);
     }
 
     @Override

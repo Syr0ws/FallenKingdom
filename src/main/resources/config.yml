@@ -75,11 +75,11 @@ assaults-activation-time: 10
 
 # Time in seconds before nether activation.
 # Default value is 900 (15 minutes).
-nether-activation-time: 900
+nether-activation-time: 15
 
 # Time in seconds before end activation.
 # Default value is 1800 (30 minutes).
-end-activation-time: 1800
+end-activation-time: 30
 
 # Set 'true' if you want to allow players to go to the nether or else set 'false'.
 allow-nether: true
@@ -356,7 +356,6 @@ nether:
     title:
       type: "TITLE"
       title: "${nether.enabled.title}"
-      subtitle: "${nether.enabled.subtitle}"
   disabled:
     message:
       type: "MESSAGE"
@@ -364,7 +363,6 @@ nether:
     title:
       type: "TITLE"
       title: "${nether.disabled.title}"
-      subtitle: "${nether.disabled.subtitle}"
 
 
 end:
