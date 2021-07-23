@@ -70,13 +70,13 @@ public class CraftFKModel extends DefaultGameModel implements FKModel {
     @Override
     public void setPvPEnabled(boolean enabled) {
         this.pvp = enabled;
-        this.notifyChange(GameAttribute.PVP_STATE);
+        this.notifyChange(FKAttribute.PVP_STATE);
     }
 
     @Override
     public void setAssaultsEnabled(boolean enabled) {
         this.assaults = enabled;
-        this.notifyChange(GameAttribute.ASSAULTS_STATE);
+        this.notifyChange(FKAttribute.ASSAULTS_STATE);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.notifiers;
 
 import com.github.syr0ws.fallenkingdom.game.cycles.displays.GameRunningDisplayEnum;
+import com.github.syr0ws.fallenkingdom.game.model.FKAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.game.model.GameAttribute;
 import com.github.syr0ws.universe.sdk.attributes.Attribute;
 import com.github.syr0ws.universe.sdk.attributes.AttributeObserver;
 import com.github.syr0ws.universe.sdk.displays.Display;
@@ -44,6 +44,6 @@ public class PvPNotifier implements AttributeObserver {
 
     @Override
     public Collection<Attribute> observed() {
-        return Collections.singleton(GameAttribute.PVP_STATE);
+        return Collections.singleton(FKAttribute.PVP_STATE);
     }
 }
