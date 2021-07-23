@@ -47,6 +47,26 @@ public class CraftFKSettings extends DefaultGameSettings implements FKSettings {
     }
 
     @Override
+    public MutableSetting<Integer> getNetherActivationTimeSetting() {
+        return super.getManager().getGenericSetting(FKSettingEnum.NETHER_ACTIVATION_TIME, Integer.class);
+    }
+
+    @Override
+    public MutableSetting<Integer> getEndActivationTimeSetting() {
+        return super.getManager().getGenericSetting(FKSettingEnum.END_ACTIVATION_TIME, Integer.class);
+    }
+
+    @Override
+    public MutableSetting<Boolean> getAllowNetherSetting() {
+        return super.getManager().getGenericSetting(FKSettingEnum.ALLOW_NETHER, Boolean.class);
+    }
+
+    @Override
+    public MutableSetting<Boolean> getAllowEndSetting() {
+        return super.getManager().getGenericSetting(FKSettingEnum.ALLOW_END, Boolean.class);
+    }
+
+    @Override
     public MutableSetting<Boolean> getAllowTeamChatSetting() {
         return super.getManager().getGenericSetting(FKSettingEnum.ALLOW_TEAM_CHAT, Boolean.class);
     }

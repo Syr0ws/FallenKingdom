@@ -15,6 +15,14 @@ public interface FKSettings extends GameSettings {
 
     MutableSetting<Integer> getAssaultsActivationTimeSetting();
 
+    MutableSetting<Integer> getNetherActivationTimeSetting();
+
+    MutableSetting<Integer> getEndActivationTimeSetting();
+
+    MutableSetting<Boolean> getAllowNetherSetting();
+
+    MutableSetting<Boolean> getAllowEndSetting();
+
     MutableSetting<Integer> getStartingCycleDurationSetting();
 
     MutableSetting<Boolean> getAllowTeamChatSetting();

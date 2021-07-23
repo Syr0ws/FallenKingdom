@@ -150,12 +150,23 @@ public class FKRunningCycle extends RunningCycle {
 
         Setting<Integer> pvpSetting = accessor.getPvPActivationTimeSetting();
         Setting<Integer> assaultsSetting = accessor.getAssaultsActivationTimeSetting();
+        Setting<Integer> netherActivationTimeSetting = accessor.getNetherActivationTimeSetting();
+        Setting<Integer> endActivationTimeSetting = accessor.getEndActivationTimeSetting();
         Setting<Integer> maxDurationSetting = accessor.getMaxGameDurationSetting();
+
+        Setting<Boolean> allowNetherSetting = accessor.getAllowNetherSetting();
+        Setting<Boolean> allowEndSetting = accessor.getAllowEndSetting();
 
         // Setting actions.
         actionManager.addAction(pvpSetting.getValue(), () -> model.setPvPEnabled(true));
         actionManager.addAction(assaultsSetting.getValue(), () -> model.setAssaultsEnabled(true));
         actionManager.addAction(maxDurationSetting.getValue(), this::done);
+
+        if(allowNetherSetting.getValue())
+            actionManager.addAction(netherActivationTimeSetting.getValue(), () -> model.setNetherEnabled(true));
+
+        if(allowEndSetting.getValue())
+            actionManager.addAction(endActivationTimeSetting.getValue(), () -> model.setEndEnabled(true));
 
         // Adding display actions.
         TimerUtils.loadDisplayActions(this.actionManager, this.getGame().getLangService(), this.getCycleSection());
