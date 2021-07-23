@@ -348,6 +348,42 @@ assaults:
       subtitle: "${assaults.disabled.subtitle}"
 
 
+nether:
+  enabled:
+    message:
+      type: "MESSAGE"
+      text: "${nether.enabled.message}"
+    title:
+      type: "TITLE"
+      title: "${nether.enabled.title}"
+      subtitle: "${nether.enabled.subtitle}"
+  disabled:
+    message:
+      type: "MESSAGE"
+      text: "${nether.disabled.message}"
+    title:
+      type: "TITLE"
+      title: "${nether.disabled.title}"
+      subtitle: "${nether.disabled.subtitle}"
+
+
+end:
+  enabled:
+    message:
+      type: "MESSAGE"
+      text: "${end.enabled.message}"
+    title:
+      type: "TITLE"
+      title: "${end.enabled.title}"
+  disabled:
+    message:
+      type: "MESSAGE"
+      text: "${end.disabled.message}"
+    title:
+      type: "TITLE"
+      title: "${end.disabled.title}"
+
+
 team:
   add:
     message:
