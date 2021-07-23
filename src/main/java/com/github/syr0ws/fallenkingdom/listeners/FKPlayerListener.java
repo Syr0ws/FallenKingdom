@@ -4,6 +4,8 @@ import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamBase;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.universe.commons.modules.combat.events.GamePlayerRespawnEvent;
 import com.github.syr0ws.universe.sdk.settings.Setting;
@@ -14,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 
 import java.util.Optional;
 
@@ -106,5 +109,26 @@ public class FKPlayerListener implements Listener {
         }
 
         event.setRespawnLocation(respawn);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerEnterBed(PlayerBedEnterEvent event) {
+
+        Player player = event.getPlayer();
+        Location location = event.getBed().getLocation();
+
+        Optional<? extends FKTeam> optional = this.model.getTeam(player.getUniqueId());
+
+        // If the player has no team, cancelling the event.
+        if(!optional.isPresent()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        FKTeam team = optional.get();
+        FKTeamBase base = team.getBase();
+
+        // If the bed isn't into the player's base, cancelling the event.
+        if(!base.getBase().isIn(location)) event.setCancelled(true);
     }
 }
