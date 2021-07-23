@@ -7,7 +7,7 @@ public enum GameRunningDisplayEnum {
     ASSAULTS_ENABLED("assaults.enabled"),
     ASSAULTS_DISABLED("assaults.disabled"),
     NETHER_ENABLED("nether.enabled"),
-    NETHER_DISABLED("nether.enabled"),
+    NETHER_DISABLED("nether.disabled"),
     END_ENABLED("end.enabled"),
     END_DISABLED("end.disabled"),
     WIN_ALL("win.all"),
