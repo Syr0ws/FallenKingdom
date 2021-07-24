@@ -121,7 +121,7 @@ public class CommandFK implements CommandExecutor {
         }
 
         // Checking if there is a started game.
-        if(!this.model.isRunning()) {
+        if(!this.model.isStarting() && !this.model.isStarted()) {
             this.getMessage("stop.not-started").displayTo(sender);
             return;
         }
