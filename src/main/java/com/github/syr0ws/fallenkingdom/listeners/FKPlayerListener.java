@@ -114,21 +114,21 @@ public class FKPlayerListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerEnterBed(PlayerBedEnterEvent event) {
 
+        // Cancelling the event all the team.
+        event.setCancelled(true);
+
         Player player = event.getPlayer();
         Location location = event.getBed().getLocation();
 
         Optional<? extends FKTeam> optional = this.model.getTeam(player.getUniqueId());
 
-        // If the player has no team, cancelling the event.
-        if(!optional.isPresent()) {
-            event.setCancelled(true);
-            return;
-        }
+        // If the player has no team, do not do anything else.
+        if(!optional.isPresent()) return;
 
         FKTeam team = optional.get();
         FKTeamBase base = team.getBase();
 
-        // If the bed isn't into the player's base, cancelling the event.
-        if(!base.getBase().isIn(location)) event.setCancelled(true);
+        // If the bed is into the player's base, setting it as respawn location.
+        if(base.getBase().isIn(location)) player.setBedSpawnLocation(location);
     }
 }
