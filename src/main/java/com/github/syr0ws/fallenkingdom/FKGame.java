@@ -10,6 +10,7 @@ import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.CraftFKModel;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.GameInitializer;
+import com.github.syr0ws.fallenkingdom.listeners.FKListener;
 import com.github.syr0ws.fallenkingdom.modes.FKPlayingMode;
 import com.github.syr0ws.fallenkingdom.modes.FKSpectatorMode;
 import com.github.syr0ws.fallenkingdom.modes.FKWaitingMode;
@@ -22,6 +23,7 @@ import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.game.mode.ModeManager;
 import com.github.syr0ws.universe.sdk.game.model.GameException;
+import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
 
 import java.util.Optional;
 
@@ -55,6 +57,9 @@ public class FKGame extends Game {
 
             // Registering commands.
             this.registerCommands();
+
+            // Registering listeners.
+            this.registerListeners();
 
         } catch (GameException e) { e.printStackTrace(); }
     }
@@ -125,6 +130,14 @@ public class FKGame extends Game {
         LangService service = this.getLangService();
 
         super.getCommand("fk").setExecutor(new CommandFK(this.model, this.controller, service));
+    }
+
+    private void registerListeners() {
+
+        ListenerManager manager = super.getListenerManager();
+        LangService service = this.getLangService();
+
+        manager.addListener(new FKListener(service));
     }
 
     public LangService getLangService() {
