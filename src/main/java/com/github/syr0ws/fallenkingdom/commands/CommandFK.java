@@ -126,6 +126,8 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
+        // TODO Check if the game is already finished.
+
         try {
 
             this.controller.stopGame();
@@ -297,11 +299,6 @@ public class CommandFK implements CommandExecutor {
             return;
         }
 
-        if(this.model.hasTeam(target.getUniqueId())) {
-            this.getMessage("team.add.already-in-team").displayTo(sender);
-            return;
-        }
-
         Optional<? extends FKTeam> optional = this.model.getTeamByName(args[3]);
 
         // Checking if the targeted team is valid.
@@ -313,6 +310,9 @@ public class CommandFK implements CommandExecutor {
         FKPlayer gamePlayer = this.model.getFKPlayer(target.getUniqueId());
 
         try {
+
+            // If the target is already in a team, removing him from it.
+            if(this.model.hasTeam(target.getUniqueId())) this.controller.removeTeam(gamePlayer);
 
             FKTeamPlayer teamPlayer = this.controller.addTeam(gamePlayer, optional.get());
 
