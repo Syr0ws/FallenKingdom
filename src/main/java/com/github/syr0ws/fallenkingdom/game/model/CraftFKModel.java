@@ -5,10 +5,8 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.commons.mode.DefaultModeType;
 import com.github.syr0ws.universe.commons.model.DefaultGameModel;
 import com.github.syr0ws.universe.commons.model.DefaultGamePlayer;
-import com.github.syr0ws.universe.sdk.game.mode.ModeType;
 import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
 import org.bukkit.entity.Player;
 
@@ -155,8 +153,7 @@ public class CraftFKModel extends DefaultGameModel implements FKModel {
 
     @Override
     public DefaultGamePlayer createPlayer(Player player) {
-        ModeType type = this.isStarted() ? DefaultModeType.SPECTATOR : DefaultModeType.WAITING;
-        return new CraftFKPlayer(player, type);
+        return new CraftFKPlayer(player);
     }
 
     @Override
