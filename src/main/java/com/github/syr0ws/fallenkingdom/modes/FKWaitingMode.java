@@ -6,14 +6,14 @@ import com.github.syr0ws.fallenkingdom.scoreboards.WaitingBoard;
 import com.github.syr0ws.universe.commons.mode.types.WaitingMode;
 import com.github.syr0ws.universe.commons.modules.ModuleEnum;
 import com.github.syr0ws.universe.commons.modules.ModuleService;
-import com.github.syr0ws.universe.commons.modules.scoreboard.Scoreboard;
-import com.github.syr0ws.universe.commons.modules.scoreboard.ScoreboardManager;
-import com.github.syr0ws.universe.commons.modules.scoreboard.ScoreboardModule;
+import com.github.syr0ws.universe.commons.modules.lang.LangService;
+import com.github.syr0ws.universe.commons.modules.view.ViewModule;
+import com.github.syr0ws.universe.commons.modules.view.ViewService;
+import com.github.syr0ws.universe.commons.modules.view.impl.DefaultViewType;
+import com.github.syr0ws.universe.commons.modules.view.views.ScoreboardView;
 import com.github.syr0ws.universe.sdk.game.model.GameException;
 import com.github.syr0ws.universe.sdk.game.model.GameModel;
 import org.bukkit.entity.Player;
-
-import java.util.Optional;
 
 public class FKWaitingMode extends WaitingMode {
 
@@ -32,16 +32,16 @@ public class FKWaitingMode extends WaitingMode {
     public void enable(Player player) {
         super.enable(player);
 
-        // Handling scoreboard.
-        this.setScoreboard(player);
+        // Setting views.
+        this.setViews(player);
     }
 
     @Override
     public void disable(Player player) {
         super.disable(player);
 
-        // Handling scoreboard.
-        this.removeScoreboard(player);
+        // Removing views.
+        this.removeViews(player);
     }
 
     @Override
@@ -49,37 +49,41 @@ public class FKWaitingMode extends WaitingMode {
         return (FKModel) super.getModel();
     }
 
-    private ScoreboardManager getScoreboardManager() throws GameException {
+    private ViewModule getViewModule() throws GameException {
 
         ModuleService service = this.game.getModuleService();
 
-        Optional<ScoreboardModule> optional = service.getModule(ModuleEnum.SCOREBOARD_MODULE.getName(), ScoreboardModule.class);
-
-        if(!optional.isPresent())
-            throw new GameException("ScoreboardModule not enabled.");
-
-        return optional.get().getScoreboardManager();
+        return service.getModule(ModuleEnum.VIEW_MODULE.getName(), ViewModule.class)
+                .orElseThrow(() -> new GameException("ViewModule not enabled."));
     }
 
-    private void setScoreboard(Player player) {
+    private void setViews(Player player) {
+
+        LangService langService = this.game.getLangService();
 
         try {
 
-            ScoreboardManager manager = this.getScoreboardManager();
-            Scoreboard scoreboard = new WaitingBoard(manager, player, this.game.getLangService(), this.getModel());
-            scoreboard.set();
+            ViewModule viewModule = this.getViewModule();
+            ViewService viewService = viewModule.getViewService();
+
+            // Setting game scoreboard.
+            viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class)
+                    .addView(player, new WaitingBoard(player, langService, this.getModel()));
 
         } catch (GameException e) { e.printStackTrace(); }
     }
 
-    private void removeScoreboard(Player player) {
+    private void removeViews(Player player) {
 
         try {
 
-            ScoreboardManager manager = this.getScoreboardManager();
+            ViewModule viewModule = this.getViewModule();
+            ViewService viewService = viewModule.getViewService();
 
-            Optional<? extends Scoreboard> optional = manager.getScoreboard(player);
-            optional.ifPresent(Scoreboard::remove);
+            // Removing all views.
+            viewService.getViewHandlers().stream()
+                    .filter(handler -> handler.hasViews(player))
+                    .forEach(handler -> handler.removeViews(player));
 
         } catch (GameException e) { e.printStackTrace(); }
     }

@@ -94,7 +94,7 @@ public class FKGame extends Game {
         service.enableModule(ModuleEnum.COMBAT_MODULE.newInstance(this));
         service.enableModule(ModuleEnum.CHAT_MODULE.newInstance(this));
         service.enableModule(ModuleEnum.BORDER_MODULE.newInstance(this));
-        service.enableModule(ModuleEnum.SCOREBOARD_MODULE.newInstance(this));
+        service.enableModule(ModuleEnum.VIEW_MODULE.newInstance(this));
         service.enableModule(ModuleEnum.LANG_MODULE.newInstance(this));
     }
 

@@ -1,44 +1,29 @@
 package com.github.syr0ws.fallenkingdom.scoreboards;
 
-import com.github.syr0ws.fallenkingdom.game.model.FKAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.commons.model.GameAttribute;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
-import com.github.syr0ws.universe.commons.modules.scoreboard.ScoreboardManager;
-import com.github.syr0ws.universe.sdk.attributes.Attribute;
-import com.github.syr0ws.universe.sdk.attributes.AttributeObserver;
 import com.github.syr0ws.universe.sdk.displays.types.Message;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+public class GameBoard extends FKBoard {
 
-public class GameBoard extends FKBoard implements AttributeObserver {
+    public static final String ID = "GameBoard";
 
     private final FKModel model;
     private final FKTeamPlayer teamPlayer;
-    // private final PeriodFormatter formatter;
 
-    public GameBoard(ScoreboardManager manager, Player player, LangService service, FKModel model) {
-        super(manager, player, service);
+    public GameBoard(Player player, LangService service, FKModel model) {
+        super(player, service);
 
         if(model == null)
             throw new IllegalArgumentException("FKModel cannot be null.");
 
         this.model = model;
-
-        // this.formatter = new PeriodFormatter(this.getScoreboardSection().getConfigurationSection("time"));
-
-        Optional<? extends FKTeamPlayer> optional = this.model.getTeamPlayer(player.getUniqueId());
-
-        if(!optional.isPresent())
-            throw new NullPointerException("FKTeamPlayer not found.");
-
-        this.teamPlayer = optional.get();
+        this.teamPlayer = model.getTeamPlayer(player.getUniqueId())
+                .orElseThrow(() -> new NullPointerException("FKTeamPlayer not found."));
     }
 
     @Override
@@ -47,32 +32,17 @@ public class GameBoard extends FKBoard implements AttributeObserver {
     }
 
     @Override
-    public void set() {
-        super.set();
-        this.model.addObserver(this);
+    public String getId() {
+        return ID;
     }
 
     @Override
-    public void remove() {
-        super.remove();
-        this.model.removeObserver(this);
-    }
-
-    @Override
-    public void onUpdate(Attribute attribute) {
-        this.update();
-    }
-
-    @Override
-    public Collection<Attribute> observed() {
-        return Arrays.asList(FKAttribute.PVP_STATE, FKAttribute.ASSAULTS_STATE, GameAttribute.TIME_CHANGE);
+    public int getPriority() {
+        return NORMAL_PRIORITY;
     }
 
     @Override
     protected String parse(String text) {
-
-        // String timeFormat = this.getScoreboardSection().getString("time.format", "");
-        // String time = this.formatter.format(timeFormat, this.model.getTime());
 
         Message message = new Message(text);
 
@@ -82,7 +52,6 @@ public class GameBoard extends FKBoard implements AttributeObserver {
         message.addPlaceholder(FKPlaceholder.KILLS.get(), Integer.toString(this.teamPlayer.getKills()));
         message.addPlaceholder(FKPlaceholder.DEATHS.get(), Integer.toString(this.teamPlayer.getDeaths()));
         message.addPlaceholder(FKPlaceholder.KDR.get(), Double.toString(this.teamPlayer.getKDR()));
-        // message.addPlaceholder(FKPlaceholder.TIME.get(), time);
 
         return message.getText();
     }

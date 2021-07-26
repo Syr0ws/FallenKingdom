@@ -3,25 +3,28 @@ package com.github.syr0ws.fallenkingdom.scoreboards;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.TextList;
-import com.github.syr0ws.universe.commons.modules.scoreboard.ScoreboardManager;
-import com.github.syr0ws.universe.commons.modules.scoreboard.impl.AbstractScoreboard;
+import com.github.syr0ws.universe.commons.modules.view.views.ScoreboardView;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public abstract class FKBoard extends AbstractScoreboard {
+public abstract class FKBoard extends ScoreboardView {
 
+    private final Player player;
     private final LangService service;
     private FastBoard board;
 
-    public FKBoard(ScoreboardManager manager, Player player, LangService service) {
-        super(manager, player);
+    public FKBoard(Player player, LangService service) {
+
+        if(player == null)
+            throw new IllegalArgumentException("Player cannot be null.");
 
         if(service == null)
             throw new IllegalArgumentException("LangService cannot be null.");
 
+        this.player = player;
         this.service = service;
     }
 
@@ -31,14 +34,12 @@ public abstract class FKBoard extends AbstractScoreboard {
 
     @Override
     public void set() {
-        super.set();
-        this.board = new FastBoard(this.getPlayer());
+        this.board = new FastBoard(this.player);
         this.update();
     }
 
     @Override
     public void remove() {
-        super.remove();
         this.board.delete();
     }
 
