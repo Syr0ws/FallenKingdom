@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.tools;
 
-import com.github.syr0ws.universe.displays.types.Message;
-import com.github.syr0ws.universe.placeholders.Placeholder;
+import com.github.syr0ws.universe.sdk.displays.types.Message;
+import com.github.syr0ws.universe.sdk.placeholders.Placeholder;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
