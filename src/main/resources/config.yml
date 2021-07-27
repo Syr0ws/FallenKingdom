@@ -109,6 +109,9 @@ catcher-percentage: 50
 # Set 'true' if you want players who has slept in a bed to respawn in it or else set 'false'.
 allow-bed-respawn: true
 
+# Set 'true' if you want an action bar be displayed to players during the game or else set 'false.
+game-action-bar: true
+
 # The type of capture used. You can choose between two types of capture:
 #
 # - AREA -> Players have to go into the enemy vaults and to stay in them during

@@ -5,6 +5,7 @@ import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.scoreboards.GameBoard;
+import com.github.syr0ws.fallenkingdom.views.GameActionBar;
 import com.github.syr0ws.universe.commons.mode.types.PlayingMode;
 import com.github.syr0ws.universe.commons.modules.ModuleEnum;
 import com.github.syr0ws.universe.commons.modules.ModuleService;
@@ -12,12 +13,11 @@ import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.view.ViewModule;
 import com.github.syr0ws.universe.commons.modules.view.ViewService;
 import com.github.syr0ws.universe.commons.modules.view.impl.DefaultViewType;
+import com.github.syr0ws.universe.commons.modules.view.views.ActionBarView;
 import com.github.syr0ws.universe.commons.modules.view.views.ScoreboardView;
 import com.github.syr0ws.universe.sdk.game.model.GameException;
 import com.github.syr0ws.universe.sdk.game.model.GameModel;
 import org.bukkit.entity.Player;
-
-import java.util.Optional;
 
 public class FKPlayingMode extends PlayingMode {
 
@@ -53,14 +53,17 @@ public class FKPlayingMode extends PlayingMode {
         this.removeViews(player);
     }
 
+    @Override
+    public FKModel getModel() {
+        return (FKModel) super.getModel();
+    }
+
     private FKTeamPlayer getTeamPlayer(Player player) {
 
-        Optional<? extends FKTeamPlayer> optional = this.getModel().getTeamPlayer(player.getUniqueId());
+        FKModel model = this.getModel();
 
-        if(!optional.isPresent())
-            throw new IllegalArgumentException("Player is not a FKTeamPlayer.");
-
-        return optional.get();
+        return model.getTeamPlayer(player.getUniqueId())
+                .orElseThrow(() -> new IllegalArgumentException("Player is not a FKTeamPlayer."));
     }
 
     private ViewModule getViewModule() throws GameException {
@@ -80,9 +83,8 @@ public class FKPlayingMode extends PlayingMode {
             ViewModule viewModule = this.getViewModule();
             ViewService viewService = viewModule.getViewService();
 
-            // Setting game scoreboard.
-            viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class)
-                    .addView(player, new GameBoard(player, langService, this.getModel()));
+            this.setScoreboard(player, viewService, langService);
+            this.setGameActionBar(player, viewService, langService);
 
         } catch (GameException e) { e.printStackTrace(); }
     }
@@ -102,8 +104,17 @@ public class FKPlayingMode extends PlayingMode {
         } catch (GameException e) { e.printStackTrace(); }
     }
 
-    @Override
-    public FKModel getModel() {
-        return (FKModel) super.getModel();
+    private void setScoreboard(Player player, ViewService viewService, LangService langService) {
+
+        // Setting game scoreboard.
+        viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class)
+                .addView(player, new GameBoard(player, langService, this.getModel()));
+    }
+
+    private void setGameActionBar(Player player, ViewService viewService, LangService langService) {
+
+        // Setting game action bar.
+        viewService.getViewHandler(DefaultViewType.ACTION_BAR, ActionBarView.class)
+                .addView(player, new GameActionBar(player, langService));
     }
 }

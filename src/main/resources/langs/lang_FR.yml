@@ -307,6 +307,14 @@ spectator-scoreboard:
 
 
 #############################################
+###             ACTION_BARS               ###
+#############################################
+
+
+game-action-bar-text: "&eCentre&6: &5%center_direction% &6- &eBase&6: &5%base_direction%"
+
+
+#############################################
 ###                OTHER                  ###
 #############################################
 
@@ -321,3 +329,14 @@ time-units:
   second:
     long: "second"
     short: "s"
+
+
+direction:
+  north: "⬆"
+  north-east: "⬈"
+  north-west: "⬉"
+  south: "⬇"
+  south-east: "⬊"
+  south-west: "⬋"
+  east: "➡"
+  west: "⬅"
