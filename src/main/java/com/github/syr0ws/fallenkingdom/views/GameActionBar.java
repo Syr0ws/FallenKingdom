@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class GameActionBar extends ActionBarView {
 
-    public static final String ID = "LocationTrackView";
+    public static final String ID = "GameActionBar";
 
     private final Player player;
     private final LangService service;
