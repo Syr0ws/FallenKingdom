@@ -52,4 +52,9 @@ public class GameActionBar extends ActionBarView {
     public int getPriority() {
         return NORMAL_PRIORITY;
     }
+
+    @Override
+    public boolean isUpdatable() {
+        return true;
+    }
 }

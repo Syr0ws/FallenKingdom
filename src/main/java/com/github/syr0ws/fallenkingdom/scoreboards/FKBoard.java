@@ -53,6 +53,11 @@ public abstract class FKBoard extends ScoreboardView {
         this.board.updateLines(lines);
     }
 
+    @Override
+    public boolean isUpdatable() {
+        return true;
+    }
+
     private Collection<String> getLines() {
 
         String key = this.getSectionName() + ".lines";
