@@ -2,7 +2,7 @@ package com.github.syr0ws.fallenkingdom.modes;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.scoreboards.SpectatorBoard;
+import com.github.syr0ws.fallenkingdom.views.scoreboards.SpectatorBoard;
 import com.github.syr0ws.universe.commons.mode.types.SpectatorMode;
 import com.github.syr0ws.universe.commons.modules.ModuleEnum;
 import com.github.syr0ws.universe.commons.modules.ModuleService;
