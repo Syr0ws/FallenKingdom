@@ -67,8 +67,7 @@ public class FKWaitingMode extends WaitingMode {
             ViewService viewService = viewModule.getViewService();
 
             // Setting game scoreboard.
-            viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class)
-                    .addView(player, new WaitingBoard(player, langService, this.getModel()));
+            this.setScoreboard(player, viewService, langService);
 
         } catch (GameException e) { e.printStackTrace(); }
     }
@@ -86,5 +85,13 @@ public class FKWaitingMode extends WaitingMode {
                     .forEach(handler -> handler.removeViews(player));
 
         } catch (GameException e) { e.printStackTrace(); }
+    }
+
+    private void setScoreboard(Player player, ViewService viewService, LangService langService) {
+
+        WaitingBoard board = new WaitingBoard(player, langService, this.getModel());
+
+        // Setting game scoreboard.
+        viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class).addView(player, board);
     }
 }

@@ -106,9 +106,10 @@ public class FKPlayingMode extends PlayingMode {
 
     private void setScoreboard(Player player, ViewService viewService, LangService langService) {
 
+        GameBoard board = new GameBoard(player, langService, this.getModel());
+
         // Setting game scoreboard.
-        viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class)
-                .addView(player, new GameBoard(player, langService, this.getModel()));
+        viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class).addView(player, board);
     }
 
     private void setGameActionBar(Player player, ViewService viewService, LangService langService) {

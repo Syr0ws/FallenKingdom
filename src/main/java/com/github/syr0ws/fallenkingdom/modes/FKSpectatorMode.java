@@ -67,8 +67,7 @@ public class FKSpectatorMode extends SpectatorMode {
             ViewService viewService = viewModule.getViewService();
 
             // Setting game scoreboard.
-            viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class)
-                    .addView(player, new SpectatorBoard(player, langService, this.getModel()));
+            this.setScoreboard(player, viewService, langService);
 
         } catch (GameException e) { e.printStackTrace(); }
     }
@@ -86,5 +85,13 @@ public class FKSpectatorMode extends SpectatorMode {
                     .forEach(handler -> handler.removeViews(player));
 
         } catch (GameException e) { e.printStackTrace(); }
+    }
+
+    private void setScoreboard(Player player, ViewService viewService, LangService langService) {
+
+        SpectatorBoard board = new SpectatorBoard(player, langService, this.getModel());
+
+        // Setting game scoreboard.
+        viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class).addView(player, board);
     }
 }
