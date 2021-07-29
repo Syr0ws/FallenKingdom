@@ -1,13 +1,20 @@
 package com.github.syr0ws.fallenkingdom.views.scoreboards;
 
+import com.github.syr0ws.fallenkingdom.game.model.FKAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
+import com.github.syr0ws.universe.commons.model.GameAttribute;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.sdk.attributes.Attribute;
+import com.github.syr0ws.universe.sdk.attributes.AttributeObserver;
 import com.github.syr0ws.universe.sdk.displays.types.Message;
 import org.bukkit.entity.Player;
 
-public class SpectatorBoard extends FKBoard {
+import java.util.Arrays;
+import java.util.Collection;
+
+public class SpectatorBoard extends FKBoard implements AttributeObserver {
 
     public static final String ID = "SpectatorBoard";
 
@@ -23,11 +30,6 @@ public class SpectatorBoard extends FKBoard {
     }
 
     @Override
-    protected String getSectionName() {
-        return "spectator-scoreboard";
-    }
-
-    @Override
     protected String parse(String text) {
 
         Message message = new Message(text);
@@ -36,6 +38,49 @@ public class SpectatorBoard extends FKBoard {
         message.addPlaceholder(FKPlaceholder.ASSAULTS_STATE.get(), this.getAssaultsState());
 
         return message.getText();
+    }
+
+    @Override
+    protected String getSectionName() {
+        return "spectator-scoreboard";
+    }
+
+    @Override
+    public void set() {
+        super.set();
+        this.model.addObserver(this);
+    }
+
+    @Override
+    public void remove() {
+        super.remove();
+        this.model.removeObserver(this);
+    }
+
+    @Override
+    public String getId() {
+        return ID;
+    }
+
+    @Override
+    public int getPriority() {
+        return NORMAL_PRIORITY;
+    }
+
+    @Override
+    public void onUpdate(Attribute attribute) {
+        super.update();
+    }
+
+    @Override
+    public Collection<Attribute> observed() {
+        return Arrays.asList(
+                GameAttribute.TIME_CHANGE,
+                FKAttribute.PVP_STATE,
+                FKAttribute.ASSAULTS_STATE,
+                FKAttribute.NETHER_STATE,
+                FKAttribute.END_STATE
+        );
     }
 
     private String getPvPState() {
@@ -54,15 +99,5 @@ public class SpectatorBoard extends FKBoard {
         Text text = this.getLangService().getMessage(key, Text.class);
 
         return text.getText();
-    }
-
-    @Override
-    public String getId() {
-        return ID;
-    }
-
-    @Override
-    public int getPriority() {
-        return NORMAL_PRIORITY;
     }
 }

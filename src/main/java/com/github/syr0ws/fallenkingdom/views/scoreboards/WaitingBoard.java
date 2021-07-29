@@ -3,13 +3,19 @@ package com.github.syr0ws.fallenkingdom.views.scoreboards;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
+import com.github.syr0ws.universe.commons.model.GameAttribute;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.sdk.attributes.Attribute;
+import com.github.syr0ws.universe.sdk.attributes.AttributeObserver;
 import com.github.syr0ws.universe.sdk.displays.types.Message;
 import com.github.syr0ws.universe.sdk.game.model.GameState;
 import org.bukkit.entity.Player;
 
-public class WaitingBoard extends FKBoard {
+import java.util.Arrays;
+import java.util.Collection;
+
+public class WaitingBoard extends FKBoard implements AttributeObserver {
 
     public static final String ID = "WaitingBoard";
 
@@ -22,11 +28,6 @@ public class WaitingBoard extends FKBoard {
             throw new IllegalArgumentException("FKModel cannot be null.");
 
         this.model = model;
-    }
-
-    @Override
-    protected String getSectionName() {
-        return "waiting-scoreboard";
     }
 
     @Override
@@ -46,14 +47,21 @@ public class WaitingBoard extends FKBoard {
         return message.getText();
     }
 
-    private String getState() {
+    @Override
+    protected String getSectionName() {
+        return "waiting-scoreboard";
+    }
 
-        String state = this.model.getState() == GameState.WAITING ? "waiting" : "starting";
-        String key = String.format("%s.state.%s", this.getSectionName(), state);
+    @Override
+    public void set() {
+        super.set();
+        this.model.addObserver(this);
+    }
 
-        Text text = this.getLangService().getMessage(key, Text.class);
-
-        return text.getText();
+    @Override
+    public void remove() {
+        super.remove();
+        this.model.removeObserver(this);
     }
 
     @Override
@@ -64,5 +72,25 @@ public class WaitingBoard extends FKBoard {
     @Override
     public int getPriority() {
         return NORMAL_PRIORITY;
+    }
+
+    @Override
+    public void onUpdate(Attribute attribute) {
+        super.update();
+    }
+
+    @Override
+    public Collection<Attribute> observed() {
+        return Arrays.asList(GameAttribute.STATE_CHANGE, GameAttribute.GAME_PLAYER_CHANGE);
+    }
+
+    private String getState() {
+
+        String state = this.model.getState() == GameState.WAITING ? "waiting" : "starting";
+        String key = String.format("%s.state.%s", this.getSectionName(), state);
+
+        Text text = this.getLangService().getMessage(key, Text.class);
+
+        return text.getText();
     }
 }

@@ -28,9 +28,9 @@ public abstract class FKBoard extends ScoreboardView {
         this.service = service;
     }
 
-    protected abstract String getSectionName();
-
     protected abstract String parse(String text);
+
+    protected abstract String getSectionName();
 
     @Override
     public void set() {
@@ -55,7 +55,7 @@ public abstract class FKBoard extends ScoreboardView {
 
     @Override
     public boolean isUpdatable() {
-        return true;
+        return false;
     }
 
     private Collection<String> getLines() {
