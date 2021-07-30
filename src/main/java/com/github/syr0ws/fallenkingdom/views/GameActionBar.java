@@ -5,6 +5,7 @@ import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.tools.direction.Direction;
 import com.github.syr0ws.fallenkingdom.tools.direction.DirectionUtils;
+import com.github.syr0ws.fallenkingdom.utils.LangUtils;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
 import com.github.syr0ws.universe.commons.modules.view.views.ActionBarView;
@@ -81,8 +82,6 @@ public class GameActionBar extends ActionBarView {
 
         Direction direction = DirectionUtils.getDirectionToGoTo(this.player.getPlayer(), location);
 
-        String key = direction.name().toLowerCase().replace("_", "-");
-
-        return this.service.getMessage("direction." + key, Text.class).getText();
+        return LangUtils.getDirection(direction, this.service);
     }
 }

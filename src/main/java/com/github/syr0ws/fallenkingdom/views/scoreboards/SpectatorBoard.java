@@ -3,6 +3,10 @@ package com.github.syr0ws.fallenkingdom.views.scoreboards;
 import com.github.syr0ws.fallenkingdom.game.model.FKAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
+import com.github.syr0ws.fallenkingdom.tools.v2.TimeFormatter;
+import com.github.syr0ws.fallenkingdom.tools.v2.TimeUnit;
+import com.github.syr0ws.fallenkingdom.tools.v2.TimeUnitTranslation;
+import com.github.syr0ws.fallenkingdom.utils.LangUtils;
 import com.github.syr0ws.universe.commons.model.GameAttribute;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
@@ -13,12 +17,14 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 public class SpectatorBoard extends FKBoard implements AttributeObserver {
 
     public static final String ID = "SpectatorBoard";
 
     private final FKModel model;
+    private final TimeFormatter formatter;
 
     public SpectatorBoard(Player player, LangService service, FKModel model) {
         super(player, service);
@@ -27,10 +33,15 @@ public class SpectatorBoard extends FKBoard implements AttributeObserver {
             throw new IllegalArgumentException("FKModel cannot be null.");
 
         this.model = model;
+
+        Map<TimeUnit, TimeUnitTranslation> translations = LangUtils.loadTranslations(service);
+        this.formatter = new TimeFormatter(translations);
     }
 
     @Override
     protected String parse(String text) {
+
+        text = this.formatter.format(text, this.model.getTime());
 
         Message message = new Message(text);
 

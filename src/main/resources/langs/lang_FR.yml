@@ -272,7 +272,7 @@ game-scoreboard:
     - "&6• &eKills&6: %kills%"
     - "&6• &eMorts&6: %deaths%"
     - " "
-    - "&6• &eTemps de jeu&6: %time%"
+    - "&6• &eTemps de jeu&6: %short_hours%%short_minutes%%short_seconds%"
     - " "
     - "&6&m--------------------"
   pvp-state:
@@ -294,7 +294,7 @@ spectator-scoreboard:
     - "&6• &ePvP&6: %pvp_state%"
     - "&6• &eAssaults&6: %assaults_state%"
     - " "
-    - "&6• &eTemps de jeu&6: %time%"
+    - "&6• &eTemps de jeu&6: %short_hours%%short_minutes%%short_seconds%"
     - " "
     - "&6&m--------------------"
   pvp-state:
@@ -320,14 +320,21 @@ game-action-bar-text: "&eCentre&6: &5%center_direction% &6- &eBase&6: &5%base_di
 
 
 time-units:
-  hour:
+  day:
+    plural: "jours"
     long: "jour"
     short: "j"
+  hour:
+    plural: "heures"
+    long: "heure"
+    short: "h"
   minute:
+    plural: "minutes"
     long: "minute"
     short: "m"
   second:
-    long: "second"
+    plural: "secondes"
+    long: "seconde"
     short: "s"
 
 

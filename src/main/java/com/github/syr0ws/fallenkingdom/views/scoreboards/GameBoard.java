@@ -4,6 +4,10 @@ import com.github.syr0ws.fallenkingdom.game.model.FKAttribute;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.tools.v2.TimeFormatter;
+import com.github.syr0ws.fallenkingdom.tools.v2.TimeUnit;
+import com.github.syr0ws.fallenkingdom.tools.v2.TimeUnitTranslation;
+import com.github.syr0ws.fallenkingdom.utils.LangUtils;
 import com.github.syr0ws.universe.commons.model.GameAttribute;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
@@ -14,6 +18,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 public class GameBoard extends FKBoard implements AttributeObserver {
 
@@ -21,6 +26,7 @@ public class GameBoard extends FKBoard implements AttributeObserver {
 
     private final FKModel model;
     private final FKTeamPlayer teamPlayer;
+    private final TimeFormatter formatter;
 
     public GameBoard(Player player, LangService service, FKModel model) {
         super(player, service);
@@ -31,10 +37,15 @@ public class GameBoard extends FKBoard implements AttributeObserver {
         this.model = model;
         this.teamPlayer = model.getTeamPlayer(player.getUniqueId())
                 .orElseThrow(() -> new NullPointerException("FKTeamPlayer not found."));
+
+        Map<TimeUnit, TimeUnitTranslation> translations = LangUtils.loadTranslations(service);
+        this.formatter = new TimeFormatter(translations);
     }
 
     @Override
     protected String parse(String text) {
+
+        text = this.formatter.format(text, this.model.getTime());
 
         Message message = new Message(text);
 
