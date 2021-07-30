@@ -15,7 +15,9 @@ public enum FKPlaceholder implements Placeholder {
     MAX_PLAYERS("max_players"),
     TEAM_NAME("team_name"),
     CATCHER_TEAM_NAME("catcher_team_name"),
-    CAPTURED_TEAM_NAME("captured_team_name");
+    CAPTURED_TEAM_NAME("captured_team_name"),
+    CENTER_DIRECTION("center_direction"),
+    BASE_DIRECTION("base_direction");
 
     private final String placeholder;
 
