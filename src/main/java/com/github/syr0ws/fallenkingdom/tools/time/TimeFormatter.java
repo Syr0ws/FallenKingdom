@@ -25,6 +25,7 @@ public class TimeFormatter {
 
         Message message = new Message(string);
 
+        // Using a loop to access units and their value.
         for(int index = 0; index < values.length; index++) {
 
             int value = values[index];
@@ -32,6 +33,7 @@ public class TimeFormatter {
             TimeUnit unit = TimeUnit.values()[index];
             TimeUnitTranslation translation = this.units.get(unit);
 
+            // Checking if the translation exists.
             if(translation == null) continue;
 
             this.addPlaceholder(message, unit, translation, value);
@@ -44,9 +46,11 @@ public class TimeFormatter {
 
         String timeValue;
 
+        // Handling long wordings.
         if(value == 1) timeValue = value + translation.getWording();
         else timeValue = value + translation.getPluralWording();
 
+        // Handling short wordings.
         String shortTimeValue = value >= 1 ? value + translation.getShortWording() : "";
 
         message.addPlaceholder(unit.getPlaceholder(), timeValue);
