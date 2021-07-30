@@ -79,7 +79,7 @@ public class GameActionBar extends ActionBarView {
 
     private String getDirection(Location location) {
 
-        Direction direction = DirectionUtils.getDirectionToGo(this.player.getPlayer(), location);
+        Direction direction = DirectionUtils.getDirectionToGoTo(this.player.getPlayer(), location);
 
         String key = direction.name().toLowerCase().replace("_", "-");
 

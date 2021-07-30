@@ -6,7 +6,7 @@ import org.bukkit.util.Vector;
 
 public class DirectionUtils {
 
-    public static Direction getDirectionToGo(Player player, Location location) {
+    public static Direction getDirectionToGoTo(Player player, Location location) {
 
         // The vector between the position of the player and the location.
         Vector vector = getVectorBetween(player.getLocation(), location);
@@ -21,7 +21,7 @@ public class DirectionUtils {
         // Multiplying the angle by -1 to get a positive number.
         double angle = ((yaw - targetLocation.getYaw()) % 360) * (-1);
 
-        return getDirectionToGo(angle);
+        return DirectionUtils.getDirection(angle);
     }
 
     private static Vector getVectorBetween(Location loc1, Location loc2) {
@@ -31,7 +31,7 @@ public class DirectionUtils {
         return loc1.subtract(loc2).toVector().normalize();
     }
 
-    private static Direction getDirectionToGo(double angle) {
+    private static Direction getDirection(double angle) {
 
         // Note : In this method, all the angle are inverted because we need the direction to go to.
 
