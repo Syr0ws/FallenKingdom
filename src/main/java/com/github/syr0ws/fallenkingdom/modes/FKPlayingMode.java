@@ -114,8 +114,9 @@ public class FKPlayingMode extends PlayingMode {
 
     private void setGameActionBar(Player player, ViewService viewService, LangService langService) {
 
+        GameActionBar actionBar = new GameActionBar(this.getTeamPlayer(player), this.getModel(), langService);
+
         // Setting game action bar.
-        viewService.getViewHandler(DefaultViewType.ACTION_BAR, ActionBarView.class)
-                .addView(player, new GameActionBar(player, langService));
+        viewService.getViewHandler(DefaultViewType.ACTION_BAR, ActionBarView.class).addView(player, actionBar);
     }
 }
