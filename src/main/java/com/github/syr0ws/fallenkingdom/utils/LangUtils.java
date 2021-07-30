@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.utils;
 
 import com.github.syr0ws.fallenkingdom.tools.direction.Direction;
-import com.github.syr0ws.fallenkingdom.tools.v2.TimeUnit;
-import com.github.syr0ws.fallenkingdom.tools.v2.TimeUnitTranslation;
+import com.github.syr0ws.fallenkingdom.tools.time.TimeUnit;
+import com.github.syr0ws.fallenkingdom.tools.time.TimeUnitTranslation;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
 

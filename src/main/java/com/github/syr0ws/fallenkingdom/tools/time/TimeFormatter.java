@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.tools.v2;
+package com.github.syr0ws.fallenkingdom.tools.time;
 
 import com.github.syr0ws.universe.sdk.displays.types.Message;
 

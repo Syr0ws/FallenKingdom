@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.tools.v2;
+package com.github.syr0ws.fallenkingdom.tools.time;
 
 public class TimeUnitTranslation {
 
