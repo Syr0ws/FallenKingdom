@@ -1,28 +1,38 @@
 package com.github.syr0ws.fallenkingdom.views;
 
+import com.github.syr0ws.fallenkingdom.game.model.FKModel;
+import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
+import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
+import com.github.syr0ws.fallenkingdom.tools.direction.Direction;
+import com.github.syr0ws.fallenkingdom.tools.direction.DirectionUtils;
 import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
 import com.github.syr0ws.universe.commons.modules.view.views.ActionBarView;
 import com.github.syr0ws.universe.sdk.displays.types.ActionBar;
 import com.github.syr0ws.universe.sdk.displays.types.LegacyActionBar;
-import org.bukkit.entity.Player;
+import org.bukkit.Location;
 
 public class GameActionBar extends ActionBarView {
 
     public static final String ID = "GameActionBar";
 
-    private final Player player;
+    private final FKTeamPlayer player;
+    private final FKModel model;
     private final LangService service;
 
-    public GameActionBar(Player player, LangService service) {
+    public GameActionBar(FKTeamPlayer player, FKModel model, LangService service) {
 
         if(player == null)
-            throw new IllegalArgumentException("Player cannot be null.");
+            throw new IllegalArgumentException("FKTeamPlayer cannot be null.");
+
+        if(model == null)
+            throw new IllegalArgumentException("FKModel cannot be null.");
 
         if(service == null)
             throw new IllegalArgumentException("LangService cannot be null.");
 
         this.player = player;
+        this.model = model;
         this.service = service;
     }
 
@@ -36,8 +46,17 @@ public class GameActionBar extends ActionBarView {
 
         Text format = this.service.getMessage("game-action-bar-text", Text.class);
 
+        Location spawn = this.model.getSpawn();
+        Location base = this.player.getTeam().getBase().getSpawn();
+
+        String spawnDirection = this.getDirection(spawn);
+        String baseDirection = this.getDirection(base);
+
+        format.addPlaceholder(FKPlaceholder.CENTER_DIRECTION.get(), spawnDirection);
+        format.addPlaceholder(FKPlaceholder.BASE_DIRECTION.get(), baseDirection);
+
         ActionBar actionBar = new LegacyActionBar(format.getText());
-        actionBar.displayTo(this.player);
+        actionBar.displayTo(this.player.getPlayer());
     }
 
     @Override
@@ -56,5 +75,14 @@ public class GameActionBar extends ActionBarView {
     @Override
     public boolean isUpdatable() {
         return true;
+    }
+
+    private String getDirection(Location location) {
+
+        Direction direction = DirectionUtils.getDirectionToGo(this.player.getPlayer(), location);
+
+        String key = direction.name().toLowerCase().replace("_", "-");
+
+        return this.service.getMessage("direction." + key, Text.class).getText();
     }
 }
