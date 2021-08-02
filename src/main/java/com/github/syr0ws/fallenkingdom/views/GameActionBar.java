@@ -7,8 +7,8 @@ import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
 import com.github.syr0ws.universe.commons.modules.lang.utils.LangUtils;
 import com.github.syr0ws.universe.commons.modules.view.views.ActionBarView;
+import com.github.syr0ws.universe.sdk.displays.loaders.ActionBarLoader;
 import com.github.syr0ws.universe.sdk.displays.types.ActionBar;
-import com.github.syr0ws.universe.sdk.displays.types.LegacyActionBar;
 import com.github.syr0ws.universe.sdk.tools.direction.Direction;
 import com.github.syr0ws.universe.sdk.tools.direction.DirectionUtils;
 import org.bukkit.Location;
@@ -56,7 +56,7 @@ public class GameActionBar extends ActionBarView {
         format.addPlaceholder(FKPlaceholder.CENTER_DIRECTION.get(), spawnDirection);
         format.addPlaceholder(FKPlaceholder.BASE_DIRECTION.get(), baseDirection);
 
-        ActionBar actionBar = new LegacyActionBar(format.getText());
+        ActionBar actionBar = new ActionBarLoader(this.service).getActionBar(format.getText());
         actionBar.displayTo(this.player.getPlayer());
     }
 
