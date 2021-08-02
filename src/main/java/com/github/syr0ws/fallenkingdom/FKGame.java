@@ -1,9 +1,7 @@
 package com.github.syr0ws.fallenkingdom;
 
 import com.github.syr0ws.fallenkingdom.chat.PlayingChat;
-import com.github.syr0ws.fallenkingdom.chat.SpectatorChat;
 import com.github.syr0ws.fallenkingdom.chat.TeamChat;
-import com.github.syr0ws.fallenkingdom.chat.WaitingChat;
 import com.github.syr0ws.fallenkingdom.commands.CommandFK;
 import com.github.syr0ws.fallenkingdom.game.controller.CraftFKController;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
@@ -14,6 +12,8 @@ import com.github.syr0ws.fallenkingdom.listeners.FKListener;
 import com.github.syr0ws.fallenkingdom.modes.FKPlayingMode;
 import com.github.syr0ws.fallenkingdom.modes.FKSpectatorMode;
 import com.github.syr0ws.fallenkingdom.modes.FKWaitingMode;
+import com.github.syr0ws.universe.commons.chat.DefaultSpectatorChat;
+import com.github.syr0ws.universe.commons.chat.DefaultWaitingChat;
 import com.github.syr0ws.universe.commons.modules.ModuleEnum;
 import com.github.syr0ws.universe.commons.modules.ModuleService;
 import com.github.syr0ws.universe.commons.modules.chat.ChatModel;
@@ -119,10 +119,10 @@ public class FKGame extends Game {
         ChatModule module = optional.get();
         ChatModel chatService = module.getChatModel();
 
-        chatService.registerChat(new WaitingChat(this.model));
+        chatService.registerChat(new DefaultWaitingChat(this.model));
+        chatService.registerChat(new DefaultSpectatorChat(this.model));
         chatService.registerChat(new PlayingChat(this.model));
         chatService.registerChat(new TeamChat(this.model));
-        chatService.registerChat(new SpectatorChat(this.model));
     }
 
     private void registerCommands() {

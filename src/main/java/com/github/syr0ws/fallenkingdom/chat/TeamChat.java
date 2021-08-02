@@ -17,26 +17,25 @@ import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
 import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TeamChat implements Chat {
 
     private final FKModel model;
-    private final FKSettings settings;
 
     public TeamChat(FKModel model) {
-
-        if(model == null)
-            throw new IllegalArgumentException("FKModel cannot be null.");
-
         this.model = model;
-        this.settings = model.getSettings();
     }
 
     @Override
     public void onChat(ChatMessage message) {
 
-        Player player = message.getPlayer();
+        Player player = message.getSender();
+
+        FKSettings settings = this.model.getSettings();
+        String format = settings.getTeamChatFormatSetting().getValue();
 
         Optional<? extends FKTeamPlayer> optional = this.model.getTeamPlayer(player.getUniqueId());
 
@@ -46,16 +45,19 @@ public class TeamChat implements Chat {
         FKTeamPlayer teamPlayer = optional.get();
         FKTeam team = teamPlayer.getTeam();
 
-        String format = this.settings.getTeamChatFormatSetting().getValue();
-
         // Creating the message.
         Message msg = new Message(format);
-        msg.addPlaceholder(PlaceholderEnum.PLAYER_NAME.get(), message.getPlayer().getName());
+        msg.addPlaceholder(PlaceholderEnum.PLAYER_NAME.get(), message.getSender().getName());
         msg.addPlaceholder(PlaceholderEnum.MESSAGE.get(), message.getMessage());
         msg.addPlaceholder(FKPlaceholder.TEAM_NAME.get(), team.getDisplayName());
 
         // Sending it.
-        team.sendDisplay(msg);
+        Collection<Player> receivers = team.getOnlineTeamPlayers().stream()
+                .map(FKTeamPlayer::getPlayer)
+                .collect(Collectors.toList());
+
+        message.setFormat(msg.getText());
+        message.setReceivers(receivers);
     }
 
     @Override
@@ -65,14 +67,14 @@ public class TeamChat implements Chat {
 
         if(!this.model.isRunning()) return false;
 
-        Player player = message.getPlayer();
+        Player player = message.getSender();
         GamePlayer gamePlayer = this.model.getPlayer(player.getUniqueId());
 
         ModeType modeType = gamePlayer.getModeType();
 
         if(!modeType.equals(DefaultModeType.PLAYING)) return false;
 
-        MutableSetting<Character> setting = this.settings.getTeamChatPrefixSetting();
+        MutableSetting<Character> setting = this.model.getSettings().getTeamChatPrefixSetting();
         String msg = message.getMessage();
 
         return msg.startsWith(setting.getValue().toString());
@@ -84,7 +86,7 @@ public class TeamChat implements Chat {
     }
 
     private boolean isChatAllowed() {
-        MutableSetting<Boolean> setting = this.settings.getAllowWaitingChatSetting();
-        return setting.getValue();
+        FKSettings settings = this.model.getSettings();
+        return settings.getAllowTeamChatSetting().getValue();
     }
 }
