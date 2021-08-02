@@ -4,7 +4,7 @@ import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.commons.chat.DefaultGameChat;
+import com.github.syr0ws.universe.commons.chat.DefaultPlayingChat;
 import com.github.syr0ws.universe.commons.modules.chat.ChatException;
 import com.github.syr0ws.universe.commons.modules.chat.ChatMessage;
 import com.github.syr0ws.universe.commons.modules.chat.ChatPriority;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
-public class PlayingChat extends DefaultGameChat {
+public class PlayingChat extends DefaultPlayingChat {
 
     public PlayingChat(FKModel model) {
         super(model);
