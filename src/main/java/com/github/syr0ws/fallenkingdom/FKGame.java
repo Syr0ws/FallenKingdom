@@ -96,6 +96,7 @@ public class FKGame extends Game {
         service.enableModule(ModuleEnum.BORDER_MODULE.newInstance(this));
         service.enableModule(ModuleEnum.VIEW_MODULE.newInstance(this));
         service.enableModule(ModuleEnum.LANG_MODULE.newInstance(this));
+        service.enableModule(ModuleEnum.WEATHER_MODULE.newInstance(this));
     }
 
     private void registerGameModes() {
