@@ -205,12 +205,14 @@ public class CraftFKController extends DefaultGameController implements FKContro
         if(team.isEliminated())
             throw new GameException("FKTeam already eliminated.");
 
+        // When a team is eliminated, all the alive players of the team must be eliminated too.
+        team.getTeamPlayers().stream()
+                .filter(FKTeamPlayer::isAlive)
+                .forEach(player -> this.internalEliminate((CraftFKTeamPlayer) player));
+
         // If the team is valid, it is an instance of CraftFKTeam.
         CraftFKTeam fkTeam = (CraftFKTeam) team;
         fkTeam.eliminate();
-
-        // When a team is eliminated, all the alive players of the team must be eliminated too.
-        this.eliminatePlayers(fkTeam);
 
         // Checking if a team has win.
         this.checkTeamWin();
@@ -234,11 +236,8 @@ public class CraftFKController extends DefaultGameController implements FKContro
 
         // If the player is valid, it is an instance of CraftFKTeamPlayer.
         CraftFKTeamPlayer craftFKTeamPlayer = (CraftFKTeamPlayer) player;
-        craftFKTeamPlayer.setAlive(false);
 
-        // Throwing an event.
-        PlayerEliminateEvent event = new PlayerEliminateEvent(player);
-        Bukkit.getPluginManager().callEvent(event);
+        this.internalEliminate(craftFKTeamPlayer);
 
         // Checking if the team has players alive.
         long playersAlive = player.getTeam().getTeamPlayers().stream()
@@ -270,15 +269,13 @@ public class CraftFKController extends DefaultGameController implements FKContro
         this.win(team);
     }
 
-    private void eliminatePlayers(CraftFKTeam team) {
+    private void internalEliminate(CraftFKTeamPlayer player) {
 
-        for(CraftFKTeamPlayer player : team.getTeamPlayers()) {
+        player.setAlive(false);
 
-            if(!player.isAlive()) continue;
-
-            try { this.eliminate(player);
-            } catch (GameException e) { e.printStackTrace(); }
-        }
+        // Throwing an event.
+        PlayerEliminateEvent event = new PlayerEliminateEvent(player);
+        Bukkit.getPluginManager().callEvent(event);
     }
 
     private void eliminateTeams(Predicate<FKTeam> predicate) {
