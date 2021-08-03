@@ -5,6 +5,7 @@ import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.views.GameActionBar;
+import com.github.syr0ws.fallenkingdom.views.PlayerNameView;
 import com.github.syr0ws.fallenkingdom.views.scoreboards.GameBoard;
 import com.github.syr0ws.universe.commons.mode.types.PlayingMode;
 import com.github.syr0ws.universe.commons.modules.ModuleEnum;
@@ -14,6 +15,7 @@ import com.github.syr0ws.universe.commons.modules.view.ViewModule;
 import com.github.syr0ws.universe.commons.modules.view.ViewService;
 import com.github.syr0ws.universe.commons.modules.view.impl.DefaultViewType;
 import com.github.syr0ws.universe.commons.modules.view.views.ActionBarView;
+import com.github.syr0ws.universe.commons.modules.view.views.NameView;
 import com.github.syr0ws.universe.commons.modules.view.views.ScoreboardView;
 import com.github.syr0ws.universe.sdk.game.model.GameException;
 import com.github.syr0ws.universe.sdk.game.model.GameModel;
@@ -85,6 +87,7 @@ public class FKPlayingMode extends PlayingMode {
 
             this.setScoreboard(player, viewService, langService);
             this.setGameActionBar(player, viewService, langService);
+            this.setNameView(player, viewService);
 
         } catch (GameException e) { e.printStackTrace(); }
     }
@@ -118,5 +121,14 @@ public class FKPlayingMode extends PlayingMode {
 
         // Setting game action bar.
         viewService.getViewHandler(DefaultViewType.ACTION_BAR, ActionBarView.class).addView(player, actionBar);
+    }
+
+    private void setNameView(Player player, ViewService service) {
+
+        FKTeamPlayer teamPlayer = this.getTeamPlayer(player);
+
+        PlayerNameView view = new PlayerNameView(teamPlayer);
+
+        service.getViewHandler(DefaultViewType.NAME, NameView.class).addView(player, view);
     }
 }
