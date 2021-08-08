@@ -30,7 +30,7 @@ game-spawn:
   world: "world"
 
 # The list of blocks that players can place outside their base.
-# All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+# Available values: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 allowed-blocks:
   - TNT
   - LEVER
@@ -39,77 +39,97 @@ allowed-blocks:
   - YELLOW_FLOWER
 
 # A list of blocks which are only placeable in the chest room.
-# All the blocs are available here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+# Available values: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 vault-blocks:
   - CHEST
   - ENDER_CHEST
   - SHULKER_BOX
 
-# The minimum number of players required to start a game. Must be greater or equals than 2.
+# The minimum number of players required to start a game.
+# Available values: A number >= 2.
 min-players: 2
 
-# The minimum number of players required to start a game automatically. Must be greater or equals than 2.
+# The minimum number of players required to start a game automatically.
+# Available values: A number >= 2.
 min-players-for-auto-start: 2
 
-# Set 'true' if you want to allow the plugin to start the game automatically when there is the
-# required number of online players. If 'false' is set, the game can only be launched using the
-# '/fk start' command.
+# Enable / Disable the automatic game start. If disabled, the game can only be launched using
+# the '/fk start' command.
+# Available values: true / false.
 auto-start: true
 
 # The maximum number of players who can play in the same game.
+# Available values: A number >= 2.
 max-players: 16
 
 # The maximum number of spectators who can join a game.
+# Available values: A number >= 0.
 max-spectators: 8
 
-# Set 'true' if you want eliminated players to be kicked of the server or else set 'false'.
+# Kick players when they are eliminated.
+# Available values: true / false.
 kick-eliminated: false
 
+# Enable / Disable the Nether.
+# Available values: true / false.
+allow-nether: true
+
+# Enable / Disable the End.
+# Available values: true / false.
+allow-end: true
+
 # Time in seconds before pvp activation.
-# Default value is 1800 (30 minutes).
+# Available values: A number >= 0.
+# Default value: 1800 (30 minutes).
 pvp-activation-time: 5
 
 # Time in seconds before assaults activation.
-# Default value is 3600 (1 hour).
+# Available values: A number >= 0.
+# Default value: 3600 (1 hour).
 assaults-activation-time: 10
 
 # Time in seconds before nether activation.
-# Default value is 900 (15 minutes).
+# Available values: A number >= 0.
+# Default value: 900 (15 minutes).
+# Note: Nether will not be enabled if 'allow-nether' is set to 'false'.
 nether-activation-time: 15
 
 # Time in seconds before end activation.
-# Default value is 1800 (30 minutes).
+# Available values: A number >= 0.
+# Default value: 1800 (30 minutes).
+# Note: End will not be enabled if 'allow-end' is set to 'false'.
 end-activation-time: 30
-
-# Set 'true' if you want to allow players to go to the nether or else set 'false'.
-allow-nether: true
-
-# Set 'true' if you want to allow players to go to the end or else set 'false'.
-allow-end: true
 
 # The maximum duration in seconds of a game. After this time, the current game
 # will be stopped and the remaining teams will be declared equal.
-# Default value is 10800 (3 hours).
+# Available values: A number >= 0.
+# Default value: 10800 (3 hours).
 max-game-duration: 10800
 
 # The duration in seconds of the launch period.
+# Available values: A number >= 0.
 starting-cycle-duration: 10
 
-# Set 'true' if you want to allow friendly fire or else set 'false'.
+# Enable / Disable friendly fire.
+# Available values: true / false.
 friendly-fire: false
 
-# Set 'true' if you want all the players of the team to be eliminated
-# when their base is captured. If 'false' is set, players with their
-# base captured will be eliminated when they die.
+# Set all the players of a team to be eliminated when their base is captured.
+# If disabled, players with their base captured will be eliminated when they die.
+# Available values: true / false.
 eliminate-on-capture: false
 
 # The percentage of players needed to capture a base.
 catcher-percentage: 50
 
-# Set 'true' if you want players who has slept in a bed to respawn in it or else set 'false'.
+# If enabled, players who as slept in a bed will respawn in it. If they have no bed,
+# players will respawn at the spawn of their base.
+# Available values: true / false.
 allow-bed-respawn: true
 
-# Set 'true' if you want an action bar be displayed to players during the game or else set 'false.
+# Enable / Disable the action bar displayed during a game. This action bar will display to players
+# directions to go to the spawn or to their base.
+# Available values: true / false.
 game-action-bar: true
 
 # The type of capture used. You can choose between two types of capture:
@@ -120,12 +140,15 @@ game-action-bar: true
 # - NEXUS -> Players have to damage a nexus with a specific amount of life
 #   to capture an enemy base.
 #
-# The default value is 'AREA'.
+# Available values: AREA (NEXUS is not yet implemented).
+# Default value is 'AREA'.
 capture-type: "AREA"
 
 # This section contains all the settings about the capture type 'AREA'.
 area-capture:
   # The time in seconds during which a player must stay in a base to capture it.
+  # Available values: A number >= 0.
+  # Default value: 60 (1 minute).
   capture-duration: 5
 
 #############################################
