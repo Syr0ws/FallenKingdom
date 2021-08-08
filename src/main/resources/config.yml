@@ -304,8 +304,54 @@ weathers:
 ###               DISPLAYS                ###
 #############################################
 
+# This section allows you to configure all the displays of the plugin.
+# Here is a quick tutorial which explains you how to setup them.
+#
+# First of all, for displays in which a text value is expected, you can refer to a text
+# set into your lang files. This allows you to keep plugin internationalization and to
+# avoid duplicate displays for each language. To do that create your text in your lang
+# file and refer to it using the following format: ${path.to.your.text}.
+#
+# - Display a message in the chat:
+# <section-name>:
+#   type: "MESSAGE"
+#   # The text of the message.
+#   text: "${path.to.the.message.text}"
+#
+# - Display a title:
+# <section-name>:
+#   type: "TITLE"
+#   # The text of the title.
+#   title: "${path.to.the.title.text}"
+#   # The text of the subtitle.
+#   subtitle: "${path.to.the.subtitle.text}"
+#
+# - Display an action bar:
+# <section-name>:
+#   type: "ACTION_BAR"
+#   # The text of the action bar.
+#   text: "${path.to.the.action-bar.text}"
+#   # Time in ticks for title to fade in (optional).
+#   fade-in: 10
+#   # Time in ticks for title to stay (optional).
+#   stay: 70
+#   # Time in ticks for title to fade out (optional).
+#   fade-out: 20
+#
+# - Display a sound:
+# <section-name>:
+#   type: "SOUND"
+#   # Available values: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+#   sound: "PIANO"
+#   # The volume of the sound (optional).
+#   volume: 1
+#   # The pitch of the sound (optional).
+#   pitch: 1
 
+
+# Displays sent before a game is running.
 waiting-cycle:
+  # Displays sent automatically when a game is starting.
   displays:
     10:
       message:
@@ -366,7 +412,9 @@ waiting-cycle:
         fade-out: 20
 
 
+# Displays sent during a game.
 game-cycle:
+  # Displays sent automatically when a game is running.
   displays:
     1200:
       message:
@@ -394,7 +442,9 @@ game-cycle:
         text: "${game-cycle.timer.3540.message}"
 
 
+# Displays related to PvP.
 pvp:
+  # Displays sent when PvP is enabled.
   enabled:
     message:
       type: "MESSAGE"
@@ -403,6 +453,7 @@ pvp:
       type: "TITLE"
       title: "${pvp.enabled.title}"
       subtitle: "${pvp.enabled.subtitle}"
+  # Displays sent when PvP is disabled.
   disabled:
     message:
       type: "MESSAGE"
@@ -413,7 +464,9 @@ pvp:
       subtitle: "${pvp.disabled.subtitle}"
 
 
+# Displays related to assaults.
 assaults:
+  # Displays sent when assaults are enabled.
   enabled:
     message:
       type: "MESSAGE"
@@ -422,6 +475,7 @@ assaults:
       type: "TITLE"
       title: "${assaults.enabled.title}"
       subtitle: "${assaults.enabled.subtitle}"
+  # Displays sent when assaults are disabled.
   disabled:
     message:
       type: "MESSAGE"
@@ -432,7 +486,9 @@ assaults:
       subtitle: "${assaults.disabled.subtitle}"
 
 
+# Displays related to the Nether.
 nether:
+  # Displays sent when the Nether is enabled.
   enabled:
     message:
       type: "MESSAGE"
@@ -440,6 +496,7 @@ nether:
     title:
       type: "TITLE"
       title: "${nether.enabled.title}"
+  # Displays sent when the Nether is disabled.
   disabled:
     message:
       type: "MESSAGE"
@@ -449,7 +506,9 @@ nether:
       title: "${nether.disabled.title}"
 
 
+# Displays related to the End.
 end:
+  # Displays sent when the End is enabled.
   enabled:
     message:
       type: "MESSAGE"
@@ -457,6 +516,7 @@ end:
     title:
       type: "TITLE"
       title: "${end.enabled.title}"
+  # Displays sent when the End is disabled.
   disabled:
     message:
       type: "MESSAGE"
@@ -466,27 +526,34 @@ end:
       title: "${end.disabled.title}"
 
 
+# Displays related to teams.
 team:
+  # Displays sent when a player is added to a team.
   add:
     message:
       type: "MESSAGE"
       text: "${team.add.message}"
+  # Displays sent when a player is removed from a team.
   remove:
     message:
       type: "MESSAGE"
       text: "${team.remove.message}"
 
 
+# Displays related to a team win.
 win:
+  # Displays sent to all the players.
   all:
     message:
       type: "MESSAGE"
       text: "${win.message}"
+  # Displays sent to the winning team.
   self:
     title:
       type: "TITLE"
       title: "${win.self.title}"
       subtitle: "${win.self.subtitle}"
+  # Displays sent to the orher players.
   other:
     title:
       type: "TITLE"
@@ -494,37 +561,47 @@ win:
       subtitle: "${win.other.subtitle}"
 
 
+# Displays sent when a base capture starts.
 on-base-capture-start:
+  # Displays sent to the capturing team.
   self:
     message:
       type: "MESSAGE"
       text: "${capture.start.self.message}"
+  # Displays sent to the captured team.
   captured-team:
     message:
       type: "MESSAGE"
       text: "${capture.start.captured-team.message}"
 
 
+# Displays sent when a base capture stops.
 on-base-capture-stop:
+  # Displays sent to the capturing team.
   self:
     message:
       type: "MESSAGE"
       text: "${capture.stop.self.message}"
+  # Displays sent to the captured team.
   captured-team:
     message:
       type: "MESSAGE"
       text: "${capture.stop.captured-team.message}"
 
 
+# Displays sent when a base is captured.
 on-base-captured:
+  # Displays sent to the players of the team which has captured the base.
   self:
     message:
       type: "MESSAGE"
       text: "${capture.base-captured.self.message}"
+  # Displays sent to all the other players.
   other:
     message:
       type: "MESSAGE"
       text: "${capture.base-captured.other.message}"
+  # Displays sent to the players of the team whose base has been captured.
   captured-team:
     message:
       type: "MESSAGE"
