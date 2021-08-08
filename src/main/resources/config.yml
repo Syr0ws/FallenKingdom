@@ -352,6 +352,19 @@ weathers:
 # Displays sent before a game is running.
 waiting-cycle:
   # Displays sent automatically when a game is starting.
+  # To add more displays, you must add them in a section which has a number as name.
+  #
+  # Example:
+  #
+  # 10:
+  #   my-custom-message:
+  #    type: "MESSAGE"
+  #    text: "${waiting-cycle.timer.10.message}"
+  # 5:
+  #   my-custom-title:
+  #    type: "TITLE"
+  #    title: "${waiting-cycle.timer.5.title}"
+  #    subtitle: "${waiting-cycle.timer.5.subtitle}"
   displays:
     10:
       message:
@@ -415,6 +428,19 @@ waiting-cycle:
 # Displays sent during a game.
 game-cycle:
   # Displays sent automatically when a game is running.
+  # To add more displays, you must add them in a section which has a number as name.
+  #
+  # Example:
+  #
+  # 1800:
+  #   my-custom-message:
+  #    type: "MESSAGE"
+  #    text: "${game-cycle.timer.1800.message}"
+  # 3600:
+  #   my-custom-title:
+  #    type: "TITLE"
+  #    title: "${waiting-cycle.timer.3600.title}"
+  #    subtitle: "${game-cycle.timer.3600.subtitle}"
   displays:
     1200:
       message:
