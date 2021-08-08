@@ -4,9 +4,16 @@
 ###           GENERAL SETTINGS            ###
 #############################################
 
-# Select the language of the plugin. Here is the list of available languages:
-# - EN
-# - FR
+# Select the language of the plugin.
+# Available values: FR, EN.
+#
+# If your language isn't supported, you can add it by yourself. To do that,
+# make a copy of the default language file and rename it using the following
+# format: 'lang_<lang>.yml'. Then, put it in the 'langs' folder set it as the
+# selected language. To finish, just edit the texts of the file.
+#
+# Example: You want to add German as a new language. The name of the lang file
+# will be 'lang_GE.yml' and the selected language will be 'GE'.
 lang: FR
 
 #############################################
