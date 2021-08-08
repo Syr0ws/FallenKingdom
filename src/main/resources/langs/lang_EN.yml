@@ -290,6 +290,8 @@ game-scoreboard:
   # - %team_name% -> The name of the player's team.
   # - %pvp_state% -> The state of pvp (see section 'pvp-state').
   # - %assaults_state% -> The state of assaults (see section 'assaults-state').
+  # - %nether_state% -> The state of the Nether (see section 'nether-state').
+  # - %end_state% -> The state of the End (see section 'end-state').
   # - %kills% -> The kills of the player.
   # - %deaths% -> The deaths of the player.
   lines:
@@ -343,6 +345,8 @@ spectator-scoreboard:
   # The content of the scoreboard. Available placeholders:
   # - %pvp_state% -> The state of pvp (see section 'pvp-state').
   # - %assaults_state% -> The state of assaults (see section 'assaults-state').
+  # - %nether_state% -> The state of the Nether (see section 'nether-state').
+  # - %end_state% -> The state of the End (see section 'end-state').
   lines:
     - "&6&m--------------------"
     - " "
