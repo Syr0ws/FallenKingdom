@@ -303,20 +303,35 @@ game-scoreboard:
     - "&6• &eKills&6: %kills%"
     - "&6• &eDeaths&6: %deaths%"
     - " "
+    - "&6• &eNether&6: %nether_state%"
+    - "&6• &eEnd&6: %end_state%"
+    - " "
     - "&6• &eGame duration&6: %short_hours%%short_minutes%%short_seconds%"
     - " "
     - "&6&m--------------------"
-  # Texts that corresponds to the state of pvp.
+  # Texts that corresponds to the state of pvp. Replace the placeholder %pvp_state%.
   pvp-state:
     # Text displayed when pvp is enabled.
     enabled: "&a✔"
     # Text displayed when pvp is displayed.
     disabled: "&c✘"
-  # Texts that corresponds to the state of assaults.
+  # Texts that corresponds to the state of assaults. Replace the placeholder %assaults_state%.
   assaults-state:
     # Text displayed when assaults are enabled.
     enabled: "&a✔"
     # Text displayed when assaults are disabled.
+    disabled: "&c✘"
+  # Texts that corresponds to the state of the Nether. Replace the placeholder %nether_state%.
+  nether-state:
+    # Text displayed when the Nether is enabled.
+    enabled: "&a✔"
+    # Text displayed when the Nether is disabled.
+    disabled: "&c✘"
+  # Texts that corresponds to the state of the End. Replace the placeholder %end_state%.
+  end-state:
+    # Text displayed when the End is enabled.
+    enabled: "&a✔"
+    # Text displayed when the End is disabled.
     disabled: "&c✘"
   time-format: "%short_hour%%short_minute%%short_second%"
 
@@ -336,20 +351,35 @@ spectator-scoreboard:
     - "&6• &ePvP&6: %pvp_state%"
     - "&6• &eAssaults&6: %assaults_state%"
     - " "
+    - "&6• &eNether&6: %nether_state%"
+    - "&6• &eEnd&6: %end_state%"
+    - " "
     - "&6• &eGame duration&6: %short_hours%%short_minutes%%short_seconds%"
     - " "
     - "&6&m--------------------"
-  # Texts that corresponds to the state of pvp.
+  # Texts that corresponds to the state of pvp. Replace the placeholder %pvp_state%.
   pvp-state:
     # Text displayed when pvp is enabled.
     enabled: "&a✔"
     # Text displayed when pvp is displayed.
     disabled: "&c✘"
-  # Texts that corresponds to the state of assaults.
+  # Texts that corresponds to the state of assaults. Replace le placeholder %assaults_state%.
   assaults-state:
     # Text displayed when assaults are enabled.
     enabled: "&a✔"
     # Text displayed when assaults are disabled.
+    disabled: "&c✘"
+  # Texts that corresponds to the state of the Nether. Replace the placeholder %nether_state%.
+  nether-state:
+    # Text displayed when the Nether is enabled.
+    enabled: "&a✔"
+    # Text displayed when the Nether is disabled.
+    disabled: "&c✘"
+  # Texts that corresponds to the state of the End. Replace the placeholder %end_state%.
+  end-state:
+    # Text displayed when the End is enabled.
+    enabled: "&a✔"
+    # Text displayed when the End is disabled.
     disabled: "&c✘"
   time-format: "%short_hour%%short_minute%%short_second%"
 
