@@ -2,207 +2,209 @@
 ###               GENERAL                 ###
 #############################################
 
-# This section is about the '/fk' command.
-command-fk:
-  # Message sent to the sender when he doesn't have the permission to execute the command.
-  no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-  # This section is about the '/fk start' command.
-  start:
-    # Message sent to the sender when he doesn't have the permission to execute the command.
-    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-    # Message sent to the sender when he's trying to start a game when another one is already started.
-    already-started: "&c>> Une partie est déjà en cours."
-    # Message sent to the sender when an error occurred while starting a game.
-    error: "&c>> Une erreur est survenue lors du lancement de la partie."
-  # This section is about the '/fk stop' command.
-  stop:
-    # Message sent to the sender when he doesn't have the permission to execute the command.
-    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-    # Message sent to the sender when he's trying to stop a game when there is no game running.
-    not-started: "&c>> Il n'y a aucune partie en cours."
-    # Message sent to the sender when an error occurred while stopping a game.
-    error: "&c>> Une erreur est survenue lors du lancement de la partie."
-  # This section is about the '/fk pvp' command.
-  pvp:
-    # Message sent to the sender when he doesn't have the permission to execute the command.
-    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-    # Message sent to the sender when he's trying to enable / disable pvp when no game is running.
-    game-not-running: "&c>> La partie n'a pas encore commencé."
-    # Message sent to the sender when he's trying to enable pvp when it already is.
-    already-enabled: "&c>> Le pvp est déjà activé."
-    # Message sent to the sender when he's trying to disable pvp when it already is.
-    already-disabled: "&c>> Le pvp est déjà désactivé."
-  # This section is about the '/fk assaults' command.
-  assaults:
-    # Message sent when the sender doesn't have the permission to execute the command.
-    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
-    # Message sent to the sender when he's trying to enable / disable assaults when no game is running.
-    game-not-running: "&c>> La partie n'a pas encore commencé."
-    # Message sent to the sender when he's trying to enable assaults when they already are.
-    already-enabled: "&c>> Les assaults sont déjà activés."
-    # Message sent to the sender when he's trying to disable assaults when they already are.
-    already-disabled: "&c>> Les assaults sont déjà désactivés."
-  # This section is about the '/fk team' command.
-  team:
-    # Message sent to the sender when the targeted player doesn't exist.
-    player-not-found: "&c>> Ce joueur n'est pas connecté."
-    # Message sent to the sender when the targeted team doesn't exist.
-    team-not-found: "&c>> Cette team n'existe pas."
-    # This section is about the '/fk team add' command.
-    add:
-      # Message sent when the targeted player is already in the specified team.
-      already-in-team: "&c>> Ce joueur est déjà dans cette équipe."
-      # Message sent to the sender when he added a player to a team. You can use the following placeholders:
-      # - %player% -> The name of the targeted player.
-      # - %team_name% -> The name of the team to which he was added.
-      player-added: "&6%player% &ea été &aajouté &eà l'équipe %team_name%&e."
-    # This section is about the '/fk team remove' command.
-    remove:
-      # Message sent when the targeted player is not in the specified team.
-      not-in-team: "&c>> Ce joueur n'est pas dans cette équipe."
-      # Message sent to the sender when he removed a player from a team. You can use the following placeholders:
-      # - %player% -> The name of the targeted player.
-      # - %team_name% -> The name of the team from which he was removed.
-      player-removed: "&6%player% &ea été &cretiré &ede l'équipe %team_name%&e."
 
-
-# Text sent when a player is kicked because the game is full.
-kick-full: "&cLa partie est complète."
-
-# This section contains all the texts related to pvp.
+# Cette section contient tous les textes qui concernent le pvp.
 pvp:
-  # Texts sent when the pvp is enabled.
+  # Textes envoyés au moment de l'activation du pvp.
   enabled:
-    # The text of the message sent in the chat.
     message: "&6>> &eLe pvp est désormais &aactivé&e."
-    # The text of the title.
     title: "&ePvP &aactivé"
-    # The text of the subtitle.
     subtitle: "&eRestez sur vos gardes !"
-  # Texts sent when the pvp is disabled.
+  # Textes envoyés au moment de la désactivation du pvp.
   disabled:
-    # The text of the message sent in the chat.
     message: "&6>> &eLe pvp est désormais &cdésactivé&e."
-    # The text of the title.
     title: "&ePvP &cdésactivé"
-    # The text of the subtitle.
     subtitle: "&eReposez vous un peu !"
 
 
-# This section contains all the texts related to assaults.
+# Cette section contient tous les textes qui concernent les assaults.
 assaults:
-  # Texts sent when assaults are enabled.
+  # Textes envoyés au moment de l'activation des assaults.
   enabled:
-    # The text of the message sent in the chat.
-    message: "&6>> &eLes assaults sont désormais &aautorisés&e."
-    # The text of the title.
-    title: "&eAssaults &aactivés"
-    # The text of the subtitle.
+    message: "&6>> &eLes assauts sont désormais &aautorisés&e."
+    title: "&eAssauts &aactivés"
     subtitle: "&ePréparez vos armes !"
-  # Texts sent when assaults are disabled.
+  # Textes envoyés au moment de la désactivation des assaults.
   disabled:
-    # The text of the message sent in the chat.
-    message: "&6>> &eLes assaults sont désormais &cdésactivés&e."
-    # The text of the title.
-    title: "&eAssaults &cdésactivés"
-    # The text of the subtitle.
+    message: "&6>> &eLes assauts sont désormais &cdésactivés&e."
+    title: "&eAssauts &cdésactivés"
     subtitle: "&eRangez vos armes !"
 
 
-# This section contains all the texts related to the nether.
+# Cette section contient tous les textes qui concernent le nether.
 nether:
-  # Texts sent when nether is enabled.
+  # Textes envoyés lors de l'activation du nether.
   enabled:
-    # The text of the message sent in the chat.
     message: "&6>> &eLe &cnether &eest désormais &aactivé&e."
-    # The text of the title.
-    title: "&eNether &aactivé"
-  # Texts sent when nether is disabled.
+    subtitle: "&eNether &aactivé"
+  # Textes envoyés lors de la désactivation du nether.
   disabled:
-    # The text of the message sent in the chat.
     message: "&6>> &eLe &cnether &eest désormais &cdésactivés&e."
-    # The text of the title.
-    title: "&eNether &cdésactivé"
+    subtitle: "&eNether &cdésactivé"
 
 
-# This section contains all the texts related to the end.
+# Cette section contient tous les textes qui concernent l'end.
 end:
-  # Texts sent when end is enabled.
+  # Textes envoyés lors de l'activation de l'end.
   enabled:
-    # The text of the message sent in the chat.
     message: "&6>> &eL'&5end &eest désormais &aactivé&e."
-    # The text of the title.
     title: "&eEnd &aactivé"
-  # Texts sent when end is disabled.
+  # Textes envoyés lors de la désactivation de l'end.
   disabled:
-    # The text of the message sent in the chat.
     message: "&6>> &eL'&5end &eest désormais &cdésactivé&e."
-    # The text of the title.
     title: "&eEnd &cdésactivé"
 
 
-# This section contains all the texts related to teams.
+# Cette section contient tous les textes qui concernent les équipes.
 team:
-  # Texts sent when a player is added to a team.
+  # Textes envoyés lorsqu'un joueur rejoint une équipe.
   add:
-    # The text of the message sent in the chat.
     message: "&eVous avez &arejoint &el'équipe %team_name%&e."
-  # Texts sent when a player is removed from a team.
+  # Textes envoyés lorsqu'un joueur quitte une équipe.
   remove:
-    # The text of the message sent in the chat.
     message: "&eVous avez &cquitté &el'équipe %team_name%&e."
 
 
-# This section contains all the texts related to a team win.
+# Cette section contient tous les textes qui sont envoyés lors de la victoire d'une équipe.
 win:
-  # The text of the message sent in the chat.
+  # Message envoyé à tous les joueurs dans le chat.
   message: "&6>> &eL'équipe %team_name% &eremporte la partie !"
-  # Texts sent to the winning team.
+  # Textes envoyés à l'équipe qui a remporté la partie.
   self:
-    # The text of the title.
     title: "&6Victoire !"
-    # The text of the subtitle.
     subtitle: "&7Vous remportez la partie"
-  # Texts sent to the other players.
+  # Texts envoyés aux autres joueurs de la partie.
   other:
-    # The text of the title.
     title: "&6Partie terminée !"
-    # The text of the subtitle.
     subtitle: "&7Victoire de l'équipe %team_name%"
 
 
-# This section contains all the texts related to the base captures.
+# Cette section contient tous les textes en lien avec la capture des bases.
 capture:
-  # Texts sent when a capture starts.
+  # Textes envoyés lorsqu'une base commence à être capturée.
   start:
+    # Textes envoyés à l'équipe qui capture la base ennemie.
     self:
       message: "&6>> &eVous &acapturez &ela base de l'équipe %captured_team_name%&e."
+    # Textes envoyés à l'équipe dont la base est capturée.
     captured-team:
       message: "&6>> &eL'équipe %catcher_team_name% &ccapture &evotre base !"
-  # Texts sent when a capture stops.
+  # Textes envoyés lorsqu'une base n'est plus capturée.
   stop:
+    # Textes envoyés à l'équipe qui capturait la base.
     self:
       message: "&6>> &eVous &cne capturez plus &ela base de l'équipe %captured_team_name%&e."
+    # Textes envoyés à l'équipe dont la base était capturée.
     captured-team:
       message: "&6>> &eL'équipe %catcher_team_name% &ane capture plus &evotre base !"
-  # Texts sent when a base is captured.
+  # Textes envoyés lorsqu'une base est capturée.
   base-captured:
+    # Textes envoyés à l'équipe qui a capturé la base ennemie.
     self:
       message: "&6>> &eVous avez &acapturé &ela base de l'équipe %captured_team_name%&e."
+    # Textes envoyés aux autres équipes.
     other:
       message: "&6>> &eL'équipe %catcher_team_name% &ea &acapturé &ela base de l'équipe %captured_team_name%&e."
+    # Textes envoyés à l'équipe dont la base est capturée.
     captured-team:
       message: "&6>> &eL'équipe %catcher_team_name% &ea &ccapturé &evotre base."
       title: "&cBase capturée"
       subtitle: "&7Vous serez éliminé si vous mourrez"
 
 
+# Texte utilisé lorsqu'un joueur est expulsé car la partie est complète.
+kick-full: "&cLa partie est complète."
+
+
 #############################################
-###               TIMERS                  ###
+###              COMMANDES                ###
+#############################################
+
+# Cette section concerne la commande '/fk'.
+command-fk:
+  # Message envoyé lorsqu'un joueur n'a pas la permission d'exécuter la commande.
+  no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+  # Cette section concerne la commande '/fk start'.
+  start:
+    # Message envoyé lorsqu'un joueur n'a pas la permission d'exécuter la commande.
+    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+    # Message envoyé lorsqu'une partie est déjà en cours.
+    already-started: "&c>> Une partie est déjà en cours."
+    # Message envoyé lorsqu'une erreur est survenue lors du lancement de la partie.
+    error: "&c>> Une erreur est survenue lors du lancement de la partie."
+  # Cette section concerne la commande '/fk stop'.
+  stop:
+    # Message envoyé lorsqu'un joueur n'a pas la permission d'exécuter la commande.
+    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+    # Message envoyé lorsqu'il n'y a aucune partie en cours.
+    not-started: "&c>> Il n'y a aucune partie en cours."
+    # Message sent to the sender when an error occurred while stopping a game.
+    error: "&c>> Une erreur est survenue lors du lancement de la partie."
+  # This section concerne la commande '/fk pvp'.
+  pvp:
+    # Message envoyé lorsqu'un joueur n'a pas la permission d'exécuter la commande.
+    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+    # Message envoyé lorsqu'aucune partie n'est en cours.
+    game-not-running: "&c>> La partie n'a pas encore commencé."
+    # Message envoyé lors de l'exécution de la commande '/pvp on' et que le pvp est déjà activé.
+    already-enabled: "&c>> Le pvp est déjà activé."
+    # Message envoyé lors de l'exécution de la commande '/pvp off' et que le pvp est déjà désactivé.
+    already-disabled: "&c>> Le pvp est déjà désactivé."
+  # Cette section concerne la commande '/fk assaults'.
+  assaults:
+    # Message envoyé lorsqu'un joueur n'a pas la permission d'exécuter la commande.
+    no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+    # Message envoyé lorsqu'aucune partie n'est en cours.
+    game-not-running: "&c>> La partie n'a pas encore commencé."
+    # Message envoyé lors de l'exécution de la commande '/assaults on' et que les assaults sont déjà activés.
+    already-enabled: "&c>> Les assaults sont déjà activés."
+    # Message envoyé lors de l'exécution de la commande '/assaults off' et que les assaults sont déjà désactivés.
+    already-disabled: "&c>> Les assaults sont déjà désactivés."
+  # Cette section concerne la commande '/fk team'.
+  team:
+    # Message envoyé lorsque le joueur spécifié n'existe pas.
+    player-not-found: "&c>> Ce joueur n'est pas connecté."
+    # Message envoyé lorsque l'équipe spécifiée n'existe pas.
+    team-not-found: "&c>> Cette team n'existe pas."
+    # Cette section concerne la commande '/fk team add'.
+    add:
+      # Message envoyé lorsque le joueur est déjà dans l'équipe spécifiée.
+      already-in-team: "&c>> Ce joueur est déjà dans cette équipe."
+      # Message envoyé au joueur qui exécute la commande lorsqu'il ajoute un joueur dans une équipe.
+      # Vous pouvez utiliser les placeholders suivants:
+      # - %player% -> Le nom du joueur spécifié.
+      # - %team_name% -> Le nom de l'équipe dans laquelle il a été ajouté.
+      player-added: "&6%player% &ea été &aajouté &eà l'équipe %team_name%&e."
+    # Cette section concerne la commande '/fk team remove'.
+    remove:
+      # Message envoyé lorsque le joueur spécifié n'est dans aucune équipe.
+      not-in-team: "&c>> Ce joueur n'est dans aucune équipe."
+      # Message envoyé au joueur qui exécute la commande lorsqu'il retire un joueur de son équipe.
+      # Vous pouvez utiliser les placeholders suivants:
+      # - %player% -> Le nom du joueur spécifié.
+      # - %team_name% -> Le nom de l'équipe dans laquelle il a été ajouté.
+      player-removed: "&6%player% &ea été &cretiré &ede l'équipe %team_name%&e."
+
+
+#############################################
+###               CYCLES                  ###
 #############################################
 
 
+# Textes envoyés lors du cycle de démarrage d'une partie.
 waiting-cycle:
+  # Textes envoyés automatiquement à un temps défini. Format recommandé :
+  #
+  # <temps>:
+  #   message: "Un message"
+  #   title: "Un titre"
+  #   subtitle: "Un sous-titre"
+  #
+  # Exemple:
+  #
+  # 10:
+  #   message: "&eLa partie commence dans &610 secondes&e."
+  #   subtitle: "&eLa partie commence dans &610"
   timer:
     10:
       message: "&eLa partie commence dans &610 secondes&e."
@@ -221,7 +223,23 @@ waiting-cycle:
       subtitle: "&6La partie commence !"
 
 
+# Textes envoyés durant une partie.
 game-cycle:
+  # Textes envoyés automatiquement à un temps défini. Format recommandé :
+  #
+  # <temps>:
+  #   message: "Un message"
+  #   title: "Un titre"
+  #   subtitle: "Un sous-titre"
+  #
+  # Exemple:
+  #
+  # 600:
+  #   message: "Message envoyé à 10 minutes."
+  #   subtitle: "Sous-titre envoyé à 10 minutes."
+  # 1800:
+  #   message: "Message envoyé à 30 minutes."
+  #   subtitle: "Sous-titre envoyé à 30 minutes."
   timer:
     1200:
       message: "&eLe pvp sera &aactivé &edans &610 minutes."
@@ -242,32 +260,47 @@ game-cycle:
 #############################################
 
 
-# The scoreboard displayed during the waiting cycle.
+# Scoreboard affiché durant la phase d'attente.
 waiting-scoreboard:
-  # The title of the scoreboard.
+  # Le titre du scoreboard.
   title: "&6&lFallenKingdom"
-  # The content of the scoreboard.
+  # Le contenu du scoreboard. Placeholders utilisables:
+  # - %game_state% -> Le statut de la partie (voir section 'state').
+  # - %online_players% -> Le nombre de joueurs connectés.
+  # - %max_players% -> Le nombre maximal de joueur.
   lines:
     - "&6&m--------------------"
     - " "
-    - "&6• &eStatus&6: %game_state%"
+    - "&6• &eStatut&6: %game_state%"
     - "&6• &eJoueurs&6: &e%online_players%&6/&e%max_players%"
     - " "
     - "&6&m--------------------"
+  # Textes correspondant au statut de la partie.
+  # Ils remplacent le placeholder %game_state%.
   state:
+    # Texte correspondant au statut 'En attente'.
     waiting: "&cEn attente"
+    # Texte correspondant au statut 'Démarrage'.
     starting: "&aDémarrage"
 
 
+# Scoreboard affiché pour les joueurs durant la partie.
 game-scoreboard:
+  # Le titre du scoreboard.
   title: "&6&lFallenKingdom"
+  # Le contenu du scoreboard. Placeholders utilisables:
+  # - %team_name% -> Le nom de l'équipe du joueur.
+  # - %pvp_state% -> Le statut du pvp (voir section 'pvp-state').
+  # - %assaults_state% -> Le statut des assaults (voir section 'assaults-state').
+  # - %kills% -> Le nombre de kills du joueur.
+  # - %deaths% -> Le nombre de morts du joueur.
   lines:
     - "&6&m--------------------"
     - " "
     - "&6• &eEquipe&6: %team_name%"
     - " "
     - "&6• &ePvP&6: %pvp_state%"
-    - "&6• &eAssaults&6: %assaults_state%"
+    - "&6• &eAssauts&6: %assaults_state%"
     - " "
     - "&6• &eKills&6: %kills%"
     - "&6• &eMorts&6: %deaths%"
@@ -275,33 +308,50 @@ game-scoreboard:
     - "&6• &eTemps de jeu&6: %short_hours%%short_minutes%%short_seconds%"
     - " "
     - "&6&m--------------------"
+  # Textes correspondant au statut du pvp. Ils remplacent le placeholder %pvp_state%.
   pvp-state:
+    # Texte affiché lorsque le pvp est activé.
     enabled: "&a✔"
+    # Texte affiché lorsque le pvp est désactivé.
     disabled: "&c✘"
+  # Textes correspondant au statut des assaults. Ils remplacent le placeholder %assaults_state%.
   assaults-state:
+    # Texte affiché lorsque les assaults sont activés.
     enabled: "&a✔"
+    # Texte affiché lorsque les assaults sont désactivés.
     disabled: "&c✘"
   time-format: "%short_hour%%short_minute%%short_second%"
 
 
+# Scoreboard affiché pour les spectateurs durant la partie.
 spectator-scoreboard:
+  # Le titre du scoreboard.
   title: "&6&lFallenKingdom"
+  # Le contenu du scoreboard. Placeholders utilisables:
+  # - %pvp_state% -> Le statut du pvp (voir section 'pvp-state').
+  # - %assaults_state% -> Le statut des assaults (voir section 'assaults-state').
   lines:
     - "&6&m--------------------"
     - " "
-    - "&6• &eStatus&6: &7Spectateur"
+    - "&6• &eStatut&6: &7Spectateur"
     - " "
     - "&6• &ePvP&6: %pvp_state%"
-    - "&6• &eAssaults&6: %assaults_state%"
+    - "&6• &eAssauts&6: %assaults_state%"
     - " "
     - "&6• &eTemps de jeu&6: %short_hours%%short_minutes%%short_seconds%"
     - " "
     - "&6&m--------------------"
+  # Textes correspondant au statut du pvp. Ils remplacent le placeholder %pvp_state%.
   pvp-state:
+    # Texte affiché lorsque le pvp est activé.
     enabled: "&a✔"
+    # Texte affiché lorsque le pvp est désactivé.
     disabled: "&c✘"
+  # Textes correspondant au statut des assaults. Ils remplacent le placeholder %assaults_state%.
   assaults-state:
+    # Texte affiché lorsque les assaults sont activés.
     enabled: "&a✔"
+    # Texte affiché lorsque les assaults sont désactivés.
     disabled: "&c✘"
   time-format: "%short_hour%%short_minute%%short_second%"
 
@@ -311,12 +361,27 @@ spectator-scoreboard:
 #############################################
 
 
-game-action-bar-text: "&eCentre&6: &5%center_direction% &6- &eBase&6: &5%base_direction%"
+# Texte de la barre d'action affichée durant la partie. Placeholders utilisables:
+# - %center_direction% -> La direction vers le centre de la carte.
+# - %base_direction% -> La direction vers la base du joueur.
+game-action-bar-text: "&eCentre&6: &5%center_direction% &6- &eMa base&6: &5%base_direction%"
 
 
 #############################################
 ###                OTHER                  ###
 #############################################
+
+
+# Traductions des points cardinaux.
+direction:
+  north: "⬆"
+  north-east: "⬈"
+  north-west: "⬉"
+  south: "⬇"
+  south-east: "⬊"
+  south-west: "⬋"
+  east: "➡"
+  west: "⬅"
 
 
 time-units:
@@ -336,14 +401,3 @@ time-units:
     plural: "secondes"
     long: "seconde"
     short: "s"
-
-
-direction:
-  north: "⬆"
-  north-east: "⬈"
-  north-west: "⬉"
-  south: "⬇"
-  south-east: "⬊"
-  south-west: "⬋"
-  east: "➡"
-  west: "⬅"

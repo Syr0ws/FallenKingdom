@@ -1,0 +1,401 @@
+#############################################
+###               GENERAL                 ###
+#############################################
+
+
+# This section contains all the texts related to pvp.
+pvp:
+  # Texts sent when pvp is enabled.
+  enabled:
+    message: "&6>> &ePvP is now &enabled&e."
+    title: "&ePvP &aenabled"
+    subtitle: "&eStay alert !"
+  # Texts sent when pvp is disabled.
+  disabled:
+    message: "&6>> &ePvP is now &cdisabled&e."
+    title: "&ePvP &cdisabled"
+    subtitle: "&eGet some rest !"
+
+
+# This section contains all the texts related to assaults.
+assaults:
+  # Texts sent when assaults are enabled.
+  enabled:
+    message: "&6>> &eAssaults are now &aallowed&e."
+    title: "&eAssaults &aenabled"
+    subtitle: "&eGet your weapons ready !"
+  # Texts sent when assaults are disabled.
+  disabled:
+    message: "&6>> &eAssaults are now &cdisabled&e."
+    title: "&eAssaults &cdisabled"
+    subtitle: "&ePut your weapons down !"
+
+
+# This section contains all the texts related to the nether.
+nether:
+  # Texts sent when the nether is enabled.
+  enabled:
+    message: "&6>> &eThe &cnether &eis now &aenabled&e."
+    title: "&eNether &aenabled"
+  # Texts sent when the nether is disabled.
+  disabled:
+    message: "&6>> &eThe &cnether &eis now &cdisabled&e."
+    title: "&eNether &cdisabled"
+
+
+# This section contains all the texts related to the end.
+end:
+  # Texts sent when the end is enabled.
+  enabled:
+    message: "&6>> &eThe &5end &eis now &aenabled&e."
+    title: "&eEnd &aenabled"
+  # Texts sent when the end is disabled.
+  disabled:
+    message: "&6>> &eThe &5end &eis now &cdisabled&e."
+    title: "&eEnd &cdisabled"
+
+
+# This section contains all the texts related to teams.
+team:
+  # Texts sent when a player is added to a team.
+  add:
+    message: "&eYou joined the team %team_name%&e."
+  # Texts sent when a player is removed from a team.
+  remove:
+    message: "&eYou left the team %team_name%&e."
+
+
+# This section contains all the texts related to a team win.
+win:
+  # Message sent to all the players in the chat.
+  message: "&6>> &eTeam %team_name% &ehas won the game."
+  # Texts sent to the winning team.
+  self:
+    title: "&6Victory !"
+    subtitle: "&7You won !"
+  # Texts sent to the other players.
+  other:
+    title: "&6Game finished !"
+    subtitle: "&7Team %team_name% &7has won !"
+
+
+# This section contains all the texts related to the base captures.
+capture:
+  # Texts sent when a capture starts.
+  start:
+    # Texts sent to a team which is capturing an enemy base.
+    self:
+      message: "&6>> &eYou're &acapturing &ethe base of the team %team_name%&e."
+    # Texts sent to a team whose base is captured.
+    captured-team:
+      message: "&6>> &eThe team %team_name% is &ccapturing &eyour base !"
+  # Texts sent when a capture stops.
+  stop:
+    # Texts sent to a team which is no longer capturing an enemy base.
+    self:
+      message: "&6>> &eYou're &cno longer capturing &ethe base of the team %team_name%&e."
+    # Texts sent to a team whose base is no longer captured.
+    captured-team:
+      message: "&6>> &eYour base &cis no longer captured &eby the team %team_name%&e."
+  # Texts sent when a base is captured.
+  base-captured:
+    # Texts sent to the capturing team.
+    self:
+      message: "&6>> &eYou have &acaptured &ethe base of the team %captured_team_name%&e."
+    # Texts sent to all the other players.
+    other:
+      message: "&6>> &eThe team %catcher_team_name% &ehas &acaptured &ethe base of the team %captured_team_name%&e."
+    # Texts sent to a team whose base is captured.
+    captured-team:
+      message: "&6>> &eThe team %catcher_team_name% &ehas &ccaptured &eyour base."
+      title: "&cBase captured"
+      subtitle: "&7You'll be eliminated in your base."
+
+
+# Text sent when a player is kicked because the game is full.
+kick-full: "&cThe game is full."
+
+
+#############################################
+###               COMMANDS                ###
+#############################################
+
+
+# This section is about the '/fk' command.
+command-fk:
+  # Message sent to the sender when he doesn't have the permission to execute the command.
+  no-permission: "&c>> You don't have permission to execute this command."
+  # This section is about the '/fk start' command.
+  start:
+    # Message sent to the sender when he doesn't have the permission to execute the command.
+    no-permission: "&c>> You don't have permission to execute this command."
+    # Message sent to the sender when he's trying to start a game when another one is already started.
+    already-started: "&c>> Une partie est déjà en cours."
+    # Message sent to the sender when an error occurred while starting a game.
+    error: "&c>> Une erreur est survenue lors du lancement de la partie."
+  # This section is about the '/fk stop' command.
+  stop:
+    # Message sent to the sender when he doesn't have the permission to execute the command.
+    no-permission: "&c>> You don't have permission to execute this command."
+    # Message sent to the sender when he's trying to stop a game when there is no game running.
+    not-started: "&c>> Il n'y a aucune partie en cours."
+    # Message sent to the sender when an error occurred while stopping a game.
+    error: "&c>> Une erreur est survenue lors du lancement de la partie."
+  # This section is about the '/fk pvp' command.
+  pvp:
+    # Message sent to the sender when he doesn't have the permission to execute the command.
+    no-permission: "&c>> You don't have permission to execute this command."
+    # Message sent to the sender when he's trying to enable / disable pvp when no game is running.
+    game-not-running: "&c>> La partie n'a pas encore commencé."
+    # Message sent to the sender when he's trying to enable pvp when it already is.
+    already-enabled: "&c>> Le pvp est déjà activé."
+    # Message sent to the sender when he's trying to disable pvp when it already is.
+    already-disabled: "&c>> Le pvp est déjà désactivé."
+  # This section is about the '/fk assaults' command.
+  assaults:
+    # Message sent when the sender doesn't have the permission to execute the command.
+    no-permission: "&c>> You don't have permission to execute this command."
+    # Message sent to the sender when he's trying to enable / disable assaults when no game is running.
+    game-not-running: "&c>> La partie n'a pas encore commencé."
+    # Message sent to the sender when he's trying to enable assaults when they already are.
+    already-enabled: "&c>> Les assaults sont déjà activés."
+    # Message sent to the sender when he's trying to disable assaults when they already are.
+    already-disabled: "&c>> Les assaults sont déjà désactivés."
+  # This section is about the '/fk team' command.
+  team:
+    # Message sent to the sender when the targeted player doesn't exist.
+    player-not-found: "&c>> Ce joueur n'est pas connecté."
+    # Message sent to the sender when the targeted team doesn't exist.
+    team-not-found: "&c>> Cette team n'existe pas."
+    # This section is about the '/fk team add' command.
+    add:
+      # Message sent when the targeted player is already in the specified team.
+      already-in-team: "&c>> Ce joueur est déjà dans cette équipe."
+      # Message sent to the sender when he added a player to a team. You can use the following placeholders:
+      # - %player% -> The name of the targeted player.
+      # - %team_name% -> The name of the team to which he was added.
+      player-added: "&6%player% &ea été &aajouté &eà l'équipe %team_name%&e."
+    # This section is about the '/fk team remove' command.
+    remove:
+      # Message sent when the targeted player is not in the specified team.
+      not-in-team: "&c>> Ce joueur n'est pas dans cette équipe."
+      # Message sent to the sender when he removed a player from a team. You can use the following placeholders:
+      # - %player% -> The name of the targeted player.
+      # - %team_name% -> The name of the team from which he was removed.
+      player-removed: "&6%player% &ea été &cretiré &ede l'équipe %team_name%&e."
+
+
+
+#############################################
+###               CYCLES                  ###
+#############################################
+
+
+# Texts sent while a game is waiting.
+waiting-cycle:
+  # Texts automatically sent at a fixed time. Recommended format:
+  # <time>:
+  #   message: "A message"
+  #   title: "A title"
+  #   subtitle: "A subtitle"
+  #
+  # Example:
+  #
+  # 10:
+  #   message: "Game will start in 10 seconds."
+  #   subtitle: "Game will start in 10"
+  timer:
+    10:
+      message: "&eGame starts in &610 seconds&e."
+      subtitle: "&eGame starts in &610"
+    3:
+      message: "&eGame starts in &63 secondes&e."
+      subtitle: "&eGame starts in &63"
+    2:
+      message: "&eGame starts in &62 secondes&e."
+      subtitle: "&eGame starts in &62"
+    1:
+      message: "&eGame starts in &61 seconde&e."
+      subtitle: "&eGame starts in &61"
+    0:
+      message: "&eStarting game !"
+      subtitle: "&6Starting game !"
+
+
+# Texts sent during a game.
+game-cycle:
+  # Texts automatically sent at a fixed time. Recommended format:
+  #
+  # <time>:
+  #   message: "A message"
+  #   title: "A title"
+  #   subtitle: "A subtitle"
+  #
+  # Example:
+  #
+  # 600:
+  #   message: "Message sent at 10 minutes"
+  #   subtitle: "Subtitle sent at 10 minutes."
+  # 1800:
+  #   message: "Message sent at 30 minutes"
+  #   subtitle: "Subtitle sent at 30 minutes."
+  timer:
+    1200:
+      message: "&ePvP will be &aenabled &ein &610 minutes."
+    1500:
+      message: "&ePvP will be &aenabled &ein &65 minutes."
+    1740:
+      message: "&ePvP will be &aenabled &ein &61 minute."
+    3000:
+      message: "&eAssaults will be &aenabled &ein &610 minutes."
+    3300:
+      message: "&eAssaults will be &aenabled &edans &65 minutes."
+    3540:
+      message: "&eAssaults will be &aenabled &edans &65 minutes."
+
+
+#############################################
+###             SCOREBOARDS               ###
+#############################################
+
+
+# The scoreboard displayed during the waiting cycle.
+waiting-scoreboard:
+  # The title of the scoreboard.
+  title: "&6&lFallenKingdom"
+  # The content of the scoreboard. Available placeholders:
+  # - %game_state% -> The state of the game (see section 'pvp-state').
+  # - %online_players% -> The number of online players.
+  # - %max_players% -> The max number of players who can join the game.
+  lines:
+    - "&6&m--------------------"
+    - " "
+    - "&6• &eStatus&6: %game_state%"
+    - "&6• &ePlayers&6: &e%online_players%&6/&e%max_players%"
+    - " "
+    - "&6&m--------------------"
+  # Texts that corresponds to the state of the game.
+  state:
+    # Text displayed when the game is waiting.
+    waiting: "&cWaiting"
+    # Text displayed when the game is starting.
+    starting: "&aStarting"
+
+
+# The scoreboard displayed to the players during the game.
+game-scoreboard:
+  # The title of the scoreboard.
+  title: "&6&lFallenKingdom"
+  # The content of the scoreboard. Available placeholders:
+  # - %team_name% -> The name of the player's team.
+  # - %pvp_state% -> The state of pvp (see section 'pvp-state').
+  # - %assaults_state% -> The state of assaults (see section 'assaults-state').
+  # - %kills% -> The kills of the player.
+  # - %deaths% -> The deaths of the player.
+  lines:
+    - "&6&m--------------------"
+    - " "
+    - "&6• &eTeam&6: %team_name%"
+    - " "
+    - "&6• &ePvP&6: %pvp_state%"
+    - "&6• &eAssaults&6: %assaults_state%"
+    - " "
+    - "&6• &eKills&6: %kills%"
+    - "&6• &eDeaths&6: %deaths%"
+    - " "
+    - "&6• &eGame duration&6: %short_hours%%short_minutes%%short_seconds%"
+    - " "
+    - "&6&m--------------------"
+  # Texts that corresponds to the state of pvp.
+  pvp-state:
+    # Text displayed when pvp is enabled.
+    enabled: "&a✔"
+    # Text displayed when pvp is displayed.
+    disabled: "&c✘"
+  # Texts that corresponds to the state of assaults.
+  assaults-state:
+    # Text displayed when assaults are enabled.
+    enabled: "&a✔"
+    # Text displayed when assaults are disabled.
+    disabled: "&c✘"
+  time-format: "%short_hour%%short_minute%%short_second%"
+
+
+# The scoreboard displayed to the spectators during a game.
+spectator-scoreboard:
+  # The title of the scoreboard.
+  title: "&6&lFallenKingdom"
+  # The content of the scoreboard. Available placeholders:
+  # - %pvp_state% -> The state of pvp (see section 'pvp-state').
+  # - %assaults_state% -> The state of assaults (see section 'assaults-state').
+  lines:
+    - "&6&m--------------------"
+    - " "
+    - "&6• &eStatus&6: &7Spectator"
+    - " "
+    - "&6• &ePvP&6: %pvp_state%"
+    - "&6• &eAssaults&6: %assaults_state%"
+    - " "
+    - "&6• &eGame duration&6: %short_hours%%short_minutes%%short_seconds%"
+    - " "
+    - "&6&m--------------------"
+  # Texts that corresponds to the state of pvp.
+  pvp-state:
+    # Text displayed when pvp is enabled.
+    enabled: "&a✔"
+    # Text displayed when pvp is displayed.
+    disabled: "&c✘"
+  # Texts that corresponds to the state of assaults.
+  assaults-state:
+    # Text displayed when assaults are enabled.
+    enabled: "&a✔"
+    # Text displayed when assaults are disabled.
+    disabled: "&c✘"
+  time-format: "%short_hour%%short_minute%%short_second%"
+
+
+#############################################
+###             ACTION_BARS               ###
+#############################################
+
+
+# Text of the action bar displayed during a game. Available placeholders:
+# - %center_direction% -> The direction to the center of the map.
+# - %base_direction% -> The direction to the player's base.
+game-action-bar-text: "&eCenter&6: &5%center_direction% &6- &eYour base&6: &5%base_direction%"
+
+
+#############################################
+###                OTHER                  ###
+#############################################
+
+
+# Cardinal points translations.
+direction:
+  north: "⬆"
+  north-east: "⬈"
+  north-west: "⬉"
+  south: "⬇"
+  south-east: "⬊"
+  south-west: "⬋"
+  east: "➡"
+  west: "⬅"
+
+
+time-units:
+  day:
+    plural: "days"
+    long: "day"
+    short: "d"
+  hour:
+    plural: "hours"
+    long: "hour"
+    short: "h"
+  minute:
+    plural: "minutes"
+    long: "minute"
+    short: "m"
+  second:
+    plural: "seconds"
+    long: "second"
+    short: "s"
