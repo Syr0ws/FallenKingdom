@@ -194,6 +194,7 @@ command-fk:
 # Texts sent while a game is waiting.
 waiting-cycle:
   # Texts automatically sent at a fixed time. Recommended format:
+  #
   # <time>:
   #   message: "A message"
   #   title: "A title"
@@ -274,7 +275,7 @@ waiting-scoreboard:
     - "&6• &ePlayers&6: &e%online_players%&6/&e%max_players%"
     - " "
     - "&6&m--------------------"
-  # Texts that corresponds to the state of the game.
+  # Texts that corresponds to the state of the game. Replace the placeholder %game_state%.
   state:
     # Text displayed when the game is waiting.
     waiting: "&cWaiting"

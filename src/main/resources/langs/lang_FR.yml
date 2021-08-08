@@ -275,8 +275,7 @@ waiting-scoreboard:
     - "&6• &eJoueurs&6: &e%online_players%&6/&e%max_players%"
     - " "
     - "&6&m--------------------"
-  # Textes correspondant au statut de la partie.
-  # Ils remplacent le placeholder %game_state%.
+  # Textes correspondant au statut de la partie. Ils remplacent le placeholder %game_state%.
   state:
     # Texte correspondant au statut 'En attente'.
     waiting: "&cEn attente"
