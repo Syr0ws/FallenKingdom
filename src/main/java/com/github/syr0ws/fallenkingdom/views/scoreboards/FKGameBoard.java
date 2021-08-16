@@ -19,14 +19,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-public class SpectatorBoard extends FKBoard implements AttributeObserver {
-
-    public static final String ID = "SpectatorBoard";
+public abstract class FKGameBoard extends FKBoard implements AttributeObserver {
 
     private final FKModel model;
     private final TimeFormatter formatter;
 
-    public SpectatorBoard(Player player, LangService service, FKModel model) {
+    public FKGameBoard(Player player, LangService service, FKModel model) {
         super(player, service);
 
         if(model == null)
@@ -47,13 +45,10 @@ public class SpectatorBoard extends FKBoard implements AttributeObserver {
 
         message.addPlaceholder(FKPlaceholder.PVP_STATE.get(), this.getPvPState());
         message.addPlaceholder(FKPlaceholder.ASSAULTS_STATE.get(), this.getAssaultsState());
+        message.addPlaceholder(FKPlaceholder.NETHER_STATE.get(), this.getNetherState());
+        message.addPlaceholder(FKPlaceholder.END_STATE.get(), this.getEndState());
 
         return message.getText();
-    }
-
-    @Override
-    protected String getSectionName() {
-        return "spectator-scoreboard";
     }
 
     @Override
@@ -66,11 +61,6 @@ public class SpectatorBoard extends FKBoard implements AttributeObserver {
     public void remove() {
         super.remove();
         this.model.removeObserver(this);
-    }
-
-    @Override
-    public String getId() {
-        return ID;
     }
 
     @Override
@@ -97,7 +87,6 @@ public class SpectatorBoard extends FKBoard implements AttributeObserver {
     private String getPvPState() {
 
         String key = String.format("%s.pvp-state.%s", this.getSectionName(), (this.model.isPvPEnabled() ? "enabled" : "disabled"));
-
         Text text = this.getLangService().getMessage(key, Text.class);
 
         return text.getText();
@@ -106,7 +95,22 @@ public class SpectatorBoard extends FKBoard implements AttributeObserver {
     private String getAssaultsState() {
 
         String key = String.format("%s.assaults-state.%s", this.getSectionName(), (this.model.areAssaultsEnabled() ? "enabled" : "disabled"));
+        Text text = this.getLangService().getMessage(key, Text.class);
 
+        return text.getText();
+    }
+
+    private String getNetherState() {
+
+        String key = String.format("%s.nether-state.%s", this.getSectionName(), (this.model.isNetherEnabled() ? "enabled" : "disabled"));
+        Text text = this.getLangService().getMessage(key, Text.class);
+
+        return text.getText();
+    }
+
+    private String getEndState() {
+
+        String key = String.format("%s.end-state.%s", this.getSectionName(), (this.model.isEndEnabled() ? "enabled" : "disabled"));
         Text text = this.getLangService().getMessage(key, Text.class);
 
         return text.getText();
