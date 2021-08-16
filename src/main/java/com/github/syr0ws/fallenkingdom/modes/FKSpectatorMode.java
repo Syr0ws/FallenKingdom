@@ -2,7 +2,7 @@ package com.github.syr0ws.fallenkingdom.modes;
 
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.fallenkingdom.views.scoreboards.SpectatorBoard;
+import com.github.syr0ws.fallenkingdom.views.scoreboards.SpectatorGameBoard;
 import com.github.syr0ws.universe.commons.mode.types.SpectatorMode;
 import com.github.syr0ws.universe.commons.modules.ModuleEnum;
 import com.github.syr0ws.universe.commons.modules.ModuleService;
@@ -89,7 +89,7 @@ public class FKSpectatorMode extends SpectatorMode {
 
     private void setScoreboard(Player player, ViewService viewService, LangService langService) {
 
-        SpectatorBoard board = new SpectatorBoard(player, langService, this.getModel());
+        SpectatorGameBoard board = new SpectatorGameBoard(player, langService, this.getModel());
 
         // Setting game scoreboard.
         viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class).addView(player, board);

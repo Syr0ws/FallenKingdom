@@ -6,7 +6,7 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.views.GameActionBar;
 import com.github.syr0ws.fallenkingdom.views.PlayerNameView;
-import com.github.syr0ws.fallenkingdom.views.scoreboards.GameBoard;
+import com.github.syr0ws.fallenkingdom.views.scoreboards.PlayerGameBoard;
 import com.github.syr0ws.universe.commons.mode.types.PlayingMode;
 import com.github.syr0ws.universe.commons.modules.ModuleEnum;
 import com.github.syr0ws.universe.commons.modules.ModuleService;
@@ -109,7 +109,7 @@ public class FKPlayingMode extends PlayingMode {
 
     private void setScoreboard(Player player, ViewService viewService, LangService langService) {
 
-        GameBoard board = new GameBoard(player, langService, this.getModel());
+        PlayerGameBoard board = new PlayerGameBoard(player, langService, this.getModel());
 
         // Setting game scoreboard.
         viewService.getViewHandler(DefaultViewType.SCOREBOARD, ScoreboardView.class).addView(player, board);
