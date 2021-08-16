@@ -479,6 +479,9 @@ pvp:
       type: "TITLE"
       title: "${pvp.enabled.title}"
       subtitle: "${pvp.enabled.subtitle}"
+    sound:
+      type: "SOUND"
+      sound: "WOLF_GROWL"
   # Displays sent when PvP is disabled.
   disabled:
     message:
@@ -501,6 +504,9 @@ assaults:
       type: "TITLE"
       title: "${assaults.enabled.title}"
       subtitle: "${assaults.enabled.subtitle}"
+    sound:
+      type: "SOUND"
+      sound: "WOLF_GROWL"
   # Displays sent when assaults are disabled.
   disabled:
     message:
@@ -522,6 +528,9 @@ nether:
     title:
       type: "TITLE"
       title: "${nether.enabled.title}"
+    sound:
+      type: "SOUND"
+      sound: "GHAST_FIREBALL"
   # Displays sent when the Nether is disabled.
   disabled:
     message:
@@ -542,6 +551,9 @@ end:
     title:
       type: "TITLE"
       title: "${end.enabled.title}"
+    sound:
+      type: "SOUND"
+      sound: "ENDERMAN_TELEPORT"
   # Displays sent when the End is disabled.
   disabled:
     message:
