@@ -36,11 +36,11 @@ nether:
   # Textes envoyés lors de l'activation du nether.
   enabled:
     message: "&6>> &eLe &cnether &eest désormais &aactivé&e."
-    subtitle: "&eNether &aactivé"
+    title: "&eNether &aactivé"
   # Textes envoyés lors de la désactivation du nether.
   disabled:
     message: "&6>> &eLe &cnether &eest désormais &cdésactivés&e."
-    subtitle: "&eNether &cdésactivé"
+    title: "&eNether &cdésactivé"
 
 
 # Cette section contient tous les textes qui concernent l'end.
