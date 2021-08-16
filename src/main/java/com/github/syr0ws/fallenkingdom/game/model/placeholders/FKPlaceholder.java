@@ -7,6 +7,8 @@ public enum FKPlaceholder implements Placeholder {
     GAME_STATE("game_state"),
     PVP_STATE("pvp_state"),
     ASSAULTS_STATE("assaults_state"),
+    NETHER_STATE("nether_state"),
+    END_STATE("end_state"),
     TIME("time"),
     KILLS("kills"),
     DEATHS("deaths"),
