@@ -292,7 +292,7 @@ borders:
 #  # The world in which set the weather.
 #  world: "my-world"
 #  # The weather to set in the world.
-#  # Available values: NORMAL, SUNNY, RAIN, STORM.
+#  # Available values: NORMAL, SUNNY.
 #  weather: "SUNNY"
 weathers:
   world:
