@@ -33,15 +33,21 @@ public class FKGame extends Game {
     private CraftFKController controller;
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
+        super.onLoad();
+
+        // Loading modules.
+        this.registerModules();
 
         // Loading config.
-        super.saveDefaultConfig();
+        super.saveConfig();
+    }
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
 
         try {
-
-            // Loading modules.
-            this.loadModules();
 
             // Model setup.
             this.setupGameModel();
@@ -66,7 +72,7 @@ public class FKGame extends Game {
 
     @Override
     public void onDisable() {
-
+        super.onDisable();
     }
 
     @Override
@@ -88,15 +94,15 @@ public class FKGame extends Game {
         this.controller = new CraftFKController(this, this.model);
     }
 
-    private void loadModules() {
+    private void registerModules() {
 
         ModuleService service = super.getModuleService();
-        service.enableModule(ModuleEnum.COMBAT_MODULE.newInstance(this));
-        service.enableModule(ModuleEnum.CHAT_MODULE.newInstance(this));
-        service.enableModule(ModuleEnum.BORDER_MODULE.newInstance(this));
-        service.enableModule(ModuleEnum.VIEW_MODULE.newInstance(this));
-        service.enableModule(ModuleEnum.LANG_MODULE.newInstance(this));
-        service.enableModule(ModuleEnum.WEATHER_MODULE.newInstance(this));
+        service.registerModule(ModuleEnum.COMBAT_MODULE.newInstance(this));
+        service.registerModule(ModuleEnum.CHAT_MODULE.newInstance(this));
+        service.registerModule(ModuleEnum.BORDER_MODULE.newInstance(this));
+        service.registerModule(ModuleEnum.VIEW_MODULE.newInstance(this));
+        service.registerModule(ModuleEnum.LANG_MODULE.newInstance(this));
+        service.registerModule(ModuleEnum.WEATHER_MODULE.newInstance(this));
     }
 
     private void registerGameModes() {
