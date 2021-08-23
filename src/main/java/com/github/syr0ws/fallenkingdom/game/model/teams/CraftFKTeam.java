@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.game.model.teams;
 
 import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
-import com.github.syr0ws.universe.sdk.displays.Display;
+import com.github.syr0ws.universe.api.displays.Display;
 
 import java.util.*;
 import java.util.function.Predicate;

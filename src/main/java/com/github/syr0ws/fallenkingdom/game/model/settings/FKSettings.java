@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.game.model.settings;
 
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
-import com.github.syr0ws.universe.commons.settings.GameSettings;
-import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
+import com.github.syr0ws.universe.api.game.settings.GameSettings;
+import com.github.syr0ws.universe.api.settings.MutableSetting;
 import org.bukkit.Material;
 
 import java.util.List;

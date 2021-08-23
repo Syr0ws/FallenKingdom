@@ -12,18 +12,18 @@ import com.github.syr0ws.fallenkingdom.listeners.FKListener;
 import com.github.syr0ws.fallenkingdom.modes.FKPlayingMode;
 import com.github.syr0ws.fallenkingdom.modes.FKSpectatorMode;
 import com.github.syr0ws.fallenkingdom.modes.FKWaitingMode;
-import com.github.syr0ws.universe.commons.chat.DefaultSpectatorChat;
-import com.github.syr0ws.universe.commons.chat.DefaultWaitingChat;
-import com.github.syr0ws.universe.commons.modules.ModuleEnum;
-import com.github.syr0ws.universe.commons.modules.ModuleService;
-import com.github.syr0ws.universe.commons.modules.chat.ChatModel;
-import com.github.syr0ws.universe.commons.modules.chat.ChatModule;
-import com.github.syr0ws.universe.commons.modules.lang.LangModule;
-import com.github.syr0ws.universe.commons.modules.lang.LangService;
+import com.github.syr0ws.universe.api.game.mode.ModeManager;
+import com.github.syr0ws.universe.api.game.model.GameException;
+import com.github.syr0ws.universe.api.modules.ModuleService;
 import com.github.syr0ws.universe.sdk.Game;
-import com.github.syr0ws.universe.sdk.game.mode.ModeManager;
-import com.github.syr0ws.universe.sdk.game.model.GameException;
+import com.github.syr0ws.universe.sdk.chat.DefaultSpectatorChat;
+import com.github.syr0ws.universe.sdk.chat.DefaultWaitingChat;
 import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
+import com.github.syr0ws.universe.sdk.modules.ModuleEnum;
+import com.github.syr0ws.universe.sdk.modules.chat.ChatModel;
+import com.github.syr0ws.universe.sdk.modules.chat.ChatModule;
+import com.github.syr0ws.universe.sdk.modules.lang.LangModule;
+import com.github.syr0ws.universe.sdk.modules.lang.LangService;
 
 import java.util.Optional;
 

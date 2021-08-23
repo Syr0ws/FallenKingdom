@@ -3,9 +3,9 @@ package com.github.syr0ws.fallenkingdom.listeners;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
+import com.github.syr0ws.universe.api.game.model.GameException;
+import com.github.syr0ws.universe.api.game.model.GamePlayer;
 import com.github.syr0ws.universe.sdk.events.GamePlayerQuitEvent;
-import com.github.syr0ws.universe.sdk.game.model.GameException;
-import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

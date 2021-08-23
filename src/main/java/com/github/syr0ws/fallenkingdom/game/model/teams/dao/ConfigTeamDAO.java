@@ -6,7 +6,7 @@ import com.github.syr0ws.fallenkingdom.capture.CaptureDAOFactory;
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.*;
-import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
+import com.github.syr0ws.universe.api.settings.MutableSetting;
 import com.github.syr0ws.universe.sdk.tools.Cuboid;
 import com.github.syr0ws.universe.sdk.utils.LocationUtils;
 import org.bukkit.Location;

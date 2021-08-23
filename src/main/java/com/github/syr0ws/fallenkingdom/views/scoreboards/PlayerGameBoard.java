@@ -3,8 +3,8 @@ package com.github.syr0ws.fallenkingdom.views.scoreboards;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.commons.modules.lang.LangService;
 import com.github.syr0ws.universe.sdk.displays.types.Message;
+import com.github.syr0ws.universe.sdk.modules.lang.LangService;
 import org.bukkit.entity.Player;
 
 public class PlayerGameBoard extends FKGameBoard {

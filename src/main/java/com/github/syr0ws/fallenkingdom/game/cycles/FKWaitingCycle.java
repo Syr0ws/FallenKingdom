@@ -4,10 +4,10 @@ import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.listeners.FKWaitingListener;
-import com.github.syr0ws.universe.commons.cycle.types.WaitingCycle;
+import com.github.syr0ws.universe.api.game.controller.GameController;
+import com.github.syr0ws.universe.api.game.model.GameModel;
 import com.github.syr0ws.universe.sdk.Game;
-import com.github.syr0ws.universe.sdk.game.controller.GameController;
-import com.github.syr0ws.universe.sdk.game.model.GameModel;
+import com.github.syr0ws.universe.sdk.game.cycle.types.WaitingCycle;
 import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
 
 public class FKWaitingCycle extends WaitingCycle {

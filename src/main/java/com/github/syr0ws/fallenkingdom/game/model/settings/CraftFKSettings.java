@@ -1,13 +1,13 @@
 package com.github.syr0ws.fallenkingdom.game.model.settings;
 
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
-import com.github.syr0ws.universe.commons.settings.DefaultGameSettings;
-import com.github.syr0ws.universe.sdk.settings.dao.ConfigSettingLoader;
-import com.github.syr0ws.universe.sdk.settings.dao.SettingLoader;
-import com.github.syr0ws.universe.sdk.settings.manager.SettingManager;
-import com.github.syr0ws.universe.sdk.settings.types.CharacterSetting;
-import com.github.syr0ws.universe.sdk.settings.types.MaterialSetting;
-import com.github.syr0ws.universe.sdk.settings.types.MutableSetting;
+import com.github.syr0ws.universe.api.settings.MutableSetting;
+import com.github.syr0ws.universe.api.settings.SettingLoader;
+import com.github.syr0ws.universe.api.settings.SettingManager;
+import com.github.syr0ws.universe.sdk.game.settings.DefaultGameSettings;
+import com.github.syr0ws.universe.sdk.game.settings.dao.ConfigSettingLoader;
+import com.github.syr0ws.universe.sdk.game.settings.types.CharacterSetting;
+import com.github.syr0ws.universe.sdk.game.settings.types.MaterialSetting;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 

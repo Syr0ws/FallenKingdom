@@ -3,7 +3,7 @@ package com.github.syr0ws.fallenkingdom.game.model;
 import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.sdk.game.model.GameModel;
+import com.github.syr0ws.universe.api.game.model.GameModel;
 
 import java.util.Collection;
 import java.util.Optional;

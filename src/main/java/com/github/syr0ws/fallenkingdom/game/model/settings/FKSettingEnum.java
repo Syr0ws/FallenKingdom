@@ -2,13 +2,13 @@ package com.github.syr0ws.fallenkingdom.game.model.settings;
 
 import com.github.syr0ws.fallenkingdom.capture.CaptureType;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
-import com.github.syr0ws.universe.commons.placeholders.PlaceholderEnum;
-import com.github.syr0ws.universe.sdk.settings.Setting;
-import com.github.syr0ws.universe.sdk.settings.SettingType;
-import com.github.syr0ws.universe.sdk.settings.types.CharacterSetting;
-import com.github.syr0ws.universe.sdk.settings.types.EnumSetting;
-import com.github.syr0ws.universe.sdk.settings.types.MaterialSetting;
-import com.github.syr0ws.universe.sdk.settings.types.SimpleConfigSetting;
+import com.github.syr0ws.universe.api.settings.Setting;
+import com.github.syr0ws.universe.api.settings.SettingType;
+import com.github.syr0ws.universe.sdk.game.settings.types.CharacterSetting;
+import com.github.syr0ws.universe.sdk.game.settings.types.EnumSetting;
+import com.github.syr0ws.universe.sdk.game.settings.types.MaterialSetting;
+import com.github.syr0ws.universe.sdk.game.settings.types.SimpleConfigSetting;
+import com.github.syr0ws.universe.sdk.placeholders.PlaceholderEnum;
 import org.bukkit.Material;
 
 import java.util.ArrayList;

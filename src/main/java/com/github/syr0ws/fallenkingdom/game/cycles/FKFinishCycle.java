@@ -3,11 +3,11 @@ package com.github.syr0ws.fallenkingdom.game.cycles;
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.controller.FKController;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
-import com.github.syr0ws.universe.commons.cycle.types.FinishCycle;
-import com.github.syr0ws.universe.commons.mode.DefaultModeType;
+import com.github.syr0ws.universe.api.game.controller.GameController;
+import com.github.syr0ws.universe.api.game.model.GameModel;
 import com.github.syr0ws.universe.sdk.Game;
-import com.github.syr0ws.universe.sdk.game.controller.GameController;
-import com.github.syr0ws.universe.sdk.game.model.GameModel;
+import com.github.syr0ws.universe.sdk.game.cycle.types.FinishCycle;
+import com.github.syr0ws.universe.sdk.game.mode.DefaultModeType;
 
 public class FKFinishCycle extends FinishCycle {
 

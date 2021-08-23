@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.listeners;
 
-import com.github.syr0ws.universe.commons.modules.lang.LangService;
-import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.sdk.modules.lang.LangService;
+import com.github.syr0ws.universe.sdk.modules.lang.messages.impl.Text;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

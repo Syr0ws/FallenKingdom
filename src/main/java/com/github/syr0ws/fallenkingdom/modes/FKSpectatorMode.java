@@ -3,16 +3,16 @@ package com.github.syr0ws.fallenkingdom.modes;
 import com.github.syr0ws.fallenkingdom.FKGame;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.views.scoreboards.SpectatorGameBoard;
-import com.github.syr0ws.universe.commons.mode.types.SpectatorMode;
-import com.github.syr0ws.universe.commons.modules.ModuleEnum;
-import com.github.syr0ws.universe.commons.modules.ModuleService;
-import com.github.syr0ws.universe.commons.modules.lang.LangService;
-import com.github.syr0ws.universe.commons.modules.view.ViewModule;
-import com.github.syr0ws.universe.commons.modules.view.ViewService;
-import com.github.syr0ws.universe.commons.modules.view.impl.DefaultViewType;
-import com.github.syr0ws.universe.commons.modules.view.views.ScoreboardView;
-import com.github.syr0ws.universe.sdk.game.model.GameException;
-import com.github.syr0ws.universe.sdk.game.model.GameModel;
+import com.github.syr0ws.universe.api.game.model.GameException;
+import com.github.syr0ws.universe.api.game.model.GameModel;
+import com.github.syr0ws.universe.api.modules.ModuleService;
+import com.github.syr0ws.universe.sdk.game.mode.types.SpectatorMode;
+import com.github.syr0ws.universe.sdk.modules.ModuleEnum;
+import com.github.syr0ws.universe.sdk.modules.lang.LangService;
+import com.github.syr0ws.universe.sdk.modules.view.ViewModule;
+import com.github.syr0ws.universe.sdk.modules.view.ViewService;
+import com.github.syr0ws.universe.sdk.modules.view.impl.DefaultViewType;
+import com.github.syr0ws.universe.sdk.modules.view.views.ScoreboardView;
 import org.bukkit.entity.Player;
 
 public class FKSpectatorMode extends SpectatorMode {

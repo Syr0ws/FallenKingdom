@@ -1,9 +1,9 @@
 package com.github.syr0ws.fallenkingdom.views.scoreboards;
 
-import com.github.syr0ws.universe.commons.modules.lang.LangService;
-import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
-import com.github.syr0ws.universe.commons.modules.lang.messages.impl.TextList;
-import com.github.syr0ws.universe.commons.modules.view.views.ScoreboardView;
+import com.github.syr0ws.universe.sdk.modules.lang.LangService;
+import com.github.syr0ws.universe.sdk.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.sdk.modules.lang.messages.impl.TextList;
+import com.github.syr0ws.universe.sdk.modules.view.views.ScoreboardView;
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.entity.Player;
 

@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.capture;
 
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
-import com.github.syr0ws.universe.sdk.game.model.GameException;
+import com.github.syr0ws.universe.api.game.model.GameException;
 
 public interface CaptureManager {
 

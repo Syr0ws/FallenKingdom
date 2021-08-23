@@ -5,9 +5,9 @@ import com.github.syr0ws.fallenkingdom.game.model.settings.FKSettings;
 import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.TeamException;
 import com.github.syr0ws.fallenkingdom.game.model.teams.dao.ConfigTeamDAO;
-import com.github.syr0ws.universe.sdk.game.model.GameException;
-import com.github.syr0ws.universe.sdk.settings.manager.CacheSettingManager;
-import com.github.syr0ws.universe.sdk.settings.manager.SettingManager;
+import com.github.syr0ws.universe.api.game.model.GameException;
+import com.github.syr0ws.universe.api.settings.SettingManager;
+import com.github.syr0ws.universe.sdk.game.settings.manager.CacheSettingManager;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;

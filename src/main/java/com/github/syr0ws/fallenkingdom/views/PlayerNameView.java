@@ -2,7 +2,7 @@ package com.github.syr0ws.fallenkingdom.views;
 
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.commons.modules.view.views.NameView;
+import com.github.syr0ws.universe.sdk.modules.view.views.NameView;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 

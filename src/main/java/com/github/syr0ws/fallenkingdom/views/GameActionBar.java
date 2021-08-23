@@ -3,12 +3,12 @@ package com.github.syr0ws.fallenkingdom.views;
 import com.github.syr0ws.fallenkingdom.game.model.FKModel;
 import com.github.syr0ws.fallenkingdom.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.commons.modules.lang.LangService;
-import com.github.syr0ws.universe.commons.modules.lang.messages.impl.Text;
-import com.github.syr0ws.universe.commons.modules.lang.utils.LangUtils;
-import com.github.syr0ws.universe.commons.modules.view.views.ActionBarView;
 import com.github.syr0ws.universe.sdk.displays.loaders.ActionBarLoader;
 import com.github.syr0ws.universe.sdk.displays.types.ActionBar;
+import com.github.syr0ws.universe.sdk.modules.lang.LangService;
+import com.github.syr0ws.universe.sdk.modules.lang.messages.impl.Text;
+import com.github.syr0ws.universe.sdk.modules.lang.utils.LangUtils;
+import com.github.syr0ws.universe.sdk.modules.view.views.ActionBarView;
 import com.github.syr0ws.universe.sdk.tools.direction.Direction;
 import com.github.syr0ws.universe.sdk.tools.direction.DirectionUtils;
 import org.bukkit.Location;
@@ -44,6 +44,7 @@ public class GameActionBar extends ActionBarView {
 
     @Override
     public void update() {
+
 
         Text format = this.service.getMessage("game-action-bar-text", Text.class);
 

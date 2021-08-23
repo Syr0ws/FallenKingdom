@@ -5,9 +5,9 @@ import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.CraftFKTeamPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.commons.model.DefaultGameModel;
-import com.github.syr0ws.universe.commons.model.DefaultGamePlayer;
-import com.github.syr0ws.universe.sdk.game.model.GamePlayer;
+import com.github.syr0ws.universe.api.game.model.GamePlayer;
+import com.github.syr0ws.universe.sdk.game.model.DefaultGameModel;
+import com.github.syr0ws.universe.sdk.game.model.DefaultGamePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;

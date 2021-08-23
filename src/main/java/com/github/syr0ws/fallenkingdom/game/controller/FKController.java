@@ -4,8 +4,8 @@ import com.github.syr0ws.fallenkingdom.capture.CaptureManager;
 import com.github.syr0ws.fallenkingdom.game.model.FKPlayer;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.game.model.teams.FKTeamPlayer;
-import com.github.syr0ws.universe.sdk.game.controller.GameController;
-import com.github.syr0ws.universe.sdk.game.model.GameException;
+import com.github.syr0ws.universe.api.game.controller.GameController;
+import com.github.syr0ws.universe.api.game.model.GameException;
 
 public interface FKController extends GameController {
 

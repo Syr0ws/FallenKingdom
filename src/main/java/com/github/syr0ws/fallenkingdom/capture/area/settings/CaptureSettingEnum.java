@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.capture.area.settings;
 
-import com.github.syr0ws.universe.sdk.settings.Setting;
-import com.github.syr0ws.universe.sdk.settings.SettingType;
-import com.github.syr0ws.universe.sdk.settings.types.SimpleConfigSetting;
+import com.github.syr0ws.universe.api.settings.Setting;
+import com.github.syr0ws.universe.api.settings.SettingType;
+import com.github.syr0ws.universe.sdk.game.settings.types.SimpleConfigSetting;
 
 public enum CaptureSettingEnum implements SettingType {
 
