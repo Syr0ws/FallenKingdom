@@ -19,10 +19,8 @@ public class FKGameListener implements Listener {
         this.model = model;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerPortalUse(PlayerPortalEvent event) {
-
-        if(event.isCancelled()) return;
 
         World to = event.getTo().getWorld();
         World.Environment environment = to.getEnvironment();

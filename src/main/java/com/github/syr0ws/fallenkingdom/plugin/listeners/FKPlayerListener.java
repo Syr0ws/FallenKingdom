@@ -48,11 +48,8 @@ public class FKPlayerListener implements Listener {
         if(!this.model.isPvPEnabled()) event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onFriendlyFire(EntityDamageByEntityEvent event) {
-
-        // If the damage is already cancelled, the event is handled.
-        if(event.isCancelled()) return;
 
         // If pvp is not enabled, cancelling the damage.
         if(!this.model.isPvPEnabled()) event.setCancelled(true);
