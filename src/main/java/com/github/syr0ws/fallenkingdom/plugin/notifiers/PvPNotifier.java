@@ -1,7 +1,7 @@
 package com.github.syr0ws.fallenkingdom.plugin.notifiers;
 
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
-import com.github.syr0ws.fallenkingdom.plugin.game.cycles.displays.GameRunningDisplayEnum;
+import com.github.syr0ws.fallenkingdom.plugin.displays.GameDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.FKAttribute;
 import com.github.syr0ws.universe.api.attributes.Attribute;
 import com.github.syr0ws.universe.api.attributes.AttributeObserver;
@@ -32,8 +32,8 @@ public class PvPNotifier implements AttributeObserver {
     @Override
     public void onUpdate(Attribute attribute) {
 
-        GameRunningDisplayEnum displayEnum = this.model.isPvPEnabled() ?
-                GameRunningDisplayEnum.PVP_ENABLED : GameRunningDisplayEnum.PVP_DISABLED;
+        GameDisplayEnum displayEnum = this.model.isPvPEnabled() ?
+                GameDisplayEnum.PVP_ENABLED : GameDisplayEnum.PVP_DISABLED;
 
         // Retrieving displays.
         Collection<Display> displays = this.manager.getDisplays(displayEnum.getPath());

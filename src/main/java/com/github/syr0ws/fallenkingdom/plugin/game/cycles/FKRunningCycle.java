@@ -4,7 +4,6 @@ import com.github.syr0ws.fallenkingdom.api.controller.FKController;
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.api.model.FKSettings;
 import com.github.syr0ws.fallenkingdom.plugin.FKGame;
-import com.github.syr0ws.fallenkingdom.plugin.game.cycles.displays.GameRunningDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.listeners.*;
 import com.github.syr0ws.fallenkingdom.plugin.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.plugin.notifiers.EndNotifier;
@@ -16,7 +15,6 @@ import com.github.syr0ws.universe.api.game.controller.GameController;
 import com.github.syr0ws.universe.api.game.model.GameModel;
 import com.github.syr0ws.universe.api.settings.Setting;
 import com.github.syr0ws.universe.sdk.Game;
-import com.github.syr0ws.universe.sdk.displays.DisplayUtils;
 import com.github.syr0ws.universe.sdk.game.cycle.GameCycleTask;
 import com.github.syr0ws.universe.sdk.game.cycle.types.RunningCycle;
 import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
@@ -39,7 +37,7 @@ public class FKRunningCycle extends RunningCycle {
     public FKRunningCycle(Game game, GameModel model, GameController controller) {
         super(game, model, controller);
 
-        this.manager = DisplayUtils.getDisplayManager(this.getGame());
+        this.manager = this.getGame().getDisplayManager();
         this.actionManager = new TimerActionManager();
     }
 
@@ -56,9 +54,6 @@ public class FKRunningCycle extends RunningCycle {
 
         // Loading actions.
         this.loadActions();
-
-        // Loading displays.
-        this.loadDisplays();
 
         // Adding notifiers.
         this.setupNotifiers();
@@ -172,12 +167,6 @@ public class FKRunningCycle extends RunningCycle {
 
         // Adding display actions.
         TimerUtils.loadDisplayActions(this.actionManager, this.getGame().getLangService(), this.getCycleSection());
-    }
-
-    private void loadDisplays() {
-
-        for (GameRunningDisplayEnum value : GameRunningDisplayEnum.values())
-            this.manager.loadDisplays(value.getPath());
     }
 
     private ConfigurationSection getCycleSection() {

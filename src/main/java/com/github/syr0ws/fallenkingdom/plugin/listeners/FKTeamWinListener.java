@@ -3,7 +3,7 @@ package com.github.syr0ws.fallenkingdom.plugin.listeners;
 import com.github.syr0ws.fallenkingdom.api.events.TeamWinEvent;
 import com.github.syr0ws.fallenkingdom.api.model.teams.FKTeam;
 import com.github.syr0ws.fallenkingdom.api.model.teams.FKTeamPlayer;
-import com.github.syr0ws.fallenkingdom.plugin.game.cycles.displays.GameRunningDisplayEnum;
+import com.github.syr0ws.fallenkingdom.plugin.displays.GameDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.universe.api.displays.Display;
 import com.github.syr0ws.universe.api.displays.DisplayManager;
@@ -47,19 +47,19 @@ public class FKTeamWinListener implements Listener {
 
     private void sendWinDisplaysAll(FKTeam team) {
 
-        Collection<Display> displays = this.getTeamWinDisplays(team, GameRunningDisplayEnum.WIN_ALL);
+        Collection<Display> displays = this.getTeamWinDisplays(team, GameDisplayEnum.WIN_ALL);
         DisplayUtils.sendDisplays(displays, Bukkit.getOnlinePlayers());
     }
 
     private void sendWinDisplaysTeam(FKTeam team) {
 
-        Collection<Display> displays = this.getTeamWinDisplays(team, GameRunningDisplayEnum.WIN_SELF);
+        Collection<Display> displays = this.getTeamWinDisplays(team, GameDisplayEnum.WIN_SELF);
         displays.forEach(display -> team.sendDisplay(display, FKTeamPlayer::isAlive));
     }
 
     private void sendWinDisplaysOther(FKTeam team) {
 
-        Collection<Display> displays = this.getTeamWinDisplays(team, GameRunningDisplayEnum.WIN_OTHER);
+        Collection<Display> displays = this.getTeamWinDisplays(team, GameDisplayEnum.WIN_OTHER);
 
         Collection<? extends Player> players = Bukkit.getOnlinePlayers().stream()
                 .filter(player -> !team.contains(player.getUniqueId()))
@@ -68,7 +68,7 @@ public class FKTeamWinListener implements Listener {
         DisplayUtils.sendDisplays(displays, players);
     }
 
-    private Collection<Display> getTeamWinDisplays(FKTeam team, GameRunningDisplayEnum displayEnum) {
+    private Collection<Display> getTeamWinDisplays(FKTeam team, GameDisplayEnum displayEnum) {
 
         // Handling placeholders.
         Map<String, String> placeholders = new HashMap<>();
