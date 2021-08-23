@@ -4,7 +4,7 @@ import com.github.syr0ws.fallenkingdom.api.controller.FKController;
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.api.model.FKSettings;
 import com.github.syr0ws.fallenkingdom.plugin.FKGame;
-import com.github.syr0ws.fallenkingdom.plugin.game.cycles.displays.GameRunningDisplayEnum;
+import com.github.syr0ws.fallenkingdom.plugin.displays.GameDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.listeners.*;
 import com.github.syr0ws.fallenkingdom.plugin.notifiers.AssaultsNotifier;
 import com.github.syr0ws.fallenkingdom.plugin.notifiers.EndNotifier;
@@ -176,7 +176,7 @@ public class FKRunningCycle extends RunningCycle {
 
     private void loadDisplays() {
 
-        for (GameRunningDisplayEnum value : GameRunningDisplayEnum.values())
+        for (GameDisplayEnum value : GameDisplayEnum.values())
             this.manager.loadDisplays(value.getPath());
     }
 

@@ -1,6 +1,6 @@
-package com.github.syr0ws.fallenkingdom.plugin.game.cycles.displays;
+package com.github.syr0ws.fallenkingdom.plugin.displays;
 
-public enum GameRunningDisplayEnum {
+public enum GameDisplayEnum {
 
     PVP_ENABLED("pvp.enabled"),
     PVP_DISABLED("pvp.disabled"),
@@ -16,7 +16,7 @@ public enum GameRunningDisplayEnum {
 
     private final String path;
 
-    GameRunningDisplayEnum(String path) {
+    GameDisplayEnum(String path) {
         this.path = path;
     }
 
