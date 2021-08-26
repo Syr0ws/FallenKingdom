@@ -15,8 +15,8 @@ import com.github.syr0ws.universe.api.game.controller.GameController;
 import com.github.syr0ws.universe.api.game.model.GameModel;
 import com.github.syr0ws.universe.api.settings.Setting;
 import com.github.syr0ws.universe.sdk.Game;
-import com.github.syr0ws.universe.sdk.game.cycle.GameCycleTask;
-import com.github.syr0ws.universe.sdk.game.cycle.types.RunningCycle;
+import com.github.syr0ws.universe.sdk.game.controller.cycle.GameCycleTask;
+import com.github.syr0ws.universe.sdk.game.controller.cycle.types.GameRunningCycle;
 import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
 import com.github.syr0ws.universe.sdk.timer.TimerActionManager;
 import com.github.syr0ws.universe.sdk.timer.TimerUtils;
@@ -26,7 +26,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FKRunningCycle extends RunningCycle {
+public class FKRunningCycle extends GameRunningCycle {
 
     private final DisplayManager manager;
     private final TimerActionManager actionManager;
@@ -41,10 +41,7 @@ public class FKRunningCycle extends RunningCycle {
         this.actionManager = new TimerActionManager();
     }
 
-
-    @Override
-    public void load() {
-        super.load();
+    private void load() {
 
         // Registering listeners.
         this.registerListeners();
@@ -59,9 +56,7 @@ public class FKRunningCycle extends RunningCycle {
         this.setupNotifiers();
     }
 
-    @Override
-    public void unload() {
-        super.unload();
+    private void unload() {
 
         // Handling captures.
         this.getController().getCaptureManager().disable();
@@ -71,19 +66,27 @@ public class FKRunningCycle extends RunningCycle {
     }
 
     @Override
-    public void start() {
-        super.start();
+    public void enable() {
+
+        // Loading the cycle.
+        this.load();
 
         // Starting task.
         this.startTask();
+
+        super.enable();
     }
 
     @Override
-    public void stop() {
-        super.stop();
+    public void disable() {
+
+        // Unloading the cycle.
+        this.unload();
 
         // Stopping task.
         this.stopTask();
+
+        super.disable();
     }
 
     @Override

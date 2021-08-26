@@ -15,12 +15,12 @@ import com.github.syr0ws.fallenkingdom.plugin.game.cycles.FKCycleFactory;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.CraftFKModel;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.teams.CraftFKTeam;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.teams.CraftFKTeamPlayer;
-import com.github.syr0ws.universe.api.game.cycle.GameCycleFactory;
+import com.github.syr0ws.universe.api.game.controller.cycle.GameCycleFactory;
 import com.github.syr0ws.universe.api.game.model.GameException;
 import com.github.syr0ws.universe.api.game.model.GamePlayer;
 import com.github.syr0ws.universe.api.game.model.GameState;
 import com.github.syr0ws.universe.api.settings.MutableSetting;
-import com.github.syr0ws.universe.sdk.game.controller.DefaultGameController;
+import com.github.syr0ws.universe.sdk.game.controller.AbstractGameController;
 import com.github.syr0ws.universe.sdk.game.mode.DefaultModeType;
 import org.bukkit.Bukkit;
 
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class CraftFKController extends DefaultGameController implements FKController {
+public class CraftFKController extends AbstractGameController implements FKController {
 
     private final FKGame game;
     private final CraftFKModel model;
@@ -47,9 +47,6 @@ public class CraftFKController extends DefaultGameController implements FKContro
 
         // Initializing capture manager.
         this.captureManager = this.createCaptureManager();
-
-        // Handling game state.
-        super.setGameState(GameState.WAITING);
     }
 
     @Override

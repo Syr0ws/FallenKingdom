@@ -3,8 +3,8 @@ package com.github.syr0ws.fallenkingdom.plugin.game.cycles;
 import com.github.syr0ws.fallenkingdom.api.controller.FKController;
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.plugin.FKGame;
-import com.github.syr0ws.universe.api.game.cycle.GameCycle;
-import com.github.syr0ws.universe.api.game.cycle.GameCycleFactory;
+import com.github.syr0ws.universe.api.game.controller.cycle.GameCycle;
+import com.github.syr0ws.universe.api.game.controller.cycle.GameCycleFactory;
 import com.github.syr0ws.universe.api.game.model.GameState;
 
 public class FKCycleFactory implements GameCycleFactory {
@@ -33,6 +33,8 @@ public class FKCycleFactory implements GameCycleFactory {
     public GameCycle getGameCycle(GameState state) {
 
         switch (state) {
+            case LOADING:
+                return new FKLoadingCycle(this.game, this.model, this.controller);
             case WAITING:
                 return new FKWaitingCycle(this.game, this.model, this.controller);
             case STARTING:

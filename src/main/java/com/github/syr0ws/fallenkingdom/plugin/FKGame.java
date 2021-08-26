@@ -100,6 +100,7 @@ public class FKGame extends Game {
 
     private void setupGameController() {
         this.controller = new CraftFKController(this, this.model);
+        this.controller.enable();
     }
 
     private void registerModules() {

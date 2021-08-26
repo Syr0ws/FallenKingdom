@@ -8,14 +8,14 @@ import com.github.syr0ws.fallenkingdom.plugin.listeners.FKWaitingListener;
 import com.github.syr0ws.universe.api.game.controller.GameController;
 import com.github.syr0ws.universe.api.game.model.GameModel;
 import com.github.syr0ws.universe.sdk.Game;
-import com.github.syr0ws.universe.sdk.game.cycle.GameCycleTask;
-import com.github.syr0ws.universe.sdk.game.cycle.types.StartingCycle;
+import com.github.syr0ws.universe.sdk.game.controller.cycle.GameCycleTask;
+import com.github.syr0ws.universe.sdk.game.controller.cycle.types.GameStartingCycle;
 import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
 import com.github.syr0ws.universe.sdk.timer.TimerActionManager;
 import com.github.syr0ws.universe.sdk.timer.TimerUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class FKStartingCycle extends StartingCycle {
+public class FKStartingCycle extends GameStartingCycle {
 
     private final TimerActionManager actionManager;
 
@@ -26,32 +26,29 @@ public class FKStartingCycle extends StartingCycle {
         this.actionManager = new TimerActionManager();
     }
 
-
     @Override
-    public void load() {
-        super.load();
-
-        // Handling listeners.
-        this.registerListeners();
-
-        // Handling displays.
-        this.loadActions();
+    public void registerListeners(ListenerManager manager) {
+        super.registerListeners(manager);
+        manager.addListener(new FKWaitingListener(this.getModel(), this.getController()));
     }
 
     @Override
-    public void start() {
-        super.start();
+    public void enable() {
 
-        // Starting task.
-        this.startTask();
+        System.out.println("test");
+
+        this.loadActions(); // Handling displays.
+        this.startTask(); // Starting task.
+
+        super.enable();
     }
 
     @Override
-    public void stop() {
-        super.stop();
+    public void disable() {
 
-        // Stopping task.
-        this.stopTask();
+        this.stopTask(); // Stopping task.
+
+        super.disable();
     }
 
     @Override
@@ -67,12 +64,6 @@ public class FKStartingCycle extends StartingCycle {
     @Override
     public FKController getController() {
         return (FKController) super.getController();
-    }
-
-    private void registerListeners() {
-
-        ListenerManager manager = super.getListenerManager();
-        manager.addListener(new FKWaitingListener(this.getModel(), this.getController()));
     }
 
     private void startTask() {
