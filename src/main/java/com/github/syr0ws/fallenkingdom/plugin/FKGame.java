@@ -14,7 +14,6 @@ import com.github.syr0ws.fallenkingdom.plugin.modes.FKSpectatorMode;
 import com.github.syr0ws.fallenkingdom.plugin.modes.FKWaitingMode;
 import com.github.syr0ws.universe.api.game.mode.ModeManager;
 import com.github.syr0ws.universe.api.game.model.GameException;
-import com.github.syr0ws.universe.api.game.view.GameViewHandler;
 import com.github.syr0ws.universe.api.modules.ModuleService;
 import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.chat.DefaultSpectatorChat;
@@ -75,9 +74,8 @@ public class FKGame extends Game {
     public void onDisable() {
         super.onDisable();
 
-        // Disabling elements.
-        this.controller.disable();
-        this.handler.disable();
+        this.controller.disable(); // Disabling controller.
+        this.handler.disable(); // Disabling game view handler.
 
         // Avoiding reuse.
         this.model = null;
@@ -96,7 +94,7 @@ public class FKGame extends Game {
     }
 
     @Override
-    public GameViewHandler getGameViewHandler() {
+    public FKGameViewHandler getGameViewHandler() {
         return this.handler;
     }
 
@@ -139,12 +137,9 @@ public class FKGame extends Game {
 
         ModuleService service = this.getModuleService();
 
-        Optional<ChatModule> optional = service.getModule(ModuleEnum.CHAT_MODULE.getName(), ChatModule.class);
+        ChatModule module = service.getModule(ModuleEnum.CHAT_MODULE.getName(), ChatModule.class)
+                .orElseThrow(() -> new IllegalStateException("ChatModule not enabled."));
 
-        if(!optional.isPresent())
-            throw new UnsupportedOperationException("ChatModule not enabled.");
-
-        ChatModule module = optional.get();
         ChatModel chatService = module.getChatModel();
 
         chatService.registerChat(new DefaultWaitingChat(this.model));
