@@ -34,7 +34,7 @@ public class FKGameViewHandler extends AbstractGameViewHandler {
     public void disable() {
         super.disable();
         super.removeViews();
-        // TODO Remove view handlers.
+        super.removeViewHandlers();
     }
 
     @Override
