@@ -35,7 +35,7 @@ public class GameRunningViewHandler extends AbstractGameStateViewHandler {
         super.addView(new NetherView(this.model, this.manager));
         super.addView(new EndView(this.model, this.manager));
 
-        super.addView(new FKTeamWinView(game, this.manager));
+        super.addView(new TeamWinView(game, this.manager));
 
         super.enable();
     }

@@ -23,12 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FKTeamWinView implements GameView, Listener {
+public class TeamWinView implements GameView, Listener {
 
     private final GamePlugin plugin;
     private final DisplayManager manager;
 
-    public FKTeamWinView(GamePlugin plugin, DisplayManager manager) {
+    public TeamWinView(GamePlugin plugin, DisplayManager manager) {
 
         if(plugin == null)
             throw new IllegalArgumentException("GamePlugin cannot be null.");
