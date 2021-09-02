@@ -4,13 +4,10 @@ import com.github.syr0ws.fallenkingdom.api.controller.FKController;
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.api.model.FKSettings;
 import com.github.syr0ws.fallenkingdom.plugin.FKGame;
-import com.github.syr0ws.fallenkingdom.plugin.listeners.*;
-import com.github.syr0ws.fallenkingdom.plugin.notifiers.AssaultsNotifier;
-import com.github.syr0ws.fallenkingdom.plugin.notifiers.EndNotifier;
-import com.github.syr0ws.fallenkingdom.plugin.notifiers.NetherNotifier;
-import com.github.syr0ws.fallenkingdom.plugin.notifiers.PvPNotifier;
-import com.github.syr0ws.universe.api.attributes.AttributeObserver;
-import com.github.syr0ws.universe.api.displays.DisplayManager;
+import com.github.syr0ws.fallenkingdom.plugin.listeners.FKBlockListener;
+import com.github.syr0ws.fallenkingdom.plugin.listeners.FKEliminationListener;
+import com.github.syr0ws.fallenkingdom.plugin.listeners.FKGameListener;
+import com.github.syr0ws.fallenkingdom.plugin.listeners.FKPlayerListener;
 import com.github.syr0ws.universe.api.game.controller.GameController;
 import com.github.syr0ws.universe.api.game.model.GameModel;
 import com.github.syr0ws.universe.api.settings.Setting;
@@ -23,21 +20,15 @@ import com.github.syr0ws.universe.sdk.timer.TimerUtils;
 import com.github.syr0ws.universe.sdk.tools.Task;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FKRunningCycle extends GameRunningCycle {
-
-    private final DisplayManager manager;
+    ;
     private final TimerActionManager actionManager;
-    private final List<AttributeObserver> notifiers = new ArrayList<>();
 
     private Task task;
 
     public FKRunningCycle(Game game, GameModel model, GameController controller) {
         super(game, model, controller);
 
-        this.manager = this.getGame().getDisplayManager();
         this.actionManager = new TimerActionManager();
     }
 
@@ -51,18 +42,12 @@ public class FKRunningCycle extends GameRunningCycle {
 
         // Loading actions.
         this.loadActions();
-
-        // Adding notifiers.
-        this.setupNotifiers();
     }
 
     private void unload() {
 
         // Handling captures.
         this.getController().getCaptureManager().disable();
-
-        // Removing notifiers.
-        this.notifiers.forEach(this.getModel()::removeObserver);
     }
 
     @Override
@@ -112,21 +97,6 @@ public class FKRunningCycle extends GameRunningCycle {
         manager.addListener(new FKPlayerListener(this.getGame()));
         manager.addListener(new FKBlockListener(this.getGame()));
         manager.addListener(new FKEliminationListener(this.getGame()));
-        manager.addListener(new FKTeamWinListener(this.manager));
-    }
-
-    private void setupNotifiers() {
-
-        FKModel model = this.getModel();
-
-        // Storing notifiers to unregister them later.
-        this.notifiers.add(new PvPNotifier(model, this.manager));
-        this.notifiers.add(new AssaultsNotifier(model, this.manager));
-        this.notifiers.add(new NetherNotifier(model, this.manager));
-        this.notifiers.add(new EndNotifier(model, this.manager));
-
-        // Observing the model.
-        this.notifiers.forEach(model::addObserver);
     }
 
     private void startTask() {

@@ -8,28 +8,50 @@ import com.github.syr0ws.fallenkingdom.plugin.displays.GameDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.placeholders.FKPlaceholder;
 import com.github.syr0ws.universe.api.displays.Display;
 import com.github.syr0ws.universe.api.displays.DisplayManager;
+import com.github.syr0ws.universe.api.game.view.GameView;
+import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.displays.DisplayUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TeamListener implements Listener {
+public class TeamListener implements GameView, Listener {
 
+    private final Game game;
     private final DisplayManager manager;
 
-    public TeamListener(DisplayManager manager) {
+    public TeamListener(Game game, DisplayManager manager) {
+
+        if(game == null)
+            throw new IllegalArgumentException("Game cannot be null.");
 
         if(manager == null)
             throw new IllegalArgumentException("DisplayManager cannot be null.");
 
+        this.game = game;
         this.manager = manager;
     }
 
-    @EventHandler
+    @Override
+    public void enable() {
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.registerEvents(this, this.game);
+    }
+
+    @Override
+    public void disable() {
+        HandlerList.unregisterAll(this);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerTeamAdd(TeamPlayerAddEvent event) {
 
         FKTeamPlayer teamPlayer = event.getPlayer();
@@ -42,7 +64,7 @@ public class TeamListener implements Listener {
         this.sendDisplays(player, event.getTeam(), GameDisplayEnum.TEAM_ADD);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerTeamRemove(TeamPlayerRemoveEvent event) {
 
         FKTeamPlayer teamPlayer = event.getPlayer();

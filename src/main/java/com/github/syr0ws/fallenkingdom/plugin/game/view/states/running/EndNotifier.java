@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.plugin.notifiers;
+package com.github.syr0ws.fallenkingdom.plugin.game.view.states.running;
 
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.plugin.displays.GameDisplayEnum;
@@ -7,17 +7,18 @@ import com.github.syr0ws.universe.api.attributes.Attribute;
 import com.github.syr0ws.universe.api.attributes.AttributeObserver;
 import com.github.syr0ws.universe.api.displays.Display;
 import com.github.syr0ws.universe.api.displays.DisplayManager;
+import com.github.syr0ws.universe.api.game.view.GameView;
 import org.bukkit.Bukkit;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class AssaultsNotifier implements AttributeObserver {
+public class EndNotifier implements GameView, AttributeObserver {
 
     private final FKModel model;
     private final DisplayManager manager;
 
-    public AssaultsNotifier(FKModel model, DisplayManager manager) {
+    public EndNotifier(FKModel model, DisplayManager manager) {
 
         if(model == null)
             throw new IllegalArgumentException("FKModel cannot be null.");
@@ -30,10 +31,20 @@ public class AssaultsNotifier implements AttributeObserver {
     }
 
     @Override
+    public void enable() {
+        this.model.addObserver(this);
+    }
+
+    @Override
+    public void disable() {
+        this.model.removeObserver(this);
+    }
+
+    @Override
     public void onUpdate(Attribute attribute) {
 
-        GameDisplayEnum displayEnum = this.model.areAssaultsEnabled() ?
-                GameDisplayEnum.ASSAULTS_ENABLED : GameDisplayEnum.ASSAULTS_DISABLED;
+        GameDisplayEnum displayEnum = this.model.isEndEnabled() ?
+                GameDisplayEnum.END_ENABLED : GameDisplayEnum.END_DISABLED;
 
         // Retrieving displays.
         Collection<Display> displays = this.manager.getDisplays(displayEnum.getPath());
@@ -44,6 +55,6 @@ public class AssaultsNotifier implements AttributeObserver {
 
     @Override
     public Collection<Attribute> observed() {
-        return Collections.singleton(FKAttribute.ASSAULTS_STATE);
+        return Collections.singleton(FKAttribute.END_STATE);
     }
 }

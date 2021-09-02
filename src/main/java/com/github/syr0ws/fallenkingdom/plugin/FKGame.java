@@ -5,24 +5,20 @@ import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.plugin.chat.PlayingChat;
 import com.github.syr0ws.fallenkingdom.plugin.chat.TeamChat;
 import com.github.syr0ws.fallenkingdom.plugin.commands.CommandFK;
-import com.github.syr0ws.fallenkingdom.plugin.displays.GameDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.game.controller.CraftFKController;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.CraftFKModel;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.GameInitializer;
-import com.github.syr0ws.fallenkingdom.plugin.listeners.FKListener;
-import com.github.syr0ws.fallenkingdom.plugin.listeners.TeamListener;
+import com.github.syr0ws.fallenkingdom.plugin.game.view.FKGameViewHandler;
 import com.github.syr0ws.fallenkingdom.plugin.modes.FKPlayingMode;
 import com.github.syr0ws.fallenkingdom.plugin.modes.FKSpectatorMode;
 import com.github.syr0ws.fallenkingdom.plugin.modes.FKWaitingMode;
-import com.github.syr0ws.universe.api.displays.DisplayManager;
 import com.github.syr0ws.universe.api.game.mode.ModeManager;
 import com.github.syr0ws.universe.api.game.model.GameException;
+import com.github.syr0ws.universe.api.game.view.GameViewHandler;
 import com.github.syr0ws.universe.api.modules.ModuleService;
 import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.chat.DefaultSpectatorChat;
 import com.github.syr0ws.universe.sdk.chat.DefaultWaitingChat;
-import com.github.syr0ws.universe.sdk.displays.DisplayUtils;
-import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
 import com.github.syr0ws.universe.sdk.modules.ModuleEnum;
 import com.github.syr0ws.universe.sdk.modules.chat.ChatModel;
 import com.github.syr0ws.universe.sdk.modules.chat.ChatModule;
@@ -35,7 +31,7 @@ public class FKGame extends Game {
 
     private CraftFKModel model;
     private CraftFKController controller;
-    private DisplayManager displayManager;
+    private FKGameViewHandler handler;
 
     @Override
     public void onLoad() {
@@ -54,14 +50,14 @@ public class FKGame extends Game {
 
         try {
 
-            // DisplayManager setup.
-            this.setupDisplayManager();
-
             // Model setup.
             this.setupGameModel();
 
             // Controller setup.
             this.setupGameController();
+
+            // View setup.
+            this.setupGameViewHandler();
 
             // Registering game modes.
             this.registerGameModes();
@@ -72,15 +68,21 @@ public class FKGame extends Game {
             // Registering commands.
             this.registerCommands();
 
-            // Registering listeners.
-            this.registerListeners();
-
         } catch (GameException e) { e.printStackTrace(); }
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+
+        // Disabling elements.
+        this.controller.disable();
+        this.handler.disable();
+
+        // Avoiding reuse.
+        this.model = null;
+        this.controller = null;
+        this.handler = null;
     }
 
     @Override
@@ -93,6 +95,11 @@ public class FKGame extends Game {
         return this.controller;
     }
 
+    @Override
+    public GameViewHandler getGameViewHandler() {
+        return this.handler;
+    }
+
     private void setupGameModel() throws GameException {
         GameInitializer initializer = new GameInitializer(this);
         this.model = initializer.getGame();
@@ -101,6 +108,11 @@ public class FKGame extends Game {
     private void setupGameController() {
         this.controller = new CraftFKController(this, this.model);
         this.controller.enable();
+    }
+
+    private void setupGameViewHandler() {
+        this.handler = new FKGameViewHandler(this, this.model);
+        this.handler.enable();
     }
 
     private void registerModules() {
@@ -148,23 +160,6 @@ public class FKGame extends Game {
         super.getCommand("fk").setExecutor(new CommandFK(this.model, this.controller, service));
     }
 
-    private void registerListeners() {
-
-        ListenerManager manager = super.getListenerManager();
-        LangService service = this.getLangService();
-
-        manager.addListener(new FKListener(service));
-        manager.addListener(new TeamListener(this.displayManager));
-    }
-
-    private void setupDisplayManager() {
-
-        this.displayManager = DisplayUtils.getDisplayManager(this);
-
-        for(GameDisplayEnum value : GameDisplayEnum.values())
-            this.displayManager.loadDisplays(value.getPath());
-    }
-
     public LangService getLangService() {
 
         ModuleService service = this.getModuleService();
@@ -175,9 +170,5 @@ public class FKGame extends Game {
             throw new NullPointerException("LangModule not enabled.");
 
         return optional.get().getLangService();
-    }
-
-    public DisplayManager getDisplayManager() {
-        return this.displayManager;
     }
 }
