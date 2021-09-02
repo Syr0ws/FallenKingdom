@@ -1,11 +1,7 @@
 package com.github.syr0ws.fallenkingdom.plugin.game.view.states;
 
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
-import com.github.syr0ws.fallenkingdom.plugin.game.view.states.running.AssaultsView;
-import com.github.syr0ws.fallenkingdom.plugin.game.view.states.running.EndView;
-import com.github.syr0ws.fallenkingdom.plugin.game.view.states.running.NetherView;
-import com.github.syr0ws.fallenkingdom.plugin.game.view.states.running.PvPView;
-import com.github.syr0ws.fallenkingdom.plugin.listeners.FKTeamWinListener;
+import com.github.syr0ws.fallenkingdom.plugin.game.view.states.running.*;
 import com.github.syr0ws.universe.api.displays.DisplayManager;
 import com.github.syr0ws.universe.api.game.model.GameState;
 import com.github.syr0ws.universe.sdk.Game;
@@ -39,7 +35,7 @@ public class GameRunningViewHandler extends AbstractGameStateViewHandler {
         super.addView(new NetherView(this.model, this.manager));
         super.addView(new EndView(this.model, this.manager));
 
-        super.addView(new FKTeamWinListener(game, this.manager));
+        super.addView(new FKTeamWinView(game, this.manager));
 
         super.enable();
     }
