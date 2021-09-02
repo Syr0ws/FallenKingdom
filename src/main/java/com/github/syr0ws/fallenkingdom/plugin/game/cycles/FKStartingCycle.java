@@ -35,8 +35,6 @@ public class FKStartingCycle extends GameStartingCycle {
     @Override
     public void enable() {
 
-        System.out.println("test");
-
         this.loadActions(); // Handling displays.
         this.startTask(); // Starting task.
 
