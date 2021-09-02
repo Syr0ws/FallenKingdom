@@ -152,7 +152,7 @@ public class FKGame extends Game {
 
         LangService service = this.getLangService();
 
-        super.getCommand("fk").setExecutor(new CommandFK(this.model, this.controller, service));
+        super.getCommand("fallenkingdom").setExecutor(new CommandFK(this.model, this.controller, service));
     }
 
     public LangService getLangService() {
