@@ -13,12 +13,12 @@ import org.bukkit.Bukkit;
 import java.util.Collection;
 import java.util.Collections;
 
-public class NetherNotifier implements GameView, AttributeObserver {
+public class AssaultsView implements GameView, AttributeObserver {
 
     private final FKModel model;
     private final DisplayManager manager;
 
-    public NetherNotifier(FKModel model, DisplayManager manager) {
+    public AssaultsView(FKModel model, DisplayManager manager) {
 
         if(model == null)
             throw new IllegalArgumentException("FKModel cannot be null.");
@@ -43,8 +43,8 @@ public class NetherNotifier implements GameView, AttributeObserver {
     @Override
     public void onUpdate(Attribute attribute) {
 
-        GameDisplayEnum displayEnum = this.model.isNetherEnabled() ?
-                GameDisplayEnum.NETHER_ENABLED : GameDisplayEnum.NETHER_DISABLED;
+        GameDisplayEnum displayEnum = this.model.areAssaultsEnabled() ?
+                GameDisplayEnum.ASSAULTS_ENABLED : GameDisplayEnum.ASSAULTS_DISABLED;
 
         // Retrieving displays.
         Collection<Display> displays = this.manager.getDisplays(displayEnum.getPath());
@@ -55,6 +55,6 @@ public class NetherNotifier implements GameView, AttributeObserver {
 
     @Override
     public Collection<Attribute> observed() {
-        return Collections.singleton(FKAttribute.NETHER_STATE);
+        return Collections.singleton(FKAttribute.ASSAULTS_STATE);
     }
 }

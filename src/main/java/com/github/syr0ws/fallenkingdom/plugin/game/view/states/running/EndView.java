@@ -13,12 +13,12 @@ import org.bukkit.Bukkit;
 import java.util.Collection;
 import java.util.Collections;
 
-public class AssaultsNotifier implements GameView, AttributeObserver {
+public class EndView implements GameView, AttributeObserver {
 
     private final FKModel model;
     private final DisplayManager manager;
 
-    public AssaultsNotifier(FKModel model, DisplayManager manager) {
+    public EndView(FKModel model, DisplayManager manager) {
 
         if(model == null)
             throw new IllegalArgumentException("FKModel cannot be null.");
@@ -43,8 +43,8 @@ public class AssaultsNotifier implements GameView, AttributeObserver {
     @Override
     public void onUpdate(Attribute attribute) {
 
-        GameDisplayEnum displayEnum = this.model.areAssaultsEnabled() ?
-                GameDisplayEnum.ASSAULTS_ENABLED : GameDisplayEnum.ASSAULTS_DISABLED;
+        GameDisplayEnum displayEnum = this.model.isEndEnabled() ?
+                GameDisplayEnum.END_ENABLED : GameDisplayEnum.END_DISABLED;
 
         // Retrieving displays.
         Collection<Display> displays = this.manager.getDisplays(displayEnum.getPath());
@@ -55,6 +55,6 @@ public class AssaultsNotifier implements GameView, AttributeObserver {
 
     @Override
     public Collection<Attribute> observed() {
-        return Collections.singleton(FKAttribute.ASSAULTS_STATE);
+        return Collections.singleton(FKAttribute.END_STATE);
     }
 }

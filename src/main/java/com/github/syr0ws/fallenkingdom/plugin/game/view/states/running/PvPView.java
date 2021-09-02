@@ -13,12 +13,12 @@ import org.bukkit.Bukkit;
 import java.util.Collection;
 import java.util.Collections;
 
-public class PvPNotifier implements GameView, AttributeObserver {
+public class PvPView implements GameView, AttributeObserver {
 
     private final FKModel model;
     private final DisplayManager manager;
 
-    public PvPNotifier(FKModel model, DisplayManager manager) {
+    public PvPView(FKModel model, DisplayManager manager) {
 
         if(model == null)
             throw new IllegalArgumentException("FKModel cannot be null.");
