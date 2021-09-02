@@ -5,4 +5,4 @@ main: com.github.syr0ws.fallenkingdom.plugin.FKGame
 commands:
   fallenkingdom:
     aliases: ["fk"]
-    description: "A command to manage the game."
+    description: "The main command of the game."
