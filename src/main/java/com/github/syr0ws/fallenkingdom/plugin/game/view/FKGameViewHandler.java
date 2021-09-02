@@ -18,7 +18,6 @@ public class FKGameViewHandler extends AbstractGameViewHandler {
 
     @Override
     public void enable() {
-        super.enable();
 
         // DisplayManager must be setup first as it is used in ViewHandler.
         this.setupDisplayManager();
@@ -28,13 +27,15 @@ public class FKGameViewHandler extends AbstractGameViewHandler {
 
         // Registering game views which are views used in all the game cycles.
         this.registerGameViews();
+
+        super.enable();
     }
 
     @Override
     public void disable() {
-        super.disable();
         super.removeViews();
         super.removeViewHandlers();
+        super.disable();
     }
 
     @Override
