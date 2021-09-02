@@ -21,7 +21,7 @@ import com.github.syr0ws.universe.sdk.tools.Task;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class FKRunningCycle extends GameRunningCycle {
-    ;
+
     private final TimerActionManager actionManager;
 
     private Task task;
