@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.plugin.listeners;
+package com.github.syr0ws.fallenkingdom.plugin.game.view.states.running;
 
 import com.github.syr0ws.fallenkingdom.api.events.TeamPlayerAddEvent;
 import com.github.syr0ws.fallenkingdom.api.events.TeamPlayerRemoveEvent;
@@ -23,12 +23,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TeamListener implements GameView, Listener {
+public class FKTeamView implements GameView, Listener {
 
     private final Game game;
     private final DisplayManager manager;
 
-    public TeamListener(Game game, DisplayManager manager) {
+    public FKTeamView(Game game, DisplayManager manager) {
 
         if(game == null)
             throw new IllegalArgumentException("Game cannot be null.");

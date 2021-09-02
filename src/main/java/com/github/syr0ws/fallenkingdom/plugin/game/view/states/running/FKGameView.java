@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.plugin.listeners;
+package com.github.syr0ws.fallenkingdom.plugin.game.view.states.running;
 
 import com.github.syr0ws.fallenkingdom.plugin.FKGame;
 import com.github.syr0ws.universe.api.game.view.GameView;
@@ -12,12 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.PluginManager;
 
-public class FKListener implements GameView, Listener {
+public class FKGameView implements GameView, Listener {
 
     private final FKGame game;
     private final LangService service;
 
-    public FKListener(FKGame game, LangService service) {
+    public FKGameView(FKGame game, LangService service) {
 
         if(game == null)
             throw new IllegalArgumentException("FKGame cannot be null.");

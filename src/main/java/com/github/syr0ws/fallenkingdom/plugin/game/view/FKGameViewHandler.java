@@ -4,8 +4,8 @@ import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.plugin.FKGame;
 import com.github.syr0ws.fallenkingdom.plugin.game.view.displays.GameDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.game.view.states.GameRunningViewHandler;
-import com.github.syr0ws.fallenkingdom.plugin.listeners.FKListener;
-import com.github.syr0ws.fallenkingdom.plugin.listeners.TeamListener;
+import com.github.syr0ws.fallenkingdom.plugin.game.view.states.running.FKGameView;
+import com.github.syr0ws.fallenkingdom.plugin.game.view.states.running.FKTeamView;
 import com.github.syr0ws.universe.api.displays.DisplayManager;
 import com.github.syr0ws.universe.sdk.game.view.AbstractGameViewHandler;
 import com.github.syr0ws.universe.sdk.modules.lang.LangService;
@@ -73,7 +73,7 @@ public class FKGameViewHandler extends AbstractGameViewHandler {
         LangService service = game.getLangService();
         DisplayManager manager = this.getDisplayManager();
 
-        super.addView(new TeamListener(game, manager));
-        super.addView(new FKListener(game, service));
+        super.addView(new FKTeamView(game, manager));
+        super.addView(new FKGameView(game, service));
     }
 }
