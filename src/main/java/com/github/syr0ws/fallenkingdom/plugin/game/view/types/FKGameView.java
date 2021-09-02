@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.plugin.game.view.states.running;
+package com.github.syr0ws.fallenkingdom.plugin.game.view.types;
 
 import com.github.syr0ws.fallenkingdom.plugin.FKGame;
 import com.github.syr0ws.universe.api.game.view.GameView;
