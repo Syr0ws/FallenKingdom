@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.plugin.displays;
+package com.github.syr0ws.fallenkingdom.plugin.game.view.displays;
 
 public enum GameDisplayEnum {
 

@@ -1,8 +1,8 @@
 package com.github.syr0ws.fallenkingdom.plugin.game.view.states.running;
 
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
-import com.github.syr0ws.fallenkingdom.plugin.displays.GameDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.game.model.FKAttribute;
+import com.github.syr0ws.fallenkingdom.plugin.game.view.displays.GameDisplayEnum;
 import com.github.syr0ws.universe.api.attributes.Attribute;
 import com.github.syr0ws.universe.api.attributes.AttributeObserver;
 import com.github.syr0ws.universe.api.displays.Display;

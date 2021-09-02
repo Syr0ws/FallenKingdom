@@ -2,7 +2,7 @@ package com.github.syr0ws.fallenkingdom.plugin.game.view;
 
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.plugin.FKGame;
-import com.github.syr0ws.fallenkingdom.plugin.displays.GameDisplayEnum;
+import com.github.syr0ws.fallenkingdom.plugin.game.view.displays.GameDisplayEnum;
 import com.github.syr0ws.fallenkingdom.plugin.game.view.states.GameRunningViewHandler;
 import com.github.syr0ws.fallenkingdom.plugin.listeners.FKListener;
 import com.github.syr0ws.fallenkingdom.plugin.listeners.TeamListener;
