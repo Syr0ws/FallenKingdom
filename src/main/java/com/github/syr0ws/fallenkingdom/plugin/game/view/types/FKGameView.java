@@ -1,6 +1,6 @@
 package com.github.syr0ws.fallenkingdom.plugin.game.view.types;
 
-import com.github.syr0ws.fallenkingdom.plugin.FKGame;
+import com.github.syr0ws.universe.api.GamePlugin;
 import com.github.syr0ws.universe.api.game.view.GameView;
 import com.github.syr0ws.universe.sdk.modules.lang.LangService;
 import com.github.syr0ws.universe.sdk.modules.lang.messages.impl.Text;
@@ -14,25 +14,25 @@ import org.bukkit.plugin.PluginManager;
 
 public class FKGameView implements GameView, Listener {
 
-    private final FKGame game;
+    private final GamePlugin plugin;
     private final LangService service;
 
-    public FKGameView(FKGame game, LangService service) {
+    public FKGameView(GamePlugin plugin, LangService service) {
 
-        if(game == null)
-            throw new IllegalArgumentException("FKGame cannot be null.");
+        if(plugin == null)
+            throw new IllegalArgumentException("GamePlugin cannot be null.");
 
         if(service == null)
             throw new IllegalArgumentException("LangService cannot be null.");
 
-        this.game = game;
+        this.plugin = plugin;
         this.service = service;
     }
 
     @Override
     public void enable() {
         PluginManager manager = Bukkit.getPluginManager();
-        manager.registerEvents(this, this.game);
+        manager.registerEvents(this, this.plugin);
     }
 
     @Override
