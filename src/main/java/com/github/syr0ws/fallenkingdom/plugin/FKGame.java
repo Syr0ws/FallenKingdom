@@ -1,5 +1,6 @@
 package com.github.syr0ws.fallenkingdom.plugin;
 
+import com.github.syr0ws.fallenkingdom.api.FKPlugin;
 import com.github.syr0ws.fallenkingdom.api.controller.FKController;
 import com.github.syr0ws.fallenkingdom.api.model.FKModel;
 import com.github.syr0ws.fallenkingdom.plugin.chat.PlayingChat;
@@ -14,6 +15,7 @@ import com.github.syr0ws.fallenkingdom.plugin.modes.FKSpectatorMode;
 import com.github.syr0ws.fallenkingdom.plugin.modes.FKWaitingMode;
 import com.github.syr0ws.universe.api.game.mode.ModeManager;
 import com.github.syr0ws.universe.api.game.model.GameException;
+import com.github.syr0ws.universe.api.game.view.GameViewHandler;
 import com.github.syr0ws.universe.api.modules.ModuleService;
 import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.chat.DefaultSpectatorChat;
@@ -26,7 +28,7 @@ import com.github.syr0ws.universe.sdk.modules.lang.LangService;
 
 import java.util.Optional;
 
-public class FKGame extends Game {
+public class FKGame extends Game implements FKPlugin {
 
     private CraftFKModel model;
     private CraftFKController controller;
@@ -94,7 +96,7 @@ public class FKGame extends Game {
     }
 
     @Override
-    public FKGameViewHandler getGameViewHandler() {
+    public GameViewHandler getGameViewHandler() {
         return this.handler;
     }
 
