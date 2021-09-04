@@ -26,7 +26,8 @@ public class GameRunningViewHandler extends AbstractGameStateViewHandler {
     }
 
     @Override
-    public void enable() {
+    protected void registerViews() {
+        super.registerViews();
 
         Game game = this.getGame();
 
@@ -36,14 +37,6 @@ public class GameRunningViewHandler extends AbstractGameStateViewHandler {
         super.addView(new EndView(this.model, this.manager));
 
         super.addView(new TeamWinView(game, this.manager));
-
-        super.enable();
-    }
-
-    @Override
-    public void disable() {
-        super.removeViews();
-        super.disable();
     }
 
     @Override
