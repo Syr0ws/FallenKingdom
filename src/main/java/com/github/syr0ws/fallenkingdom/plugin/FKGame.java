@@ -152,20 +152,8 @@ public class FKGame extends Game implements FKPlugin {
 
     private void registerCommands() {
 
-        LangService service = this.getLangService();
+        LangService service = super.getServicesManager().load(LangService.class);
 
         super.getCommand("fallenkingdom").setExecutor(new CommandFK(this.model, this.controller, service));
-    }
-
-    public LangService getLangService() {
-
-        ModuleService service = this.getModuleService();
-
-        Optional<LangModule> optional = service.getModule(ModuleEnum.LANG_MODULE.getName(), LangModule.class);
-
-        if(!optional.isPresent())
-            throw new NullPointerException("LangModule not enabled.");
-
-        return optional.get().getLangService();
     }
 }

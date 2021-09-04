@@ -15,10 +15,12 @@ import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.game.controller.cycle.GameCycleTask;
 import com.github.syr0ws.universe.sdk.game.controller.cycle.types.GameRunningCycle;
 import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
+import com.github.syr0ws.universe.sdk.modules.lang.LangService;
 import com.github.syr0ws.universe.sdk.timer.TimerActionManager;
 import com.github.syr0ws.universe.sdk.timer.TimerUtils;
 import com.github.syr0ws.universe.sdk.tools.Task;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.plugin.ServicesManager;
 
 public class FKRunningCycle extends GameRunningCycle {
 
@@ -138,8 +140,11 @@ public class FKRunningCycle extends GameRunningCycle {
         if(allowEndSetting.getValue())
             actionManager.addAction(endActivationTimeSetting.getValue(), () -> model.setEndEnabled(true));
 
+        ServicesManager manager = this.getGame().getServicesManager();
+        LangService service = manager.load(LangService.class);
+
         // Adding display actions.
-        TimerUtils.loadDisplayActions(this.actionManager, this.getGame().getLangService(), this.getCycleSection());
+        TimerUtils.loadDisplayActions(this.actionManager, service, this.getCycleSection());
     }
 
     private ConfigurationSection getCycleSection() {

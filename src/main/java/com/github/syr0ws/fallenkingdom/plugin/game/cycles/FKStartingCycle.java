@@ -11,9 +11,11 @@ import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.game.controller.cycle.GameCycleTask;
 import com.github.syr0ws.universe.sdk.game.controller.cycle.types.GameStartingCycle;
 import com.github.syr0ws.universe.sdk.listeners.ListenerManager;
+import com.github.syr0ws.universe.sdk.modules.lang.LangService;
 import com.github.syr0ws.universe.sdk.timer.TimerActionManager;
 import com.github.syr0ws.universe.sdk.timer.TimerUtils;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.plugin.ServicesManager;
 
 public class FKStartingCycle extends GameStartingCycle {
 
@@ -79,7 +81,11 @@ public class FKStartingCycle extends GameStartingCycle {
     }
 
     private void loadActions() {
-        TimerUtils.loadDisplayActions(this.actionManager, this.getGame().getLangService(), this.getCycleSection());
+
+        ServicesManager manager = this.getGame().getServicesManager();
+        LangService service = manager.load(LangService.class);
+
+        TimerUtils.loadDisplayActions(this.actionManager, service, this.getCycleSection());
     }
 
     private ConfigurationSection getCycleSection() {

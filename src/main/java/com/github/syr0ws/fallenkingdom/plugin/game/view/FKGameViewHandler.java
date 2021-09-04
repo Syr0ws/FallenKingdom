@@ -35,7 +35,7 @@ public class FKGameViewHandler extends AbstractGameViewHandler {
 
         // Initializing variables.
         FKGame game = this.getGame();
-        LangService service = game.getLangService();
+        LangService service = game.getServicesManager().load(LangService.class);
         DisplayManager manager = this.getDisplayManager();
 
         // Registering views.
