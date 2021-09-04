@@ -1,4 +1,4 @@
-package com.github.syr0ws.fallenkingdom.plugin.game.view.types;
+package com.github.syr0ws.fallenkingdom.plugin.game.view.global;
 
 import com.github.syr0ws.universe.api.GamePlugin;
 import com.github.syr0ws.universe.api.game.view.GameView;
