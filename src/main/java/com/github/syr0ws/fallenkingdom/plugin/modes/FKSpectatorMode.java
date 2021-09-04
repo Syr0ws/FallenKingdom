@@ -59,7 +59,7 @@ public class FKSpectatorMode extends SpectatorMode {
 
     private void setViews(Player player) {
 
-        LangService langService = this.game.getServicesManager().load(LangService.class);
+        LangService langService = this.game.getServicesManager().getProvider(LangService.class);
 
         try {
 

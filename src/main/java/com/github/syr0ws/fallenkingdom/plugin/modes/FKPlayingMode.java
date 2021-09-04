@@ -78,7 +78,7 @@ public class FKPlayingMode extends PlayingMode {
 
     private void setViews(Player player) {
 
-        LangService langService = this.game.getServicesManager().load(LangService.class);
+        LangService langService = this.game.getServicesManager().getProvider(LangService.class);
 
         try {
 

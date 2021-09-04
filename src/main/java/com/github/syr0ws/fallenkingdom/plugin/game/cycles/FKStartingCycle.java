@@ -7,6 +7,7 @@ import com.github.syr0ws.fallenkingdom.plugin.FKGame;
 import com.github.syr0ws.fallenkingdom.plugin.listeners.FKWaitingListener;
 import com.github.syr0ws.universe.api.game.controller.GameController;
 import com.github.syr0ws.universe.api.game.model.GameModel;
+import com.github.syr0ws.universe.api.services.GameServicesManager;
 import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.game.controller.cycle.GameCycleTask;
 import com.github.syr0ws.universe.sdk.game.controller.cycle.types.GameStartingCycle;
@@ -15,7 +16,6 @@ import com.github.syr0ws.universe.sdk.modules.lang.LangService;
 import com.github.syr0ws.universe.sdk.timer.TimerActionManager;
 import com.github.syr0ws.universe.sdk.timer.TimerUtils;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.plugin.ServicesManager;
 
 public class FKStartingCycle extends GameStartingCycle {
 
@@ -82,8 +82,8 @@ public class FKStartingCycle extends GameStartingCycle {
 
     private void loadActions() {
 
-        ServicesManager manager = this.getGame().getServicesManager();
-        LangService service = manager.load(LangService.class);
+        GameServicesManager manager = this.getGame().getServicesManager();
+        LangService service = manager.getProvider(LangService.class);
 
         TimerUtils.loadDisplayActions(this.actionManager, service, this.getCycleSection());
     }

@@ -10,6 +10,7 @@ import com.github.syr0ws.fallenkingdom.plugin.listeners.FKGameListener;
 import com.github.syr0ws.fallenkingdom.plugin.listeners.FKPlayerListener;
 import com.github.syr0ws.universe.api.game.controller.GameController;
 import com.github.syr0ws.universe.api.game.model.GameModel;
+import com.github.syr0ws.universe.api.services.GameServicesManager;
 import com.github.syr0ws.universe.api.settings.Setting;
 import com.github.syr0ws.universe.sdk.Game;
 import com.github.syr0ws.universe.sdk.game.controller.cycle.GameCycleTask;
@@ -20,7 +21,6 @@ import com.github.syr0ws.universe.sdk.timer.TimerActionManager;
 import com.github.syr0ws.universe.sdk.timer.TimerUtils;
 import com.github.syr0ws.universe.sdk.tools.Task;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.plugin.ServicesManager;
 
 public class FKRunningCycle extends GameRunningCycle {
 
@@ -140,8 +140,8 @@ public class FKRunningCycle extends GameRunningCycle {
         if(allowEndSetting.getValue())
             actionManager.addAction(endActivationTimeSetting.getValue(), () -> model.setEndEnabled(true));
 
-        ServicesManager manager = this.getGame().getServicesManager();
-        LangService service = manager.load(LangService.class);
+        GameServicesManager manager = this.getGame().getServicesManager();
+        LangService service = manager.getProvider(LangService.class);
 
         // Adding display actions.
         TimerUtils.loadDisplayActions(this.actionManager, service, this.getCycleSection());

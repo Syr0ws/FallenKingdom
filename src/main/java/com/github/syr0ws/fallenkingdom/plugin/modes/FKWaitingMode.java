@@ -59,7 +59,7 @@ public class FKWaitingMode extends WaitingMode {
 
     private void setViews(Player player) {
 
-        LangService langService = this.game.getServicesManager().load(LangService.class);
+        LangService langService = this.game.getServicesManager().getProvider(LangService.class);
 
         try {
 
