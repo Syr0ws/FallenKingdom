@@ -24,8 +24,10 @@ public class CraftFKSettings extends DefaultGameSettings implements FKSettings {
     public void init(FileConfiguration config) {
         super.init(config);
 
+        SettingManager manager = super.getManager();
+
         for (FKSettingEnum value : FKSettingEnum.values()) {
-            super.getManager().addSetting(value, value.getSetting());
+            value.registerSetting(manager);
         }
 
         SettingLoader loader = new ConfigSettingLoader(config);
